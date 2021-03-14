@@ -17,12 +17,13 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 from gquestions_api import views
+from accounts import views as views_accounts
 
 router = routers.DefaultRouter()
 
 router.register(r'generaciones', views.GeneracionView, 'generacion')
 router.register(r'tipo_preguntas', views.TipoPreguntaView, 'tipo_pregunta')
-
+router.register(r'usuarios', views_accounts.UsuarioView, 'usuario')
 router.register(r'calificaciones', views.CalificacionView, 'calificaciones')
 router.register(r'calificaciones_usuarios', views.CalificacionUsuarioView, 'calificacion_usuario')
 router.register(r'examenes', views.ExamenView, 'examen')
@@ -34,6 +35,6 @@ router.register(r'usuarios_examenes_generaciones', views.UsuarioExamenGeneracion
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('gquestions_api.accounts.urls')),
+    path('', include('accounts.urls')),
     path('api/', include(router.urls)),
 ]

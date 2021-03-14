@@ -4,10 +4,6 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
-ROL_USER = (('Estudiante', 'Estudiante'), 
-            ('Docente', 'Docente'),
-            )
-
 class Examen(models.Model):
     id_examen = models.AutoField(primary_key=True, null=False)
     title_exam = models.CharField(max_length=200, default='Sin título')

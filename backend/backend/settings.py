@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'knox',
     'gquestions_api',
-    'gquestions_api.accounts'
+    'accounts'
 ]
 
 MIDDLEWARE = [

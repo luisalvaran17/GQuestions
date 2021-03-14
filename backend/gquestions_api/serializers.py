@@ -1,16 +1,10 @@
 from rest_framework import serializers
 from .models import *
 
-
-class UsuarioSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ('id', 'username', 'email')
-
 class ExamenSerializer(serializers.ModelSerializer):
-    class meta:
+    class Meta:
         model = Examen
-        fields = ('id_examen' 'title_exam', 'contrasena_exam', 'n_intentos', 'fecha_hora_ini','fecha_hora_fin','fecha_hora_visualizacion')
+        fields = ('id_examen', 'title_exam', 'contrasena_exam', 'n_intentos', 'fecha_hora_ini','fecha_hora_fin','fecha_hora_visualizacion')
 
 class GeneracionSerializer(serializers.ModelSerializer):
     class Meta:

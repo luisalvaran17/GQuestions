@@ -2,10 +2,6 @@ from django.contrib import admin
 from .models import *
 
 # Register your models here.
-# Username and password superuser: root and root1234
-
-class UsuarioAdmin(admin.ModelAdmin):
-    list_display= ('first_name', 'last_name', 'email', 'rol', 'password', 'fecha_nac', 'genero','edad')
 
 class ExamenAdmin(admin.ModelAdmin):
     list_display = ('id_examen', 'title_exam', 'contrasena_exam', 'n_intentos', 'fecha_hora_ini','fecha_hora_fin','fecha_hora_visualizacion')
