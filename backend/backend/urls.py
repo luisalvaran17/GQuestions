@@ -19,9 +19,21 @@ from rest_framework import routers
 from gquestions_api import views
 
 router = routers.DefaultRouter()
-router.register(r'todos', views.TodoView, 'todo')
+
+router.register(r'generaciones', views.GeneracionView, 'generacion')
+router.register(r'tipo_preguntas', views.TipoPreguntaView, 'tipo_pregunta')
+
+router.register(r'calificaciones', views.CalificacionView, 'calificaciones')
+router.register(r'calificaciones_usuarios', views.CalificacionUsuarioView, 'calificacion_usuario')
+router.register(r'examenes', views.ExamenView, 'examen')
+router.register(r'generaciones_preguntas', views.GeneracionTextoPreguntaView, 'generacion_pregunta')
+router.register(r'generaciones_textos_preguntas', views.GeneracionTextoPreguntaView, 'generacion_texto_pregunta')
+router.register(r'generaciones_textos', views.GeneracionTextoView, 'generacion_texto')
+router.register(r'generaciones_usuarios', views.GeneracionUsuarioView, 'generacion_usuario')
+router.register(r'usuarios_examenes_generaciones', views.UsuarioExamenGeneracionView, 'usuario_examen_generacion')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include('gquestions_api.accounts.urls')),
     path('api/', include(router.urls)),
 ]
