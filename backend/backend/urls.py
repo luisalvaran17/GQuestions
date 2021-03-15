@@ -23,7 +23,7 @@ router = routers.DefaultRouter()
 
 router.register(r'generaciones', views.GeneracionView, 'generacion')
 router.register(r'tipo_preguntas', views.TipoPreguntaView, 'tipo_pregunta')
-router.register(r'usuarios', views_accounts.UsuarioView, 'usuario')
+#router.register(r'usuarios', views_accounts.UsuarioView, 'usuario')
 router.register(r'calificaciones', views.CalificacionView, 'calificaciones')
 router.register(r'calificaciones_usuarios', views.CalificacionUsuarioView, 'calificacion_usuario')
 router.register(r'examenes', views.ExamenView, 'examen')
