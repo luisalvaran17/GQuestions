@@ -6,9 +6,9 @@ ROL_USER = (('Estudiante', 'Estudiante'),
             ('Docente', 'Docente'),
             )
 
-class Usuario(models.Model):
+class UsuarioInfoAdicional(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    rol = models.CharField(choices=ROL_USER, max_length=20)
+    rol = models.CharField(choices=ROL_USER, max_length=20, null=False)
     fecha_nac = models.DateField()
     genero = models.CharField(max_length=20, default='')
     edad = models.SmallIntegerField()

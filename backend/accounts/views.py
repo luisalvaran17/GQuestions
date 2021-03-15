@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework import generics, permissions, status, viewsets, permissions
 from rest_framework.response import Response
 from knox.models import AuthToken
-from .serializers import UserSerializer, RegisterSerializer, RegisterUserSerializer
+from .serializers import UserSerializer, RegisterSerializer, RegisterUsuarioInfoAdicionalSerializer
 from django.contrib.auth import login
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from knox.views import LoginView as KnoxLoginView
@@ -12,7 +12,7 @@ from rest_framework.permissions import IsAuthenticated
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
-from .models import Usuario
+from .models import UsuarioInfoAdicional
 from django.core.exceptions import ObjectDoesNotExist
 
 # Create your views here.
@@ -65,8 +65,8 @@ class RegisterAPI(generics.GenericAPIView):
         })
 
 # Register 'otra información' usuario
-class RegisterUserInfoAPI(generics.GenericAPIView):
-    serializer_class = RegisterUserSerializer
+class RegisterUsuarioInfoAdicionalAPI(generics.GenericAPIView):
+    serializer_class = RegisterUsuarioInfoAdicionalSerializer
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)

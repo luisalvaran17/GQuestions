@@ -33,8 +33,19 @@ router.register(r'generaciones_textos', views.GeneracionTextoView, 'generacion_t
 router.register(r'generaciones_usuarios', views.GeneracionUsuarioView, 'generacion_usuario')
 router.register(r'usuarios_examenes_generaciones', views.UsuarioExamenGeneracionView, 'usuario_examen_generacion')
 
+
+from django.urls import path, include
+from django.views.generic import TemplateView
+from django.contrib.auth.views import LogoutView
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('accounts.urls')),
     path('api/', include(router.urls)),
+
+
+    path('index', TemplateView.as_view(template_name="index.html")),
+    path('accounts/', include('allauth.urls')),
+    path('logout', LogoutView.as_view()),
 ]
