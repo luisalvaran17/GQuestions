@@ -14,19 +14,30 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 from .models import UsuarioInfoAdicional
 from django.core.exceptions import ObjectDoesNotExist
+from .serializers import ChangePasswordSerializer
 
 # Create your views here.
 class UsuarioView(viewsets.ModelViewSet):
     serializer_class= UserSerializer
     queryset = User.objects.all()
 
+# Get usuario
+@api_view(["GET"])
+@csrf_exempt
+@permission_classes([IsAuthenticated])
+def get_user(request, user):
+    user_id = request.user.id
+    users = User.objects.filter(id=user_id)
+    serializer = UserSerializer(users, many=True)
+    print(serializer.data)
+    return JsonResponse({'users': serializer.data}, safe=False, status=status.HTTP_200_OK)
+
 # Get usuarios
 @api_view(["GET"])
 @csrf_exempt
 @permission_classes([IsAuthenticated])
 def get_users(request):
-    user = request.user.id
-    users = User.objects.filter(id=user)
+    users = User.objects.all()
     serializer = UserSerializer(users, many=True)
     print(serializer.data)
     return JsonResponse({'users': serializer.data}, safe=False, status=status.HTTP_200_OK)
@@ -35,7 +46,7 @@ def get_users(request):
 @api_view(["PUT"])
 @csrf_exempt
 @permission_classes([IsAuthenticated])
-def update_user_info(request, user):
+def update_user(request, user):
     user = request.user.username
     payload = json.loads(request.body)
     try:
@@ -85,3 +96,38 @@ class LoginAPI(KnoxLoginView):
         user = serializer.validated_data['user']
         login(request, user)
         return super(LoginAPI, self).post(request, format=None)
+
+# Change password view
+class ChangePasswordView(generics.UpdateAPIView):
+    """
+    An endpoint for changing password.
+    """
+    serializer_class = ChangePasswordSerializer
+    model = User
+    permission_classes = (IsAuthenticated,)
+
+    def get_object(self, queryset=None):
+        obj = self.request.user
+        return obj
+
+    def update(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        serializer = self.get_serializer(data=request.data)
+
+        if serializer.is_valid():
+            # Check old password
+            if not self.object.check_password(serializer.data.get("old_password")):
+                return Response({"old_password": ["Wrong password."]}, status=status.HTTP_400_BAD_REQUEST)
+            # set_password also hashes the password that the user will get
+            self.object.set_password(serializer.data.get("new_password"))
+            self.object.save()
+            response = {
+                'status': 'success',
+                'code': status.HTTP_200_OK,
+                'message': 'Password updated successfully',
+                'data': []
+            }
+
+            return Response(response)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

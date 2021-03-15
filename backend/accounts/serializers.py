@@ -30,3 +30,13 @@ class RegisterUsuarioInfoAdicionalSerializer(serializers.ModelSerializer):
         validated_data['edad'])
 
         return userInfo
+
+# change password
+class ChangePasswordSerializer(serializers.Serializer):
+    model = User
+
+    """
+    Serializer for password change endpoint.
+    """
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
