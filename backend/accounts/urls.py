@@ -15,6 +15,7 @@ urlpatterns = [
     path('api/change-password/<int:user>', ChangePasswordView.as_view(), name='change-password'),
 ]
 
+## http://127.0.0.1:8000/accounts/google/login/ inicio con google url
 
 ##+
 # Actualizar campos de user
@@ -23,4 +24,3 @@ urlpatterns = [
 # Cambiar contraseña user
 # curl -X PUT -H "Authorization: Token 3f8299ac25a4d7c775d94610d44883484347b0b1bb54bb3996139bef4494942c" -d '{"old_password": "1234","new_password": "New@123"}' localhost:8000/api/update_info_user/4
 
-##
