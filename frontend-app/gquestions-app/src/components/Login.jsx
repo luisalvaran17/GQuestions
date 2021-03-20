@@ -1,53 +1,88 @@
 import React, {Component} from "react";
+import ReactDOM from 'react-dom';
 import "../assets/styles/tailwind.css"
 import {Helmet} from "react-helmet";
 import {Redirect} from 'react-router-dom'
 
 class Login extends Component {
     
+    constructor(props) {
+        super(props)
+        this.divRefPassword = React.createRef()
+        this.divRefUserAuth = React.createRef()
+    }
+
     state = {
         credentials: {
           username: "",
           password: "",
         },
         userCorrect: false,
-      };
+    };
 
-      handleClick = (e) => {
-        // console.log(this.state.credentials)
-        fetch("http://127.0.0.1:8000/api/login/", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(this.state.credentials),
+
+    handleClick = (e) => {
+    // console.log(this.state.credentials)
+    fetch("http://127.0.0.1:8000/api/login/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(this.state.credentials),
+    })
+        // GET TOKEN
+        /* .then(res => res.json())
+        .then(json => 
+            console.log(json.token)
+        ).catch(error =>
+            console.log(error.response)
+        ) */
+        .then((data) => {
+        if(data.ok === true){
+            console.log("Usuario correcto, redirigiendo")
+            console.log(data.text)
+            this.setState({userCorrect: true})
+            this.removeClassUser()
+        }
+        else{
+            // ... nothing
+            this.removeClass()
+        }
         })
-          .then((data) => {
-            if(data.ok === true){
-              console.log("Usuario correcto, redirigiendo")
-              this.setState({userCorrect: true})
-            }
-            else{
-              // ... nothing
-              console.log("Usuario incorrecto")
-            }
-          })
-          .catch((error) => console.error(error));
-      };
+        .catch((error) => console.error(error));
 
-      handleChange = (e) => {
+        
+    };
+
+
+    handleChange = (e) => {
         const cred = this.state.credentials;
         cred[e.target.name] = e.target.value;
         this.setState({ credentials: cred });
         //console.log(e.target.value);
         //console.log(e.target.value);
-      };
-    
-      handleSubmit = (e) => {
+    };
+
+    handleSubmit = (e) => {
         e.preventDefault();
         console.log("submitted");
-      };
+    };
+
+    addClass = () => {
+        this.divRefPassword.current.classList.add('hidden')
+    }
+
+    addClassUser = () => {
+        this.divRefUserAuth.current.classList.add('hidden')
+    }
+
+    removeClass() {
+       this.divRefPassword.current.classList.remove('hidden')
+    }
+
+    removeClassUser() {
+        this.divRefUserAuth.current.classList.remove('hidden')
+     }
 
     render(){
-        if(this.state.userCorrect !== true){
             return (
                 <div className="container mx-auto">
                 <div className="min-w-screen min-h-screen  flex items-center justify-center px-8 py-4 xl:px-64 md:py-32">
@@ -67,7 +102,6 @@ class Login extends Component {
                                     <h1 className="font-bold text-3xl text-gray-900 mb-8 text-center">INICIAR SESIÓN</h1>
                                 </div>
                                 <div>
-
                                     <div className="flex -mx-3">
                                         <div className="w-full px-3 mb-5">
                                             <label htmlFor="" className="text-xs font-semibold px-1 text-gray-500 self-end py-2">Nombre de usuario</label>
@@ -100,6 +134,18 @@ class Login extends Component {
                                                     value={this.state.credentials.password}
                                                 />
                                                 </div>
+                                                <div ref={this.divRefPassword} className="hidden animate-pulse mt-1 relative py-1 pl-4 pr-10 leading-normal text-red-700 bg-red-100 rounded-lg" role="alert">
+                                                    <p className="text-sm">La contraseña es incorrecta</p>
+                                                    <span className="absolute inset-y-0 right-0 flex items-center mr-4" onClick={this.addClass}>
+                                                        <svg className="w-4 h-4 fill-current" role="button" viewBox="0 0 20 20"><path d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" fillRule="evenodd"></path></svg>
+                                                    </span>
+                                                </div>
+                                                <div ref={this.divRefUserAuth} className="hidden animate-pulse mt-1 relative py-1 pl-4 pr-10 leading-normal text-green-700 bg-green-100 rounded-lg" role="alert">
+                                                    <p className="text-sm">Autenticación correcta</p>
+                                                    <span className="absolute inset-y-0 right-0 flex items-center mr-4" onClick={this.addClass}>
+                                                        <svg className="w-4 h-4 fill-current" role="button" viewBox="0 0 20 20"><path d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" fillRule="evenodd"></path></svg>
+                                                    </span>
+                                                </div>
                                             <div>
                                                 <label htmlFor="" className="text-xs font-semibold px-1 text-gray-500 self-end py-2">¿Olvidaste tu contraseña?</label>
                                                 <span><a href="/" className="text-xs font-semibold px-1 text-blue-500 underline">Recuperar</a></span>
@@ -112,7 +158,7 @@ class Login extends Component {
                                                         onClick={this.handleClick}
                                         >INICIAR SESIÓN</button>
                                     </div>
-
+                                    
                                     <div className="text-center">
                                         <label htmlFor="" className="text-xs font-semibold px-1 text-gray-500 py-1">¿No tienes cuenta?</label>
                                         <span><a href="/" className="text-xs font-semibold px-1 text-blue-500 underline">Crear cuenta</a></span>
@@ -124,13 +170,8 @@ class Login extends Component {
                 </div>
                 </div>
             );
-        }
-        if(this.state.userCorrect){
-            this.componentDidMount()
-            return(
-            <Redirect to='/' children="None" />
-            )
-        }
+        
+        
         }componentDidMount() {
             const { match } = this.props;
                 if(match.url === "/"){
