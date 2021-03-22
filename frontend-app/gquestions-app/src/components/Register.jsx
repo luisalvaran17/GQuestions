@@ -1,95 +1,28 @@
-import React, {Component} from "react";
-import ReactDOM from 'react-dom';
+import React, {Component, useState} from "react";
 import "../assets/styles/tailwind.css"
 import {Helmet} from "react-helmet";
-import {Redirect} from 'react-router-dom'
 
-class Login extends Component {
+
+class Register extends Component {
     
-    constructor(props) {
-        super(props)
-        this.divRefPassword = React.createRef()
-        this.divRefUserAuth = React.createRef()
-    }
-
     state = {
         credentials: {
           username: "",
           password: "",
         },
         userCorrect: false,
-    };
+        startDate: null,
+        setStartDate: null,
+      };
 
-
-    handleClick = (e) => {
-    // console.log(this.state.credentials)
-    fetch("http://127.0.0.1:8000/api/login/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(this.state.credentials),
-    })
-        // GET TOKEN
-        .then(res => res.json())
-        .then(json => 
-            console.log(json.token)
-        ).catch(error =>
-            console.log(error.response)
-        ) 
-        .then((data) => {
-        if(data.ok === true){
-            console.log("Usuario correcto, redirigiendo")
-            console.log(data.text)
-            this.setState({userCorrect: true})
-            this.removeClassUser()
-            
-        }
-        else{
-            // ... nothing
-            this.removeClass()
-        }
-        })
-        .catch((error) => console.error(error));
-
-        
-    };
-
-
-    handleChange = (e) => {
-        const cred = this.state.credentials;
-        cred[e.target.name] = e.target.value;
-        this.setState({ credentials: cred });
-
-        //console.log(e.target.value);
-    };
-
-    handleSubmit = (e) => {
-        e.preventDefault();
-        let usernameTemp = this.state.credentials.username.split('@')[0]
-        this.state.credentials.username = usernameTemp
-        console.log(this.state.credentials.username)
-        console.log("submitted");
-    };
-
-    addClass = () => {
-        this.divRefPassword.current.classList.add('hidden')
+    Hidden(){
+        console.log("hola")
     }
-
-    addClassUser = () => {
-        this.divRefUserAuth.current.classList.add('hidden')
-    }
-
-    removeClass() {
-       this.divRefPassword.current.classList.remove('hidden')
-    }
-
-    removeClassUser() {
-        this.divRefUserAuth.current.classList.remove('hidden')
-     }
 
     render(){
-            return (
-                <div className="container mx-auto">
-                <div className="min-w-screen min-h-screen  flex items-center justify-center px-8 py-4 xl:px-64 md:py-32">
+        return (
+            <div className="container mx-auto">
+                <div className="min-w-screen min-h-screen  flex items-center justify-center px-8 py-4 xl:px-64 md:py-32 text-xs sm:text-base">
                     <Helmet>
                         <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.js" defer></script>
                         <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js"></script>
@@ -103,42 +36,72 @@ class Login extends Component {
                             </div>
                             <form onSubmit={this.handleSubmit} className="w-full md:w-1/2 py-10 px-5 md:px-10">
                                 <div className="text-center mb-10">
-                                    <h1 className="font-bold text-3xl text-gray-900 mb-8 text-center">INICIAR SESIÓN</h1>
+                                    <h1 className="font-bold text-3xl text-gray-900 mb-8 text-center">REGISTRARSE</h1>
                                 </div>
                                 <div>
                                     <div className="flex -mx-3">
-                                        <div className="w-full px-3 mb-5">
-                                            <label htmlFor="" className="text-xs font-semibold px-1 text-gray-500 self-end py-2">Correo electrónico</label>
-                                            <div className="flex">
-                                                <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"><i className="mdi mdi-email-outline text-gray-400 text-lg"></i></div>
-                                                <input
-                                                    type="text"
-                                                    id="login"
-                                                    className="text-base w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-yellow-500"
-                                                    name="username"
-                                                    placeholder="Ingresa tu email"
-                                                    onChange={this.handleChange}
-                                                    
-                                                />
+                                        <div class="w-1/2 px-3 mb-5">
+                                            <label for="" class="text-xs font-semibold px-1">Primer nombre</label>
+                                            <div class="flex">
+                                                <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"><i class="mdi mdi-account-outline text-gray-400 text-lg"></i></div>
+                                                <input type="text" class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="Ingresa tu nombre"/>
                                             </div>
                                         </div>
+                                        <div class="w-1/2 px-3 mb-5">
+                                            <label for="" class="text-xs font-semibold px-1">Apellido</label>
+                                            <div class="flex">
+                                                <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"><i class="mdi mdi-account-outline text-gray-400 text-lg"></i></div>
+                                                <input type="text" class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="Ingresa tu apellido"/>
+                                            </div>
+                                        </div>
+                                        
                                     </div>
                                     <div className="flex -mx-3">
-                                        <div className="w-full px-3 mb-12">
-                                            <label htmlFor="" className="text-xs font-semibold px-1 text-gray-500 self-end py-2">Contraseña</label>
+                                        <div className="w-full px-3 mb-5">
+                                                <label htmlFor="" className="text-xs font-semibold px-1 text-gray-500 self-end py-2">Correo electrónico</label>
+                                                <div className="flex">
+                                                    <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"><i className="mdi mdi-email-outline text-gray-400 text-lg"></i></div>
+                                                    <input
+                                                        type="text"
+                                                        id="login"
+                                                        className="text-base w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-yellow-500"
+                                                        name="username"
+                                                        placeholder="Ingresa tu email"
+                                                        onChange={this.handleChange}
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <div className="flex -mx-3">
+                                        <div className="w-full px-3 mb-5">
+                                            <label htmlFor="" className="text-xs font-semibold px-1 text-gray-500 self-end py-2">Contraseña nueva</label>
                                             <div className="flex">
                                                 <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"><i className="mdi mdi-lock-outline text-gray-400 text-lg"></i></div>
                                                 <input
                                                     type="password"
                                                     id="password"
-                                                    className="text-base w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-yellow-500" placeholder="Ingresa tu contraseña"
+                                                    className="text-base w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-yellow-500" placeholder=""
                                                     name="password"
-                                                    placeholder="Ingresa tu contraseña"
-                                                    onChange={this.handleChange}
-                                                    value={this.state.credentials.password}
+                                                    placeholder="Contraseña"
                                                 />
                                                 </div>
-                                                <div ref={this.divRefPassword} className="hidden animate-pulse mt-1 relative py-1 pl-4 pr-10 leading-normal text-red-700 bg-red-100 rounded-lg" role="alert">
+                                        </div>
+                                        <div className="w-full px-3 mb-5">
+                                            <label htmlFor="" className="text-xs font-semibold px-1 text-gray-500 self-end py-2">Confirmar contraseña</label>
+                                            <div className="flex">
+                                                <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"><i className="mdi mdi-lock-outline text-gray-400 text-lg"></i></div>
+                                                <input
+                                                    type="password"
+                                                    id="password"
+                                                    className="text-base w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-yellow-500" 
+                                                    name="password"
+                                                    placeholder="Contraseña"
+                                                />
+                                                </div>
+                                                
+
+                                        </div>
+                                        <div ref={this.divRefPassword} className="hidden animate-pulse mt-1 relative py-1 pl-4 pr-10 leading-normal text-red-700 bg-red-100 rounded-lg" role="alert">
                                                     <p className="text-sm">La contraseña es incorrecta</p>
                                                     <span className="absolute inset-y-0 right-0 flex items-center mr-4" onClick={this.addClass}>
                                                         <svg className="w-4 h-4 fill-current" role="button" viewBox="0 0 20 20"><path d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" fillRule="evenodd"></path></svg>
@@ -150,41 +113,68 @@ class Login extends Component {
                                                         <svg className="w-4 h-4 fill-current" role="button" viewBox="0 0 20 20"><path d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" fillRule="evenodd"></path></svg>
                                                     </span>
                                                 </div>
-                                            <div>
-                                                <label htmlFor="" className="text-xs font-semibold px-1 text-gray-500 self-end py-2">¿Olvidaste tu contraseña?</label>
-                                                <span><a href="/" className="text-xs font-semibold px-1 text-blue-500 underline">Recuperar</a></span>
+                                    </div>
+
+                                    {/* Rol y fecha de nacimiento */}
+                                    <div className="flex -mx-3">
+                                        <div class="w-1/2 px-3 mb-5">
+                                            <label for="" class="text-xs font-semibold px-1">Tipo de cuenta</label>
+                                            <div class="flex">
+                                                <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"><i class="mdi mdi-account-outline text-gray-400 text-lg"></i></div>
+                                                <select type="text" class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="Ingresa tu nombre">
+                                                    <option>Estudiante</option>
+                                                    <option>Profesor</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="w-1/2 px-3 mb-5">
+                                            <label for="" class="text-xs font-semibold px-1">Fecha de nacimiento</label>
+                                            <div class="flex">
+                                                <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"><i class="mdi mdi-account-outline text-gray-400 text-lg"></i></div>
+                                                <input type="text" class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder=""/>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div className="py-4">
-                                        <button type="submit" className="block w-full max-w-xs mx-auto bg-yellow-500 hover:bg-yellow-600 focus:bg-yellow-600 text-white rounded-lg px-2 py-2 font-semibold"
-                                                        onClick={this.handleClick}
-                                        >INICIAR SESIÓN</button>
+
+                                    {/* Button registrarse */}
+                                    <div className="grid grid-cols-11 text-center items-center">
+                                        <div className="py-4 col-span-5">
+                                            <button type="submit" className="w-10 z-10 pl-1 block w-full max-w-xs mx-auto bg-yellow-500 hover:bg-yellow-600 focus:bg-yellow-600 text-white rounded-lg px-2 py-2 font-semibold"
+                                                            onClick={this.handleClick}
+                                            >REGISTRARSE</button>
+                                        </div>
+                                        <div className="py-4 col-span-1">
+                                            <p>ó</p>
+                                        </div>
+                                        <div className="py-4 col-span-5">
+                                            <button type="submit" className="w-10 z-10 pl-1 block w-full max-w-xs mx-auto border-blue-200 border-2 hover:bg-blue-300 focus:bg-blue-400 rounded-lg px-2 py-2 font-semibold"
+                                                            onClick={this.handleClick}
+                                            >Continuar con Google</button>
+                                        </div>
                                     </div>
-                                    
                                     <div className="text-center">
-                                        <label htmlFor="" className="text-xs font-semibold px-1 text-gray-500 py-1">¿No tienes cuenta?</label>
-                                        <span><a href="/" className="text-xs font-semibold px-1 text-blue-500 underline">Crear cuenta</a></span>
+                                        <label htmlFor="" className="text-xs font-semibold px-1 text-gray-500 py-1">¿Ya tienes cuenta?</label>
+                                        <span><a href="/" className="text-xs font-semibold px-1 text-blue-500 underline">Iniciar sesión</a></span>
                                     </div>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
-                </div>
-            );
-        
-        
-        }componentDidMount() {
-            const { match } = this.props;
-                if(match.url === "/"){
-                window.history.pushState(null, document.title, window.location.href);
-                window.addEventListener('popstate', function (event){
-                    window.history.pushState(null, document.title,  window.location.href);
-                });
-            }      
-        }
+            </div>
+        );
+    
+    
+    }componentDidMount() {
+        const { match } = this.props;
+            if(match.url === "/"){
+            window.history.pushState(null, document.title, window.location.href);
+            window.addEventListener('popstate', function (event){
+                window.history.pushState(null, document.title,  window.location.href);
+            });
+        }      
     }
+}
 
-export default Login;
+export default Register;
