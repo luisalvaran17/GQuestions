@@ -1,4 +1,9 @@
 /* ./your-css-folder/styles.css */
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Línea para compilar tailwind css */
+/* npx tailwindcss build ./src/assets/styles/styles.css -o ./src/assets/styles/tailwind.css */
