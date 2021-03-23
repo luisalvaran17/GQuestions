@@ -1,35 +1,31 @@
 from django.shortcuts import render
 from rest_framework import generics, permissions, status, viewsets, permissions
 from rest_framework.response import Response
+from rest_framework.authtoken.models import Token
 from knox.models import AuthToken
-from .serializers import UserSerializer, RegisterSerializer, RegisterUsuarioInfoAdicionalSerializer
+from .serializers import AccountSerializer, RegisterSerializer
 from django.contrib.auth import login
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from knox.views import LoginView as KnoxLoginView
-from django.contrib.auth.models import User
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
-from .models import UsuarioInfoAdicional
 from django.core.exceptions import ObjectDoesNotExist
 from .serializers import ChangePasswordSerializer
+from .models import Account
+from django.contrib.auth.hashers import check_password
 
 # Create your views here.
-class UsuarioView(viewsets.ModelViewSet):
-    serializer_class= UserSerializer
-    queryset = User.objects.all()
-
 # Get usuario
 @api_view(["GET"])
 @csrf_exempt
 @permission_classes([IsAuthenticated])
 def get_user(request, user):
     user_id = request.user.id
-    users = User.objects.filter(id=user_id)
-    serializer = UserSerializer(users, many=True)
-    print(serializer.data)
+    users = Account.objects.filter(id=user_id)
+    serializer = AccountSerializer(users, many=True)
     return JsonResponse({'users': serializer.data}, safe=False, status=status.HTTP_200_OK)
 
 # Get usuarios
@@ -37,9 +33,8 @@ def get_user(request, user):
 @csrf_exempt
 @permission_classes([IsAuthenticated])
 def get_users(request):
-    users = User.objects.all()
-    serializer = UserSerializer(users, many=True)
-    print(serializer.data)
+    users = Account.objects.all()
+    serializer = AccountSerializer(users, many=True)
     return JsonResponse({'users': serializer.data}, safe=False, status=status.HTTP_200_OK)
 
 # Update usuarios
@@ -53,9 +48,9 @@ def update_user(request, user):
         user_item = User.objects.filter(username=user)
         # returns 1 or 0
         user_item.update(**payload)
-        user = User.objects.get(username=user)
+        user = Account.objects.get(username=user)
         ## user_info_personal = user.usuario.edad Así se obtiene una tupla de una relación
-        serializer = UserSerializer(user)
+        serializer = AccountSerializer(user)
         return JsonResponse({'user': serializer.data}, safe=False, status=status.HTTP_200_OK)
     except ObjectDoesNotExist as e:
         return JsonResponse({'error': str(e)}, safe=False, status=status.HTTP_404_NOT_FOUND)
@@ -69,13 +64,15 @@ class RegisterAPI(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+
         user = serializer.save()
+        print(user)
         return Response({
-        "user": UserSerializer(user, context=self.get_serializer_context()).data,
+        "user": AccountSerializer(user, context=self.get_serializer_context()).data,
         "token": AuthToken.objects.create(user)[1]
         })
 
-# Register 'otra información' usuario
+'''# Register 'otra información' usuario
 class RegisterUsuarioInfoAdicionalAPI(generics.GenericAPIView):
     serializer_class = RegisterUsuarioInfoAdicionalSerializer
 
@@ -84,10 +81,10 @@ class RegisterUsuarioInfoAdicionalAPI(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
         return Response ({
-        "user": UserSerializer(user, context=self.get_serializer_context()).data,})
+        "user": UserSerializer(user, context=self.get_serializer_context()).data,})'''
 
-# Login usuarios
-class LoginAPI(KnoxLoginView):
+# Login usuariosclass 
+class Login(KnoxLoginView):
     permission_classes = (permissions.AllowAny,)
 
     def post(self, request, format=None):
@@ -95,15 +92,15 @@ class LoginAPI(KnoxLoginView):
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         login(request, user)
-        return super(LoginAPI, self).post(request, format=None)
+        return super(Login, self).post(request, format=None)
 
 # Change password view
 class ChangePasswordView(generics.UpdateAPIView):
-    """
-    An endpoint for changing password.
-    """
+    
+    #An endpoint for changing password.
+    
     serializer_class = ChangePasswordSerializer
-    model = User
+    model = Account
     permission_classes = (IsAuthenticated,)
 
     def get_object(self, queryset=None):
@@ -130,4 +127,4 @@ class ChangePasswordView(generics.UpdateAPIView):
 
             return Response(response)
 
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) 

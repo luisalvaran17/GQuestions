@@ -1,42 +1,33 @@
 from rest_framework import serializers
-from django.contrib.auth.models import User
-from .models import UsuarioInfoAdicional
+from .models import Account
 
 # User Serializer
-class UserSerializer(serializers.ModelSerializer):
+class AccountSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
-        fields = ('id', 'username', 'email')
+        model = Account
+        fields = ('email', 'password', 'first_name', 'last_name', 'rol', 'fecha_nac', 'edad', 'is_admin', 'is_active', 'is_staff', 'is_superuser',
+                'hide_email')
 
 # Register Serializer
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
-        fields = ('id', 'username', 'email', 'password', 'first_name', 'last_name')
+        model = Account
+        fields = ('id', 'email', 'password', 'first_name', 'last_name', 'rol', 'fecha_nac', 'edad')
         extra_kwargs = {'password': {'write_only': True}}
-
+        
     def create(self, validated_data):
-        user = User.objects.create_user(validated_data['username'], validated_data['email'], validated_data['password'])
+        user = Account.objects.create_user(validated_data['email'],  validated_data['first_name'], validated_data['last_name'],
+        validated_data['rol'], validated_data['fecha_nac'], validated_data['edad'], validated_data['password'])
 
+        """ user = Account.objects.create_user(validated_data['email'], validated_data['password'], 
+        validated_data['rol'], validated_data['fecha_nac'], validated_data['edad'])
+ """
         return user
-
-class RegisterUsuarioInfoAdicionalSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UsuarioInfoAdicional 
-        fields = ('user', 'rol', 'fecha_nac', 'edad')
-
-    def create(self, validated_data):
-        userInfo = UsuarioInfoAdicional.objects.create(validated_data['user'], validated_data['rol'], validated_data['fecha_nac'], 
-        validated_data['edad'])
-
-        return userInfo
 
 # change password
 class ChangePasswordSerializer(serializers.Serializer):
-    model = User
-
-    """
-    Serializer for password change endpoint.
-    """
+    model = Account
+    # Serializer for password change endpoint.
+    
     old_password = serializers.CharField(required=True)
     new_password = serializers.CharField(required=True)

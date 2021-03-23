@@ -20,7 +20,7 @@ from gquestions_api import views
 from accounts import views as views_accounts
 
 router = routers.DefaultRouter()
-
+""" 
 router.register(r'generaciones', views.GeneracionView, 'generacion')
 router.register(r'tipo_preguntas', views.TipoPreguntaView, 'tipo_pregunta')
 #router.register(r'usuarios', views_accounts.UsuarioView, 'usuario')
@@ -32,8 +32,7 @@ router.register(r'generaciones_textos_preguntas', views.GeneracionTextoPreguntaV
 router.register(r'generaciones_textos', views.GeneracionTextoView, 'generacion_texto')
 router.register(r'generaciones_usuarios', views.GeneracionUsuarioView, 'generacion_usuario')
 router.register(r'usuarios_examenes_generaciones', views.UsuarioExamenGeneracionView, 'usuario_examen_generacion')
-
-
+ """
 from django.urls import path, include
 from django.views.generic import TemplateView
 from django.contrib.auth.views import LogoutView

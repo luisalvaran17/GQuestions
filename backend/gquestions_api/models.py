@@ -1,9 +1,8 @@
-from django.db import models
+""" from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
 
 # Create your models here.
-
 class Examen(models.Model):
     id_examen = models.AutoField(primary_key=True, null=False)
     title_exam = models.CharField(max_length=200, default='Sin título')
@@ -81,4 +80,4 @@ class GeneracionTextoPregunta(models.Model):
 
 class CalificacionUsuario(models.Model): #Corregir CalificacionExamen
     id_calificacion = models.ForeignKey(Calificacion, on_delete=models.CASCADE)
-    id_examen = models.ForeignKey(Examen, on_delete=models.CASCADE)
+    id_examen = models.ForeignKey(Examen, on_delete=models.CASCADE) """

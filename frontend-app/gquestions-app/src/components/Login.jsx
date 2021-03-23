@@ -67,8 +67,6 @@ class Login extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        let usernameTemp = this.state.credentials.username.split('@')[0]
-        this.setState.credentials({username: usernameTemp})
         console.log("submitted");
     };
 
@@ -115,7 +113,7 @@ class Login extends Component {
                                                 <div className="flex">
                                                     <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"><i className="mdi mdi-email-outline text-gray-400 text-lg"></i></div>
                                                     <input
-                                                        type="text"
+                                                        type="email"
                                                         id="login"
                                                         className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-yellow-500"
                                                         name="username"
@@ -142,7 +140,7 @@ class Login extends Component {
                                                     />
                                                     </div>
                                                     <div ref={this.divRefPassword} className="hidden animate-pulse mt-1 relative py-1 pl-4 pr-10 leading-normal text-red-700 bg-red-100 rounded-lg" role="alert">
-                                                        <p className="text-sm">La contraseña es incorrecta</p>
+                                                        <p className="text-sm">Datos incorrectos</p>
                                                         <span className="absolute inset-y-0 right-0 flex items-center mr-4" onClick={this.addClass}>
                                                             <svg className="w-4 h-4 fill-current" role="button" viewBox="0 0 20 20"><path d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" fillRule="evenodd"></path></svg>
                                                         </span>

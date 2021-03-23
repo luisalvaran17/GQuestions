@@ -1,4 +1,4 @@
-from rest_framework import serializers
+""" from rest_framework import serializers
 from .models import *
 
 class ExamenSerializer(serializers.ModelSerializer):
@@ -54,4 +54,4 @@ class GeneracionTextoPreguntaSerializer(serializers.ModelSerializer):
 class CalificacionUsuarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = CalificacionUsuario
-        fields = ('id_calificacion', 'id_examen')
+        fields = ('id_calificacion', 'id_examen') """

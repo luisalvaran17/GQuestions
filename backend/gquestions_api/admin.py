@@ -1,4 +1,4 @@
-from django.contrib import admin
+""" from django.contrib import admin
 from .models import *
 
 # Register your models here.
@@ -38,7 +38,6 @@ class CalificacionUsuarioAdmin(admin.ModelAdmin):
 
 # Register your models here.
 
-
 admin.site.register(Generacion, GeneracionAdmin)
 admin.site.register(TipoPregunta, TipoPreguntaAdmin)
 admin.site.register(Examen, ExamenAdmin)
@@ -50,3 +49,4 @@ admin.site.register(GeneracionUsuario, GeneracionUsuarioAdmin)
 admin.site.register(Generacion_GeneracionTexto, Generacion_GeneracionTextoAdmin)
 admin.site.register(GeneracionTextoPregunta, GeneracionTextoPreguntaAdmin)
 admin.site.register(CalificacionUsuario, CalificacionUsuarioAdmin)
+ """

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+""" from django.shortcuts import render
 from rest_framework import viewsets
 from .serializers import *
 from .models import *
@@ -52,3 +52,4 @@ class GeneracionTextoPreguntaView(viewsets.ModelViewSet):
 class CalificacionUsuarioView(viewsets.ModelViewSet):
     serializer_class = CalificacionUsuarioSerializer
     queryset = CalificacionUsuario.objects.all()
+ """
