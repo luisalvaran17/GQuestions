@@ -40,6 +40,7 @@ class Account(AbstractUser):
     email           = models.EmailField(verbose_name='email', max_length=255, unique=True)
     date_joined     = models.DateTimeField(verbose_name="date joined", auto_now_add=True)
     last_login      = models.DateTimeField(verbose_name="last login", auto_now=True)
+    username        = models.CharField(max_length=150, unique=False, verbose_name='username')
     is_admin        = models.BooleanField(default=False)
     is_active       = models.BooleanField(default=True)
     is_staff        = models.BooleanField(default=False)

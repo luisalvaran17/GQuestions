@@ -25,7 +25,7 @@ class Register extends Component {
         },
     };
 
-    handleClick = (e) => {
+    handleClickLogin = (e) => {
         if(!this.checkEmptyFields() && this.checkPasswords()){
             fetch("http://127.0.0.1:8000/api/register/", {
                 method: "POST",
@@ -252,7 +252,7 @@ class Register extends Component {
                                     <div className="grid grid-rows-1 text-center items-center">
                                         <div className="py-1 col-span-12 my-0">
                                             <button type="submit" className="text-base z-10 pl-1 mb-0 block w-full mx-auto mb-4 bg-yellow-500 hover:bg-yellow-600 focus:bg-yellow-600 text-white rounded-lg px-2 py-2 font-semibold"
-                                                            onClick={this.handleClick}
+                                                            onClick={this.handleClickLogin}
                                             >REGISTRARSE</button>
                                         </div>
                                         
