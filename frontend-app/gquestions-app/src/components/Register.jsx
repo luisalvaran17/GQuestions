@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import "../assets/styles/tailwind.css"
 import {Helmet} from "react-helmet";
+import {Link, Redirect} from 'react-router-dom'
 
 class Register extends Component {
     
@@ -25,7 +26,7 @@ class Register extends Component {
         },
     };
 
-    handleClickLogin = (e) => {
+    handleClickRegister = (e) => {
         if(!this.checkEmptyFields() && this.checkPasswords()){
             fetch("http://127.0.0.1:8000/api/register/", {
                 method: "POST",
@@ -45,6 +46,13 @@ class Register extends Component {
             })
             .catch((error) => console.error(error));     
         }   
+    };
+
+    handleClickGoogle = () => {
+        console.log("hola")
+        return(
+            <Redirect to='/login' children="None" />
+          )         
     };
 
     handleChange = (e) => {
@@ -252,7 +260,7 @@ class Register extends Component {
                                     <div className="grid grid-rows-1 text-center items-center">
                                         <div className="py-1 col-span-12 my-0">
                                             <button type="submit" className="text-base z-10 pl-1 mb-0 block w-full mx-auto mb-4 bg-yellow-500 hover:bg-yellow-600 focus:bg-yellow-600 text-white rounded-lg px-2 py-2 font-semibold"
-                                                            onClick={this.handleClickLogin}
+                                                    onClick={this.handleClickRegister}
                                             >REGISTRARSE</button>
                                         </div>
                                         
@@ -278,10 +286,12 @@ class Register extends Component {
                                     <div className="py-1 col-span-12 my-0 text-center text-sm">
                                         <p>Continuar con</p>
                                     </div>
-                                    <div className="py-1 col-span-12 my-0">
-                                        <button type="submit" className="text-base w-10 z-10 pl-1 block w-full mx-auto mb-4 border-blue-200 border-2 hover:bg-blue-300 focus:bg-blue-400 rounded-lg px-2 py-2 font-semibold"
-                                                        
-                                        ><span className="mr-8"><i className="fab fa-google"></i></span>Google</button>
+                                    <div className="py-1 col-span-12 my-0 text-center">
+                                        <a // button continuar con google
+                                        href="http://127.0.0.1:8000/accounts/google/login/"
+                                        className="text-base text-center w-10 z-10 pl-1 block w-full mx-auto mb-4 border-blue-200 border-2 hover:bg-blue-300 rounded-lg px-2 py-2 font-semibold"                            
+                                        
+                                        ><span className="mr-8"><i className="fab fa-google"></i></span>Google</a>
                                     </div>
                                     <div className="text-center">
                                         <label htmlFor="" className="text-xs font-semibold px-1 text-gray-500 py-1">¿Ya tienes cuenta?</label>
@@ -294,16 +304,6 @@ class Register extends Component {
                 </div>
             </div>
         );
-    
-    
-    }componentDidMount() {
-        const { match } = this.props;
-            if(match.url === "/"){
-            window.history.pushState(null, document.title, window.location.href);
-            window.addEventListener('popstate', function (event){
-                window.history.pushState(null, document.title,  window.location.href);
-            });
-        }      
     }
 }
 

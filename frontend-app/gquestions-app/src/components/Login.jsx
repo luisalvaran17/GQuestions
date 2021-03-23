@@ -166,9 +166,11 @@ class Login extends Component {
                                             </div>
 
                                             <div className="py-1 lg:py-4 col-span-5">
-                                                <button type="submit" className="w-10 z-10 block w-full max-w-xs mx-auto border-blue-200 border-2 hover:bg-blue-300 focus:bg-blue-400 rounded-lg px-2 py-2 font-semibold"
-                                                                onClick={this.handleClick}
-                                                ><span className="mr-8"><i class="fab fa-google"></i></span>Google</button>
+                                                <a 
+                                                type="button" 
+                                                className="w-10 z-10 block w-full max-w-xs mx-auto border-blue-200 border-2 hover:bg-blue-300 focus:bg-blue-400 rounded-lg px-2 py-2 font-semibold"         
+                                                href="http://127.0.0.1:8000/accounts/google/login/"
+                                                ><span className="mr-8"><i class="fab fa-google"></i></span>Google</a>
                                             </div>
                                         </div>
                                         
