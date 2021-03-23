@@ -16,7 +16,7 @@ class Register extends Component {
           last_name: "",
           email: "",
           password: "",
-          rol: "",
+          rol: "Estudiante",    // por defecto
           fecha_nac: "",
           edad : null,
         },
@@ -52,15 +52,13 @@ class Register extends Component {
         user[e.target.name] = e.target.value;
         this.setState({ usuario: user });
 
-
+        console.log(this.state.usuario)
     };
 
     handleChangePassword = (e) => {
         const password_confirmation = this.state.confirmation_pass;
         password_confirmation[e.target.name] = e.target.value;
         this.setState({confirmation_pass: password_confirmation});
-
-        console.log(password_confirmation)
     }
 
     handleSubmit = (e) => {
@@ -76,6 +74,9 @@ class Register extends Component {
             this.removeClass()
             return true;
         }
+/*         if(this.state.usuario.rol === ""){
+            this.state.usuario.rol = "Estudiante"
+        } */
         return false
     }
     
@@ -88,10 +89,6 @@ class Register extends Component {
             this.removeClassPasswordsNoMatch()
             return false;
         }
-    }
-
-    clearFields = () => {
-
     }
 
     addClass = () => {
@@ -242,7 +239,7 @@ class Register extends Component {
                                                 <input 
                                                 type="date"
                                                 id = "fecha_nacimiento"
-                                                className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-yellow-500"
+                                                className="w-full -ml-10 pl-4 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-yellow-500"
                                                 placeholder="dd/mm/aaaa"
                                                 name="fecha_nac"
                                                 onChange={this.handleChange}/>
