@@ -1,6 +1,6 @@
-""" from django.db import models
+from django.db import models
 from django.conf import settings
-from django.contrib.auth.models import User
+from accounts.models import Account
 
 # Create your models here.
 class Examen(models.Model):
@@ -54,13 +54,13 @@ class TipoPregunta(models.Model):
         return self.cod_generacion
         
 class UsuarioExamenGeneracion(models.Model):
-    username = models.ForeignKey(User, on_delete=models.CASCADE)
+    email = models.ForeignKey(Account, on_delete=models.CASCADE)
     id_exam =  models.ForeignKey(Examen, on_delete=models.CASCADE)
     cod_generacion =  models.ForeignKey(Generacion, on_delete=models.CASCADE)
 
 class GeneracionUsuario(models.Model):
     cod_generacion = models.ForeignKey(Generacion, on_delete=models.CASCADE)
-    username = models.ForeignKey(User, on_delete=models.CASCADE)
+    email = models.ForeignKey(Account, on_delete=models.CASCADE)
 
 class RespuestaCuerpo(models.Model):
     id_pregunta = models.OneToOneField(GeneracionPregunta, on_delete = models.CASCADE, primary_key=True, null=False)
@@ -80,4 +80,4 @@ class GeneracionTextoPregunta(models.Model):
 
 class CalificacionUsuario(models.Model): #Corregir CalificacionExamen
     id_calificacion = models.ForeignKey(Calificacion, on_delete=models.CASCADE)
-    id_examen = models.ForeignKey(Examen, on_delete=models.CASCADE) """
+    id_examen = models.ForeignKey(Examen, on_delete=models.CASCADE) 

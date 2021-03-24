@@ -1,4 +1,4 @@
-""" from rest_framework import serializers
+from rest_framework import serializers
 from .models import *
 
 class ExamenSerializer(serializers.ModelSerializer):
@@ -34,12 +34,12 @@ class TipoPreguntaSerializer(serializers.ModelSerializer):
 class UsuarioExamenGeneracionSerializer(serializers.ModelSerializer):
     class Meta:
         model = UsuarioExamenGeneracion
-        fields = ('username', 'id_exam', 'cod_generacion')
+        fields = ('email', 'id_exam', 'cod_generacion')
 
 class GeneracionUsuarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = GeneracionUsuario
-        fields = ('cod_generacion', 'username')
+        fields = ('cod_generacion', 'email')
 
 class Generacion_GeneracionTextoSerializer(serializers.ModelSerializer):
     class Meta:

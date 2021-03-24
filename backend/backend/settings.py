@@ -179,4 +179,5 @@ EMAIL_HOST_USER = 'luisalvaranleav@gmail.com'
 EMAIL_HOST_PASSWORD = 'PASSWORD'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'GQuestions Team <noreply@gquestions.com>'"""
+DEFAULT_FROM_EMAIL = 'GQuestions Team <noreply@gquestions.com>'
+"""

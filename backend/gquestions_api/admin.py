@@ -1,4 +1,4 @@
-""" from django.contrib import admin
+from django.contrib import admin
 from .models import *
 
 # Register your models here.
@@ -22,10 +22,10 @@ class TipoPreguntaAdmin(admin.ModelAdmin):
     list_display = ('cod_generacion', 'pregunta_abierta', 'opcion_multiple', 'completacion')
 
 class UsuarioExamenGeneracionAdmin(admin.ModelAdmin):
-    list_display = ('username', 'id_exam', 'cod_generacion')
+    list_display = ('email', 'id_exam', 'cod_generacion')
 
 class GeneracionUsuarioAdmin(admin.ModelAdmin):
-    list_display = ('cod_generacion', 'username')
+    list_display = ('cod_generacion', 'email')
 
 class Generacion_GeneracionTextoAdmin(admin.ModelAdmin):
     list_display = ('id_texto', 'cod_generacion')
@@ -37,7 +37,6 @@ class CalificacionUsuarioAdmin(admin.ModelAdmin):
     list_display = ('id_calificacion', 'id_examen')
 
 # Register your models here.
-
 admin.site.register(Generacion, GeneracionAdmin)
 admin.site.register(TipoPregunta, TipoPreguntaAdmin)
 admin.site.register(Examen, ExamenAdmin)
@@ -49,4 +48,3 @@ admin.site.register(GeneracionUsuario, GeneracionUsuarioAdmin)
 admin.site.register(Generacion_GeneracionTexto, Generacion_GeneracionTextoAdmin)
 admin.site.register(GeneracionTextoPregunta, GeneracionTextoPreguntaAdmin)
 admin.site.register(CalificacionUsuario, CalificacionUsuarioAdmin)
- """
