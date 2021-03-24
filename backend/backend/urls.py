@@ -18,6 +18,7 @@ from django.urls import path, include
 from rest_framework import routers
 from gquestions_api import views
 from accounts import views as views_accounts
+from django.contrib.auth import views as auth_views 
 
 router = routers.DefaultRouter()
 """ 
@@ -47,4 +48,15 @@ urlpatterns = [
     path('index', TemplateView.as_view(template_name="index.html")),
     path('accounts/', include('allauth.urls')),
     path('logout', LogoutView.as_view()),
+
+    
+    # Reset password urls
+    # path('password_reset/',auth_views.PasswordResetView.as_view(),name='password_reset'),
+
+    # path('password_reset/done/',auth_views.PasswordResetDoneView.as_view(),name='password_reset_done'),
+
+    # path('reset/<uidb64>/<token>/',auth_views.PasswordResetConfirmView.as_view(),name='password_reset_confirm'),
+
+    # path('reset/done/',auth_views.PasswordResetCompleteView.as_view(),name='password_reset_complete'), 
+
 ]
