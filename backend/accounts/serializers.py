@@ -8,6 +8,11 @@ class AccountSerializer(serializers.ModelSerializer):
         fields = ('email', 'password', 'first_name', 'last_name', 'rol', 'fecha_nac', 'edad', 'is_admin', 'is_active', 'is_staff', 'is_superuser',
                 'hide_email')
 
+class AccountEmailSerializar(serializers.ModelSerializer):
+    class Meta:
+        model = Account
+        fields = ("email")
+
 # Register Serializer
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
@@ -18,10 +23,7 @@ class RegisterSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user = Account.objects.create_user(validated_data['email'],  validated_data['first_name'], validated_data['last_name'],
         validated_data['rol'], validated_data['fecha_nac'], validated_data['edad'], validated_data['password'])
-
-        """ user = Account.objects.create_user(validated_data['email'], validated_data['password'], 
-        validated_data['rol'], validated_data['fecha_nac'], validated_data['edad'])
- """
+        
         return user
 
 # change password

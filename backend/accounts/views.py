@@ -1,9 +1,9 @@
 from django.shortcuts import render
-from rest_framework import generics, permissions, status, viewsets, permissions
+from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from knox.models import AuthToken
-from .serializers import AccountSerializer, RegisterSerializer
+from .serializers import *
 from django.contrib.auth import login
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from knox.views import LoginView as KnoxLoginView
@@ -13,9 +13,14 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
 from django.core.exceptions import ObjectDoesNotExist
-from .serializers import ChangePasswordSerializer
 from .models import Account
 from django.contrib.auth.hashers import check_password
+
+from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
+from rest_auth.registration.views import SocialLoginView
+
+class GoogleLogin(SocialLoginView):
+    adapter_class = GoogleOAuth2Adapter
 
 # Create your views here.
 # Get usuario
@@ -27,6 +32,24 @@ def get_user(request, user):
     users = Account.objects.filter(id=user_id)
     serializer = AccountSerializer(users, many=True)
     return JsonResponse({'users': serializer.data}, safe=False, status=status.HTTP_200_OK)
+
+@api_view(["GET"])
+def exist_user(request, email):
+    user = Account.objects.filter(email=email)
+    boolUser = user.exists()
+    serializer = AccountEmailSerializar(user, many=False)
+    if boolUser:
+        return JsonResponse({'user': boolUser}, safe=False, status=status.HTTP_200_OK)
+    else:
+        return JsonResponse({'error': boolUser}, safe=False, status=status.HTTP_404_NOT_FOUND) 
+
+"""     try:
+        user_id = request.user.id
+        users = Account.objects.filter(id=user_id).exists()
+        serializer = AccountEmailSerializar(users, many=True)
+        return JsonResponse({'users': serializer.data}, safe=False, status=status.HTTP_200_OK)
+    except ObjectDoesNotExist as e:
+        return JsonResponse({'error': str(e)}, safe=False, status=status.HTTP_404_NOT_FOUND) """
 
 # Get usuarios
 @api_view(["GET"])
@@ -42,13 +65,13 @@ def get_users(request):
 @csrf_exempt
 @permission_classes([IsAuthenticated])
 def update_user(request, user):
-    user = request.user.username
+    user = request.user.email
     payload = json.loads(request.body)
     try:
-        user_item = User.objects.filter(username=user)
+        user_item = User.objects.filter(email=user)
         # returns 1 or 0
         user_item.update(**payload)
-        user = Account.objects.get(username=user)
+        user = Account.objects.get(email=user)
         ## user_info_personal = user.usuario.edad Así se obtiene una tupla de una relación
         serializer = AccountSerializer(user)
         return JsonResponse({'user': serializer.data}, safe=False, status=status.HTTP_200_OK)

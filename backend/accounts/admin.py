@@ -80,20 +80,6 @@ class UserAdmin(BaseUserAdmin):
 class AccountAdmin(admin.ModelAdmin):
     list_display = fields = ('email', 'password', 'rol', 'fecha_nac', 'edad', 'is_admin', 'is_active', 'is_staff', 'is_superuser',
                 'hide_email')
-"""
-# Register your models here.
-class UsuarioInfoAdicionalInline(admin.StackedInline):
-    model = UsuarioInfoAdicional
-    can_delete = False
-    verbose_name_plural = 'usuario'
-
-class UsuarioInfoAdicionalAdmin(BaseUserAdmin):
-    inlines = (UsuarioInfoAdicionalInline,)
-
-# Re-register UserAdmin
-admin.site.unregister(User)
-admin.site.register(User, UsuarioInfoAdicionalAdmin) 
-"""
 
 # Now register the new UserAdmin...
 admin.site.register(Account, UserAdmin)
