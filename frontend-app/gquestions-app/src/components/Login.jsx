@@ -1,5 +1,8 @@
 import React, {Component} from "react";
 import {Helmet} from "react-helmet";
+import { Link } from "react-router-dom";
+
+
 class Login extends Component {
     
     constructor(props) {
@@ -14,8 +17,13 @@ class Login extends Component {
           password: "",
         },
         userCorrect: false,
+        token: "",
     };
 
+
+    responseGoogle = (response) => {
+        console.log(response);
+      }
 
     handleClick = (e) => {
         // console.log(this.state.credentials)
@@ -27,7 +35,7 @@ class Login extends Component {
         // GET TOKEN
         .then(res => res.json())
         .then(json => 
-            console.log(json.token)
+            console.log(json)
             
         ).catch(error =>
             console.log(error.response)
@@ -41,7 +49,6 @@ class Login extends Component {
         .then((data) => {
         if(data.ok === true){
             console.log("Usuario correcto, redirigiendo")
-            console.log(data.text)
             this.setState({userCorrect: true})
             this.removeClassUser()
             
@@ -55,7 +62,6 @@ class Login extends Component {
 
         
     };
-
 
     handleChange = (e) => {
         const cred = this.state.credentials;
@@ -132,7 +138,7 @@ class Login extends Component {
                                                     <input
                                                         type="password"
                                                         id="password"
-                                                        className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-yellow-500" placeholder="Ingresa tu contraseña"
+                                                        className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-yellow-500"
                                                         name="password"
                                                         placeholder="Ingresa tu contraseña"
                                                         onChange={this.handleChange}
@@ -153,30 +159,37 @@ class Login extends Component {
                                                     </div>
                                                 <div>
                                                     <label htmlFor="" className="text-xs font-semibold px-1 text-gray-500 self-end py-2">¿Olvidaste tu contraseña?</label>
-                                                    <span><a href="/" className="text-xs font-semibold px-1 text-blue-500 underline">Recuperar</a></span>
+                                                    <span><Link to="/password_reset/" className="text-xs font-semibold px-1 text-blue-500 underline">Recuperar</Link></span>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div className="lg:grid lg:grid-cols-10 gap-x-2 sm:grid-rows-2 md:grid-cols-1 lg:flex text-center items-center">
-                                            <div className="py-1 lg:py-4 col-span-5">
+                                        <div className="grid w-full grid-cols-12 gap-x-2 grid-rows-2 grid-cols-1 text-center items-center">
+                                            <div className="py-1 lg:py-4 col-span-12">
                                                 <button type="submit" className="w-10 z-10 pl-1 block w-full max-w-xs mx-auto bg-yellow-500 hover:bg-yellow-600 focus:bg-yellow-600 text-white rounded-lg px-2 py-2 font-semibold"
                                                                 onClick={this.handleClick}
                                                 >INICIAR SESIÓN</button>
                                             </div>
 
-                                            <div className="py-1 lg:py-4 col-span-5">
-                                                <a 
-                                                type="button" 
-                                                className="w-10 z-10 block w-full max-w-xs mx-auto border-blue-200 border-2 hover:bg-blue-300 focus:bg-blue-400 rounded-lg px-2 py-2 font-semibold"         
-                                                href="http://127.0.0.1:8000/accounts/google/login/"
-                                                ><span className="mr-8"><i class="fab fa-google"></i></span>Google</a>
+                                            <div className="py-1 lg:py-4 col-span-12">
+{/*                                             <GoogleLogin className="w-10 z-10 block w-full max-w-xs mx-auto border-blue-200 border-2 hover:bg-blue-300 focus:bg-blue-400 rounded-lg px-2 py-2 font-semibold"
+                                                clientId="1016385449655-s27qeebm0kc4lfuedk7o665lhmtd70qp.apps.googleusercontent.com"
+                                                buttonText="INICIAR CON GOOGLE"
+                                                onSuccess={this.responseGoogle}
+                                                onFailure={this.responseGoogle}
+                                            /> */}
                                             </div>
                                         </div>
                                         
                                         <div className="text-center">
                                             <label htmlFor="" className="text-xs font-semibold px-1 text-gray-500 py-1">¿No tienes cuenta?</label>
-                                            <span><a href="/" className="text-xs font-semibold px-1 text-blue-500 underline">Crear cuenta</a></span>
+                                            <span>
+                                                <Link 
+                                                to='/register'
+                                                className="text-xs font-semibold px-1 text-blue-500 underline"
+                                                >Crear cuenta
+                                                </Link>
+                                            </span>
                                         </div>
                                     </div>
                                 </form>
