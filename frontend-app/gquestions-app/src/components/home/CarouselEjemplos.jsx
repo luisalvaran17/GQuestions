@@ -4,7 +4,13 @@ import { Carousel } from 'react-responsive-carousel';
 import rowPrev from '../../assets/images/arrow-circle-up-solid.svg';
 import rowNext from '../../assets/images/arrow-circle-down-solid.svg';
 
-class CarouselEjemplo extends Component {
+
+class CarouselEjemplo extends Component
+{
+  test = () => {
+    console.log(this.props.label)
+  }  
+
   render() {
     return (
       <Carousel
@@ -20,8 +26,8 @@ class CarouselEjemplo extends Component {
             className='shadow-md text-sm text-black text-center bg-cyanlight px-2 py-2 font-semibold lg:mb-0'
             onClick={onClickHandler}
           >
-            <button className='animation-cards-examples-small'>
-              <img src={rowPrev} className='h-9 my-1' alt='prev' />
+            <button onClick={this.test} className='focus:outline-none animate-bounce animation-cards-examples-small'>
+              <img src={rowPrev} className='opacity-50 h-8 my-1' alt='prev' />
             </button>
           </div>
         )}
@@ -31,8 +37,8 @@ class CarouselEjemplo extends Component {
             className='shadow-md text-sm text-black text-center bg-cyanlight px-2 py-2 font-semibold lg:mb-0'
             onClick={onClickHandler}
           >
-            <button className='animation-cards-examples-small'>
-              <img src={rowNext} className='h-9 my-1' alt='next' />
+            <button className='focus:outline-none animate-bounce animation-cards-examples-small'>
+              <img src={rowNext} className='opacity-50 h-8 my-1' alt='next' />
             </button>
           </div>
         )}

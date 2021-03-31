@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../../assets/styles/tailwind.css';
 import backgroundHome from '../../assets/images/background_home_2x.png';
 import CarouselEjemplo from './CarouselEjemplos';
+import Header from './Header';
 import computerImage from '../../assets/images/computer_image.png';
 import propositoImage from '../../assets/images/propositos.png';
 import propositoImageVertical from '../../assets/images/propositos_vertical.png';
@@ -28,8 +29,6 @@ class Body extends Component {
     isOpen: false,
   };
 
-  addMyFunction = () => {};
-
   addRemoveClassMenu = () => {
     let classList = this.divRefMenu.current.classList;
     let statusMenu = false;
@@ -51,7 +50,7 @@ class Body extends Component {
   };
 
   changeBackgroundNavBar = () => {
-    if (window.scrollY >= 100) {
+    if (window.scrollY >= 20) {
       this.setState({
         navbar: true,
       });
@@ -89,8 +88,6 @@ class Body extends Component {
     });
   }
 
-  addClassList = () => {};
-
   render() {
     return (
       <div>
@@ -98,9 +95,10 @@ class Body extends Component {
           <script src='https://unpkg.com/aos@2.3.1/dist/aos.js'></script>
         </Helmet>
         {/* Header - Navbar */}
-        <nav className={this.state.navbar ? 'navbar navbar-active' : 'navbar'}>
-          <div className='flex items-center flex-shrink-0  mr-0'>
+        <nav  className={this.state.navbar ? 'navbar shadow-sm h-auto mx-auto flex items-center justify-between flex-wrap py-6  bg-gradient-to-r from-yellowlight via-white to-white' : 'navbar h-auto mx-auto flex items-center justify-between flex-wrap py-6 bg-transparent'}>
+          <a className='flex items-center flex-shrink-0  mr-0 lg:ml-16'>
             <img
+              className="animation-cards-examples"
               src={LogoGQuestions}
               alt='React Logo'
               height='40px'
@@ -109,9 +107,9 @@ class Body extends Component {
             <span className='font-black font-asap text-xl tracking-tight lg:mr-4'>
               GQuestions
             </span>
-          </div>
+          </a>
 
-          <div className='block lg:hidden md:ml-56 md:pl-60 sm:ml-52 sm:pl-32 ml-16  '>
+          <div className='block lg:hidden mr-4'>
             <button
               onClick={this.addRemoveClassMenu}
               id='boton'
@@ -167,7 +165,7 @@ class Body extends Component {
                 Iniciar sesión
               </Link>
             </div>
-            <div>
+            <div className="lg:mr-16">
               <Link
                 to='/register'
                 className='inline-block shadow-md text-sm text-black text-center z-10 w-full max-w-xs mx-auto bg-yellowmain hover:bg-yellow-600 focus:bg-yellow-600 rounded-lg px-2 py-2 font-semibold'
@@ -312,11 +310,7 @@ class Body extends Component {
               {/* Vertical responsive */}
               <div className='grid-cols-12 block md:hidden text-sm'>
                 <div className='col-span-2  hidden sm:block'>
-                  <img
-                    className='h-96'
-                    src={propositoImageVertical}
-                    alt='propósito GQuestions'
-                  ></img>
+
                 </div>
                 <div className='col-span-12 sm:col-span-10 '>
                   <div className='grid grid-rows-4 mt-3 text-justify'>

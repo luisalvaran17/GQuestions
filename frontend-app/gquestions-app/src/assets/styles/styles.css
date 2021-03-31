@@ -46,15 +46,6 @@
 
 /* Navbar styles */
 .navbar {
-    background: transparent;
-    height: auto;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    padding-right: 32px;
-    padding-left: 32px;
-    padding-bottom:16px;
-    padding-top: 16px;
     position: sticky;
     top: 0;
     z-index: 999;
@@ -66,12 +57,5 @@
     border-color: #dbdbdb;
 }
 
-.navbar-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100px;
-    max-width: 1500px;
-}
 /* Línea para compilar tailwind css */
 /* npx tailwindcss build ./src/assets/styles/styles.css -o ./src/assets/styles/tailwind.css */

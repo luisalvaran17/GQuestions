@@ -32566,18 +32566,6 @@ video {
 /* Navbar styles */
 
 .navbar {
-  background: transparent;
-  height: auto;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-flex-wrap: wrap;
-          flex-wrap: wrap;
-  -webkit-align-items: center;
-          align-items: center;
-  padding-right: 32px;
-  padding-left: 32px;
-  padding-bottom:16px;
-  padding-top: 16px;
   position: -webkit-sticky;
   position: sticky;
   top: 0;
@@ -32588,17 +32576,6 @@ video {
   background-image: linear-gradient(to right, rgba(255, 227, 193, 0.753), rgba(235, 235, 235, 0.685));
   border-bottom: 1px solid;
   border-color: #dbdbdb;
-}
-
-.navbar-container {
-  display: -webkit-flex;
-  display: flex;
-  -webkit-justify-content: center;
-          justify-content: center;
-  -webkit-align-items: center;
-          align-items: center;
-  height: 100px;
-  max-width: 1500px;
 }
 
 /* Línea para compilar tailwind css */
