@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import '../assets/styles/tailwind.css';
+import '../../assets/styles/tailwind.css';
 import {Helmet} from "react-helmet";
 import { Link } from 'react-router-dom';
 import RegisterWithGoogle from './RegisterWithGoogle';
@@ -7,7 +7,7 @@ import GoogleRegister from 'react-google-login';
 import ModalRegister from './ModalRegister';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import backgroundGeneral from '../assets/images/background-general_4x-register.png';
+import backgroundGeneral from '../../assets/images/background-general_4x-register.png';
 
 class Register extends Component {
   constructor(props) {

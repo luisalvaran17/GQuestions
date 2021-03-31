@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import '../assets/styles/tailwind.css';
+import '../../assets/styles/tailwind.css';
 import {Helmet} from "react-helmet";
 
 class RegisterWithGoogle extends Component {

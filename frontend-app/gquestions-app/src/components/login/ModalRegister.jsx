@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import '../assets/styles/tailwind.css';
+import '../../assets/styles/tailwind.css';
 
 class ModalRegister extends Component {
   constructor(props) {

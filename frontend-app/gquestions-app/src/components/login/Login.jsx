@@ -3,7 +3,7 @@ import {Helmet} from "react-helmet";
 import { Link } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import backgroundGeneral from '../assets/images/background-general.png';
+import backgroundGeneral from '../../assets/images/background-general.png';
 
 class Login extends Component {
   constructor(props) {

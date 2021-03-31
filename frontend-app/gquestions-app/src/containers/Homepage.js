@@ -7,11 +7,9 @@ class Index extends Component {
     render() {
         return (
             <div className="font-manrope">
-                
-                <NavAndBody /> {/* parking component jsx */}
+                <NavAndBody /> {/* Nav bar (Header)  and body component jsx */}
 
                 <Footer /> {/* Footer component jsx */}
-
             </div>
         );
     }
