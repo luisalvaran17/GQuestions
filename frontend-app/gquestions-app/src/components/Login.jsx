@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import {Helmet} from "react-helmet";
 import { Link } from 'react-router-dom';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import backgroundGeneral from '../assets/images/background-general.png';
 
 class Login extends Component {
   constructor(props) {
@@ -83,8 +86,18 @@ class Login extends Component {
 
   render() {
     return (
-      <div className='container mx-auto font-manrope'>
-        <div className='min-w-screen min-h-screen flex items-center justify-center px-8 py-4 xl:px-64 md:py-32'>
+      <div data-aos="fade-left" className='xl:px-64 lg:px-32 sm:px-16 px-2 min-h-screen mx-auto font-manrope'
+        style={{
+          backgroundImage: `url(${ backgroundGeneral })`,
+          width: '',
+          height: '',
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover',
+          minHeight: '',
+          minWidth: "",
+        }}
+        >
+        <div className='min-w-screen min-h-screen flex items-center justify-center px-8 py-4 xl:px-64 md:py-32 text-xs sm:text-base'>
             <Helmet>
               <script
                 src='https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.js'
@@ -250,7 +263,12 @@ class Login extends Component {
       </div>
     );
   }
-  componentDidMount() {
+  componentDidMount()
+  {
+    AOS.init({
+      duration: 800
+    })
+
     const { match } = this.props;
     if (match.url === '/') {
       window.history.pushState(null, document.title, window.location.href);

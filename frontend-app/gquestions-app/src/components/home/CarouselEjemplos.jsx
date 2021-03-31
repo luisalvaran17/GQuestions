@@ -1,14 +1,45 @@
 import React, { Component } from 'react';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
+import rowPrev from '../../assets/images/arrow-circle-up-solid.svg';
+import rowNext from '../../assets/images/arrow-circle-down-solid.svg';
 
 class CarouselEjemplo extends Component {
   render() {
     return (
-      <Carousel className='' showThumbs={false}>
+      <Carousel
+        className='bg-cyanlight'
+        showThumbs={false}
+        axis='vertical'
+        autoPlay={false}
+        verticalSwipe='natural'
+        showIndicators={false}
+        renderArrowPrev={(onClickHandler, hasNext, label) => (
+          <div
+            type='button'
+            className='shadow-md text-sm text-black text-center bg-cyanlight px-2 py-2 font-semibold lg:mb-0'
+            onClick={onClickHandler}
+          >
+            <button className='animation-cards-examples-small'>
+              <img src={rowPrev} className='h-9 my-1' alt='prev' />
+            </button>
+          </div>
+        )}
+        renderArrowNext={(onClickHandler, hasPrev, label) => (
+          <div
+            type='button'
+            className='shadow-md text-sm text-black text-center bg-cyanlight px-2 py-2 font-semibold lg:mb-0'
+            onClick={onClickHandler}
+          >
+            <button className='animation-cards-examples-small'>
+              <img src={rowNext} className='h-9 my-1' alt='next' />
+            </button>
+          </div>
+        )}
+      >
         <div>
           <div
-            className='mx-auto bg-local my-auto w-full py-16 xl:py-24 bg-cyanlight'
+            className='mx-auto bg-local my-auto w-full py6 xl:py-10 bg-cyanlight'
             style={{
               width: '100%',
               height: '',
@@ -21,11 +52,11 @@ class CarouselEjemplo extends Component {
             <div className='container mx-auto flex place-content-center'>
               <div className='hidden md:block md:text-sm'>
                 <div className='h-2'>
-                  <h1 className='font-black xl:text-6xl md:text-4xl text-xl text-justify md:text-left mb-4 '>
+                  <h1 className='font-black xl:text-6xl md:text-4xl text-xl text-justify md:text-left '>
                     Ejemplos
                   </h1>
                   <span>
-                    <h1 className='font-semibold text-justify md:text-left text-gray-500'>
+                    <h1 className='font-semibold text-justify md:text-left text-gray-500 mt-4'>
                       Generación de texto
                     </h1>
                   </span>
@@ -157,13 +188,12 @@ class CarouselEjemplo extends Component {
               </div>
             </div>
           </div>
-          <hr></hr>
         </div>
 
         {/* Ejemplos generación de preguntas */}
         <div>
           <div
-            className='mx-auto bg-local my-auto w-full py-24 xl:py-36 bg-cyanmain'
+            className='mx-auto bg-local my-auto w-full py-16 xl:py-20 bg-cyanlight'
             style={{
               width: '100%',
               height: '',
@@ -176,11 +206,11 @@ class CarouselEjemplo extends Component {
             <div className='container mx-auto flex place-content-center'>
               <div className='hidden md:block md:text-sm'>
                 <div className='h-2'>
-                  <h1 className='font-black xl:text-6xl md:text-4xl text-xl text-justify md:text-left mb-4 '>
+                  <h1 className='font-black xl:text-6xl md:text-4xl text-xl text-justify md:text-left'>
                     Ejemplos
                   </h1>
                   <span>
-                    <h1 className='font-semibold text-justify md:text-left '>
+                    <h1 className='font-semibold text-justify md:text-left mt-4'>
                       Generación de preguntas
                     </h1>
                   </span>
@@ -246,13 +276,6 @@ class CarouselEjemplo extends Component {
                             <p>3. Delaware</p>
                             <p>4. Mountain View</p>
 
-                            <p>
-                              A: Google LLC is an American multinational
-                              technology company that specializes in
-                              Internet-related services and products, which
-                              include online advertising technologies, a search
-                              engine, cloud computing, software, and hardware.
-                            </p>
                             <div className='text-xl font-medium text-black'>
                               Question Generator
                             </div>
@@ -266,7 +289,7 @@ class CarouselEjemplo extends Component {
                   </div>
                 </div>
               </div>
-              <div className='md:hidden block grid-rows text-sm space-y-4 mx-8'>
+              <div className='md:hidden block grid-rows text-sm space-y-10 mx-8'>
                 <h1 className='font-black xl:text-6xl md:text-4xl text-3xl text-justify md:text-left '>
                   Ejemplos
                 </h1>
@@ -316,12 +339,6 @@ class CarouselEjemplo extends Component {
                     <p className=''>3. Delaware</p>
                     <p className=''>4. Mountain View</p>
 
-                    <p>
-                      A: Google LLC is an American multinational technology
-                      company that specializes in Internet-related services and
-                      products, which include online advertising technologies, a
-                      search engine, cloud computing, software, and hardware.
-                    </p>
                     <div className='text-xl font-medium text-black'>
                       Question Generator
                     </div>

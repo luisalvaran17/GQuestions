@@ -13,7 +13,8 @@ module.exports = {
         blueFooter: "#000817",
       },
       fontFamily: {
-        manrope: ['Manrope', ]
+        manrope: ['Manrope',],
+        asap:['Asap']
       }
     },
   },

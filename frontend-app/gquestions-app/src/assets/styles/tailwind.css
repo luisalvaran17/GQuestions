@@ -2,6 +2,8 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&display=swap');
 
+@import url('https://fonts.googleapis.com/css2?family=Asap:wght@700&display=swap');
+
 /* ! tailwindcss v2.0.4 | MIT License | https://tailwindcss.com */
 
 /*! modern-normalize v1.0.0 | MIT License | https://github.com/sindresorhus/modern-normalize */
@@ -11943,6 +11945,10 @@ video {
 
 .font-manrope{
   font-family: Manrope;
+}
+
+.font-asap{
+  font-family: Asap;
 }
 
 .font-thin{
@@ -32557,6 +32563,44 @@ video {
   transition-duration: 500ms;
 }
 
+/* Navbar styles */
+
+.navbar {
+  background: transparent;
+  height: auto;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+          flex-wrap: wrap;
+  -webkit-align-items: center;
+          align-items: center;
+  padding-right: 32px;
+  padding-left: 32px;
+  padding-bottom:16px;
+  padding-top: 16px;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+.navbar-active {
+  background-image: linear-gradient(to right, rgba(255, 227, 193, 0.753), rgba(235, 235, 235, 0.685));
+  border-bottom: 1px solid;
+  border-color: #dbdbdb;
+}
+
+.navbar-container {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: center;
+          justify-content: center;
+  -webkit-align-items: center;
+          align-items: center;
+  height: 100px;
+  max-width: 1500px;
+}
+
 /* Línea para compilar tailwind css */
 
 /* npx tailwindcss build ./src/assets/styles/styles.css -o ./src/assets/styles/tailwind.css */
@@ -43951,6 +43995,10 @@ video {
 
   .sm\:font-manrope{
     font-family: Manrope;
+  }
+
+  .sm\:font-asap{
+    font-family: Asap;
   }
 
   .sm\:font-thin{
@@ -75782,6 +75830,10 @@ video {
     font-family: Manrope;
   }
 
+  .md\:font-asap{
+    font-family: Asap;
+  }
+
   .md\:font-thin{
     font-weight: 100;
   }
@@ -107609,6 +107661,10 @@ video {
 
   .lg\:font-manrope{
     font-family: Manrope;
+  }
+
+  .lg\:font-asap{
+    font-family: Asap;
   }
 
   .lg\:font-thin{
@@ -139440,6 +139496,10 @@ video {
     font-family: Manrope;
   }
 
+  .xl\:font-asap{
+    font-family: Asap;
+  }
+
   .xl\:font-thin{
     font-weight: 100;
   }
@@ -171267,6 +171327,10 @@ video {
 
   .\32xl\:font-manrope{
     font-family: Manrope;
+  }
+
+  .\32xl\:font-asap{
+    font-family: Asap;
   }
 
   .\32xl\:font-thin{

@@ -15,9 +15,9 @@ import json
 from django.core.exceptions import ObjectDoesNotExist
 from .models import Account
 from django.contrib.auth.hashers import check_password
-
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from rest_auth.registration.views import SocialLoginView
+
 
 class GoogleLogin(SocialLoginView):
     adapter_class = GoogleOAuth2Adapter
@@ -33,6 +33,7 @@ def get_user(request, user):
     serializer = AccountSerializer(users, many=True)
     return JsonResponse({'users': serializer.data}, safe=False, status=status.HTTP_200_OK)
 
+
 @api_view(["GET"])
 def exist_user(request, email):
     user = Account.objects.filter(email=email)
@@ -41,7 +42,7 @@ def exist_user(request, email):
     if boolUser:
         return JsonResponse({'user': boolUser}, safe=False, status=status.HTTP_200_OK)
     else:
-        return JsonResponse({'error': boolUser}, safe=False, status=status.HTTP_404_NOT_FOUND) 
+        return JsonResponse({'error': boolUser}, safe=False, status=status.HTTP_404_NOT_FOUND)
 
 """     try:
         user_id = request.user.id
@@ -72,14 +73,14 @@ def update_user(request, user):
         # returns 1 or 0
         user_item.update(**payload)
         user = Account.objects.get(email=user)
-        ## user_info_personal = user.usuario.edad Así se obtiene una tupla de una relación
+        # user_info_personal = user.usuario.edad Así se obtiene una tupla de una relación
         serializer = AccountSerializer(user)
         return JsonResponse({'user': serializer.data}, safe=False, status=status.HTTP_200_OK)
     except ObjectDoesNotExist as e:
         return JsonResponse({'error': str(e)}, safe=False, status=status.HTTP_404_NOT_FOUND)
     except Exception:
         return JsonResponse({'error': 'Something terrible went wrong'}, safe=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        
+
 # Register usuarios
 class RegisterAPI(generics.GenericAPIView):
     serializer_class = RegisterSerializer
@@ -91,8 +92,8 @@ class RegisterAPI(generics.GenericAPIView):
         user = serializer.save()
         print(user)
         return Response({
-        "user": AccountSerializer(user, context=self.get_serializer_context()).data,
-        "token": AuthToken.objects.create(user)[1]
+            "user": AccountSerializer(user, context=self.get_serializer_context()).data,
+            "token": AuthToken.objects.create(user)[1]
         })
 
 '''# Register 'otra información' usuario
@@ -106,10 +107,9 @@ class RegisterUsuarioInfoAdicionalAPI(generics.GenericAPIView):
         return Response ({
         "user": UserSerializer(user, context=self.get_serializer_context()).data,})'''
 
-# Login usuariosclass 
+# Login usuariosclass
 class Login(KnoxLoginView):
     permission_classes = (permissions.AllowAny,)
-
     def post(self, request, format=None):
         serializer = AuthTokenSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -118,10 +118,10 @@ class Login(KnoxLoginView):
         return super(Login, self).post(request, format=None)
 
 # Change password view
+
+
 class ChangePasswordView(generics.UpdateAPIView):
-    
-    #An endpoint for changing password.
-    
+    # An endpoint for changing password.
     serializer_class = ChangePasswordSerializer
     model = Account
     permission_classes = (IsAuthenticated,)
@@ -147,7 +147,5 @@ class ChangePasswordView(generics.UpdateAPIView):
                 'message': 'Password updated successfully',
                 'data': []
             }
-
             return Response(response)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

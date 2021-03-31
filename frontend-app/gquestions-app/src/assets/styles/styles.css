@@ -1,5 +1,6 @@
 /* ./your-css-folder/styles.css */
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Asap:wght@700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -43,5 +44,34 @@
     @apply transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-100;
 }
 
+/* Navbar styles */
+.navbar {
+    background: transparent;
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding-right: 32px;
+    padding-left: 32px;
+    padding-bottom:16px;
+    padding-top: 16px;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+
+.navbar-active {
+    background-image: linear-gradient(to right, rgba(255, 227, 193, 0.753), rgba(235, 235, 235, 0.685));
+    border-bottom: 1px solid;
+    border-color: #dbdbdb;
+}
+
+.navbar-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    max-width: 1500px;
+}
 /* Línea para compilar tailwind css */
 /* npx tailwindcss build ./src/assets/styles/styles.css -o ./src/assets/styles/tailwind.css */

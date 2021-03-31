@@ -3,9 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@headlessui/react": "^0.3.1",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.8.3",
+    "aos": "^2.3.4",
     "carousel": "0.0.3",
     "react": "^17.0.2",
     "react-datepicker": "^3.6.0",

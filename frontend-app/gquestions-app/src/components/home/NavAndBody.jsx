@@ -12,14 +12,21 @@ import iconVentajas_4 from '../../assets/images/ventajas-icon-4.png';
 import screnshootMobiles from '../../assets/images/mobiles-screenshots.png';
 import LogoGQuestions from '../../assets/images/logo.png';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 class Body extends Component {
   constructor(props) {
     super(props);
     this.divRefMenu = React.createRef();
+    window.addEventListener('scroll', this.changeBackgroundNavBar);
   }
 
-  state = {};
+  state = {
+    navbar: false,
+    isOpen: false,
+  };
 
   addMyFunction = () => {};
 
@@ -27,7 +34,6 @@ class Body extends Component {
     let classList = this.divRefMenu.current.classList;
     let statusMenu = false;
     for (let i = 0; i < classList.length; i++) {
-      console.log(classList[i]);
       if (classList[i] === 'hidden') {
         statusMenu = true;
         this.divRefMenu.current.classList.remove('hidden');
@@ -44,27 +50,72 @@ class Body extends Component {
     return true;
   };
 
+  changeBackgroundNavBar = () => {
+    if (window.scrollY >= 100) {
+      this.setState({
+        navbar: true,
+      });
+    } else {
+      this.setState({
+        navbar: false,
+      });
+    }
+  };
+
+  scrollAnimation = () => {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth',
+        });
+      });
+    });
+  };
+
+  componentDidMount() {
+    AOS.init({
+      duration: 500,
+    });
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth',
+        });
+      });
+    });
+  }
+
+  addClassList = () => {};
+
   render() {
     return (
       <div>
+        <Helmet>
+          <script src='https://unpkg.com/aos@2.3.1/dist/aos.js'></script>
+        </Helmet>
         {/* Header - Navbar */}
-        <nav className='container mx-auto flex items-center justify-between flex-wrap py-6'>
-          <div className='flex items-center flex-shrink-0  mr-8'>
+        <nav className={this.state.navbar ? 'navbar navbar-active' : 'navbar'}>
+          <div className='flex items-center flex-shrink-0  mr-0'>
             <img
               src={LogoGQuestions}
               alt='React Logo'
-              height='80px'
-              width='80px'
+              height='40px'
+              width='90px'
             />
-            <span className='font-semibold text-xl tracking-tight'>
+            <span className='font-black font-asap text-xl tracking-tight lg:mr-4'>
               GQuestions
             </span>
           </div>
-          <div className='block lg:hidden mr-8'>
+
+          <div className='block lg:hidden md:ml-56 md:pl-60 sm:ml-52 sm:pl-32 ml-16  '>
             <button
               onClick={this.addRemoveClassMenu}
               id='boton'
-              className='flex items-center px-3 py-2 border rounded text-teal-200 border-yellow-400 hover:text-yellow-600 hover:border-yellow-600'
+              className='flex px-3 py-2 border rounded border-yellow-400 hover:text-yellow-600 hover:border-yellow-600'
             >
               <svg
                 className='fill-current h-3 w-3'
@@ -84,25 +135,26 @@ class Body extends Component {
             <div className='text-sm lg:flex-grow mb-2'>
               <a
                 href='#caracteristicas'
-                className='block mt-4 lg:inline-block lg:mt-0 ml-3 mr-3 hover:text-yellow-600 '
+                className='p-2 block mt-4 lg:inline-block lg:mt-0 ml-3 mr-3 rounded-md hover:bg-yellowlight hover:text-yellow-800'
               >
                 Acerca de
               </a>
               <a
                 href='#caracteristicas'
-                className='block mt-4 lg:inline-block lg:mt-0 ml-3 mr-3 hover:text-yellowmain'
+                onClick={this.scrollAnimation}
+                className='p-2 block mt-4 lg:inline-block lg:mt-0 ml-3 mr-3 rounded-md hover:bg-yellowlight hover:text-yellow-800'
               >
                 Características
               </a>
               <a
                 href='#ventajas'
-                className='block mt-4 lg:inline-block lg:mt-0 ml-3 mr-3 hover:text-yellowmain'
+                className='p-2 block mt-4 lg:inline-block lg:mt-0 ml-3 mr-3 rounded-md hover:bg-yellowlight hover:text-yellow-800'
               >
                 Ventajas
               </a>
               <a
                 href='#ejemplos'
-                className='block mt-4 lg:inline-block lg:mt-0 ml-3 hover:text-yellowmain'
+                className='p-2 block mt-4 lg:inline-block lg:mt-0 ml-3 rounded-md hover:bg-yellowlight hover:text-yellow-800'
               >
                 Ejemplos
               </a>
@@ -110,7 +162,7 @@ class Body extends Component {
             <div>
               <Link
                 to='/login'
-                className='inline-block text-sm text-black text-center z-10 w-full max-w-xs mx-auto bg-yellowlight hover:bg-yellow-400 focus:bg-yellow-400 rounded-lg px-2 py-2 font-semibold lg:mb-0 mb-2'
+                className='inline-block shadow-md text-sm text-black text-center z-10 w-full max-w-xs mx-auto bg-yellowlight hover:bg-yellow-400 focus:bg-yellow-400 rounded-lg px-2 py-2 font-semibold lg:mb-0 mb-2'
               >
                 Iniciar sesión
               </Link>
@@ -118,7 +170,7 @@ class Body extends Component {
             <div>
               <Link
                 to='/register'
-                className='inline-block text-sm text-black text-center z-10 w-full max-w-xs mx-auto bg-yellowmain hover:bg-yellow-600 focus:bg-yellow-600 rounded-lg px-2 py-2 font-semibold'
+                className='inline-block shadow-md text-sm text-black text-center z-10 w-full max-w-xs mx-auto bg-yellowmain hover:bg-yellow-600 focus:bg-yellow-600 rounded-lg px-2 py-2 font-semibold'
               >
                 Registrarse
               </Link>
@@ -126,19 +178,20 @@ class Body extends Component {
           </div>
         </nav>
 
+        {/* Body */}
         <div
           className='mx-auto bg-local my-auto w-full py-32 xl:py-64'
           style={{
             backgroundImage: `url(${backgroundHome})`,
-            width: '100%',
-            height: 'auto',
+            width: '',
+            height: '',
             backgroundRepeat: 'no-repeat',
             backgroundSize: 'cover',
-            minHeight: '100%',
+            minHeight: '',
             minWidth: '',
           }}
         >
-          <div className='container mx-auto flex'>
+          <div className='container  mx-auto flex'>
             <div className='grid grid-cols-12'>
               <div className='col-span-12 sm:col-span-6'>
                 <div className='grid grid-rows-3 lg:mx-8 md:mx-8 mx-8 text-sm md:text-base'>
@@ -182,7 +235,10 @@ class Body extends Component {
           <div className='container mx-auto flex'>
             <div className='grid grid-rows md:mx-8 mx-8'>
               <div className='grid grid-cols-12 lg:gap-x-16 gap-y-4'>
-                <div className='md:col-span-6 col-span-12 font-black xl:text-4xl md:text-3xl'>
+                <div
+                  data-aos='fade-right'
+                  className='md:col-span-6 col-span-12 font-black xl:text-4xl md:text-3xl'
+                >
                   <h1 className='text-justify sm:text-left'>
                     ¿Por qué utilizar un generador de exámenes?
                   </h1>
@@ -209,7 +265,10 @@ class Body extends Component {
         >
           <div className='container mx-auto flex'>
             <div className='grid grid-rows md:mx-8 mx-8'>
-              <div className='py-8 font-black xl:text-4xl md:text-3xl text-xl text-justify md:text-left'>
+              <div
+                data-aos='fade-up'
+                className='py-8 font-black xl:text-4xl md:text-3xl text-xl text-justify md:text-left'
+              >
                 <h1 className=''>
                   Nuestro propósito es que puedas Generar exámenes de Inglés
                   automáticamente
@@ -285,9 +344,15 @@ class Body extends Component {
 
         <hr></hr>
         {/* Ventajas */}
-        <div id='ventajas' className='mx-auto my-auto w-full md:py-16 py-8'>
+        <div
+          id='ventajas'
+          className='mx-auto my-auto w-full md:py-16 py-8 mb-8'
+        >
           <div className='container mx-auto flex'>
-            <div className='grid grid-rows md:gap-y-8 text-justify md:mx-8 mx-8 text-sm md:text-base'>
+            <div
+              data-aos='fade-up'
+              className='grid grid-rows md:gap-y-8 text-justify md:mx-8 mx-8 text-sm md:text-base'
+            >
               <div className='py-8 font-black xl:text-4xl md:text-3xl text-xl text-justify md:text-left'>
                 <h1 className=''>Ventajas de utilizar nuestro generador </h1>
               </div>
@@ -363,17 +428,20 @@ class Body extends Component {
         </div>
 
         {/* Uso */}
-        <div className='mx-auto my-auto w-full md:pt-8 pb-16 md:pb-16 py-0'>
+        <div className='mx-auto my-auto w-full md:pt-8 pb-16 md:pb-16 py-0 mt-8'>
           <div className='container mx-auto flex'>
             <div className='grid grid-rows md:mx-8 mx-8'>
               <div className='grid grid-cols-12 items-center space-x-0 md:space-x-6'>
-                <div className='md:col-span-4 col-span-12'>
-                  <h1 className='md:mx-0 font-black xl:text-4xl md:text-3xl text-justify md:text-left'>
+                <div data-aos='fade-up' className='md:col-span-4 col-span-12'>
+                  <h1 className='md:mx-0 font-black xl:text-4xl md:text-3xl text-justify md:text-left mb-2'>
                     ¿Cómo utilizar el generador de exámenes?
                   </h1>
                 </div>
                 <div className='md:col-span-8 col-span-12'>
-                  <div className='grid grid-rows space-y-8 text-sm md:text-base'>
+                  <div
+                    data-aos='fade-up'
+                    className='grid grid-rows space-y-8 text-sm md:text-base'
+                  >
                     <p>
                       <b>Configura los parámetros del examen: </b>Puedes
                       especificar la cantidad de exámenes a generar, la longitud

@@ -5,6 +5,9 @@ import { Link } from 'react-router-dom';
 import RegisterWithGoogle from './RegisterWithGoogle';
 import GoogleRegister from 'react-google-login';
 import ModalRegister from './ModalRegister';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import backgroundGeneral from '../assets/images/background-general_4x-register.png';
 
 class Register extends Component {
   constructor(props) {
@@ -188,7 +191,17 @@ class Register extends Component {
   render() {
     if (this.state.redirect === false && this.state.modalShow === false) {
       return (
-        <div className='container mx-auto font-manrope'>
+        <div data-aos="fade-left" className='xl:px-60 lg:px-32 sm:px-16 px-2 min-h-screen mx-auto font-manrope'
+          style={{
+            backgroundImage: `url(${ backgroundGeneral })`,
+            width: '',
+            height: '',
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: 'cover',
+            minHeight: '',
+            minWidth: "",
+        }}
+        >
           <div className='min-w-screen min-h-screen flex items-center justify-center px-8 py-4 xl:px-64 md:py-32 text-xs sm:text-base'>
               <Helmet>
                 <script
@@ -358,12 +371,18 @@ class Register extends Component {
                           </select>
                         </div>
                       </div>
-                      <div className='w-1/2 px-3 mb-3'>
+                      <div className='w-1/2 px-3 mt-1'>
                         <label
                           htmlFor=''
-                          className='text-xs font-semibold px-1'
+                          className='hidden sm:block text-xs font-semibold px-1'
                         >
                           Fecha de nacimiento
+                        </label>
+                        <label
+                          htmlFor=''
+                          className='sm:hidden block text-xs font-semibold px-1'
+                        >
+                          Cumpleaños
                         </label>
                         <div className='flex'>
                           <div className='w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center'></div>
@@ -492,6 +511,12 @@ class Register extends Component {
     if (this.state.redirect === true) {
       return <RegisterWithGoogle response={this.state.response} />;
     }
+  }
+  componentDidMount()
+  {
+    AOS.init({
+      duration: 800
+    })
   }
 }
 
