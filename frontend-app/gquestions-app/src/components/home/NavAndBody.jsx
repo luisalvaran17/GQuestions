@@ -2,10 +2,8 @@ import React, { Component } from 'react';
 import '../../assets/styles/tailwind.css';
 import backgroundHome from '../../assets/images/background_home_2x.png';
 import CarouselEjemplo from './CarouselEjemplos';
-import Header from './Header';
 import computerImage from '../../assets/images/computer_image.png';
 import propositoImage from '../../assets/images/propositos.png';
-import propositoImageVertical from '../../assets/images/propositos_vertical.png';
 import iconVentajas_1 from '../../assets/images/ventajas-icon-1.png';
 import iconVentajas_2 from '../../assets/images/ventajas-icon-2.png';
 import iconVentajas_3 from '../../assets/images/ventajas-icon-3.png';
@@ -18,10 +16,12 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 
 class Body extends Component {
-  constructor(props) {
+  constructor(props)
+  {
     super(props);
     this.divRefMenu = React.createRef();
     window.addEventListener('scroll', this.changeBackgroundNavBar);
+
   }
 
   state = {
@@ -73,7 +73,18 @@ class Body extends Component {
     });
   };
 
-  componentDidMount() {
+  UNSAFE_componentWillMount() {
+    this.setState({
+      navbar: false,
+    });
+  }
+  
+  componentDidMount()
+  {
+    this.setState({
+      navbar: false,
+    });
+    
     AOS.init({
       duration: 500,
     });
@@ -90,15 +101,14 @@ class Body extends Component {
 
   render() {
     return (
-      <div>
+      <div id="inicio">
         <Helmet>
           <script src='https://unpkg.com/aos@2.3.1/dist/aos.js'></script>
         </Helmet>
         {/* Header - Navbar */}
         <nav  className={this.state.navbar ? 'navbar shadow-sm h-auto mx-auto flex items-center justify-between flex-wrap py-6  bg-gradient-to-r from-yellowlight via-white to-white' : 'navbar h-auto mx-auto flex items-center justify-between flex-wrap py-6 bg-transparent'}>
-          <a className='flex items-center flex-shrink-0  mr-0 lg:ml-16'>
+          <a className='animation-cards-examples flex items-center flex-shrink-0  mr-0 lg:ml-16' href="#inicio">
             <img
-              className="animation-cards-examples"
               src={LogoGQuestions}
               alt='React Logo'
               height='40px'

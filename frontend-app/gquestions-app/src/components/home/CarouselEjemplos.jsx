@@ -92,7 +92,7 @@ class CarouselEjemplo extends Component
                     </div>
 
                     <div className='col-span-6'>
-                      <div className='grid grid-rows-2 gap-y-16'>
+                      <div className='grid grid-rows-2 gap-y-14'>
                         <div className='animation-cards-examples p-6 max-w-sm mx-auto text-justify bg-white rounded-xl shadow-xl flex space-x-4'>
                           <div>
                             <p className='text-gray-500'>

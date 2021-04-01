@@ -191,7 +191,7 @@ class Register extends Component {
   render() {
     if (this.state.redirect === false && this.state.modalShow === false) {
       return (
-        <div data-aos="fade-left" className='xl:px-60 lg:px-32 sm:px-16 px-2 min-h-screen mx-auto font-manrope'
+        <div className='xl:px-60 lg:px-32 sm:px-16 px-2 min-h-screen mx-auto font-manrope'
           style={{
             backgroundImage: `url(${ backgroundGeneral })`,
             width: '',
@@ -202,7 +202,7 @@ class Register extends Component {
             minWidth: "",
         }}
         >
-          <div className='min-w-screen min-h-screen flex items-center justify-center px-8 py-4 xl:px-64 md:py-32 text-xs sm:text-base'>
+          <div data-aos="fade-left" className='min-w-screen min-h-screen flex items-center justify-center px-8 py-4 xl:px-64 md:py-32 text-xs sm:text-base'>
               <Helmet>
                 <script
                   src='https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.js'
@@ -248,7 +248,7 @@ class Register extends Component {
                           <input
                             type='text'
                             id='first_name'
-                            className='w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-yellow-500'
+                            className='input-style'
                             name='first_name'
                             placeholder='Ingresa tu nombre'
                             onChange={this.handleChange}
@@ -269,7 +269,7 @@ class Register extends Component {
                           <input
                             type='text'
                             id='last_name'
-                            className='w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-yellow-500'
+                            className='input-style'
                             name='last_name'
                             placeholder='Ingresa tu apellido'
                             onChange={this.handleChange}
@@ -292,7 +292,7 @@ class Register extends Component {
                           <input
                             type='email'
                             id='email'
-                            className='w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-yellow-500'
+                            className='input-style'
                             name='email'
                             placeholder='Ingresa tu email'
                             onChange={this.handleChange}
@@ -315,7 +315,7 @@ class Register extends Component {
                           <input
                             type='password'
                             id='password'
-                            className='w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-yellow-500'
+                            className='input-style'
                             name='password'
                             placeholder='Contraseña'
                             onChange={this.handleChange}
@@ -336,7 +336,7 @@ class Register extends Component {
                           <input
                             type='password'
                             id='password2'
-                            className='w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-yellow-500'
+                            className='input-style'
                             name='password2'
                             placeholder='Contraseña'
                             onChange={this.handleChangePassword}
@@ -361,7 +361,7 @@ class Register extends Component {
                           <select
                             type='text'
                             id='rol'
-                            className='bg-white w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-yellow-500'
+                            className='input-style'
                             name='rol'
                             placeholder='Ingresa tu nombre'
                             onChange={this.handleChange}
@@ -389,7 +389,7 @@ class Register extends Component {
                           <input
                             type='date'
                             id='fecha_nacimiento'
-                            className='w-full bg-white -ml-10 pl-4 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-yellow-500'
+                            className='input-style'
                             placeholder='dd/mm/aaaa'
                             name='fecha_nac'
                             onChange={this.handleChange}
@@ -403,7 +403,7 @@ class Register extends Component {
                       <div className='py-1 col-span-12 my-0'>
                         <button
                           type='submit'
-                          className='text-base z-10 pl-1 mb-0 block w-full mx-auto mb-4 bg-yellow-500 hover:bg-yellow-600 focus:bg-yellow-600 text-white rounded-lg px-2 py-2 font-semibold'
+                          className='text-base z-10 pl-1 mb-0 block w-full mx-auto mb-4 focus:outline-none bg-yellow-500 hover:bg-yellow-600 focus:bg-yellow-600 text-white rounded-lg px-2 py-2 font-semibold'
                           onClick={this.handleClickRegister}
                         >
                           REGISTRARSE
@@ -465,13 +465,28 @@ class Register extends Component {
                       </span>
                     </div>
                     <div className='py-1 col-span-12 my-0 text-center text-sm'>
-                      <p>Continuar con</p>
+                    <span class="flex items-center justify-center space-x-2">
+                      <span class="h-px bg-gray-400 w-14"></span>
+                      <span class="font-normal text-gray-500"> Registrar con</span>
+                      <span class="h-px bg-gray-400 w-14"></span>
+                    </span>
                     </div>
                     <div className='py-1 col-span-12 my-0 text-center'>
                       <GoogleRegister
-                        className='w-10 z-10 block w-full max-w-xs mx-auto border-blue-200 border-2 hover:bg-blue-300 focus:bg-blue-400 rounded-lg px-2 py-2 font-semibold'
+                        render={renderProps => (
+                          <button
+                            onClick={renderProps.onClick} disabled={renderProps.disabled}
+                            className="w-full flex items-center justify-center px-4 py-2 space-x-2 transition-colors duration-300 border border-gray-800 rounded-md group hover:bg-gray-800 focus:outline-none"
+                          >
+                            <span>
+                              <i className="fab fa-google mr-2"></i>
+                            </span>
+                            <span class="text-sm font-medium text-gray-800 group-hover:text-white">Google</span>
+                          
+                          </button>)}
+                        
                         clientId='1016385449655-s27qeebm0kc4lfuedk7o665lhmtd70qp.apps.googleusercontent.com'
-                        buttonText='REGISTRARSE CON GOOGLE'
+                        buttonText='GOOGLE'
                         onSuccess={this.responseGoogle}
                         onFailure={this.responseGoogle}
                       />

@@ -12,7 +12,7 @@ const App = () => (
     <Route exact path='/register' component={Register} />
     <Route exact path='/register/google' component={RegisterWithGoogle} />
     <Route exact path='/register/modal' component={ModalRegister} />
-    <Route exact path='/index' component={Homepage} />
+    <Route exact path='/' component={Homepage} />
   </BrowserRouter>
 );
 
