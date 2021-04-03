@@ -5,14 +5,13 @@ const DropdownOracion = props => {
   const optionsOracion = [
     'Aleatorio',
     'Personalizado',
-    'Proporciona el texto completo',
+    'Texto completo',
   ];
 
   const [selectedPerson, setSelectedPerson] = useState(optionsOracion[0]);
 
   return (
-    <div className='grid grid-rows col-span-4'>
-      <div className='w-full max-w-xs mx-auto'></div>
+    
       <Listbox
         as='div'
         className='space-y-1'
@@ -22,7 +21,7 @@ const DropdownOracion = props => {
         {({ open }) => (
           <>
             <div className='relative'>
-              <span className='inline-block w-full rounded-md shadow-sm'>
+              <span className='block w-full rounded-md shadow-sm'>
                 <Listbox.Button
                   className='rounded-lg focus:border-transparent focus:outline-none focus:ring-2
                   focus:ring-yellowlight  border-gray-300 outline-none focus:border-yellow-500 text-left bg-white shadow cursor-default relative w-full border  pl-3 pr-10 py-2 transition ease-in-out duration-150 sm:text-sm sm:leading-5'>
@@ -55,7 +54,7 @@ const DropdownOracion = props => {
                 <Listbox.Options
                   type="input"
                   static
-                  className='max-h-60 rounded-md outline-none py-0 text-base leading-6 shadow-xl overflow-auto focus:outline-none sm:text-sm sm:leading-5'
+                  className='text-xs max-h-60 rounded-md outline-none py-0 md:text-base leading-6 shadow-xl overflow-auto focus:outline-none sm:text-sm sm:leading-5'
                 >
                   {optionsOracion.map(person => (
                     <Listbox.Option key={person} value={person}>
@@ -102,7 +101,6 @@ const DropdownOracion = props => {
           </>
         )}
       </Listbox>
-    </div>
   );
 };
 

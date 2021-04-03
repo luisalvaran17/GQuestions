@@ -20,13 +20,13 @@ class Home extends Component {
         <div>
           <Navbar className='fixed' />
         </div>
-        <div className='container mx-auto lg:pl-32 sm:px-16 pt-8 p-8'>
-          <h1 className='font-black xl:text-5xl md:text-3xl text-xl text-justify md:text-left mb-10'>
+        <div className='container lg:ml-32 mx-16 mt-8 lg:text-base text-sm'>
+          <h1 className='font-black xl:text-5xl md:text-4xl text-2xl md:text-left md:mb-10'>
             Parámetros de generación
           </h1>
-          <div className='grid grid-cols-12 xl:gap-x-32 lg:gap-x-16 lg:mb-44'>
-            <div className='grid grid-rows col-span-4'>
-              <label className='pt-10 text-xs font-semibold px-1 text-gray-500 self-end py-2'>
+          <div className='grid grid-cols-12 xl:gap-x-32 lg:gap-x-16 lg:mb-32 xl:mb-44 md:gap-x-16'>
+            <div className='grid grid-rows lg:mx-0 mx-auto sm:col-span-6 col-span-12 md:col-span-4'>
+              <label className='pt-8 sm:pt-10 text-xs font-semibold px-1 text-gray-500 self-end py-2'>
                 Cantidad de exámenes
               </label>
               <div className='flex'>
@@ -43,8 +43,8 @@ class Home extends Component {
                 />
               </div>
             </div>
-            <div className='grid grid-rows col-span-4'>
-              <label className='pt-10 text-xs font-semibold px-1 text-gray-500 self-end py-2'>
+            <div className='grid grid-rows lg:mx-0 mx-auto sm:col-span-6 col-span-12 md:col-span-4'>
+              <label className='pt-6 sm:pt-10 text-xs font-semibold px-1 text-gray-500 self-end py-2'>
                 Cantidad de textos
               </label>
               <div className='flex'>
@@ -62,8 +62,8 @@ class Home extends Component {
               </div>
             </div>
 
-            <div className='grid grid-rows col-span-4'>
-              <label className='pt-10 text-xs font-semibold px-1 text-gray-500 self-end py-2'>
+            <div className='grid grid-rows lg:mx-0 mx-auto sm:col-span-6 col-span-12 md:col-span-4'>
+              <label className='pt-6 sm:pt-10 text-xs font-semibold px-1 text-gray-500 self-end py-2'>
                 Longitud de texto (mayor a 200)
               </label>
               <div className='flex'>
@@ -81,9 +81,9 @@ class Home extends Component {
               </div>
             </div>
           </div>
-          <div className='grid grid-cols-12 xl:gap-x-32 lg:gap-x-16 lg:mb-16'>
-            <div className='grid grid-rows col-span-4'>
-              <label className='pt-10 text-xs font-semibold px-1 text-gray-500 self-end py-2'>
+          <div className='grid grid-cols-12 xl:gap-x-32 lg:gap-x-16 lg:mb-8 md:gap-x-16'>
+            <div className='grid grid-rows lg:mx-0 mx-auto sm:col-span-6 col-span-12 md:col-span-4'>
+              <label className='pt-8 sm:pt-10 text-xs font-semibold px-1 text-gray-500 self-end py-2'>
                 Cantidad de preguntas
               </label>
               <div className='flex'>
@@ -100,22 +100,23 @@ class Home extends Component {
                 />
               </div>
             </div>
-            <div className='grid grid-rows col-span-4'>
-              <label className='pt-10 text-xs font-semibold px-1 text-gray-500 self-end py-2'>
-                Longitud de texto (mayor a 200)
+            <div className='grid grid-rows mx-auto md:mx-0 xl:w-full w-52 sm:col-span-6 col-span-12 md:col-span-4'>
+              <label className='pt-8 sm:pt-10 text-xs font-semibold px-1 text-gray-500 self-end py-2'>
+                Inicio de oración
               </label>
-              <div className='w-full'>
+              <div className=''>
+                <div className='w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center'></div>
                 <DropdownOracion />
               </div>
             </div>
-          </div>{' '}
-          <div className='col-span-4'>
-            <label className='text-xs font-semibold px-1 text-gray-500 self-end py-2'>
+          </div>
+          <div className='grid grid-rows lg:mx-0 mx-auto sm:col-span-6 col-span-12 md:col-span-4'>
+              <label className='sm:mx-0 mx-auto pt-8 sm:pt-10 text-xs font-semibold px-1 text-gray-500 self-end py-2'>
               Tipo de preguntas
             </label>
-            <div className='flex'>
+            <div className='flex sm:mx-0 mx-auto'>
               <div className='grid grid-rows'>
-                <div class='flex flex-col'>
+                <div class='flex flex-col lg:text-base text-sm'>
                   <label class='inline-flex items-center mt-3'>
                     <input
                       type='checkbox'
@@ -161,7 +162,7 @@ class Home extends Component {
                 <div className="flex justify-end">
                 <button
                         type='submit'
-                        className='z-10 block xl:w-1/6 w-1/4 focus:outline-none bg-yellow-500 hover:bg-yellow-600 focus:bg-yellow-600 text-white rounded-lg py-2 font-semibold'
+                        className='z-10 block xl:w-1/6 w-1/2 sm:w-1/4 focus:outline-none bg-yellow-500 hover:bg-yellow-600 focus:bg-yellow-600 text-white rounded-lg py-2 font-semibold'
                         onClick={this.handleClick}
                       >
                         Generar textos
