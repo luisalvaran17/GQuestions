@@ -1,25 +1,21 @@
 import React, { Component } from 'react';
 import '../../assets/styles/tailwind.css';
 import LogoGQuestions from '../../assets/images/logo.png';
-import ModalCredits from "../login/ModalCredits"
+import ModalCredits from '../login/ModalCredits';
 
-class Footer extends Component
-{
+class Footer extends Component {
   state = {
     showModal: false,
   };
 
-  showModalCredits = () =>
-  {
+  showModalCredits = () => {
     this.setState({
       showModal: true,
-    })
-  }
+    });
+  };
 
-  render()
-  {
-    if (this.state.showModal === false)
-    {
+  render() {
+    if (this.state.showModal === false) {
       return (
         <div className='bg-gray-200'>
           <div className='bg-blueFooter'>
@@ -37,8 +33,15 @@ class Footer extends Component
                   <li className='p-2 cursor-pointer hover:underline'>
                     Términos & Condiciones
                   </li>
-                  <li className='p-2 cursor-pointer hover:underline'>Privacidad</li>
-                  <li className='p-2 cursor-pointer hover:underline' onClick={this.showModalCredits}>Créditos</li>
+                  <li className='p-2 cursor-pointer hover:underline'>
+                    Privacidad
+                  </li>
+                  <li
+                    className='p-2 cursor-pointer hover:underline'
+                    onClick={this.showModalCredits}
+                  >
+                    Créditos
+                  </li>
                 </ul>
                 <ul className='flex mx-auto text-white text-center'>
                   {/* <li className="p-2 cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" className="fill-current text-white" width="24" height="24" viewBox="0 0 24 24"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/></svg></li>
@@ -55,8 +58,7 @@ class Footer extends Component
         </div>
       );
     }
-    if (this.state.showModal === true)
-    {
+    if (this.state.showModal === true) {
       return (
         <div>
           <Footer />

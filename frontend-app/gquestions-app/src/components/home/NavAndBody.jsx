@@ -15,14 +15,11 @@ import { Helmet } from 'react-helmet';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
-
 class Body extends Component {
-  constructor(props)
-  {
+  constructor(props) {
     super(props);
     this.divRefMenu = React.createRef();
     window.addEventListener('scroll', this.changeBackgroundNavBar);
-
   }
 
   state = {
@@ -79,13 +76,12 @@ class Body extends Component {
       navbar: false,
     });
   }
-  
-  componentDidMount()
-  {
+
+  componentDidMount() {
     this.setState({
       navbar: false,
     });
-    
+
     AOS.init({
       duration: 500,
     });
@@ -100,16 +96,24 @@ class Body extends Component {
     });
   }
 
-
   render() {
     return (
-      <div id="inicio">
+      <div id='inicio'>
         <Helmet>
           <script src='https://unpkg.com/aos@2.3.1/dist/aos.js'></script>
         </Helmet>
         {/* Header - Navbar */}
-        <nav  className={this.state.navbar ? 'navbar shadow-sm h-auto mx-auto flex items-center justify-between flex-wrap py-6  bg-gradient-to-r from-yellowlight via-white to-white' : 'navbar h-auto mx-auto flex items-center justify-between flex-wrap py-6 bg-transparent'}>
-          <a className='animation-cards-examples flex items-center flex-shrink-0  mr-0 lg:ml-16' href="#inicio">
+        <nav
+          className={
+            this.state.navbar
+              ? 'navbar shadow-sm h-auto mx-auto flex items-center justify-between flex-wrap py-6  bg-gradient-to-r from-yellowlight via-white to-white'
+              : 'navbar h-auto mx-auto flex items-center justify-between flex-wrap py-6 bg-transparent'
+          }
+        >
+          <a
+            className='animation-cards-examples flex items-center flex-shrink-0  mr-0 lg:ml-16'
+            href='#inicio'
+          >
             <img
               src={LogoGQuestions}
               alt='React Logo'
@@ -177,7 +181,7 @@ class Body extends Component {
                 Iniciar sesión
               </Link>
             </div>
-            <div className="lg:mr-16">
+            <div className='lg:mr-16'>
               <Link
                 to='/register'
                 className='inline-block shadow-md text-sm text-black text-center z-10 w-full max-w-xs mx-auto bg-yellowmain hover:bg-yellow-600 focus:bg-yellow-600 rounded-lg px-2 py-2 font-semibold'
@@ -321,9 +325,7 @@ class Body extends Component {
               </div>
               {/* Vertical responsive */}
               <div className='grid-cols-12 block md:hidden text-sm'>
-                <div className='col-span-2  hidden sm:block'>
-
-                </div>
+                <div className='col-span-2  hidden sm:block'></div>
                 <div className='col-span-12 sm:col-span-10 '>
                   <div className='grid grid-rows-4 mt-3 text-justify'>
                     <div className='sm:mb-20 mb-4'>
