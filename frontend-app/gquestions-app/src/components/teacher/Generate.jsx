@@ -116,7 +116,7 @@ class Home extends Component {
             </label>
             <div className='flex sm:mx-0 mx-auto'>
               <div className='grid grid-rows'>
-                <div class='flex flex-col lg:text-base text-sm'>
+                <div class='flex flex-col lg:text-base text-sm ml-8'>
                   <label class='inline-flex items-center mt-3'>
                     <input
                       type='checkbox'
