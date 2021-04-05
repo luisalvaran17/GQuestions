@@ -24,7 +24,7 @@ const DropdownOracion = props => {
               <span className='block w-full rounded-md shadow-sm'>
                 <Listbox.Button
                   className='rounded-lg focus:border-transparent focus:outline-none focus:ring-2
-                  focus:ring-yellowlight  border-gray-300 outline-none focus:border-yellow-500 text-left bg-white shadow cursor-default relative w-full border  pl-3 pr-10 py-2 transition ease-in-out duration-150 sm:text-sm sm:leading-5'>
+                  focus:ring-yellowlight  border-gray-300 outline-none focus:border-yellow-500 text-left bg-white shadow cursor-default relative w-full border  pl-3 md:pr-10 py-2 transition ease-in-out duration-150 lg:text-base sm:leading-5'>
                   <span className='block truncate py-0.5'>{selectedPerson}</span>
                   <span className='absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none'>
                     <svg
@@ -54,7 +54,7 @@ const DropdownOracion = props => {
                 <Listbox.Options
                   type="input"
                   static
-                  className='text-xs max-h-60 rounded-md outline-none py-0 md:text-base leading-6 shadow-xl overflow-auto focus:outline-none sm:text-sm sm:leading-5'
+                  className='text-xs max-h-60 rounded-md outline-none py-0 md:text-base leading-6 shadow-xl overflow-auto focus:outline-none sm:text-base sm:leading-5'
                 >
                   {optionsOracion.map(person => (
                     <Listbox.Option key={person} value={person}>
