@@ -54,6 +54,7 @@ class Login extends Component {
           console.log('Usuario correcto, redirigiendo');
           this.setState({ userCorrect: true });
           this.removeClassUser();
+          localStorage.setItem('token', this.state.token);
         } else {
           // ... nothing
 
