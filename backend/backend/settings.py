@@ -25,7 +25,8 @@ SECRET_KEY = '8ow=y-pv4ged+2-fs0ekmlih6p_ltaoy7#q0&71!+3$%tjg(y2'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+]
 
 
 # Application definition
@@ -120,7 +121,8 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 CORS_ORIGIN_WHITELIST = [
-     'http://localhost:3000'
+     'http://localhost:3000',
+     'http://192.168.0.34:3000'
 ]
 
 # Internationalization
