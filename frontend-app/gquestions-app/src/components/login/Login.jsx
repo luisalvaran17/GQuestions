@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import {Helmet} from "react-helmet";
-import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
+import { Link, Redirect, Route } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import backgroundGeneral from '../../assets/images/background-general.png';
@@ -13,7 +13,6 @@ class Login extends Component {
     this.divRefUserMessage = React.createRef();
     this.divRefPassword = React.createRef();
     this.divRefUserAuth = React.createRef();
-
   }
 
   state = {
@@ -24,16 +23,16 @@ class Login extends Component {
     userCorrect: false,
     token: '',
     existUser: false,
+    dispatch : ''
   };
 
   responseGoogle = response => {
-    console.log(response);
+    //console.log(response);
   };
 
   handleClick = e => {
     // console.log(this.state.credentials)
-    
-    
+
     fetch('http://127.0.0.1:8000/api/login/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -41,8 +40,8 @@ class Login extends Component {
     })
       // GET TOKEN
       .then(res => res.json())
-      .then(json => console.log(json))
-      .catch(error => console.log(error.response));
+      .then(json => this.setState({token: json.token}))
+      console.log(this.state.token)
 
     fetch('http://127.0.0.1:8000/api/login/', {
       method: 'POST',
@@ -51,60 +50,63 @@ class Login extends Component {
     })
       .then(data => {
         if (data.ok === true) {
-          console.log('Usuario correcto, redirigiendo');
+          //console.log('Usuario correcto, redirigiendo ');
           this.setState({ userCorrect: true });
           this.removeClassUser();
           localStorage.setItem('token', this.state.token);
+          this.props.history.push('/teacher/home')
+          //this.props.history.push('/teacher/home'); // Hacer api para saber si es estudiante o docente
         } else {
           // ... nothing
 
-          fetch('http://127.0.0.1:8000/api/exist-user/' + this.state.credentials.username, {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json' },
-          }).then(data =>
-          {
-            if (data.ok === true)
+          fetch(
+            'http://127.0.0.1:8000/api/exist-user/' +
+              this.state.credentials.username,
             {
+              method: 'GET',
+              headers: { 'Content-Type': 'application/json' },
+            }
+          ).then(data => {
+            if (data.ok === true) {
               this.setState({ existUser: true });
-              this.removeClassdivPasswordMessage() // contraseña incorrecta
-              this.divRefPassword.current.classList.remove('border-gray-300')
-              this.divRefPassword.current.classList.add('border-red-300')
-            } else
-            {
+              this.removeClassdivPasswordMessage(); // contraseña incorrecta
+              this.divRefPassword.current.classList.remove('border-gray-300');
+              this.divRefPassword.current.classList.add('border-red-300');
+            } else {
               this.setState({ existUser: false });
-              console.log("correo no existe")
-              this.removeClassdivRefUserMessage() // correo no existe               
+              //console.log('correo no existe');
+              this.removeClassdivRefUserMessage(); // correo no existe
             }
           });
         }
       })
-      .catch(error => console.error(error));
+      .catch(error => this.props.history.push("/not-server"));
   };
 
-  checkExistUser= () =>
-  {
-    let exist = ""
-    fetch('http://127.0.0.1:8000/api/exist-user/' + this.state.credentials.username, {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
-    }).then(data =>
-    {
-      
-      if (data.ok === true)
+  checkExistUser = () => {
+    let exist = '';
+    fetch(
+      'http://127.0.0.1:8000/api/exist-user/' + this.state.credentials.username,
       {
-        this.setState({ existUser: true });
-        exist = "existe"
-        return exist        
-      } else
-      {
-        this.setState({ existUser: false });
-        exist = "no existe"
-        return exist  
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
       }
-    });
-    
-  };
-  
+    ).then(data => {
+      if (data.ok === true) {
+        this.setState({ existUser: true });
+        exist = 'existe';
+        return exist;
+      } else {
+        this.setState({ existUser: false });
+        exist = 'no existe';
+        return exist;
+      }
+    })
+    .catch(err => {
+      
+    })
+  }
+
   handleChange = e => {
     const cred = this.state.credentials;
     cred[e.target.name] = e.target.value;
@@ -115,68 +117,71 @@ class Login extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    console.log('submitted');
+    //console.log('submitted');
   };
 
   addClassdivRefUserMessage = () => {
     this.divRefUserMessage.current.classList.add('hidden');
   };
 
-  removeClassdivRefUserMessage= () => {
+  removeClassdivRefUserMessage = () => {
     this.divRefUserMessage.current.classList.remove('hidden');
-    
-  }
+  };
 
   addClassdivPasswordMessage = () => {
     this.divRefPasswordMessage.current.classList.add('hidden');
   };
 
-  removeClassdivPasswordMessage=()=> {
+  removeClassdivPasswordMessage = () => {
     this.divRefPasswordMessage.current.classList.remove('hidden');
-  }
+  };
 
   addClassUser = () => {
     this.divRefUserAuth.current.classList.add('hidden');
   };
 
-  removeClassUser=()=> {
+  removeClassUser = () => {
     this.divRefUserAuth.current.classList.remove('hidden');
-  }
+  };
 
   render() {
     return (
-      <div  className='xl:px-64 lg:px-32 sm:px-16 px-2 min-h-screen mx-auto font-manrope'
+      <div
+        className='xl:px-64 lg:px-32 sm:px-16 px-2 min-h-screen mx-auto font-manrope'
         style={{
-          backgroundImage: `url(${ backgroundGeneral })`,
+          backgroundImage: `url(${backgroundGeneral})`,
           width: '',
           height: '',
           backgroundRepeat: 'no-repeat',
           backgroundSize: 'cover',
           minHeight: '',
-          minWidth: "",
+          minWidth: '',
         }}
+      >
+        <div
+          data-aos='fade-left'
+          className='min-w-screen min-h-screen flex items-center justify-center px-8 py-4 xl:px-20 2xl:px-44 text-xs sm:text-base'
         >
-        <div data-aos="fade-left" className='min-w-screen min-h-screen flex items-center justify-center px-8 py-4 xl:px-64 md:py-32 text-xs sm:text-base'>
-            <Helmet>
-              <script
-                src='https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.js'
-                defer
-              ></script>
-              <script src='https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js'></script>
-              <script
-                src='https://kit.fontawesome.com/51d411da80.js'
-                crossorigin='anonymous'
-              ></script>
-              <style>
-                @import
-                url('https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.min.css')
-              </style>
-            </Helmet>
+          <Helmet>
+            <script
+              src='https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.js'
+              defer
+            ></script>
+            <script src='https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js'></script>
+            <script
+              src='https://kit.fontawesome.com/51d411da80.js'
+              crossorigin='anonymous'
+            ></script>
+            <style>
+              @import
+              url('https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.min.css')
+            </style>
+          </Helmet>
           <div className='text-sm md:text-base bg-gray-100 text-gray-500 rounded-3xl shadow-xl w-full md:w-full overflow-hidden'>
             <div className='md:flex md:w-full'>
-              <div className='hidden md:block w-1/2 bg-yellow-500 py-10 px-10'>
-              <div className="flex items-center mt-20 ">
-                    <img className="" src={imageStudent} alt=""></img>
+              <div className='hidden md:block w-1/2 bg-yellowBackground py-10 px-10'>
+                <div className='flex items-center mt-20 '>
+                  <img className='' src={imageStudent} alt=''></img>
                 </div>
               </div>
               <form
@@ -246,7 +251,17 @@ class Login extends Component {
                           className='absolute inset-y-0 right-0 flex items-center mr-4'
                           onClick={this.addClassdivPasswordMessage}
                         >
-                          <svg className="w-4 h-4 fill-current" role="button" viewBox="0 0 20 20"><path d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" fillRule="evenodd"></path></svg>
+                          <svg
+                            className='w-4 h-4 fill-current'
+                            role='button'
+                            viewBox='0 0 20 20'
+                          >
+                            <path
+                              d='M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z'
+                              clipRule='evenodd'
+                              fillRule='evenodd'
+                            ></path>
+                          </svg>
                         </span>
                       </div>
                       <div
@@ -259,7 +274,17 @@ class Login extends Component {
                           className='absolute inset-y-0 right-0 flex items-center mr-4'
                           onClick={this.addClassdivRefUserMessage}
                         >
-                          <svg className="w-4 h-4 fill-current" role="button" viewBox="0 0 20 20"><path d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" fillRule="evenodd"></path></svg>
+                          <svg
+                            className='w-4 h-4 fill-current'
+                            role='button'
+                            viewBox='0 0 20 20'
+                          >
+                            <path
+                              d='M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z'
+                              clipRule='evenodd'
+                              fillRule='evenodd'
+                            ></path>
+                          </svg>
                         </span>
                       </div>
                       <div
@@ -272,7 +297,17 @@ class Login extends Component {
                           className='absolute inset-y-0 right-0 flex items-center mr-4'
                           onClick={this.addClass}
                         >
-                          <svg className="w-4 h-4 fill-current" role="button" viewBox="0 0 20 20"><path d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" fillRule="evenodd"></path></svg>
+                          <svg
+                            className='w-4 h-4 fill-current'
+                            role='button'
+                            viewBox='0 0 20 20'
+                          >
+                            <path
+                              d='M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z'
+                              clipRule='evenodd'
+                              fillRule='evenodd'
+                            ></path>
+                          </svg>
                         </span>
                       </div>
                       <div>
@@ -306,7 +341,7 @@ class Login extends Component {
                     </div>
 
                     <div className='py-1 lg:py-4 col-span-12'>
-                    {/*<GoogleLogin className="z-10 block w-full max-w-xs mx-auto border-blue-200 border-2 hover:bg-blue-300 focus:bg-blue-400 rounded-lg px-2 py-2 font-semibold"
+                      {/*<GoogleLogin className="z-10 block w-full max-w-xs mx-auto border-blue-200 border-2 hover:bg-blue-300 focus:bg-blue-400 rounded-lg px-2 py-2 font-semibold"
                     clientId="1016385449655-s27qeebm0kc4lfuedk7o665lhmtd70qp.apps.googleusercontent.com"
                     buttonText="INICIAR CON GOOGLE"
                     onSuccess={this.responseGoogle}
@@ -339,12 +374,11 @@ class Login extends Component {
       </div>
     );
   }
-  componentDidMount()
-  {
-    this.setState({existUser: false})
+  componentDidMount() {
+    this.setState({ existUser: false });
     AOS.init({
-      duration: 800
-    })
+      duration: 800,
+    });
 
     const { match } = this.props;
     if (match.url === '/') {

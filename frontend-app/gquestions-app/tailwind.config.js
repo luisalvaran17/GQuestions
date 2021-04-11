@@ -7,6 +7,7 @@ module.exports = {
         danger: '#ff5f40',
         yellowlight: '#FFE3C1',
         yellowmain: '#FE9A22',
+        yellowBackground: '#FF9B23',
         purplelight: '#EEEFF4',
         cyanlight: '#D5FAFC',
         cyanmain: '#2EC5CE',

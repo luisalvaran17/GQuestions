@@ -20,6 +20,7 @@ class CarouselEjemplo extends Component
         autoPlay={false}
         verticalSwipe='natural'
         showIndicators={false}
+        swipeable={false}
         renderArrowPrev={(onClickHandler, hasNext, label) => (
           <div
             type='button'

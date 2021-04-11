@@ -203,7 +203,9 @@ class Register extends Component {
             minWidth: "",
         }}
         >
-          <div data-aos="fade-left" className='min-w-screen min-h-screen flex items-center justify-center px-8 py-4 xl:px-64 md:py-32 text-xs sm:text-base'>
+          <div
+            data-aos="fade-left"
+            className='min-w-screen min-h-screen flex items-center justify-center px-4 sm:px-0 py-4 md:mx-16 lg:mx-4 2xl:mx-52 xl:mx-4 text-xs sm:text-base'>
               <Helmet>
                 <script
                   src='https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.js'
@@ -221,7 +223,7 @@ class Register extends Component {
               </Helmet>
             <div className='text-sm md:text-md bg-gray-100 text-gray-500 rounded-3xl shadow-xl w-full overflow-hidden'>
               <div className='md:flex w-full'>
-                <div className='hidden lg:block  w-1/2 bg-yellowmain'>
+                <div className='hidden lg:block  w-1/2 bg-yellowBackground'>
                   <div className="flex items-center mt-20 p-10">
                     <img className="" src={imageStudent} alt=""></img>
                   </div>
@@ -392,7 +394,8 @@ class Register extends Component {
                           <input
                             type='date'
                             id='fecha_nacimiento'
-                            className='input-style'
+                            className='transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2 
+                            focus:ring-yellowlight w-full -ml-10 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow;'
                             placeholder='dd/mm/aaaa'
                             name='fecha_nac'
                             onChange={this.handleChange}
@@ -468,10 +471,10 @@ class Register extends Component {
                       </span>
                     </div>
                     <div className='py-1 col-span-12 my-0 text-center text-sm'>
-                    <span class="flex items-center justify-center space-x-2">
-                      <span class="h-px bg-gray-400 w-14"></span>
-                      <span class="font-normal text-gray-500"> Registrar con</span>
-                      <span class="h-px bg-gray-400 w-14"></span>
+                    <span className="flex items-center justify-center space-x-2">
+                      <span className="h-px bg-gray-400 w-14"></span>
+                      <span className="font-normal text-gray-500"> Registrar con</span>
+                      <span className="h-px bg-gray-400 w-14"></span>
                     </span>
                     </div>
                     <div className='py-1 col-span-12 my-0 text-center'>
@@ -484,7 +487,7 @@ class Register extends Component {
                             <span>
                               <i className="fab fa-google mr-2"></i>
                             </span>
-                            <span class="text-sm font-medium text-gray-800 group-hover:text-white">Google</span>
+                            <span className="text-sm font-medium text-gray-800 group-hover:text-white">Google</span>
                           
                           </button>)}
                         

@@ -1,13 +1,8 @@
 import React, { Component } from 'react';
 import Navbar from '../Navbar';
-import DropdownOracion from './DropdownOracion';
-import Footer from '../home/Footer';
 import '../../assets/styles/tailwind.css';
 
 class TestNavigation extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   state = {
     token: '',
