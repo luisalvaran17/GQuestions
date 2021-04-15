@@ -3,6 +3,52 @@ from django.conf import settings
 from accounts.models import Account
 
 # Create your models here.
+INICIO_ORACION = (('Aleatorio', 'Aleatorio'), 
+            ('Completo', 'Texto completo'),
+            )
+
+class Generacion(models.Model):
+    id  = models.CharField(primary_key=True, null=False, max_length=255)
+    n_examenes = models.SmallIntegerField(null=False)
+    longit_texto    = models.IntegerField(default=200)
+    n_preguntas     = models.SmallIntegerField(null=False)
+    inicio_oracion  = models.CharField(choices=INICIO_ORACION, max_length=30, null=False, default="Aleatorio")
+    def _str_(self):
+        return self.id
+
+class TipoPregunta(models.Model):
+    generacion = models.OneToOneField(Generacion, on_delete=models.CASCADE, primary_key=True)
+    pregunta_abierta = models.BooleanField(null=False, default=True)
+    opcion_multiple = models.BooleanField(null=False, default=True)
+    completacion = models.BooleanField(null=False, default=False)
+    def _str_(self):
+        return self.generacion
+
+class GeneracionUsuario(models.Model):
+    generacion = models.ForeignKey(Generacion, on_delete=models.CASCADE)
+    account = models.ForeignKey(Account, on_delete=models.CASCADE)
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 class Examen(models.Model):
     id_examen = models.AutoField(primary_key=True, null=False)
     title_exam = models.CharField(max_length=200, default='Sin título')
@@ -14,13 +60,11 @@ class Examen(models.Model):
     def _str_(self):
         return self.id_examen
 
-class Generacion(models.Model):
-    cod_generacion = models.IntegerField(primary_key=True, null=False)
-    n_examenes = models.SmallIntegerField(null=False)
-    longit_texto = models.IntegerField(default=200)
-    n_preguntas = models.SmallIntegerField(null=False)
-    def _str_(self):
-        return self.cod_generacion
+
+class UsuarioExamenGeneracion(models.Model):
+    email = models.ForeignKey(Account, on_delete=models.CASCADE)
+    id_exam =  models.ForeignKey(Examen, on_delete=models.CASCADE)
+    cod_generacion =  models.ForeignKey(Generacion, on_delete=models.CASCADE)
 
 class GeneracionPregunta(models.Model):
     id_pregunta = models.AutoField(primary_key=True, null=False)
@@ -45,22 +89,6 @@ class Calificacion(models.Model):
     def _str_(self):
         return self.id_calificacion
 
-class TipoPregunta(models.Model):
-    cod_generacion = models.OneToOneField(Generacion, on_delete=models.CASCADE, primary_key=True)
-    pregunta_abierta = models.BooleanField(null=False, default=True)
-    opcion_multiple = models.BooleanField(null=False, default=True)
-    completacion = models.BooleanField(null=False, default=False)
-    def _str_(self):
-        return self.cod_generacion
-        
-class UsuarioExamenGeneracion(models.Model):
-    email = models.ForeignKey(Account, on_delete=models.CASCADE)
-    id_exam =  models.ForeignKey(Examen, on_delete=models.CASCADE)
-    cod_generacion =  models.ForeignKey(Generacion, on_delete=models.CASCADE)
-
-class GeneracionUsuario(models.Model):
-    cod_generacion = models.ForeignKey(Generacion, on_delete=models.CASCADE)
-    email = models.ForeignKey(Account, on_delete=models.CASCADE)
 
 class RespuestaCuerpo(models.Model):
     id_pregunta = models.OneToOneField(GeneracionPregunta, on_delete = models.CASCADE, primary_key=True, null=False)

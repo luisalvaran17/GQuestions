@@ -1,31 +1,33 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Helmet } from 'react-helmet';
-import { Link, Redirect, Route } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import backgroundGeneral from '../../assets/images/background-general.png';
 import imageStudent from '../../assets/images/image-register2.png';
 
-class Login extends Component {
+class Login extends React.Component {
+  _isMounted = false;
   constructor(props) {
     super(props);
     this.divRefPasswordMessage = React.createRef();
     this.divRefUserMessage = React.createRef();
     this.divRefPassword = React.createRef();
     this.divRefUserAuth = React.createRef();
+  
+    this.state = {
+      credentials: {
+        username: '',
+        password: '',
+      },
+      userCorrect: false,
+      token: '',
+      existUser: false,
+      dispatch: '',
+      isLoading: true,
+    };
   }
-
-  state = {
-    credentials: {
-      username: '',
-      password: '',
-    },
-    userCorrect: false,
-    token: '',
-    existUser: false,
-    dispatch : ''
-  };
-
+  
   responseGoogle = response => {
     //console.log(response);
   };
@@ -40,25 +42,32 @@ class Login extends Component {
     })
       // GET TOKEN
       .then(res => res.json())
-      .then(json => this.setState({token: json.token}))
-      console.log(this.state.token)
+      .then(json => {
+        if (this._isMounted) {
+          this.setState({isLoading: false})
+          this.setState({ token: json.token })
+        }
+      });
 
+      //console.log(this.state.token)
+    
     fetch('http://127.0.0.1:8000/api/login/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(this.state.credentials),
     })
       .then(data => {
-        if (data.ok === true) {
-          //console.log('Usuario correcto, redirigiendo ');
-          this.setState({ userCorrect: true });
-          this.removeClassUser();
-          localStorage.setItem('token', this.state.token);
-          this.props.history.push('/teacher/home')
-          //this.props.history.push('/teacher/home'); // Hacer api para saber si es estudiante o docente
-        } else {
-          // ... nothing
-
+        if (this._isMounted) {
+          this.setState({isLoading: false})
+          if (data.ok === true) {
+            this.setState({ userCorrect: true });
+            this.removeClassUser();
+            localStorage.setItem('token', this.state.token);
+            this.props.history.push('/teacher/home')
+            //this.props.history.push('/teacher/home'); // Hacer api para saber si es estudiante o docente
+          } else {
+            // ... nothing
+          }
           fetch(
             'http://127.0.0.1:8000/api/exist-user/' +
               this.state.credentials.username,
@@ -67,15 +76,18 @@ class Login extends Component {
               headers: { 'Content-Type': 'application/json' },
             }
           ).then(data => {
-            if (data.ok === true) {
-              this.setState({ existUser: true });
-              this.removeClassdivPasswordMessage(); // contraseña incorrecta
-              this.divRefPassword.current.classList.remove('border-gray-300');
-              this.divRefPassword.current.classList.add('border-red-300');
-            } else {
-              this.setState({ existUser: false });
-              //console.log('correo no existe');
-              this.removeClassdivRefUserMessage(); // correo no existe
+            if (this._isMounted) {
+              this.setState({isLoading: false})
+              if (data.ok === true) {
+                this.setState({ existUser: true });
+                this.removeClassdivPasswordMessage(); // contraseña incorrecta
+                this.divRefPassword.current.classList.remove('border-gray-300');
+                this.divRefPassword.current.classList.add('border-red-300');
+              } else {
+                this.setState({ existUser: false });
+                //console.log('correo no existe');
+                this.removeClassdivRefUserMessage(); // correo no existe
+              }
             }
           });
         }
@@ -379,14 +391,10 @@ class Login extends Component {
     AOS.init({
       duration: 800,
     });
-
-    const { match } = this.props;
-    if (match.url === '/') {
-      window.history.pushState(null, document.title, window.location.href);
-      window.addEventListener('popstate', function (event) {
-        window.history.pushState(null, document.title, window.location.href);
-      });
-    }
+    this._isMounted = true;
+  }
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 }
 

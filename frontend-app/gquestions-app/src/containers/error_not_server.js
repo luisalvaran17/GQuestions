@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import '../assets/styles/tailwind.css';
 import backgroundGeneral from '../assets/images/background-general_4x-register.png';
 
-class Home extends Component {
+class ErrorServer extends React.Component {
 
   state = {
     token: '',
@@ -45,4 +45,4 @@ backHome = () => {
   }
 }
 
-export default Home;
+export default ErrorServer;

@@ -6,7 +6,7 @@ from accounts import views
 
 urlpatterns = [
     path('api/usuarios/', get_users, name='usuarios'),
-    path('api/usuarios/<int:user>', get_user, name='usuarioss'),
+    path('api/usuarios/<int:user>', get_user),
     path('api/update-info-user/<int:user>', update_user, name='update_user'),
     path('api/register/', RegisterAPI.as_view(), name='register'),
     path('api/login/', Login.as_view(), name='login'),

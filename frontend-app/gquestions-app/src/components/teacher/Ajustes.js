@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Navbar from '../Navbar';
 import '../../assets/styles/tailwind.css';
 
-class TestNavigation extends Component {
+class Ajustes extends React.Component {
 
   state = {
     token: '',
@@ -25,4 +25,4 @@ class TestNavigation extends Component {
   }
 }
 
-export default TestNavigation;
+export default Ajustes;

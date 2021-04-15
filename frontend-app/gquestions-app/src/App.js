@@ -10,7 +10,7 @@ import {PrivateRoute} from './containers/PrivateRoute';
 import DashboardTeacher from './components/teacher/Dashboard';
 import EstadisticasTeacher from './components/teacher/Estadisticas';
 import AjustesTeacher from './components/teacher/Ajustes';
-import NotServer from './components/error_not_server';
+import NotServer from './containers/error_not_server';
 
 export default class App extends Component{
   constructor(props) {

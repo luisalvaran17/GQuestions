@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'gquestions_api',
     'accounts',
     'django_rest_passwordreset',
-
+    'clear_cache',
     #django rest framework
     'rest_framework',
     'rest_framework.authtoken',

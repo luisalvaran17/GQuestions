@@ -13,7 +13,7 @@ class MenuUsuario extends Component {
   openMenu = () => {
     if (this.state.showMenuUser === true) {
       this.divRefShow.current.classList.add('hidden');
-      console.log(this.divRefShow.isActive);
+      //console.log(this.divRefShow.isActive);
       this.setState({ showMenuUser: false });
     }
     if (this.state.showMenuUser === false) {
@@ -24,7 +24,7 @@ class MenuUsuario extends Component {
 
   render() {
     return (
-      <div className='font-normal' x-data='{ open: false }'>
+      <div className='font-normal'>
         <button
           type='button'
           aria-haspopup='true'
@@ -52,10 +52,9 @@ class MenuUsuario extends Component {
           </div>
         </button>
         <div
-          x-show='open'
           ref={this.divRefShow}
           className='hidden absolute bottom-12 left-20 w-60 py-1 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 dark:bg-dark focus:outline-none'
-          tabindex='-1'
+          tabIndex='-1'
           role='menu'
           aria-label='User menu'
         >
