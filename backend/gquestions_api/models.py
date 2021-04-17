@@ -4,7 +4,8 @@ from accounts.models import Account
 
 # Create your models here.
 INICIO_ORACION = (('Aleatorio', 'Aleatorio'), 
-            ('Completo', 'Texto completo'),
+            ('Personalizado', 'Personalizado'),
+            ('Completo', 'Completo'),
             )
 
 class Generacion(models.Model):
@@ -12,7 +13,7 @@ class Generacion(models.Model):
     n_examenes = models.SmallIntegerField(null=False)
     longit_texto    = models.IntegerField(default=200)
     n_preguntas     = models.SmallIntegerField(null=False)
-    inicio_oracion  = models.CharField(choices=INICIO_ORACION, max_length=30, null=False, default="Aleatorio")
+    inicio_oracion  = models.CharField(choices=INICIO_ORACION, max_length=30, null=False)
     def _str_(self):
         return self.id
 

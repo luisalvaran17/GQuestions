@@ -4,7 +4,7 @@ from .models import *
 class GeneracionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Generacion
-        fields = ('id', 'n_examenes', 'longit_texto', 'n_preguntas')
+        fields = ('id', 'n_examenes', 'longit_texto', 'n_preguntas', 'inicio_oracion')
 
 class TipoPreguntaSerializer(serializers.ModelSerializer):
     generacion = serializers.PrimaryKeyRelatedField(many=False, queryset=Generacion.objects.all())
