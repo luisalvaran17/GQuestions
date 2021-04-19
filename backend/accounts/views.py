@@ -25,7 +25,6 @@ class GoogleLogin(SocialLoginView):
 # Create your views here.
 # Get usuario
 @api_view(["GET"])
-@csrf_exempt
 @permission_classes([IsAuthenticated])
 def get_user(request, user):
     user_id = request.user.id
@@ -44,6 +43,12 @@ def exist_user(request, email):
     else:
         return JsonResponse({'error': boolUser}, safe=False, status=status.HTTP_404_NOT_FOUND)
 
+@api_view(["GET"])
+def get_id_user(request, email):
+    user_id = Account.objects.filter(email=email)
+    serializer = AccountIDSerializar(user_id, many=True)
+    return JsonResponse(serializer.data, safe=False, status=status.HTTP_200_OK)
+
 """     try:
         user_id = request.user.id
         users = Account.objects.filter(id=user_id).exists()
@@ -54,7 +59,6 @@ def exist_user(request, email):
 
 # Get usuarios
 @api_view(["GET"])
-@csrf_exempt
 @permission_classes([IsAuthenticated])
 def get_users(request):
     users = Account.objects.all()
@@ -63,7 +67,6 @@ def get_users(request):
 
 # Update usuarios
 @api_view(["PUT"])
-@csrf_exempt
 @permission_classes([IsAuthenticated])
 def update_user(request, user):
     user = request.user.email

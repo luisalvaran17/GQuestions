@@ -56,7 +56,7 @@ class Account(AbstractUser):
     REQUIRED_FIELDS = ['first_name', 'last_name', 'rol', 'fecha_nac', 'edad']
 
     def __str__(self):
-        return self.email
+        return str(self.id)
 
     def has_perm(self, perm, obj=None):
         "Does the user have a specific permission?"

@@ -13,6 +13,11 @@ class AccountEmailSerializar(serializers.ModelSerializer):
         model = Account
         fields = ("email")
 
+class AccountIDSerializar(serializers.ModelSerializer):
+    class Meta:
+        model = Account
+        fields = ("id",)
+
 # Register Serializer
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
