@@ -1,5 +1,5 @@
 import React from 'react';
-import Navbar from '../Navbar';
+import Navbar from '../../containers/Navbar';
 import '../../assets/styles/tailwind.css';
 
 class Ajustes extends React.Component {
@@ -18,7 +18,7 @@ class Ajustes extends React.Component {
           <h1 className='font-black xl:text-5xl md:text-4xl text-2xl md:text-left md:mb-10'>
             Ajustes
           </h1>
-          
+
           </div>
         </div>
     );

@@ -1,6 +1,8 @@
-import React, { Component } from 'react';
-import '../../assets/styles/tailwind.css';
-class MenuUsuario extends Component {
+import React from 'react';
+import { Redirect } from 'react-router';
+import '../assets/styles/tailwind.css';
+
+class MenuUsuario extends React.Component {
   constructor(props) {
     super(props);
     this.divRefShow = React.createRef();
@@ -8,6 +10,7 @@ class MenuUsuario extends Component {
 
   state = {
     showMenuUser: false,
+    closeSession: false,
   };
 
   openMenu = () => {
@@ -22,7 +25,25 @@ class MenuUsuario extends Component {
     }
   };
 
+  Logout = async () => {
+    await fetch(
+      "http://localhost:8000/api/logout/",
+      {
+        method: "POST",
+        headers: {Authorization: 'Token ' + localStorage.getItem('token'),
+                  "Content-Type": "application/json" },
+      }
+    ).then((data => {
+      if(data.ok){
+        this.setState({closeSession: true})
+        localStorage.clear();
+      }
+    }))
+    .catch(err => err)
+  }
+
   render() {
+    if(this.state.closeSession === false){
     return (
       <div className='font-normal'>
         <button
@@ -53,7 +74,7 @@ class MenuUsuario extends Component {
         </button>
         <div
           ref={this.divRefShow}
-          className='hidden absolute bottom-12 left-20 w-60 py-1 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 dark:bg-dark focus:outline-none'
+          className='hidden absolute bottom-12 left-20 w-64 py-1 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 dark:bg-dark focus:outline-none'
           tabIndex='-1'
           role='menu'
           aria-label='User menu'
@@ -66,7 +87,7 @@ class MenuUsuario extends Component {
               Logueado como
             </label>
             <label role='menuitem' className='block px-4 text-sm  '>
-              example@example.com
+              {localStorage.getItem('email')}
             </label>
           </div>
 
@@ -84,17 +105,23 @@ class MenuUsuario extends Component {
           >
             Términos y condiciones
           </a>
-          <a
-            href='/'
+          <button
+            onClick={this.Logout}
             role='menuitem'
-            className='block px-4 py-2 text-sm transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-blue-600'
+            className='block outline-none focus:outline-none px-4 py-2 text-sm transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-blue-600'
           >
             Cerrar sesión
-          </a>
+          </button>
         </div>
       </div>
     );
+  }else{
+    return(
+      <Redirect to={{
+        pathname: '/' }} />
+    )
   }
+}
 }
 
 export default MenuUsuario;
