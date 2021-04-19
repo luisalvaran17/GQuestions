@@ -1,5 +1,6 @@
 import React from 'react';
 import { Redirect } from 'react-router';
+import { Link } from 'react-router-dom';
 import '../assets/styles/tailwind.css';
 
 class MenuUsuario extends React.Component {
@@ -35,8 +36,8 @@ class MenuUsuario extends React.Component {
       }
     ).then((data => {
       if(data.ok){
-        this.setState({closeSession: true})
         localStorage.clear();
+        this.setState({closeSession: true})
       }
     }))
     .catch(err => err)
@@ -117,8 +118,7 @@ class MenuUsuario extends React.Component {
     );
   }else{
     return(
-      <Redirect to={{
-        pathname: '/' }} />
+      <Redirect to='/' />
     )
   }
 }
