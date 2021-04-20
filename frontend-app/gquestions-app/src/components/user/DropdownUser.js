@@ -6,7 +6,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export const Dropdown = () => {
+export const DropdownUser = () => {
 
   const [closeSession, setCloseSession] = useState(false)
 
@@ -45,7 +45,6 @@ export const Dropdown = () => {
                       focusable='false'
                       data-prefix='far'
                       data-icon='user'
-                      /* className='svg-inline--fa fa-user fa-w-14' */
                       role='img'
                       xmlns='http://www.w3.org/2000/svg'
                       viewBox='0 0 448 512'
@@ -70,7 +69,7 @@ export const Dropdown = () => {
               >
                 <Menu.Items
                   static
-                  className="absolute  bottom-0 left-6 mb-10 mt-2 w-72 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                  className="absolute bottom-0 left-6 mb-10 mt-2 w-72 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
                 >
                   <Menu.Item>
                     <div className={

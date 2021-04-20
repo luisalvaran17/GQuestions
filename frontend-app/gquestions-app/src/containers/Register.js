@@ -1,14 +1,14 @@
 import React from "react";
-import "../../assets/styles/tailwind.css";
+import "../assets/styles/tailwind.css";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
-import RegisterWithGoogle from "./RegisterWithGoogle";
+import RegisterWithGoogle from "../components/login/RegisterWithGoogle";
 import GoogleRegister from "react-google-login";
-import ModalRegister from "./ModalRegister";
+import ModalRegister from "../components/login/ModalRegister";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import backgroundGeneral from "../../assets/images/background-general_4x-register.png";
-import imageStudent from "../../assets/images/image-register2.png";
+import backgroundGeneral from "../assets/images/background-general_4x-register.png";
+import imageStudent from "../assets/images/image-register2.png";
 
 class Register extends React.Component {
   _isMounted = false;
@@ -20,6 +20,8 @@ class Register extends React.Component {
     this.divPasswordStrength = React.createRef();
     this.divRefModalRegister = React.createRef();
   }
+
+  // Hooks
   state = {
     usuario: {
       first_name: "",
@@ -46,7 +48,10 @@ class Register extends React.Component {
     token: "",
   };
 
+  // Método llamado al presionar el botón de Register (API)
   handleClickRegister = async () => {
+
+    // Verifica si el usuario existe para mostrar un modal o no
     await fetch(
       "http://127.0.0.1:8000/api/exist-user/" + this.state.usuario.email,
       {
@@ -58,7 +63,9 @@ class Register extends React.Component {
         this.setState({ isLoading: false });
         if (data.ok === true) {
           this.setState({ modalShow: true });
-        } else {
+        } 
+        // si el usuario no existe entonces procede a hacer el registro si todos los campos cumplen las validaciones
+        else {
           if (
             !this.checkEmptyFields() &&
             this.checkPasswords() &&
@@ -67,7 +74,6 @@ class Register extends React.Component {
             fetch("http://127.0.0.1:8000/api/register/", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-
               body: JSON.stringify(this.state.usuario),
             })
               .then((data) => {
@@ -80,6 +86,7 @@ class Register extends React.Component {
                     })
                   );
 
+                  // Si el registro se realiza exitosamente entonces envia al usuario directamente al Login
                   if (data.ok === true) {
                     if (this._isMounted) {
                       this.setState({ isLoading: false });
@@ -111,9 +118,6 @@ class Register extends React.Component {
                           }
                         }
                       });
-                      console.log(
-                        "Usuario registrado correctamente, redirigiendo a Login"
-                      );
                       this.removeClassUser();
                     }
                   } else {
@@ -128,12 +132,14 @@ class Register extends React.Component {
     });
   };
 
+  // Función que registra al usuario con cuenta de google
   responseGoogle = (response) => {
     fetch("http://127.0.0.1:8000/api/exist-user/" + response.profileObj.email, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     }).then((data) => {
       if (data.ok === true) {
+        // Si el usuario ya está registrado con ese correo entonces muestra un modal informando
         this.setState({ modalShow: true });
       } else {
         this.setState({ redirect: true, response: response });
@@ -145,7 +151,6 @@ class Register extends React.Component {
     const user = this.state.usuario;
     user[e.target.name] = e.target.value;
     this.setState({ usuario: user });
-    console.log(this.state.usuario.rol)
   };
 
   handleChangePassword = (e) => {
@@ -173,18 +178,19 @@ class Register extends React.Component {
     return false;
   };
 
+  // Valida que ambas contraseñas coincidan
   checkPasswords = () => {
     if (
       this.state.usuario.password === this.state.confirmation_pass.password2
     ) {
       return true;
     } else {
-      console.log("las contraseñas no coinciden");
       this.removeClassPasswordsNoMatch();
       return false;
     }
   };
 
+  // Valida que la contraseña cumpla con algunas restricciones
   checkStrengthPassword = () => {
     let password = this.state.usuario.password;
 
@@ -214,21 +220,15 @@ class Register extends React.Component {
     return true;
   };
 
+
+  // ARREGLAR
   addClass = () => {
     this.divRefEmptyFields.current.classList.add("hidden");
   };
 
-  removeClass() {
-    this.divRefEmptyFields.current.classList.remove("hidden");
-  }
-
   addClassUser = () => {
     this.divRefUser.current.classList.add("hidden");
   };
-
-  removeClassUser() {
-    this.divRefUser.current.classList.remove("hidden");
-  }
 
   addClassPasswordsNoMatch = () => {
     this.divRefPasswordsNoMatch.current.classList.add("hidden");

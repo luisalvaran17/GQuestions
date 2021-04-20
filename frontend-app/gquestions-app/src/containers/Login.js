@@ -3,32 +3,35 @@ import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import backgroundGeneral from "../../assets/images/background-general.png";
-import imageStudent from "../../assets/images/image-register2.png";
+import backgroundGeneral from "../assets/images/background-general.png";
+import imageStudent from "../assets/images/image-register2.png";
 
 class Login extends React.Component {
   _isMounted = false;
   constructor(props) {
     super(props);
+
+    // referencias a algunos elementos del dom
     this.divRefPasswordMessage = React.createRef();
     this.divRefUserMessage = React.createRef();
     this.divRefPassword = React.createRef();
     this.divRefUserAuth = React.createRef();
   }
 
+  // Hooks
   state = {
     credentials: {
       username: "",
       password: "",
     },
-    userCorrect: false,
     token: "",
-    existUser: false,
-    dispatch: "",
     isLoading: true,
   };
 
+  // Método llamado al presionar el botón de Login (API)
   handleClickLogin = async () => {
+
+    // Obtiene el token y lo guarda en el estado
     await fetch("http://127.0.0.1:8000/api/login/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -36,14 +39,13 @@ class Login extends React.Component {
     })
       .then((res) => res.json())
       .then((json) => {
-        console.log(json.token);
         this.setState({ token: json.token });
       }).catch((error) => {
         this.props.history.push("/not-server");
         console.log(error);
       });
-      
-
+    
+    // Redirecciona al home sí el usuario existe y es correcto
     await fetch("http://127.0.0.1:8000/api/login/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -65,14 +67,13 @@ class Login extends React.Component {
               localStorage.setItem('id_user', json[0].id);
               localStorage.setItem('email', this.state.credentials.username)
             });
-
-            this.setState({ userCorrect: true });
             this.removeClassUser();
             localStorage.setItem("token", this.state.token);
             this.props.history.push("/teacher/home"); // Hacer api para saber si es estudiante o docente
           } else {
             // ... nothing
           }
+          // Verifica que el usuario exista con el fin de mostrar una alerta u otra
           fetch(
             "http://127.0.0.1:8000/api/exist-user/" +
               this.state.credentials.username,
@@ -84,13 +85,10 @@ class Login extends React.Component {
             if (this._isMounted) {
               this.setState({ isLoading: false });
               if (data.ok === true) {
-                this.setState({ existUser: true });
                 this.removeClassdivPasswordMessage(); // contraseña incorrecta
                 this.divRefPassword.current.classList.remove("border-gray-300");
                 this.divRefPassword.current.classList.add("border-red-300");
               } else {
-                this.setState({ existUser: false });
-                //console.log('correo no existe');
                 this.removeClassdivRefUserMessage(); // correo no existe
               }
             }
@@ -102,44 +100,18 @@ class Login extends React.Component {
       });
   };
 
-  checkExistUser = async () => {
-    let exist = "";
-    await fetch(
-      "http://127.0.0.1:8000/api/exist-user/" + this.state.credentials.username,
-      {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      }
-    )
-      .then((data) => {
-        if (data.ok === true) {
-          this.setState({ existUser: true });
-          exist = "existe";
-          return exist;
-        } else {
-          this.setState({ existUser: false });
-          exist = "no existe";
-          return exist;
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
+  // Obtiene y actualiza el estado actual de los inputs
   handleChange = (e) => {
     const cred = this.state.credentials;
     cred[e.target.name] = e.target.value;
     this.setState({ credentials: cred });
-
-    //console.log(e.target.value);
   };
 
   handleSubmit = (e) => {
     e.preventDefault();
-    //console.log('submitted');
   };
 
+  // ARREGLAR
   addClassdivRefUserMessage = () => {
     this.divRefUserMessage.current.classList.add("hidden");
   };
@@ -395,7 +367,6 @@ class Login extends React.Component {
     );
   }
   componentDidMount() {
-    this.setState({ existUser: false });
     AOS.init({
       duration: 800,
     });

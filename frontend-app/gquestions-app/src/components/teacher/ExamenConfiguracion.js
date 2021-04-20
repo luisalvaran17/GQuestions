@@ -2,6 +2,7 @@ import React from "react";
 import Navbar from "../../containers/Navbar";
 import "../../assets/styles/tailwind.css";
 import backgroundGeneral from "../../assets/images/background-general_4x-register.png";
+import { DropdownUser } from "../user/DropdownUser";
 
 class ExamenConfiguracion extends React.Component {
   constructor(props) {
@@ -206,6 +207,7 @@ class ExamenConfiguracion extends React.Component {
             </span>
           </div>
         </div>
+        <DropdownUser />
       </div>
     );
   }

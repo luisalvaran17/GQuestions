@@ -4,6 +4,7 @@ import "../../assets/styles/tailwind.css";
 import backgroundGeneral from "../../assets/images/background-general_4x-register.png";
 import { Helmet } from "react-helmet";
 import AOS from "aos";
+import { DropdownUser } from "./DropdownUser";
 
 class AjustesCuenta extends React.Component {
   constructor(props) {
@@ -75,6 +76,7 @@ class AjustesCuenta extends React.Component {
             minWidth: "100%",
           }}
         >
+          
           <Helmet>
             <script
               src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.js"
@@ -94,14 +96,18 @@ class AjustesCuenta extends React.Component {
           </Helmet>
 
           <div>
-            <Navbar className="fixed" />
+            <Navbar className="absolute left-0 bottom-0" />
           </div>
-          <div data-aos="fade-right" className="container 2xl:mx-auto md:mx-8 mx-4 mt-8 md:text-base text-sm">
+          <div data-aos="" className="container 2xl:mx-auto md:mx-8 mx-4 mt-8 md:text-base text-sm">
+
+          
             <div className="grid grid-rows">
 
               <h1 className="font-black xl:text-5xl md:text-4xl sm:text-2xl md:text-left mb-12 lg:mb-10 text-2xl">
                 Ajustes de cuenta
             </h1>
+
+        
               {/* Nav bar Tab */}
               <ul className="flex border-b">
                 <li className="-mb-px mr-1">
@@ -225,6 +231,7 @@ class AjustesCuenta extends React.Component {
 
                 {/* Otra información */}
                 <div className="md:col-span-6 col-span-12 mt-10">
+                  
                   <div className="sm:p-6 p-2 bg-white rounded-lg shadow-md">
 
                     {/* Organización y otro */}
@@ -359,6 +366,7 @@ class AjustesCuenta extends React.Component {
               </span>
             </div>
           </div>
+          <DropdownUser />
         </div>
       );
     }
@@ -558,6 +566,7 @@ class AjustesCuenta extends React.Component {
               </span>
             </div>
           </div>
+          <DropdownUser />
         </div>
       );
     }

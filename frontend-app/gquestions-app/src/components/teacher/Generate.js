@@ -4,6 +4,7 @@ import Navbar from "../../containers/Navbar";
 import "../../assets/styles/tailwind.css";
 import backgroundGeneral from "../../assets/images/background-general_4x.png";
 import AOS from "aos";
+import { DropdownUser } from "../user/DropdownUser";
 
 class Generate extends React.Component {
   constructor(props) {
@@ -400,6 +401,7 @@ class Generate extends React.Component {
             </span>
           </div>
         </div>
+        <DropdownUser />
       </div>
     );
   }

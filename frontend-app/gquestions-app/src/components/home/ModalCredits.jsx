@@ -6,9 +6,7 @@ class ModalCredits extends Component {
     super(props);
     this.divModal = React.createRef();
   }
-
-  state = {};
-
+  
   acceptButton = () => {
     this.divModal.current.classList.add('hidden');
   };

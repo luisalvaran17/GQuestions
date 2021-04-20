@@ -1,6 +1,7 @@
 import React from 'react';
 import Navbar from '../../containers/Navbar';
 import '../../assets/styles/tailwind.css';
+import { DropdownUser } from '../user/DropdownUser';
 
 class Estadisticas extends React.Component {
 
@@ -20,6 +21,7 @@ class Estadisticas extends React.Component {
           </h1>
           
           </div>
+          <DropdownUser />
         </div>
     );
   }

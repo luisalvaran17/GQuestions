@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../../assets/styles/tailwind.css';
 import LogoGQuestions from '../../assets/images/logo.png';
-import ModalCredits from '../login/ModalCredits';
+import ModalCredits from './ModalCredits';
 
 class Footer extends Component {
   state = {
@@ -31,7 +31,7 @@ class Footer extends Component {
 
                 <ul className='flex mx-auto text-white text-center'>
                   <li className='p-2 cursor-pointer hover:underline'>
-                    Términos & Condiciones
+                    Términos {'&'} Condiciones
                   </li>
                   <li className='p-2 cursor-pointer hover:underline'>
                     Privacidad

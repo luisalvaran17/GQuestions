@@ -4,7 +4,6 @@ import { Carousel } from 'react-responsive-carousel';
 import rowPrev from '../../assets/images/arrow-circle-up-solid.svg';
 import rowNext from '../../assets/images/arrow-circle-down-solid.svg';
 
-
 class CarouselEjemplo extends Component
 {
   render() {

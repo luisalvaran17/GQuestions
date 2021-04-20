@@ -2,6 +2,7 @@ import React from "react";
 import Navbar from "../../containers/Navbar";
 import "../../assets/styles/tailwind.css";
 import backgroundGeneral from "../../assets/images/background-general-green.png";
+import { DropdownUser } from "../user/DropdownUser";
 
 class ExamenPublicado extends React.Component {
   state = {
@@ -64,6 +65,7 @@ class ExamenPublicado extends React.Component {
               
         </div>
       </div>
+      <DropdownUser />
       </div>
     );
   }

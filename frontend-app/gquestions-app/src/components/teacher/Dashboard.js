@@ -4,6 +4,7 @@ import '../../assets/styles/tailwind.css';
 import { Helmet } from "react-helmet";
 import backgroundGeneral from "../../assets/images/background-general_4x-register.png";
 import AOS from "aos";
+import { DropdownUser } from '../user/DropdownUser';
 
 class Dashboard extends React.Component {
 
@@ -77,6 +78,7 @@ class Dashboard extends React.Component {
           </ul>
 
         </div>
+        <DropdownUser />
       </div>
     );
   }  
