@@ -3,7 +3,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import Logo from '../assets/images/logo.png';
 import { useHistory, useLocation } from 'react-router-dom'
-import MenuUsuario from './DropdownUser';
+import { Dropdown } from '../components/user/DropdownUser';
 
 function Navbar(){
 
@@ -144,7 +144,8 @@ function Navbar(){
           
           <div
             className='mt-auto flex items-center mb-1'>
-            <MenuUsuario />
+            
+            <Dropdown />
           </div>
         </nav>
       </div>

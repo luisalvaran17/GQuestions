@@ -4,13 +4,13 @@ import Login from './components/login/Login';
 import Register from './components/login/Register';
 import RegisterWithGoogle from './components/login/RegisterWithGoogle';
 import ModalRegister from './components/login/ModalRegister';
-import Homepage from './containers/Homepage';
+import {Homepage} from './containers/Homepage';
 import HomeTeacher from './components/teacher/Generate';
 import {PrivateRoute} from './containers/PrivateRoute';
 import DashboardTeacher from './components/teacher/Dashboard';
 import EstadisticasTeacher from './components/teacher/Estadisticas';
 import AjustesTeacher from './components/teacher/Ajustes';
-import NotServer from './containers/error_not_server';
+import {ErrorNotServer} from './containers/ErrorNotServer';
 import ExamenConfiguracion from './components/teacher/ExamenConfiguracion';
 import ExamenPublicado from './components/teacher/ExamenPublicado';
 import RevisionTextos from './components/teacher/RevisionTextos';
@@ -48,7 +48,7 @@ export default class App extends Component{
 
         {/* Rutas genericas */}
         <PrivateRoute exact path='/user/ajustes-cuenta' component={AjustesCuenta} />
-        <Route exact path='/not-server' component={NotServer} />
+        <Route exact path='/not-server' component={ErrorNotServer} />
     </BrowserRouter>
     );
   }

@@ -38,7 +38,11 @@ class Login extends React.Component {
       .then((json) => {
         console.log(json.token);
         this.setState({ token: json.token });
+      }).catch((error) => {
+        this.props.history.push("/not-server");
+        console.log(error);
       });
+      
 
     await fetch("http://127.0.0.1:8000/api/login/", {
       method: "POST",
@@ -94,8 +98,7 @@ class Login extends React.Component {
         }
       })
       .catch((error) => {
-        this.props.history.push("/not-server");
-        console.log(error);
+        /* this.props.history.push("/not-server"); */
       });
   };
 

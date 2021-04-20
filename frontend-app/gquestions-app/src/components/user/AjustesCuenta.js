@@ -103,14 +103,14 @@ class AjustesCuenta extends React.Component {
                 Ajustes de cuenta
             </h1>
               {/* Nav bar Tab */}
-              <ul class="flex border-b">
-                <li class="-mb-px mr-1">
-                  <button class="bg-white focus:outline-none outline-none inline-block border-l border-t border-r rounded-t py-2 px-4 text-yellow-600 font-semibold"
+              <ul className="flex border-b">
+                <li className="-mb-px mr-1">
+                  <button className="bg-white focus:outline-none outline-none inline-block border-l border-t border-r rounded-t py-2 px-4 text-yellow-600 font-semibold"
                     onClick={this.clickOnPerfil}
                   >Perfil</button>
                 </li>
-                <li class="mr-1">
-                  <button class="bg-white inline-block focus:outline-none outline-none py-2 px-4 text-gray-500 hover:text-yellow-600 font-semibold"
+                <li className="mr-1">
+                  <button className="bg-white inline-block focus:outline-none outline-none py-2 px-4 text-gray-500 hover:text-yellow-600 font-semibold"
                     onClick={this.clickOnContrasena}>Contraseña</button>
                 </li>
 
@@ -119,12 +119,12 @@ class AjustesCuenta extends React.Component {
               <div className="grid grid-cols-12 md:gap-x-16">
                 {/* Información personal */}
                 <div className="md:col-span-6 col-span-12 mt-10">
-                  <div class="sm:p-6 p-2 bg-white rounded-lg shadow-md">
+                  <div className="sm:p-6 p-2 bg-white rounded-lg shadow-md">
 
                     {/* Nombre y fecha de nacimiento */}
-                    <div class="sm:ml-6 ml-2 pt-1">
+                    <div className="sm:ml-6 ml-2 pt-1">
                       <div className="grid grid-cols-12">
-                        <h4 class="col-span-9 sm:col-span-11 sm:text-xl text-lg text-gray-900 leading-tight">Información personal</h4>
+                        <h4 className="col-span-9 sm:col-span-11 sm:text-xl text-lg text-gray-900 leading-tight">Información personal</h4>
 
                         <div className="sm:col-span-1 col-span-3">
                           <button
@@ -153,8 +153,8 @@ class AjustesCuenta extends React.Component {
                               type="text"
                               className="text-gray-500 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2 
                             focus:ring-yellowlight w-full -ml-10 sm:pl-10 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
-                              placeHolder="Luis Albarán Vélez"
-                              disabled="true"
+                              placeholder="Luis Albarán Vélez"
+                              disabled={true}
                             />
                           </div>
                         </div>
@@ -173,8 +173,8 @@ class AjustesCuenta extends React.Component {
                                   focus:ring-yellowlight w-full 2xl:w-96 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
 
                               name="fecha_hora_inicio"
-                              disabled="true"
-                              placeHolder="1996/08/18"
+                              disabled={true}
+                              placeholder="1996/08/18"
                               onChange={this.handleClick}
                             />
                           </div>
@@ -200,9 +200,9 @@ class AjustesCuenta extends React.Component {
                           className="text-gray-500 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2 
                         focus:ring-yellowlight w-full -ml-10 sm:pl-10 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
 
-                          placeHolder={localStorage.getItem('email')}
+                          placeholder={localStorage.getItem('email')}
                           name="email"
-                          disabled="true"
+                          disabled={true}
                           onChange={this.handleChange}
                         />
                       </div>
@@ -225,12 +225,12 @@ class AjustesCuenta extends React.Component {
 
                 {/* Otra información */}
                 <div className="md:col-span-6 col-span-12 mt-10">
-                  <div class="sm:p-6 p-2 bg-white rounded-lg shadow-md">
+                  <div className="sm:p-6 p-2 bg-white rounded-lg shadow-md">
 
                     {/* Organización y otro */}
-                    <div class="sm:ml-6 ml-2 pt-1">
+                    <div className="sm:ml-6 ml-2 pt-1">
                       <div className="grid grid-cols-12">
-                        <h4 class="col-span-9 sm:col-span-11 sm:text-xl text-lg text-gray-900 leading-tight">Otra información</h4>
+                        <h4 className="col-span-9 sm:col-span-11 sm:text-xl text-lg text-gray-900 leading-tight">Otra información</h4>
 
                         <div className="sm:col-span-1 col-span-3">
                           <button
@@ -259,8 +259,8 @@ class AjustesCuenta extends React.Component {
                               type="text"
                               className="text-gray-500 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2 
                             focus:ring-yellowlight w-full -ml-10 sm:pl-10 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
-                              placeHolder="Ingrese su organización"
-                              disabled="true"
+                              placeholder="Ingrese su organización"
+                              disabled={true}
                             />
                           </div>
                         </div>
@@ -277,8 +277,8 @@ class AjustesCuenta extends React.Component {
                               className="text-gray-500 text-sm md:text-base sm:col-span-4 col-span-12 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2
                                   focus:ring-yellowlight w-full 2xl:w-96 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
 
-                              placeHolder="Otro campo"
-                              disabled="true"
+                              placeholder="Otro campo"
+                              disabled={true}
                               onChange={this.handleClick}
                             />
                           </div>
@@ -303,8 +303,8 @@ class AjustesCuenta extends React.Component {
                           type="text"
                           className="text-gray-500 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2 
                         focus:ring-yellowlight w-full -ml-10 sm:pl-10 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
-                          placeHolder="Docente"
-                          disabled="true"
+                          placeholder="Docente"
+                          disabled={true}
                           onChange={this.handleChange}
                         />
                       </div>
@@ -410,14 +410,14 @@ class AjustesCuenta extends React.Component {
                 Ajustes de cuenta
           </h1>
               {/* Nav bar Tab */}
-              <ul class="flex border-b">
-                <li class="mr-1">
-                  <button class="bg-white inline-block focus:outline-none outline-none py-2 px-4 text-gray-500 hover:text-yellow-600 font-semibold"
+              <ul className="flex border-b">
+                <li className="mr-1">
+                  <button className="bg-white inline-block focus:outline-none outline-none py-2 px-4 text-gray-500 hover:text-yellow-600 font-semibold"
                     onClick={this.clickOnPerfil}
                   >Perfil</button>
                 </li>
-                <li class="-mb-px mr-1">
-                  <button class="bg-white inline-block focus:outline-none outline-none border-l border-t border-r rounded-t py-2 px-4 
+                <li className="-mb-px mr-1">
+                  <button className="bg-white inline-block focus:outline-none outline-none border-l border-t border-r rounded-t py-2 px-4 
                   text-yellow-600 font-semibold"
                     onClick={this.clickOnContrasena}>Contraseña</button>
                 </li>
@@ -427,11 +427,11 @@ class AjustesCuenta extends React.Component {
               <div className="grid grid-cols-12 md:gap-x-16">
                 {/* Contraseña */}
                 <div className="md:col-span-6 col-span-12 mt-10">
-                  <div class="sm:p-6 p-2 bg-white rounded-lg shadow-md">
+                  <div className="sm:p-6 p-2 bg-white rounded-lg shadow-md">
 
-                    <div class="sm:ml-6 ml-2 pt-1">
+                    <div className="sm:ml-6 ml-2 pt-1">
                       <div className="grid grid-cols-12">
-                        <h4 class="col-span-9 sm:col-span-11 sm:text-xl text-lg text-gray-900 leading-tight">Cambiar contraseña</h4>
+                        <h4 className="col-span-9 sm:col-span-11 sm:text-xl text-lg text-gray-900 leading-tight">Cambiar contraseña</h4>
 
                         <div className="sm:col-span-1 col-span-3">
                           <button
@@ -461,7 +461,7 @@ class AjustesCuenta extends React.Component {
                           id="password"
                           className="transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2 focus:ring-yellowlight w-full -ml-10 pl-10 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
                           name="password"
-                          placeHolder="* * * * * * * * *"
+                          placeholder="* * * * * * * * *"
                         />
                           </div>
                         </div>

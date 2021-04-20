@@ -7,10 +7,6 @@ import rowNext from '../../assets/images/arrow-circle-down-solid.svg';
 
 class CarouselEjemplo extends Component
 {
-  test = () => {
-    console.log(this.props.label)
-  }  
-
   render() {
     return (
       <Carousel

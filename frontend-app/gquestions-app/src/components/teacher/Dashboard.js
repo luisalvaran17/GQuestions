@@ -45,35 +45,34 @@ class Dashboard extends React.Component {
           </div>
           <ul className="divide-y divide-gray-300">
 
-            <li className="p-4 hover:bg-gray-50  font-bold">
-              <div className="grid grid-rows-2">
-                <p className="hidden sm:block hover:text-yellowmain cursor-pointer">1: Nombre examen</p>
+            <li className="p-4 hover:bg-gray-200 hover:bg-opacity-40 cursor-pointer font-bold">
+              <div className="grid grid-rows-">
+                <p className="hidden sm:block">1: Nombre examen</p>
                 <div className="grid grid-cols-12">
-                  <p className="col-span-8 text-gray-500 text-sm">Públicado - Febrero 22, 2021 | Número de textos: 10 | Número de preguntas: 100</p>
-                  <div className="col-span-4 place-self-end">
+                  <p className="col-span-12 mb-4 sm:col-span-8 text-gray-500 text-sm">Públicado - Febrero 22, 2021 | Número de textos: 10 | Número de preguntas: 100</p>
+                  <div className="col-span-12 sm:col-span-4 place-self-center sm:place-self-end">
                     {/* <span className="material-icons mr-2">&#xe872;</span> */}
-                    <span className="material-icons mr-2">&#xe8f4;</span>
-                    <span className="material-icons mr-2">&#xe8b8;</span>
-                    <span className="material-icons mr-2">&#xf090;</span>
+                    <span className="hover:text-yellow-600 text-gray-900 material-icons mr-2">&#xe8f4;</span>
+                    <span className="hover:text-yellow-600 text-gray-900 material-icons mr-2">&#xe8b8;</span>
+                    <span className="hover:text-yellow-600 text-gray-900 material-icons mr-2">&#xf090;</span>
                   </div>
                 </div>
               </div>
 
             </li>
-            <li className="p-4 hover:bg-gray-50  font-bold">
-              <div className="grid grid-rows-2">
-                <p className="hidden sm:block hover:text-yellowmain cursor-pointer">2: Nombre examen</p>
+            <li className="p-4 hover:bg-gray-200 hover:bg-opacity-40 cursor-pointer font-bold">
+              <div className="grid grid-rows-">
+                <p className="hidden sm:block">1: Nombre examen</p>
                 <div className="grid grid-cols-12">
-                  <p className="col-span-8 text-gray-500 text-sm">Públicado - Febrero 22, 2021 | Número de textos: 5 | Número de preguntas: 50</p>
-                  <div className="col-span-4 place-self-end">
+                  <p className="col-span-12 mb-4 sm:col-span-8 text-gray-500 text-sm">Públicado - Febrero 22, 2021 | Número de textos: 10 | Número de preguntas: 100</p>
+                  <div className="col-span-12 sm:col-span-4 place-self-center sm:place-self-end">
                     {/* <span className="material-icons mr-2">&#xe872;</span> */}
-                    <span className="material-icons mr-2">&#xe8f4;</span>
-                    <span className="material-icons mr-2">&#xe8b8;</span>
-                    <span className="material-icons mr-2">&#xf090;</span>
+                    <span className="hover:text-yellow-600 text-gray-900 material-icons mr-2">&#xe8f4;</span>
+                    <span className="hover:text-yellow-600 text-gray-900 material-icons mr-2">&#xe8b8;</span>
+                    <span className="hover:text-yellow-600 text-gray-900 material-icons mr-2">&#xf090;</span>
                   </div>
                 </div>
               </div>
-
             </li>
           </ul>
 

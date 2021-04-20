@@ -40,7 +40,7 @@ class Generate extends React.Component {
     this.handleInputChangeTiposPregunta = this.handleInputChangeTiposPregunta.bind(
       this
     );
-    console.log(this.state.generacionConfiguracion.id);
+    //console.log(this.state.generacionConfiguracion.id);
   }
 
   handleClick = async () => {
