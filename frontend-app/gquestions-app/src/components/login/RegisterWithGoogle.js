@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import { Helmet } from "react-helmet";
 import { useHistory } from 'react-router';
 import { LoginAPI } from '../../api/LoginAPI';
-import { getToken } from '../../api/getToken';
+import { GetToken } from '../../api/GetToken';
 import { GetIDUser } from '../../api/GetIDUser';
 import { RegisterUserAPI } from '../../api/RegisterUserAPI';
 
@@ -51,7 +51,7 @@ export const RegisterWithGoogle = (response) => {
       const response = await RegisterUserAPI(usuario);
       if(response === true){
         await LoginAPI(credentials);
-        localStorage.setItem('token', await getToken(credentials));
+        localStorage.setItem('token', await GetToken(credentials));
         localStorage.setItem('email', credentials.username);
         localStorage.setItem('id_user', await GetIDUser(credentials.username));
         history.push("teacher/home");

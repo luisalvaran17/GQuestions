@@ -11,8 +11,8 @@ import screnshootMobiles from '../assets/images/mobiles-screenshots.png';
 import LogoGQuestions from '../assets/images/logo.png';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import CarouselEjemplo from '../components/home/CarouselEjemplos';
-import Footer from '../components/home/Footer';
+import {CarouselEjemplo} from '../components/home/CarouselEjemplos';
+import {Footer} from '../components/home/Footer';
 import {useHome} from '../hooks/useHome'
 
 export const Homepage = () => {

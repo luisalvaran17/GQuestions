@@ -5,14 +5,14 @@ import { Link, useHistory } from "react-router-dom";
 import ReactDOM from 'react-dom';
 import { RegisterWithGoogle } from "../components/login/RegisterWithGoogle";
 import GoogleRegister from "react-google-login";
-import ModalRegister from "../components/login/ModalRegister";
+import {ModalRegister} from "../components/login/ModalRegister";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import backgroundGeneral from "../assets/images/background-general_4x-register.png";
 import imageStudent from "../assets/images/image-register2.png";
 import { LoginAPI } from "../api/LoginAPI";
 import { RegisterUserAPI } from "../api/RegisterUserAPI";
-import { getToken } from "../api/getToken";
+import { GetToken } from "../api/GetToken";
 import { GetIDUser } from "../api/GetIDUser";
 
 export const Register = () => {
@@ -88,7 +88,7 @@ export const Register = () => {
               })
             );
             await LoginAPI(credentials);
-            localStorage.setItem('token', await getToken(credentials));
+            localStorage.setItem('token', await GetToken(credentials));
             localStorage.setItem('email', credentials.username);
             localStorage.setItem('id_user', await GetIDUser(credentials.username));
             history.push("teacher/home");
@@ -121,6 +121,7 @@ export const Register = () => {
     const user = usuario;
     user[e.target.name] = e.target.value;
     setusuario(user);
+    console.log(usuario)
   };
 
   const handleChangePassword = (e) => {

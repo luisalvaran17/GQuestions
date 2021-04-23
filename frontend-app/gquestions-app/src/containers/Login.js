@@ -7,7 +7,7 @@ import backgroundGeneral from "../assets/images/background-general.png";
 import imageStudent from "../assets/images/image-register2.png";
 import { LoginAPI } from "../api/LoginAPI";
 import { GetIDUser } from "../api/GetIDUser";
-import { getToken } from "../api/getToken";
+import { GetToken } from "../api/GetToken";
 import ReactDOM from 'react-dom';
 
 export const Login = () => {
@@ -33,7 +33,7 @@ export const Login = () => {
         const response = await LoginAPI(credentials);
 
         if (response === true) {
-          localStorage.setItem('token', await getToken(credentials));
+          localStorage.setItem('token', await GetToken(credentials));
           localStorage.setItem('email', credentials.username);
           localStorage.setItem('id_user', await GetIDUser(credentials.username));
           history.push("teacher/home");
@@ -283,8 +283,4 @@ export const Login = () => {
       </div>
     </div>
   );
-
-
 }
-
-export default Login;
