@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import Login from './containers/Login';
-import Register from './containers/Register';
-import RegisterWithGoogle from './components/login/RegisterWithGoogle';
+import {Register} from './containers/Register';
+import {RegisterWithGoogle} from './components/login/RegisterWithGoogle';
 import ModalRegister from './components/login/ModalRegister';
 import {Homepage} from './containers/Homepage';
 import HomeTeacher from './components/teacher/Generate';

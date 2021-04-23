@@ -41,7 +41,6 @@ class Generate extends React.Component {
     this.handleInputChangeTiposPregunta = this.handleInputChangeTiposPregunta.bind(
       this
     );
-    //console.log(this.state.generacionConfiguracion.id);
   }
 
   handleClick = async () => {
@@ -85,11 +84,6 @@ class Generate extends React.Component {
     const generacion_configuracion = this.state.generacionConfiguracion;
     generacion_configuracion[e.target.name] = parseInt(e.target.value);
     this.setState({ generacionConfiguracion: generacion_configuracion });
-
-    console.log(this.state.generacionConfiguracion);
-    /* console.log(this.state.generacionTipoPregunta);
-    console.log(this.state.generacionUsuario);  */
-    //console.log(e.target.value);
   };
 
   handleChangeInicioOracion = (e) => {
@@ -111,12 +105,10 @@ class Generate extends React.Component {
         [name]: value,
       })
     );
-    console.log(this.state.generacionTipoPregunta);
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
-    //console.log('submitted');
   };
 
   checkFieldsValidations = () => {
@@ -136,7 +128,6 @@ class Generate extends React.Component {
       this.state.generacionConfiguracion.longit_texto === 0 ||
       this.state.generacionConfiguracion.n_preguntas === 0
     ) {
-      console.log("Hay campos con valores en cero");
       boolZero = true;
       p_zero = React.createElement('p', {}, '●  Hay campos con valores en cero');
 
@@ -148,12 +139,10 @@ class Generate extends React.Component {
     if (this.state.generacionConfiguracion.longit_texto < 200) {
       boolLongTexto = true;
       p_longTexto = React.createElement('p', {}, '●  La longitud del texto debe ser mayor a 200 carácteres');
-      console.log("longitud menor a 200")
     }
     if (this.state.generacionConfiguracion.n_preguntas > 10) {
       boolCantidadPreguntas = true;
       p_cantidadPreguntas = React.createElement('p', {}, '●  La cantidad de preguntas no debe exceder 10');
-      console.log("longitud menor a 200")
     }
     if(this.state.generacionTipoPregunta.pregunta_abierta === false &&
       this.state.generacionTipoPregunta.completacion === false &&
