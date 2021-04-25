@@ -3,6 +3,7 @@ import Navbar from "../../containers/Navbar";
 import "../../assets/styles/tailwind.css";
 import backgroundGeneral from "../../assets/images/background-general_4x-register.png";
 import { DropdownUser } from "../user/DropdownUser";
+import { StepsProgress } from "./StepsProgress";
 
 export const ExamenConfiguracion = () => {
 
@@ -27,10 +28,10 @@ export const ExamenConfiguracion = () => {
     setExamenConfiguracion(examen_configuracion);
   };
 
-/*   const handleSubmit = (e) => {
-    e.preventDefault();
-  };
- */
+  /*   const handleSubmit = (e) => {
+      e.preventDefault();
+    };
+   */
   const checkFieldsValidations = () => {
   };
 
@@ -158,6 +159,8 @@ export const ExamenConfiguracion = () => {
           </div>
         </div>
 
+        {/* Stepper progress bar */}
+        <StepsProgress active={4} />
 
         {/* Error messages */}
         <div

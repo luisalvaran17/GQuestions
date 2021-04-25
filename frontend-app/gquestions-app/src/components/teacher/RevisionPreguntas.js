@@ -3,6 +3,7 @@ import Navbar from "../../containers/Navbar";
 import "../../assets/styles/tailwind.css";
 import backgroundGeneral from "../../assets/images/background-general-green.png";
 import { DropdownUser } from "../user/DropdownUser";
+import { StepsProgress } from "./StepsProgress";
 
 export const RevisionPreguntas = () => {
 
@@ -186,6 +187,9 @@ export const RevisionPreguntas = () => {
             </div>
           </div>
         </div>
+
+        {/* Stepper progress bar */}
+        <StepsProgress active={3}/>
 
         {/* Error messages */}
         <div
