@@ -38,9 +38,18 @@ class GeneracionUsuario(models.Model):
 
 
 
+class GeneracionTexto(models.Model):
+    id  = models.IntegerField(primary_key=True, null=False)
+    id_texto = models.IntegerField(primary_key=False, null=False)
+    cuerpo_texto = models.CharField(max_length=2000)
+    es_editado = models.BooleanField(default=False)
+    es_regenerado = models.BooleanField(default=False)
+    def _str_(self):
+        return self.id
 
-
-
+class Generacion_GeneracionTexto(models.Model):
+    generacion_texto = models.ForeignKey(GeneracionTexto, on_delete=models.CASCADE)
+    generacion = models.ForeignKey(Generacion, on_delete=models.CASCADE)
 
 
 
@@ -75,13 +84,7 @@ class GeneracionPregunta(models.Model):
     def _str_(self):
         return self.id_pregunta
 
-class GeneracionTexto(models.Model):
-    id_texto = models.AutoField(primary_key=True, null=False)
-    cuerpo_texto = models.CharField(max_length=2000)
-    es_editado = models.BooleanField(default=False)
-    es_regenerado = models.BooleanField(default=False)
-    def _str_(self):
-        return self.id_texto
+
 
 class Calificacion(models.Model):
     id_calificacion = models.AutoField(primary_key=True)
@@ -99,9 +102,7 @@ class RespuestaCuerpo(models.Model):
     def _str_(self):
         return self.id_pregunta
 
-class Generacion_GeneracionTexto(models.Model):
-    id_texto = models.ForeignKey(GeneracionTexto, on_delete=models.CASCADE)
-    cod_generacion = models.ForeignKey(Generacion, on_delete=models.CASCADE)
+
 
 class GeneracionTextoPregunta(models.Model):
     id_pregunta = models.ForeignKey(GeneracionPregunta, on_delete=models.CASCADE)

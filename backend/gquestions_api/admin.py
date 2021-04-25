@@ -16,10 +16,12 @@ class GeneracionUsuarioAdmin(admin.ModelAdmin):
 
 
 
+class GeneracionTextoAdmin(admin.ModelAdmin):
+    list_display = ('id_texto', 'cuerpo_texto', 'es_editado', 'es_regenerado')
 
 
-
-
+class Generacion_GeneracionTextoAdmin(admin.ModelAdmin):
+    list_display = ('generacion_texto', 'generacion')
 
 
 
@@ -34,8 +36,7 @@ class ExamenAdmin(admin.ModelAdmin):
     list_display = ('id_examen', 'title_exam', 'contrasena_exam', 'n_intentos', 'fecha_hora_ini','fecha_hora_fin','fecha_hora_visualizacion')
 
 
-class GeneracionTextoAdmin(admin.ModelAdmin):
-    list_display = ('id_texto', 'cuerpo_texto', 'es_editado', 'es_regenerado')
+
 
 class CalificacionAdmin(admin.ModelAdmin):
     list_display = ('id_calificacion', 'nota', 'retroalim')
@@ -43,9 +44,6 @@ class CalificacionAdmin(admin.ModelAdmin):
 
 class UsuarioExamenGeneracionAdmin(admin.ModelAdmin):
     list_display = ('email', 'id_exam', 'cod_generacion')
-
-class Generacion_GeneracionTextoAdmin(admin.ModelAdmin):
-    list_display = ('id_texto', 'cod_generacion')
 
 class GeneracionTextoPreguntaAdmin(admin.ModelAdmin):
     list_display = ('id_pregunta', 'id_texto')

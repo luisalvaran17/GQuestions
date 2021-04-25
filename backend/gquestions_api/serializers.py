@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from .models import *
 
+# pylint: disable=maybe-no-member
+
 class GeneracionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Generacion
@@ -25,10 +27,17 @@ class GeneracionUsuarioSerializer(serializers.ModelSerializer):
 
 
 
+class GeneracionTextoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GeneracionTexto
+        fields = ('id_texto', 'cuerpo_texto', 'es_editado', 'es_regenerado')
 
-
-
-
+class Generacion_GeneracionTextoSerializer(serializers.ModelSerializer):
+    generacion = serializers.PrimaryKeyRelatedField(many=False, queryset=Generacion.objects.all())
+    generacion_texto = serializers.PrimaryKeyRelatedField(many=False, queryset=GeneracionTexto.objects.all())
+    class Meta:
+        model = Generacion_GeneracionTexto
+        fields = ('generacion_texto', 'generacion')
 
 
 
@@ -47,10 +56,6 @@ class ExamenSerializer(serializers.ModelSerializer):
         fields = ('id_examen', 'title_exam', 'contrasena_exam', 'n_intentos', 'fecha_hora_ini','fecha_hora_fin','fecha_hora_visualizacion')
 
 
-class GeneracionTextoSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = GeneracionTexto
-        fields = ('id_texto', 'cuerpo_texto', 'es_editado', 'es_regenerado')
 
 class CalificacionSerializer(serializers.ModelSerializer):
     class Meta:
@@ -66,10 +71,7 @@ class UsuarioExamenGeneracionSerializer(serializers.ModelSerializer):
 
 
 
-class Generacion_GeneracionTextoSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Generacion_GeneracionTexto
-        fields = ('id_texto', 'cod_generacion')
+
 
 class GeneracionTextoPreguntaSerializer(serializers.ModelSerializer):
     class Meta:
