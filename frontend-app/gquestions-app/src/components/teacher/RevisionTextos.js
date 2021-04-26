@@ -8,19 +8,21 @@ import { CreateTextsAPI } from "../../api/CreateTextsAPI";
 import { CreateTextsRelacionAPI } from "../../api/CreateTextsRelacionAPI";
 import { RevisionPreguntas } from "./RevisionPreguntas";
 import Scrollbars from "react-custom-scrollbars";
+import AOS from "aos";
 
 export const RevisionTextos = (props) => {
-  // ********************** API de prueba *********************** //
-  // https://run.mocky.io/v3/5f20f0b6-6152-4437-9817-8089fd64737f//
-  //  ************************************************************//
 
-  const url = "https://run.mocky.io/v3/5f20f0b6-6152-4437-9817-8089fd64737f";  // API PREGUNTAS fake
+  // const ref error messages (div DOM)
   const divRefErrorMessage = React.createRef();
-  const [titleTextoRef , setTitleTextoRef ] = useState("Texto 1")
-  const Textos = props.textosFromGenerate;
 
-  const [irRevisionPreguntas, setIrRevisionPreguntas] = useState(false)
+  // Título que se setea cuando se presiona click en otro texto
+  const [titleTextoRef, setTitleTextoRef] = useState("Texto 1")
+  const Textos = props.textosFromGenerate;    // Estado que guarda todos los textos generados en la vista anterior (GenerateConfig), recibido por props
 
+  const [irRevisionPreguntas, setIrRevisionPreguntas] = useState(false) // Estado que sirve para redireccionar a la 
+  // siguiente vista al presionar el botón(RevisionPreguntas)
+
+  // Estado que se usa para insertar texto por texto en la DB
   const [TextoObjeto, setTextoObjeto] = useState({
     id_texto: "",
     cuerpo_texto: "",
@@ -35,8 +37,8 @@ export const RevisionTextos = (props) => {
   })
 
 
-  const [TextArea, setTextArea] = useState(Textos[0].cuerpo)
-  const [ValTemp, setValTemp] = useState("1")
+  const [TextArea, setTextArea] = useState(Textos[0].cuerpo)  // Estado que guarda el value de TextArea dependiendo de cual texto se presione
+  const [ValTemp, setValTemp] = useState("1") // Estado que sirve para guardar el id del texto de manera temporal
 
 
   const handleClickPrueba = async () => {
@@ -45,12 +47,18 @@ export const RevisionTextos = (props) => {
   }
 
   useEffect(() => {
-    //setTextArea(Textos[0].cuerpo)
+    AOS.init({
+      duration: 800,
+    })
+
+    // componentwillunmount
+    return () => {  // todo: Agregar _isMounted
+    }
   }, []);
+
 
   // Llamada a la Api para insertar los datos en la base de datos
   const setTextosDatabase = () => {
-
     Textos.map(texto => {   // Recorre cada texto y manda uno por uno a un POST con los campos necesarios
       setTextoObjeto(
         Object.assign(TextoObjeto, {
@@ -67,7 +75,6 @@ export const RevisionTextos = (props) => {
 
   // Llamada a la Api para insertar los datos como relación en la base de datos
   const setTextosIntermediaDatabase = () => {
-
     Textos.map(texto => {   // Recorre cada texto y manda uno por uno a un POST con los campos necesarios
       setTextoGeneracionRelacion(
         Object.assign(TextoGeneracionRelacion, {
@@ -80,10 +87,11 @@ export const RevisionTextos = (props) => {
     })
   }
 
+  // Función llamada al presionar el botón de "generar preguntas"
   const handleClick = () => {
     setTextosDatabase();
     setTextosIntermediaDatabase();
-    setIrRevisionPreguntas(true);
+    setIrRevisionPreguntas(true); // se cambia a true para redireccionar a la siguientes vista (revision preguntas)
 
     // Todo: Traer bool true or false si se efectuan todos los POST CORRECTAMENTE
     /* const boolTextos = setTextosDatabase();
@@ -92,6 +100,7 @@ export const RevisionTextos = (props) => {
     if (boolTextos && boolTextosIntermedia) setIrRevisionPreguntas(true) */
   }
 
+  // Función utilizada cuando hay un cambio en el text area
   const handleTextArea = (e) => {
     let value = e.target.value;
     setTextArea(value);
@@ -99,16 +108,15 @@ export const RevisionTextos = (props) => {
       if (texto.id === ValTemp) {
         Textos[parseInt(texto.id) - 1].cuerpo = value
         Textos[parseInt(texto.id) - 1].es_editado = true;
-        setTextArea(value);
+        setTextArea(value); // todo: revisar si se quita este o el de arriba
         return true;
       } else {
         return false;
       }
     })
-    console.log(Textos)
-    console.log(ValTemp)
   }
 
+  // Función llamada al presionar un elemento de la lista de textos
   const onClickTexto = (e) => {
     Textos.map(texto => {
       if (texto.id === e.target.id) {
@@ -130,7 +138,7 @@ export const RevisionTextos = (props) => {
       divRefErrorMessage.current.classList.remove("hidden");
     }; */
 
-  // CONDICIONAL PARA REDIRECCIONAR CON PROPS EN CASO DE QUE LA GENERACIÓN SEA EXITOSA (ENVIAR A SIGUIENTE COMPONENT FUNCTIONAL)
+  // Condicional para redireccionar con props en caso de que la generacion sea exitosa (Enviar al siguiente component funcional)
   if (!irRevisionPreguntas) {
 
     return (
@@ -166,7 +174,7 @@ export const RevisionTextos = (props) => {
             <div className="grid grid-cols-12">
               <div className="col-span-2 sm:col-span-3">
                 <div className="flex ">
-                <CustomScrollbars autoHide autoHideTimeout={900} autoHideDuration={400} style={{height:"50vh"}} className="m-0 overflow-auto bg-white border shadow-md border-gray-200 sm:rounded-md rounded-r-none w-full lg:mr-16 md:mr-8 mr-4 md:text-base text-sm">
+                  <CustomScrollbars autoHide autoHideTimeout={900} autoHideDuration={400} style={{ height: "50vh" }} className="m-0 overflow-auto bg-white border shadow-md border-gray-200 sm:rounded-md rounded-r-none w-full lg:mr-16 md:mr-8 mr-4 md:text-base text-sm">
                     <ul className="divide-y divide-gray-300">
                       <li className="p-4 font-light text-gray-500">
                         <p className="hidden sm:block">PAQUETES DE TEXTOS</p>
@@ -214,32 +222,10 @@ export const RevisionTextos = (props) => {
                   >
                   </textarea>
                   <hr></hr>
-                  {/*                   <div className="flex md:flex-row flex-col gap-y-2 md:gap-x-16 box__title bg-grey-lighter px-3  py-2 items-center self-center">
-                    <div className="">
-                      <button
-                        type="submit"
-                        className="text-base z-10 pl-1 block w-52 focus:outline-none bg-blue-200 hover:bg-blue-300 focus:bg-blue-300 text-black rounded-lg px-2 py-2 font-semibold"
-                        onClick={this.handleClick}
-                      >
-                        Editar
-                      </button>
-                    </div>
-                    <div className="">
-                      <button
-                        type="submit"
-                        className="text-base z-10 pl-1 w-52 block focus:outline-none bg-blue-200 hover:bg-blue-300 focus:bg-blue-300 text-black rounded-lg px-2 py-2 font-semibold"
-                        onClick={this.handleClick}
-                      >
-                        Volver a generar
-                      </button>
-                    </div>
-                  </div> */}
                 </div>
               </div>
             </div>
           </div>
-
-
 
           <div className="grid grid-rows justify-end items-end mt-4">
             <div className="flex md:flex-row flex-col gap-x-8 gap-y-2 box__title bg-grey-lighter px-3  py-2 items-center self-center">
@@ -269,7 +255,6 @@ export const RevisionTextos = (props) => {
 
           {/* Error messages */}
           <div
-
             ref={divRefErrorMessage}
             className="hidden animate-pulse mt-1 relative py-1 pl-4 pr-10 leading-normal text-red-700 bg-red-100 rounded-lg"
             role="alert"
@@ -293,20 +278,19 @@ export const RevisionTextos = (props) => {
                 ></path>
               </svg>
             </span>
-
           </div>
-
         </div>
-        <DropdownUser />
+        <DropdownUser />  {/* Elemento menú del usuario */}
       </div>
     );
   } else if (irRevisionPreguntas) {
-    return(
+    return (
       <RevisionPreguntas />
     );
   }
 }
 
+// Funcionanes que cambian el estilo del scroll y otras props de una librería
 const renderThumb = ({ style, ...props }) => {
   const thumbStyle = {
     borderRadius: 6,
