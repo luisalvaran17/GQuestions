@@ -17,7 +17,7 @@ class GeneracionUsuarioAdmin(admin.ModelAdmin):
 
 
 class GeneracionTextoAdmin(admin.ModelAdmin):
-    list_display = ('id_texto', 'cuerpo_texto', 'es_editado', 'es_regenerado')
+    list_display = ('id', 'id_texto', 'cuerpo_texto', 'es_editado', 'es_regenerado')
 
 
 class Generacion_GeneracionTextoAdmin(admin.ModelAdmin):
