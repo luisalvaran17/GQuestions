@@ -1,13 +1,34 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Navbar from "../../containers/Navbar";
 import "../../assets/styles/tailwind.css";
 import backgroundGeneral from "../../assets/images/background-general-green.png";
 import { DropdownUser } from "../user/DropdownUser";
 import { StepsProgress } from "./StepsProgress";
+import { Scrollbars } from 'react-custom-scrollbars';
+
+const renderThumb = ({ style, ...props }) => {
+  const thumbStyle = {
+    borderRadius: 6,
+    backgroundColor: 'rgba(35, 49, 86, 0.8)'
+  };
+  return <div style={{ ...style, ...thumbStyle }} {...props} />;
+};
+
+const CustomScrollbars = props => (
+  <Scrollbars
+    renderThumbHorizontal={renderThumb}
+    renderThumbVertical={renderThumb}
+    {...props}
+  />
+);
 
 export const RevisionPreguntas = () => {
 
   const divRefErrorMessage = React.createRef();
+
+  useEffect(() => {
+  }, []);
+
 
   const addClassdivRefErrorMessage = () => {
     divRefErrorMessage.current.classList.add("hidden");
@@ -33,9 +54,9 @@ export const RevisionPreguntas = () => {
       <div className="">
         <Navbar className="fixed" />
       </div>
-      <div className="container xl:mx-32 mx-4 md:mx-8 lg:mx-16 mt-8">
+      <div className="container xl:mx-32 mx-4 md:mx-8 lg:mx-16 min-h-screen">
         <div className="grid grid-rows space-y-8 mb-8">
-          <h1 className="font-bold xl:text-5xl md:text-4xl sm:text-3xl text-xl">
+          <h1 className="font-bold xl:text-5xl md:text-4xl sm:text-3xl text-xl mt-8">
             Preguntas generadas
             </h1>
           <p className="text-gray-500 font-semibold text-sm md:text-base">
@@ -49,8 +70,8 @@ export const RevisionPreguntas = () => {
         <div className="container">
           <div className="grid grid-cols-12">
             <div className="col-span-2 sm:col-span-3">
-              <div className="flex ">
-                <div className="bg-white border shadow-md border-gray-200 rounded-md w-full lg:mr-16 md:mr-8 mr-4 md:text-base text-sm">
+              <div className="flex">
+                <CustomScrollbars autoHide autoHideTimeout={900} autoHideDuration={400} style={{height:"50vh"}} className="m-0 overflow-auto bg-white border shadow-md border-gray-200 rounded-md w-full lg:mr-16 md:mr-8 mr-0 md:text-base text-sm">
                   <ul className="divide-y divide-gray-300">
                     <li className="p-4 font-light bg-blue-50  text-gray-500">
                       <p className="hidden sm:block">PAQUETES DE PREGUNTAS</p>
@@ -96,8 +117,16 @@ export const RevisionPreguntas = () => {
                       <p className="hidden sm:block">Preguntas texto 10</p>
                       <p className="sm:hidden block">10</p>
                     </li>
+                    <li className="p-4 hover:bg-gray-50 cursor-pointer hover:text-yellowmain font-bold">
+                      <p className="hidden sm:block">Preguntas texto 10</p>
+                      <p className="sm:hidden block">10</p>
+                    </li>
+                    <li className="p-4 hover:bg-gray-50 cursor-pointer hover:text-yellowmain font-bold">
+                      <p className="hidden sm:block">Preguntas texto 10</p>
+                      <p className="sm:hidden block">10</p>
+                    </li>
                   </ul>
-                </div>
+                </CustomScrollbars>
               </div>
             </div>
 
@@ -110,34 +139,58 @@ export const RevisionPreguntas = () => {
                   <div className="col-span-12 sm:col-span-6 place-self-end">
                     <button
                       type="submit"
-                      className="md:text-base text-sm z-10 pl-1 sm:w-52 w-44 block focus:outline-none bg-green-400 hover:bg-green-500 focus:bg-green-500 text-black rounded-lg px-2 py-2 font-semibold"
+                      className="md:text-base text-sm z-10 pl-1 sm:w-52 w-40 block focus:outline-none bg-green-400 hover:bg-green-500 focus:bg-green-500 text-black rounded-lg px-2 py-2 font-semibold"
                       //onClick={this.handleClick}
                     >
                       Ver texto base
                       </button>
                   </div>
                 </div>
-                <textarea
+                <div className="" style={{height:"40vh"}}>
+                <CustomScrollbars autoHide autoHideTimeout={900} autoHideDuration={400} className="m-0 overflow-auto">
+                <p
                   placeholder="hey"
+                  disabled={true}
                   className="h-full resize-none focus:border-gray-400 p-2 m-1 bg-transparent text-gray-600 text-sm md:text-base "
-                  defaultValue="
+                >
+                
                     1) Q: Who were the classical philosophers and theologians?
                     A: The classical philosophers and theologians were all familiar with the development of mathematical sciences over a period of centuries, as has been mentioned by Bocci, G.
+                    <br></br><br></br>
                     2) Q: What is the definition of computer science?
+                    <br></br>
                     A: Computer science is the study of algorithmic processes, vernacular verbs.
+
+                    <br></br><br></br>
                     3) Q: What is the meaning of the term 'mathematical'?
+                    <br></br>
                     A: From ancient Roman Rome, classical mathematics was the study of the laws of physics, applied to all
                     fields of human psychology and human behavior, since it is the research of those sciences to study the
                     natural world.
-                    4) Q: What is the purpose of the study of mathematical sciences?1
+
+                    <br></br><br></br>
+                    4) Q: What is the purpose of the study of mathematical sciences?
+                    <br></br>
                     A: All these economists understood that each of their mathematical sciences had an associated goal: to
                     develop and test ideas in the natural sciences, in nature, in philosophy and psychology, or in theory.
+
+                    <br></br><br></br>
                     5) Q: What is the meaning of the word 'math'?
+                    <br></br>
                     A: According to modern mathematical theories, natural numbers and mathematical formulas are
-                    not simply words or rules but rather represent the human and machine experience."
-                >
-                </textarea>
+                    not simply words or rules but rather represent the human and machine experience.
+
+                    <br></br><br></br>
+                    5) Q: What is the meaning of the word 'math'?
+                    <br></br>
+                    A: According to modern mathematical theories, natural numbers and mathematical formulas are
+                    not simply words or rules but rather represent the human and machine experience.</p>
+
+
+                </CustomScrollbars>
                 <hr></hr>
+                <div className="flex mt-2 px-4 items-center"><p className="hidden sm:block text-gray-500 text-sm md:text-sm">Cite: Questions Generator Algorithm - HuggingFace</p></div>
+                </div>
                 {/*                   <div className="flex md:flex-row flex-col gap-y-2 md:gap-x-16 box__title bg-grey-lighter px-3  py-2 items-center self-center">
                     <div className="">
                       <button

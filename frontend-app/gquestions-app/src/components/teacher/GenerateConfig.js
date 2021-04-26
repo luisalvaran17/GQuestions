@@ -24,7 +24,10 @@ export const GenerateConfig = () => {
   const [Textos, setTextos] = useState([])
   const [irRevisionTexto, setIrRevisionTexto] = useState(false)
 
-  const url = "https://run.mocky.io/v3/535c8ac5-692e-4e51-8b74-094da42e5a2d"; // Mock TEST
+  // ********************** API de prueba *********************** //
+  // https://run.mocky.io/v3/d3287804-d069-482d-b770-3156f369a631//
+  //  ************************************************************//
+  const url = "https://run.mocky.io/v3/d3287804-d069-482d-b770-3156f369a631"; // Endpoint TEXTOS fake
 
 
   // Estado utilizado para campos de configuración de Generación de textos
@@ -109,11 +112,11 @@ export const GenerateConfig = () => {
           /* return(
             <RevisionTextos props={Textos,UUID} />
           ) */
-          history.push({
+          /* history.push({
             pathname: '/teacher/revision-textos',
             //search: '?query=abc',
-            state: { textosFromGenerate: Textos, UUID:generacionConfiguracion.id }
-          })
+            state: { textosFromGenerate: Textos, UUID: generacionConfiguracion.id }
+          }) */
         }
         else {
           console.log("Ha occurido un error");
@@ -221,6 +224,7 @@ export const GenerateConfig = () => {
 
 
   // CONDICIONAL PARA REDIRECCIONAR CON PROPS EN CASO DE QUE LA GENERACIÓN SEA EXITOSA (ENVIAR A SIGUIENTE COMPONENT FUNCTIONAL)
+  if (!irRevisionTexto) {
     return (
       <div
         className="flex container w-screen h-screen font-manrope"
@@ -447,4 +451,9 @@ export const GenerateConfig = () => {
         <DropdownUser />
       </div>
     );
+  } else if (irRevisionTexto) {
+    return(
+      <RevisionTextos textosFromGenerate={Textos} UUID={generacionConfiguracion.id} />
+    )
   }
+}

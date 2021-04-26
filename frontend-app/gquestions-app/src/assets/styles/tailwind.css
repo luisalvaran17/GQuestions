@@ -32799,6 +32799,24 @@ input[type="checkbox"]:selected + label{
   color: #FE9A22;
 }
 
+/*  scroller for lists Revisión de textos y preguntas */
+
+.app {
+  width: 350px;
+  margin: 0 auto;
+}
+
+.scroller {
+  margin: 0 auto;
+  height: 300px;
+  width: 300px;
+  overflow: auto;
+}
+
+.item {
+  margin: 30px 0;
+}
+
 /* Línea para compilar tailwind css */
 
 /* npx tailwindcss build ./src/assets/styles/styles.css -o ./src/assets/styles/tailwind.css */
