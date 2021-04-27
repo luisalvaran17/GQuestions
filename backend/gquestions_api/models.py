@@ -40,13 +40,13 @@ class GeneracionUsuario(models.Model):
 
 # Tablas generacion Textos
 class GeneracionTexto(models.Model):
-    id  = models.IntegerField(primary_key=True, null=False)
-    id_texto = models.IntegerField(primary_key=False, null=False)
+    id_texto  = models.CharField(primary_key=True, null=False, max_length=255)
+    #id_texto = models.IntegerField(primary_key=False, null=False)
     cuerpo_texto = models.TextField(max_length=2000)
     es_editado = models.BooleanField(default=False)
     es_regenerado = models.BooleanField(default=False)
     def _str_(self):
-        return self.id
+        return self.id_texto
 
 class Generacion_GeneracionTexto(models.Model):
     generacion_texto = models.ForeignKey(GeneracionTexto, on_delete=models.CASCADE)
@@ -58,27 +58,29 @@ class Generacion_GeneracionTexto(models.Model):
 
 # Tablas generacion preguntas 
 class GeneracionPregunta(models.Model):
-    id_pregunta = models.AutoField(primary_key=True, null=False)
+    id_pregunta = models.CharField(primary_key=True, null=False, max_length=255)
     pregunta_cuerpo = models.CharField(max_length=1000)
-    respuesta_cuerpo = models.CharField(max_length=1000) # todo: remove
+    #respuesta_cuerpo = models.CharField(max_length=1000) # todo: remove
     respuesta_correcta = models.CharField(max_length=1000)
     def _str_(self):
         return self.id_pregunta
 
 class RespuestaCuerpo(models.Model):
-    id_pregunta = models.OneToOneField(GeneracionPregunta, on_delete = models.CASCADE, primary_key=True, null=False)
+    generacion_pregunta = models.OneToOneField(GeneracionPregunta, on_delete = models.CASCADE, primary_key=True, null=False)
     resp_unica = models.CharField(max_length=1000)
     opcion_multiple = models.CharField(max_length=100)
     completacion = models.CharField(max_length=2000)
     def _str_(self):
-        return self.id_pregunta
+        return self.generacion_pregunta
 
 
 class GeneracionTextoPregunta(models.Model):
-    id_pregunta = models.ForeignKey(GeneracionPregunta, on_delete=models.CASCADE)
-    id_texto = models.ForeignKey(GeneracionTexto, on_delete=models.CASCADE)
+    id = models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')
+    generacion_pregunta = models.ForeignKey(GeneracionPregunta, on_delete=models.CASCADE)
+    generacion_texto = models.ForeignKey(GeneracionTexto, on_delete=models.CASCADE)
 
-
+    def _str_(self):
+            return self.id
 
 
 

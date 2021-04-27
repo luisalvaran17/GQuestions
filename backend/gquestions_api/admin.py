@@ -4,6 +4,7 @@ from .models import *
 # Register your models here.
 
 
+## model admin de generacion (Configuracion)
 class GeneracionAdmin(admin.ModelAdmin):
     list_display = ('id', 'n_examenes', 'longit_texto', 'n_preguntas', 'inicio_oracion')
 
@@ -16,8 +17,10 @@ class GeneracionUsuarioAdmin(admin.ModelAdmin):
 
 
 
+
+## model admin de generacion Textos
 class GeneracionTextoAdmin(admin.ModelAdmin):
-    list_display = ('id', 'id_texto', 'cuerpo_texto', 'es_editado', 'es_regenerado')
+    list_display = ('id_texto', 'cuerpo_texto', 'es_editado', 'es_regenerado')
 
 
 class Generacion_GeneracionTextoAdmin(admin.ModelAdmin):
@@ -26,11 +29,18 @@ class Generacion_GeneracionTextoAdmin(admin.ModelAdmin):
 
 
 
-
-
-
+## Model admin de generacion Preguntas
 class GeneracionPreguntaAdmin(admin.ModelAdmin):
-    list_display = ('id_pregunta', 'pregunta_cuerpo', 'respuesta_cuerpo', 'respuesta_correcta')
+    list_display = ('id_pregunta', 'pregunta_cuerpo', 'respuesta_correcta')
+
+class RespuestaCuerpoAdmin(admin.ModelAdmin):
+    list_display = ('generacion_pregunta', 'resp_unica', 'opcion_multiple', 'completacion')
+
+class GeneracionTextoPreguntaAdmin(admin.ModelAdmin):
+    list_display = ('generacion_pregunta', 'generacion_texto')
+
+
+
 
 class ExamenAdmin(admin.ModelAdmin):
     list_display = ('id_examen', 'title_exam', 'contrasena_exam', 'n_intentos', 'fecha_hora_ini','fecha_hora_fin','fecha_hora_visualizacion')
@@ -45,8 +55,7 @@ class CalificacionAdmin(admin.ModelAdmin):
 class UsuarioExamenGeneracionAdmin(admin.ModelAdmin):
     list_display = ('email', 'id_exam', 'cod_generacion')
 
-class GeneracionTextoPreguntaAdmin(admin.ModelAdmin):
-    list_display = ('id_pregunta', 'id_texto')
+
 
 class CalificacionUsuarioAdmin(admin.ModelAdmin):
     list_display = ('id_calificacion', 'id_examen')

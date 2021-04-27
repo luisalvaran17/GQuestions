@@ -162,3 +162,5 @@ AUTHENTICATION_BACKENDS = [
 AUTH_USER_MODEL = 'accounts.Account'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
+SITE_ID=1
