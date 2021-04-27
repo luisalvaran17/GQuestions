@@ -12,6 +12,9 @@ import AOS from "aos";
 
 export const RevisionTextos = (props) => {
 
+
+  const { v4: uuidv4 } = require("uuid");
+
   // const ref error messages (div DOM)
   const divRefErrorMessage = React.createRef();
 
@@ -32,42 +35,48 @@ export const RevisionTextos = (props) => {
 
   // Estado utilizado para llaves foraneas de relacion Generacion - Texto
   const [TextoGeneracionRelacion, setTextoGeneracionRelacion] = useState({
-    generacion: props.UUID,
+    generacion: props.UUID_GENERATE,
     generacion_texto: "",
   })
-
 
   const [TextArea, setTextArea] = useState(Textos[0].cuerpo)  // Estado que guarda el value de TextArea dependiendo de cual texto se presione
   const [ValTemp, setValTemp] = useState("1") // Estado que sirve para guardar el id del texto de manera temporal
 
-
   const handleClickPrueba = async () => {
     console.log(props.textosFromGenerate);
-    console.log(props.UUID);
+    console.log(props.UUID_GENERATE);
   }
 
   useEffect(() => {
+
     AOS.init({
       duration: 800,
     })
+
+    getPreguntas();/* eslint-disable-next-line react-hooks/exhaustive-deps */
 
     // componentwillunmount
     return () => {  // todo: Agregar _isMounted
     }
   }, []);
 
-
   // Llamada a la Api para insertar los datos en la base de datos
   const setTextosDatabase = () => {
+    let UUID_TEXTO = ""
+    let splitUUID = []
     Textos.map(texto => {   // Recorre cada texto y manda uno por uno a un POST con los campos necesarios
+      UUID_TEXTO = uuidv4();
+      splitUUID = UUID_TEXTO.split("-");
+      UUID_TEXTO = splitUUID[0] + "-" + splitUUID[1]; // Acorta el  UUID GENERADO POR LA FUNCION uuidv4()
       setTextoObjeto(
         Object.assign(TextoObjeto, {
-          id_texto: texto.id,
+          id_texto: UUID_TEXTO,
           cuerpo_texto: texto.cuerpo,
           es_editado: texto.es_editado,
-          es_regenerado: texto.es_regenerado
+          es_regenerado: texto.es_regenerado,
         })
       )
+      texto.id = UUID_TEXTO
       CreateTextsAPI(TextoObjeto); // POST a la tabla GeneracionTexto
       return true;
     })
@@ -76,9 +85,10 @@ export const RevisionTextos = (props) => {
   // Llamada a la Api para insertar los datos como relación en la base de datos
   const setTextosIntermediaDatabase = () => {
     Textos.map(texto => {   // Recorre cada texto y manda uno por uno a un POST con los campos necesarios
+      console.log(texto.id)
       setTextoGeneracionRelacion(
         Object.assign(TextoGeneracionRelacion, {
-          //generacion: UUID, // No necesario porque ya es asignado en el estado inicial del Hook 
+          //generacion: UUID_GENERATE, // No necesario porque ya es asignado en el estado inicial del Hook 
           generacion_texto: texto.id,
         })
       )
@@ -91,6 +101,8 @@ export const RevisionTextos = (props) => {
   const handleClick = () => {
     setTextosDatabase();
     setTextosIntermediaDatabase();
+
+    setPreguntasFromResposeAPIFunction(); // Setea las preguntas en el estado preguntasDB para ser enviado a la revision de preguntas
     setIrRevisionPreguntas(true); // se cambia a true para redireccionar a la siguientes vista (revision preguntas)
 
     // Todo: Traer bool true or false si se efectuan todos los POST CORRECTAMENTE
@@ -137,6 +149,55 @@ export const RevisionTextos = (props) => {
   /*   const removeClassdivRefErrorMessage = () => {
       divRefErrorMessage.current.classList.remove("hidden");
     }; */
+
+
+  // *************************************************************//
+  // *************************************************************//
+  // Get and set data questions, send to RevisionPreguntas.js     //
+  // ********************** API de prueba *********************** //
+  // https://run.mocky.io/v3/9d92204e-07c2-4809-bf16-01b360612433 //
+  //  ************************************************************//
+  // *************************************************************//
+  const url = "https://run.mocky.io/v3/9d92204e-07c2-4809-bf16-01b360612433";  // Endpoint PREGUNTAS fake
+  const [preguntas, setPreguntas] = useState([])
+  const [preguntasDB, setPreguntasDB] = useState([])
+
+  // get data Preguntas endpoint 
+  const getPreguntas = async () => {
+    // You can await here
+    const response = await fetch(url)
+      .then((res) => res.json())
+      .then((json) => {
+        return json
+      })
+      .catch(err => {
+        console.log(err)
+        return false;
+      })
+
+    // Asignación de respuesta al stado Textos
+    setPreguntas(response.data);
+  }
+
+  const setPreguntasFromResposeAPIFunction = () => {
+    let id_pregunta = "";
+    let pregunta_cuerpo = "";
+    let respuesta_correcta = "";
+    let arrayPreguntas = []
+    let itemPregunta = {}
+    let lengthArrayPreguntas = preguntas[0].texto.length
+
+    for (let i = 0; i < lengthArrayPreguntas; i++) {
+      id_pregunta = preguntas[0].texto[i].id_pregunta;
+      pregunta_cuerpo = preguntas[0].texto[i].pregunta_cuerpo;
+      respuesta_correcta = preguntas[0].texto[i].respuesta_cuerpo.respuesta_correcta;
+
+      itemPregunta = { id_pregunta, pregunta_cuerpo, respuesta_correcta }
+
+      arrayPreguntas.push(itemPregunta);
+    }
+    setPreguntasDB(arrayPreguntas);
+  }
 
   // Condicional para redireccionar con props en caso de que la generacion sea exitosa (Enviar al siguiente component funcional)
   if (!irRevisionPreguntas) {
@@ -285,7 +346,7 @@ export const RevisionTextos = (props) => {
     );
   } else if (irRevisionPreguntas) {
     return (
-      <RevisionPreguntas />
+      <RevisionPreguntas preguntasDB={preguntasDB} />
     );
   }
 }

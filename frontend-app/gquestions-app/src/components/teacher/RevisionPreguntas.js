@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Navbar from "../../containers/Navbar";
 import "../../assets/styles/tailwind.css";
 import backgroundGeneral from "../../assets/images/background-general-green.png";
@@ -7,22 +7,13 @@ import { StepsProgress } from "./StepsProgress";
 import { Scrollbars } from 'react-custom-scrollbars';
 import AOS from "aos";
 
-
-export const RevisionPreguntas = () => {
+export const RevisionPreguntas = (props) => {
 
   const divRefErrorMessage = React.createRef();
 
-  const [preguntas, setPreguntas] = useState([])
-  const [preguntasDB, setPreguntasDB] = useState([])
-
-  // ********************** API de prueba *********************** //
-  // https://run.mocky.io/v3/9d92204e-07c2-4809-bf16-01b360612433 //
-  //  ************************************************************//
-  const url = "https://run.mocky.io/v3/9d92204e-07c2-4809-bf16-01b360612433";  // Endpoint PREGUNTAS fake
+  const preguntasDB  = props.preguntasDB
 
   useEffect(() => {
-    getPreguntas();  // Obtiene los textos desde el endpoint (url)
-
     AOS.init({
       duration: 800,
     })
@@ -32,64 +23,11 @@ export const RevisionPreguntas = () => {
     }
   }, []);
 
-
-  // get data Preguntas endpoint 
-  const getPreguntas = async () => {
-
-    // You can await here
-    const response = await fetch(url)
-      .then((res) => res.json())
-      .then((json) => {
-        return json
-      })
-      .catch(err => {
-        console.log(err)
-        return false;
-      })
-
-    // Asignación de respuesta al stado Textos
-    setPreguntas(response.data);
-  }
-
-  const setPreguntasFromResposeAPIFunction = () => {
-    let id_pregunta = "";
-    let pregunta_cuerpo = "";
-    let respuesta_correcta = "";
-    let arrayPreguntas = []
-    let itemPregunta = {}
-    let lengthArrayPreguntas = preguntas[0].texto.length
-
-    for (let i = 0; i < lengthArrayPreguntas; i++) {
-      id_pregunta = preguntas[0].texto[i].id_pregunta;
-      pregunta_cuerpo = preguntas[0].texto[i].pregunta_cuerpo;
-      respuesta_correcta = preguntas[0].texto[i].respuesta_cuerpo.respuesta_correcta;
-
-      itemPregunta = { id_pregunta, pregunta_cuerpo, respuesta_correcta }
-
-      arrayPreguntas.push(itemPregunta);
-    }
-    setPreguntasDB(arrayPreguntas);
-  }
-
   const onClickPregunta = (e) => {
-
-    /* let preguntas_p = ""
-    preguntasDB.map(pregunta => {
-      preguntas_p = pregunta.pregunta_cuerpo + pregunta.respuesta_correcta
-
-      let p_element = React.createElement('p', {}, preguntas_p);
-      let br_element = React.createElement('br', {})
-      const X = React.createElement('span', {}, [p_element, br_element]);
-      ReactDOM.render(X, document.getElementById('error_messages'));
-      //setTitleTextoRef("Texto " + texto.id);
-      return true;
-    })
-    setTextArea(preguntas_p); */
   }
 
   const handleClickPruebas = () => {
     console.log("nothing...")
-    setPreguntasFromResposeAPIFunction();
     console.log(preguntasDB)
   }
 

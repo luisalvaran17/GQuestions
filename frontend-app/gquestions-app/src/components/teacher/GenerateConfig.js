@@ -15,7 +15,7 @@ import { RevisionTextos } from "./RevisionTextos";
 export const GenerateConfig = () => {
   const divRefErrorMessage = React.createRef();
   const { v4: uuidv4 } = require("uuid");
-  const UUID = uuidv4(); // uuid autogenerado para id de Generacion
+  const UUID_GENERATE = uuidv4(); // uuid autogenerado para id de Generacion
 
   // Hooks
   const history = useHistory();
@@ -32,7 +32,7 @@ export const GenerateConfig = () => {
 
   // Estado utilizado para campos de configuración de Generación de textos
   const [generacionConfiguracion, setgeneracionConfiguracion] = useState({
-    id: UUID,
+    id: UUID_GENERATE,
     n_examenes: 10,
     cantidad_textos: 10,
     longit_texto: 200,
@@ -45,12 +45,12 @@ export const GenerateConfig = () => {
     pregunta_abierta: true,
     opcion_multiple: true,
     completacion: false,
-    generacion: UUID,
+    generacion: UUID_GENERATE,
   });
 
   // Estado utilizado para llaves foraneas de relacion Generacion - Usuario
   const [generacionUsuario, setgeneracionUsuario] = useState({
-    generacion: UUID,
+    generacion: UUID_GENERATE,
     account: 0,
   });
 
@@ -110,12 +110,12 @@ export const GenerateConfig = () => {
           //history.push("/teacher/revision-textos");
           setIrRevisionTexto(true);
           /* return(
-            <RevisionTextos props={Textos,UUID} />
+            <RevisionTextos props={Textos,UUID_GENERATE} />
           ) */
           /* history.push({
             pathname: '/teacher/revision-textos',
             //search: '?query=abc',
-            state: { textosFromGenerate: Textos, UUID: generacionConfiguracion.id }
+            state: { textosFromGenerate: Textos, UUID_GENERATE: generacionConfiguracion.id }
           }) */
         }
         else {
@@ -453,7 +453,7 @@ export const GenerateConfig = () => {
     );
   } else if (irRevisionTexto) {
     return(
-      <RevisionTextos textosFromGenerate={Textos} UUID={generacionConfiguracion.id} />
+      <RevisionTextos textosFromGenerate={Textos} UUID_GENERATE={generacionConfiguracion.id} />
     )
   }
 }
