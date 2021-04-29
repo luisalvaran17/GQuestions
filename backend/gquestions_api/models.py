@@ -80,7 +80,7 @@ class GeneracionTextoPregunta(models.Model):
     generacion_texto = models.ForeignKey(GeneracionTexto, on_delete=models.CASCADE)
 
     def _str_(self):
-            return self.id
+            return self.generacion_pregunta
 
 
 

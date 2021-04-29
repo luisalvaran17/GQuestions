@@ -1,8 +1,23 @@
 from rest_framework import serializers
-from .models import *
+from .models import Generacion
+from .models import TipoPregunta
+from .models import GeneracionUsuario
+from .models import GeneracionTexto
+from .models import Generacion_GeneracionTexto
+from .models import GeneracionPregunta
+from .models import Examen
+from .models import Calificacion
+from .models import CalificacionUsuario
+from .models import Account
+from .models import UsuarioExamenGeneracion
+from .models import GeneracionTextoPregunta
+from .models import RespuestaCuerpo
 
 # pylint: disable=maybe-no-member
 
+# ******************************************** #
+# ***** Serializers Generacion (config) ****** #
+# ******************************************** #
 class GeneracionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Generacion
@@ -23,10 +38,9 @@ class GeneracionUsuarioSerializer(serializers.ModelSerializer):
         fields = ('generacion', 'account')
 
 
-
-
-
-
+# ******************************************** #
+# ***** Serializers Generacion de textos ***** #
+# ******************************************** #
 class GeneracionTextoSerializer(serializers.ModelSerializer):
     class Meta:
         model = GeneracionTexto
@@ -40,29 +54,32 @@ class Generacion_GeneracionTextoSerializer(serializers.ModelSerializer):
         fields = ('generacion_texto', 'generacion')
 
 
-
-
-
-
+# ******************************************** #
+# *** Serializers Preguntas de los textos **** #
+# ******************************************** #
 class GeneracionPreguntaSerializer(serializers.ModelSerializer):
     class Meta:
         model = GeneracionPregunta
-        fields = ('id_pregunta', 'pregunta_cuerpo', 'respuesta_cuerpo', 'respuesta_correcta')
+        fields = ('id_pregunta', 'pregunta_cuerpo', 'respuesta_correcta')
+
+class RespuestaCuerpoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RespuestaCuerpo
+        fields = ('generacion_pregunta', 'resp_unica','opcion_multiple', 'completacion')
+
+class GeneracionTextoPreguntaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GeneracionTextoPregunta
+        fields = ('generacion_pregunta', 'generacion_texto')
 
 
+# ******************************************** #
+# *********** Serializers Examenes *********** #
+# ******************************************** #
 class ExamenSerializer(serializers.ModelSerializer):
     class Meta:
         model = Examen
         fields = ('id_examen', 'title_exam', 'contrasena_exam', 'n_intentos', 'fecha_hora_ini','fecha_hora_fin','fecha_hora_visualizacion')
-
-
-
-class CalificacionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Calificacion
-        fields = ('id_calificacion', 'nota', 'retroalim')
-
-
 
 class UsuarioExamenGeneracionSerializer(serializers.ModelSerializer):
     class Meta:
@@ -70,13 +87,13 @@ class UsuarioExamenGeneracionSerializer(serializers.ModelSerializer):
         fields = ('email', 'id_exam', 'cod_generacion')
 
 
-
-
-
-class GeneracionTextoPreguntaSerializer(serializers.ModelSerializer):
+# ******************************************** #
+# ******** Serializers Calificaciones ******** #
+# ******************************************** #
+class CalificacionSerializer(serializers.ModelSerializer):
     class Meta:
-        model = GeneracionTextoPregunta
-        fields = ('id_pregunta', 'id_texto')
+        model = Calificacion
+        fields = ('id_calificacion', 'nota', 'retroalim')
 
 class CalificacionUsuarioSerializer(serializers.ModelSerializer):
     class Meta:
