@@ -12,21 +12,16 @@ import AOS from "aos";
 
 export const RevisionTextos = (props) => {
 
+  const { v4: uuidv4 } = require("uuid"); // id aleatorio (uuuidv4)
 
-  const { v4: uuidv4 } = require("uuid");
+  const divRefErrorMessage = React.createRef(); // const ref error messages (div DOM)
 
-  // const ref error messages (div DOM)
-  const divRefErrorMessage = React.createRef();
+  const [titleTextoRef, setTitleTextoRef] = useState("Texto 1") // Título que se setea cuando se presiona click en otro texto
+  const Textos = props.textosFromGenerate;   // Estado que guarda todos los textos generados en la vista anterior (GenerateConfig), recibido por props
 
-  // Título que se setea cuando se presiona click en otro texto
-  const [titleTextoRef, setTitleTextoRef] = useState("Texto 1")
-  const Textos = props.textosFromGenerate;    // Estado que guarda todos los textos generados en la vista anterior (GenerateConfig), recibido por props
+  const [irRevisionPreguntas, setIrRevisionPreguntas] = useState(false) // Estado que sirve para redireccionar a la siguiente vista al presionar el botón(RevisionPreguntas)
 
-  const [irRevisionPreguntas, setIrRevisionPreguntas] = useState(false) // Estado que sirve para redireccionar a la 
-  // siguiente vista al presionar el botón(RevisionPreguntas)
-
-  // Estado que se usa para insertar texto por texto en la DB
-  const [TextoObjeto, setTextoObjeto] = useState({
+  const [TextoObjeto, setTextoObjeto] = useState({  // Estado que se usa para insertar texto por texto en la DB
     id_texto: "",
     cuerpo_texto: "",
     es_editado: false,
@@ -42,23 +37,19 @@ export const RevisionTextos = (props) => {
   const [TextArea, setTextArea] = useState(Textos[0].cuerpo)  // Estado que guarda el value de TextArea dependiendo de cual texto se presione
   const [ValTemp, setValTemp] = useState("1") // Estado que sirve para guardar el id del texto de manera temporal
 
-  const handleClickPrueba = async () => {
-    console.log(props.textosFromGenerate);
-    console.log(props.UUID_GENERATE);
-  }
-
   useEffect(() => {
-
+    getPreguntas(); // eslint-disable-next-line react-hooks/exhaustive-deps
     AOS.init({
       duration: 800,
     })
-
-    getPreguntas();/* eslint-disable-next-line react-hooks/exhaustive-deps */
+    /* window.onbeforeunload = function() {
+      return "Data will be lost if you leave the page, are you sure?";
+    }; */
 
     // componentwillunmount
-    return () => {  // todo: Agregar _isMounted
+    return () => {
     }
-  }, []);
+  },[]);
 
   // Llamada a la Api para insertar los datos en la base de datos
   const setTextosDatabase = () => {
@@ -85,7 +76,6 @@ export const RevisionTextos = (props) => {
   // Llamada a la Api para insertar los datos como relación en la base de datos
   const setTextosIntermediaDatabase = () => {
     Textos.map(texto => {   // Recorre cada texto y manda uno por uno a un POST con los campos necesarios
-      console.log(texto.id)
       setTextoGeneracionRelacion(
         Object.assign(TextoGeneracionRelacion, {
           //generacion: UUID_GENERATE, // No necesario porque ya es asignado en el estado inicial del Hook 
@@ -99,28 +89,29 @@ export const RevisionTextos = (props) => {
 
   // Función llamada al presionar el botón de "generar preguntas"
   const handleClick = () => {
-    setTextosDatabase();
-    setTextosIntermediaDatabase();
 
-    setPreguntasFromResposeAPIFunction(); // Setea las preguntas en el estado preguntasDB para ser enviado a la revision de preguntas
-    setIrRevisionPreguntas(true); // se cambia a true para redireccionar a la siguientes vista (revision preguntas)
+      setTextosDatabase();  // Llamada a función que inserta los textos en la DB
+      setTextosIntermediaDatabase();  // Llamada a función que inserta las llaves foraneas (Tabla intermedia)
 
-    // Todo: Traer bool true or false si se efectuan todos los POST CORRECTAMENTE
-    /* const boolTextos = setTextosDatabase();
-    const boolTextosIntermedia = setTextosIntermediaDatabase();
+      //setPreguntasFromResposeAPIFunction(); // Setea las preguntas en el estado preguntasDB para ser enviado a la revision de preguntas
+      setIrRevisionPreguntas(true); // se cambia a true para redireccionar a la siguientes vista (revision preguntas)
 
-    if (boolTextos && boolTextosIntermedia) setIrRevisionPreguntas(true) */
+      // Todo: Traer bool true or false si se efectuan todos los POST CORRECTAMENTE
+      /* const boolTextos = setTextosDatabase();
+      const boolTextosIntermedia = setTextosIntermediaDatabase();
+  
+      if (boolTextos && boolTextosIntermedia) setIrRevisionPreguntas(true) */
   }
 
   // Función utilizada cuando hay un cambio en el text area
   const handleTextArea = (e) => {
-    let value = e.target.value;
-    setTextArea(value);
+    let value = e.target.value; // obtiene el valor del textArea del dom
+
     Textos.map(texto => {
       if (texto.id === ValTemp) {
         Textos[parseInt(texto.id) - 1].cuerpo = value
         Textos[parseInt(texto.id) - 1].es_editado = true;
-        setTextArea(value); // todo: revisar si se quita este o el de arriba
+        setTextArea(value);
         return true;
       } else {
         return false;
@@ -129,7 +120,7 @@ export const RevisionTextos = (props) => {
   }
 
   // Función llamada al presionar un elemento de la lista de textos
-  const onClickTexto = (e) => {
+  const onClickTextoList = (e) => {
     Textos.map(texto => {
       if (texto.id === e.target.id) {
         setTextArea(texto.cuerpo);
@@ -155,53 +146,50 @@ export const RevisionTextos = (props) => {
   // *************************************************************//
   // Get and set data questions, send to RevisionPreguntas.js     //
   // ********************** API de prueba *********************** //
-  // https://run.mocky.io/v3/9d92204e-07c2-4809-bf16-01b360612433 //
+  // https://run.mocky.io/v3/e70eb6be-b785-46e9-a5a0-bf96ddb658ae //
   //  ************************************************************//
   // *************************************************************//
-  const url = "https://run.mocky.io/v3/9d92204e-07c2-4809-bf16-01b360612433";  // Endpoint PREGUNTAS fake
-  const [preguntas, setPreguntas] = useState([])
-  const [preguntasDB, setPreguntasDB] = useState([])
+  const url = "https://run.mocky.io/v3/e70eb6be-b785-46e9-a5a0-bf96ddb658ae";  // Endpoint PREGUNTAS fake
+  const [packagePreguntas, setPackagePreguntas] = useState([])
+  const [preguntasStateInitial, setPreguntasStateInitial] = useState([])
 
   // get data Preguntas endpoint 
   const getPreguntas = async () => {
-    // You can await here
-    const response = await fetch(url)
-      .then((res) => res.json())
-      .then((json) => {
-        return json
-      })
-      .catch(err => {
-        console.log(err)
-        return false;
-      })
 
-    // Asignación de respuesta al stado Textos
-    setPreguntas(response.data);
+    let arrayTempPackagePreguntas = []
+    for (let i = 0; i < Textos.length; i++) {
+      const response = await fetch(url) // You can await here
+        .then((res) => res.json())
+        .then((json) => {
+          return json
+        })
+        .catch(err => {
+          console.log(err)
+          return false;
+        })
+      arrayTempPackagePreguntas.push(response); // Se ingresa elemento response al array
+    }
+    setPackagePreguntas(arrayTempPackagePreguntas); // Asignación de conjunto de respuestas al estado packagePreguntas
+    stateInitialPreguntas(arrayTempPackagePreguntas);
+
   }
 
-  const setPreguntasFromResposeAPIFunction = () => {
-    let id_pregunta = "";
-    let pregunta_cuerpo = "";
-    let respuesta_correcta = "";
-    let arrayPreguntas = []
-    let itemPregunta = {}
-    let lengthArrayPreguntas = preguntas[0].texto.length
+  const stateInitialPreguntas = (arrayTempPackagePreguntas) => {
+    let mapPackagePreguntas = []
+    let lengthPreguntas = arrayTempPackagePreguntas[0].data[0].texto.length;
 
-    for (let i = 0; i < lengthArrayPreguntas; i++) {
-      id_pregunta = preguntas[0].texto[i].id_pregunta;
-      pregunta_cuerpo = preguntas[0].texto[i].pregunta_cuerpo;
-      respuesta_correcta = preguntas[0].texto[i].respuesta_cuerpo.respuesta_correcta;
-
-      itemPregunta = { id_pregunta, pregunta_cuerpo, respuesta_correcta }
-
-      arrayPreguntas.push(itemPregunta);
+    for (let i = 0; i < lengthPreguntas; i++) {
+      mapPackagePreguntas.push(arrayTempPackagePreguntas[0].data[0].texto[i])
     }
-    setPreguntasDB(arrayPreguntas);
+
+    setPreguntasStateInitial(mapPackagePreguntas); 
+  }
+
+  const handleClickPrueba = async () => {
   }
 
   // Condicional para redireccionar con props en caso de que la generacion sea exitosa (Enviar al siguiente component funcional)
   if (!irRevisionPreguntas) {
-
     return (
       <div
         className="flex container w-screen h-screen font-manrope"
@@ -247,7 +235,7 @@ export const RevisionTextos = (props) => {
                           <li
                             key={texto.id}
                             id={texto.id}
-                            onClick={onClickTexto}
+                            onClick={onClickTextoList}
                             className="p-4 hover:bg-gray-50 cursor-pointer hover:text-yellowmain font-bold">
                             <p id={texto.id} className="hidden sm:block">Texto {texto.id}</p>
                             <p id={texto.id} className="sm:hidden block">1</p>
@@ -346,7 +334,7 @@ export const RevisionTextos = (props) => {
     );
   } else if (irRevisionPreguntas) {
     return (
-      <RevisionPreguntas preguntasDB={preguntasDB} />
+      <RevisionPreguntas packagePreguntas={packagePreguntas} preguntas={preguntasStateInitial} textos={Textos}/>
     );
   }
 }

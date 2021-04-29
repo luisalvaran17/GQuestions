@@ -29,14 +29,14 @@ export const App = () => {
         <Route exact path='/' component={Homepage} />
 
         {/* Rutas Docente */}
-        <PrivateRoute exact path='/teacher/home' component={GenerateConfig} />
+        <PrivateRoute exact path='/teacher/generacion' component={GenerateConfig} />
         <PrivateRoute exact path='/teacher/dashboard' component={Dashboard} />
         <PrivateRoute exact path='/teacher/estadisticas' component={Estadisticas} />
         <PrivateRoute exact path='/teacher/ajustes' component={Ajustes} />
         <PrivateRoute exact path='/teacher/examen-configuracion' component={ExamenConfiguracion} />
         <PrivateRoute exact path='/teacher/examen-publicado' component={ExamenPublicado} />
-        <PrivateRoute exact path='/teacher/revision-textos' component={RevisionTextos} />
-        <PrivateRoute exact path='/teacher/revision-preguntas' component={RevisionPreguntas} />
+{/*         <PrivateRoute exact path='/teacher/revision-textos' component={RevisionTextos} />
+        <PrivateRoute exact path='/teacher/revision-preguntas' component={RevisionPreguntas} /> */}
 
         {/* Rutas Estudiante */}
         <PrivateRoute exact path='/student/login-examen' component={LoginExamen} />
