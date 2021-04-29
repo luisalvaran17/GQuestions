@@ -13,8 +13,6 @@ import { Ajustes } from './components/teacher/Ajustes';
 import { ErrorNotServer } from './containers/ErrorNotServer';
 import { ExamenConfiguracion } from './components/teacher/ExamenConfiguracion';
 import { ExamenPublicado } from './components/teacher/ExamenPublicado';
-import { RevisionTextos } from './components/teacher/RevisionTextos';
-import { RevisionPreguntas } from './components/teacher/RevisionPreguntas';
 import { LoginExamen } from './components/student/LoginExamen';
 import { AjustesCuenta } from './components/user/AjustesCuenta';
 

@@ -54,7 +54,7 @@ export const RegisterWithGoogle = (response) => {
         localStorage.setItem('token', await GetToken(credentials));
         localStorage.setItem('email', credentials.username);
         localStorage.setItem('id_user', await GetIDUser(credentials.username));
-        history.push("teacher/home");
+        history.push("teacher/generacion");
       }
       else{
         // nothing

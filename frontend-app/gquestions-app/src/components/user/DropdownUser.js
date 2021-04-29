@@ -9,27 +9,32 @@ function classNames(...classes) {
 export const DropdownUser = () => {
 
   const [closeSession, setCloseSession] = useState(false)
+  const [ajustesCuenta, setAjustesCuenta] = useState(false)
 
-    const onClickLogout = async () => {
-        await fetch(
-          "http://localhost:8000/api/logout/",
-          {
-            method: "POST",
-            headers: {
-              Authorization: 'Token ' + localStorage.getItem('token'),
-              "Content-Type": "application/json"
-            },
-          }
-        ).then((data => {
-          if (data.ok) {
-            localStorage.clear();
-            setCloseSession(true);
-          }
-        }))
-          .catch(err => err)
+  const onClickLogout = async () => {
+    await fetch(
+      "http://localhost:8000/api/logout/",
+      {
+        method: "POST",
+        headers: {
+          Authorization: 'Token ' + localStorage.getItem('token'),
+          "Content-Type": "application/json"
+        },
       }
+    ).then((data => {
+      if (data.ok) {
+        localStorage.clear();
+        setCloseSession(true);
+      }
+    }))
+      .catch(err => err)
+  }
 
-  if (closeSession === false) {
+  const onClickAjustesCuenta = () => {
+    setAjustesCuenta(true)
+  }
+
+  if (closeSession === false && ajustesCuenta === false) {
     return (
       <div>
         {/* Profile dropdown */}
@@ -85,9 +90,10 @@ export const DropdownUser = () => {
                   <Menu.Item>
                     {({ active }) => (
                       <button
+                        onClick={onClickAjustesCuenta}
                         className={classNames(
                           active ? 'bg-gray-100' : '',
-                          'block px-4 py-2 text-sm text-gray-700'
+                          'w-full outline-none focus:outline-none text-left font-bold px-4 py-2 text-sm text-gray-700'
                         )}
                       >
                         Ajustes de cuenta
@@ -126,9 +132,13 @@ export const DropdownUser = () => {
         </Menu>
       </div>
     )
-  } else {
+  } else if (closeSession) {
     return (
       <Redirect to='/' />
-    )
+    );
+  } else if (ajustesCuenta) {
+    return (
+      <Redirect to='/user/ajustes-cuenta' />
+    );
   }
 }

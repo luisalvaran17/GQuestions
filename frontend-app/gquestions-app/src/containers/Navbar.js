@@ -19,7 +19,7 @@ function Navbar() {
   }
 
   function handleClickGeneracion() {
-    history.push("/teacher/home");
+    history.push("/teacher/generacion");
   }
 
   function handleClickEstadisticas() {
@@ -31,7 +31,7 @@ function Navbar() {
   }
 
   useEffect(() => {
-    if (location.pathname === '/teacher/home') {
+    if (location.pathname === '/teacher/generacion') {
       divRefButtonGeneracion.current.classList.add('bg-yellowlight');
       divRefButtonGeneracion.current.classList.add('text-yellow-700');
     }

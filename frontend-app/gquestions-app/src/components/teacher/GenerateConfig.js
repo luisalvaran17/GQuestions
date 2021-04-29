@@ -120,7 +120,7 @@ export const GenerateConfig = () => {
         }
         else {
           console.log("Ha occurido un error");
-          history.push("/teacher/home")
+          history.push("/teacher/generacion")
           /* TODO
           MOSTRAR MODAL CON MENSAJE DE QUE HA OCURRIDO UN ERROR Y SE RECARGA LA PÁGINA PARA QUE LO INTENTE DE NUEVO */
         }

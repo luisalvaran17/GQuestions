@@ -556,7 +556,7 @@ export const Homepage = () => {
               </div>
               <div className="mr-10">
                 <Link
-                  to='teacher/home'
+                  to='teacher/generacion'
                   className='inline-block shadow-md text-sm lg:mr-3 lg:ml-0 text-black text-center  ml-10 z-10 w-full max-w-xs mx-auto bg-yellowlight hover:bg-yellow-400 focus:bg-yellow-400 rounded-lg px-2 py-2 font-semibold lg:mb-0 mb-2'
                 >
                   Ir a tu cuenta
@@ -605,7 +605,7 @@ export const Homepage = () => {
                     </div>
                     <div className='text-center md:text-left'>
                       <Link
-                        to='/teacher/home'
+                        to='/teacher/generacion'
                         className='inline-block md:text-base text-sm text-black text-center z-10 w-full max-w-xs mx-auto bg-yellowmain hover:bg-yellow-600 focus:bg-yellow-600 rounded-lg px-2 py-4 font-semibold lg:mb-0 mb-2'
                       >
                         Empezar
