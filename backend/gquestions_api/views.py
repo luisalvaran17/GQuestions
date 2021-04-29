@@ -121,13 +121,23 @@ class GeneracionTextoPreguntaCreateView(generics.CreateAPIView):
 # ************************************************ #
 # *********** Register and list Examen *********** #
 # ************************************************ # 
-class ExamenView(viewsets.ModelViewSet):
-    serializer_class = ExamenSerializer
+# List All Generacion de pregunta 
+@permission_classes([IsAuthenticated])
+class ExamenListView(generics.ListCreateAPIView):
     queryset = Examen.objects.all()
+    serializer_class = ExamenSerializer
 
-class UsuarioExamenGeneracionView(viewsets.ModelViewSet):
-    serializer_class = UsuarioExamenGeneracionSerializer
+# Register Examen
+@permission_classes([IsAuthenticated])
+class ExamenCreateView(generics.CreateAPIView):
+    queryset = Examen.objects.all()
+    serializer_class = ExamenSerializer
+
+# Register Tabla intermedia Examen, Usuario y Generacion (Relación)
+@permission_classes([IsAuthenticated])
+class UsuarioExamenGeneracionCreateView(generics.CreateAPIView):
     queryset = UsuarioExamenGeneracion.objects.all()
+    serializer_class = UsuarioExamenGeneracionSerializer
 
 
 # ************************************************ #

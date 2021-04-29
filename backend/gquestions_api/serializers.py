@@ -63,18 +63,21 @@ class GeneracionPreguntaSerializer(serializers.ModelSerializer):
         fields = ('id_pregunta', 'pregunta_cuerpo', 'respuesta_correcta')
 
 class RespuestaCuerpoSerializer(serializers.ModelSerializer):
+    generacion_pregunta = serializers.PrimaryKeyRelatedField(many=False, queryset=GeneracionPregunta.objects.all())
     class Meta:
         model = RespuestaCuerpo
         fields = ('generacion_pregunta', 'resp_unica','opcion_multiple', 'completacion')
 
 class GeneracionTextoPreguntaSerializer(serializers.ModelSerializer):
+    generacion_pregunta = serializers.PrimaryKeyRelatedField(many=False, queryset=GeneracionPregunta.objects.all())
+    generacion_texto = serializers.PrimaryKeyRelatedField(many=False, queryset=GeneracionTexto.objects.all())
     class Meta:
         model = GeneracionTextoPregunta
         fields = ('generacion_pregunta', 'generacion_texto')
 
 
 # ******************************************** #
-# *********** Serializers Examenes *********** #
+# *********** Serializers Examen ************* #
 # ******************************************** #
 class ExamenSerializer(serializers.ModelSerializer):
     class Meta:
@@ -82,9 +85,12 @@ class ExamenSerializer(serializers.ModelSerializer):
         fields = ('id_examen', 'title_exam', 'contrasena_exam', 'n_intentos', 'fecha_hora_ini','fecha_hora_fin','fecha_hora_visualizacion')
 
 class UsuarioExamenGeneracionSerializer(serializers.ModelSerializer):
+    account = serializers.PrimaryKeyRelatedField(many=False, queryset=Account.objects.all())
+    examen = serializers.PrimaryKeyRelatedField(many=False, queryset=Examen.objects.all())
+    generacion = serializers.PrimaryKeyRelatedField(many=False, queryset=Generacion.objects.all())
     class Meta:
         model = UsuarioExamenGeneracion
-        fields = ('email', 'id_exam', 'cod_generacion')
+        fields = ('account', 'examen', 'generacion')
 
 
 # ******************************************** #

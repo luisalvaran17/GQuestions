@@ -7,10 +7,13 @@ from .views import GeneracionPreguntaListView
 from .views import GeneracionPreguntaCreateView
 from .views import RespuestaCuerpoCreateView
 from .views import GeneracionTextoPreguntaCreateView
+from .views import ExamenListView
+from .views import ExamenCreateView
+from .views import UsuarioExamenGeneracionCreateView
 
 from django.urls import include, path
 
-urlpatterns = [
+urlpatterns = [ # todo: acomodar las rutas (ej. create or list or delete etc)
     path('api/generacion/configuracion/', GeneracionListView.as_view()),
     path('api/generacion/tipo-pregunta/', TiposPreguntaCreateView.as_view()),
     path('api/generacion/generacion-usuario/', GeneracionUsuarioView.as_view()),
@@ -23,4 +26,9 @@ urlpatterns = [
     path('api/generacion/create/generacion-pregunta', GeneracionPreguntaCreateView.as_view()),
     path('api/generacion/create/generacion-respuesta-cuerpo', RespuestaCuerpoCreateView.as_view()),
     path('api/generacion/create/generacion-pregunta-intermedia', GeneracionTextoPreguntaCreateView.as_view()),
+
+    # Urls for Examen
+    path('api/generacion/list/generacion-examen', ExamenListView.as_view()),
+    path('api/generacion/create/generacion-examen', ExamenCreateView.as_view()),
+    path('api/generacion/generacion-examen-intermedia', UsuarioExamenGeneracionCreateView.as_view()),
 ]
