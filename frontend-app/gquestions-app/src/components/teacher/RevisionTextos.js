@@ -49,7 +49,7 @@ export const RevisionTextos = (props) => {
     // componentwillunmount
     return () => {
     }
-  },[]);
+  }, []);
 
   // Llamada a la Api para insertar los datos en la base de datos
   const setTextosDatabase = () => {
@@ -90,17 +90,17 @@ export const RevisionTextos = (props) => {
   // Función llamada al presionar el botón de "generar preguntas"
   const handleClick = () => {
 
-      setTextosDatabase();  // Llamada a función que inserta los textos en la DB
-      setTextosIntermediaDatabase();  // Llamada a función que inserta las llaves foraneas (Tabla intermedia)
+    setTextosDatabase();  // Llamada a función que inserta los textos en la DB
+    setTextosIntermediaDatabase();  // Llamada a función que inserta las llaves foraneas (Tabla intermedia)
 
-      //setPreguntasFromResposeAPIFunction(); // Setea las preguntas en el estado preguntasDB para ser enviado a la revision de preguntas
-      setIrRevisionPreguntas(true); // se cambia a true para redireccionar a la siguientes vista (revision preguntas)
+    //setPreguntasFromResposeAPIFunction(); // Setea las preguntas en el estado preguntasDB para ser enviado a la revision de preguntas
+    setIrRevisionPreguntas(true); // se cambia a true para redireccionar a la siguientes vista (revision preguntas)
 
-      // Todo: Traer bool true or false si se efectuan todos los POST CORRECTAMENTE
-      /* const boolTextos = setTextosDatabase();
-      const boolTextosIntermedia = setTextosIntermediaDatabase();
-  
-      if (boolTextos && boolTextosIntermedia) setIrRevisionPreguntas(true) */
+    // Todo: Traer bool true or false si se efectuan todos los POST CORRECTAMENTE
+    /* const boolTextos = setTextosDatabase();
+    const boolTextosIntermedia = setTextosIntermediaDatabase();
+ 
+    if (boolTextos && boolTextosIntermedia) setIrRevisionPreguntas(true) */
   }
 
   // Función utilizada cuando hay un cambio en el text area
@@ -182,7 +182,7 @@ export const RevisionTextos = (props) => {
       mapPackagePreguntas.push(arrayTempPackagePreguntas[0].data[0].texto[i])
     }
 
-    setPreguntasStateInitial(mapPackagePreguntas); 
+    setPreguntasStateInitial(mapPackagePreguntas);
   }
 
   const handleClickPrueba = async () => {
@@ -334,12 +334,12 @@ export const RevisionTextos = (props) => {
     );
   } else if (irRevisionPreguntas) {
     return (
-      <RevisionPreguntas packagePreguntas={packagePreguntas} preguntas={preguntasStateInitial} textos={Textos}/>
+      <RevisionPreguntas packagePreguntas={packagePreguntas} preguntas={preguntasStateInitial} textos={Textos} />
     );
   }
 }
 
-// Funcionanes que cambian el estilo del scroll y otras props de una librería
+// Funciones que cambian el estilo del scroll y otras props de una librería
 const renderThumb = ({ style, ...props }) => {
   const thumbStyle = {
     borderRadius: 6,

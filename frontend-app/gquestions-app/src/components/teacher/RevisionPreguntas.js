@@ -13,53 +13,56 @@ import { ExamenConfiguracion } from "./ExamenConfiguracion";
 
 export const RevisionPreguntas = (props) => {
 
-  const divRefErrorMessage = React.createRef();
-  const Textos = props.textos
+
+  const divRefErrorMessage = React.createRef(); // const ref error messages (div DOM)
+  const Textos = props.textos // Estado que guarda todos los textos generados en la vista anterior (GenerateConfig), recibido por props
 
   const { v4: uuidv4 } = require("uuid"); // id aleatorio (uuuidv4)
 
-  const [irConfiguracionExamen, setIrConfiguracionExamen] = useState(false);
-  const [titleTextoRef, setTitleTextoRef] = useState("Preguntas texto 1")
+  const [irConfiguracionExamen, setIrConfiguracionExamen] = useState(false);  // Estado que sirve para redireccionar a la siguiente vista al presionar el botón(RevisionPreguntas)
+  const [titleTextoRef, setTitleTextoRef] = useState("Preguntas texto 1")   // Título que se setea cuando se presiona click en otro texto
   const packagePreguntas = props.packagePreguntas // Recibe el paquete de preguntas obtenidas en la vista de revision de textos al presionar el botón de continuar
   const [preguntas, setPreguntas] = useState(props.preguntas)
 
-  const [preguntaObjeto, setPreguntaObjeto] = useState({  // Estado que se usa para insertar texto por texto en la DB
+  const [preguntaObjeto, setPreguntaObjeto] = useState({  // Estado que se usa para insertar pregunta por pregunta de los textos en la DB
     id_pregunta: "",
     pregunta_cuerpo: "",
     respuesta_correcta: "",
   })
 
-  const [respuestaCuerpoObjeto, setRespuestaCuerpoObjeto] = useState({  // Estado que se usa para insertar texto por texto en la DB
+  const [respuestaCuerpoObjeto, setRespuestaCuerpoObjeto] = useState({  // Estado que se usa para insertar el cuerpo de la respuesta de cada pregunta en la DB
     generacion_pregunta: "",
     resp_unica: "",
     opcion_multiple: "",
     completacion: "",
   })
 
-  const [preguntaRelacionObjeto, setPreguntaRelacionObjeto] = useState({  // Estado que se usa para insertar texto por texto en la DB
+  const [preguntaRelacionObjeto, setPreguntaRelacionObjeto] = useState({  // Estado utilizado para llaves foraneas de relacion Pregunta - Texto
     generacion_pregunta: "",
     generacion_texto: "",
   })
 
+  // Llamada a la Api para insertar los datos en la base de datos
   const setPreguntasDB = async () => {
     let preguntaDB = [];
-    let lengthPreguntas = packagePreguntas[0].data[0].texto.length;
+    let lengthPreguntas = packagePreguntas[0].data[0].texto.length; // Captura la cantidad de preguntas de cada texto
 
     let UUID_PREGUNTA = ""
-    let UUID_TEXTO = ""
+    let UUID_TEXTO = "" // utilizada para guardar temporalmente el uuid del texto base y crear la relacion con las preguntas de dicho texto
     let splitUUID = []
 
-    for (let i = 0; i < 8; i++) { //todo: acomodar length
+    for (let i = 0; i < Textos.length; i++) { //todo: acomodar length
 
-      UUID_TEXTO = Textos[i].id;  // get UUID Texto generado en la vista anterior
+      UUID_TEXTO = Textos[i].id;  // get UUID Texto generado en la vista anterior perteneciente a las preguntas generadas a partir de dicho texto
 
       for (let j = 0; j < lengthPreguntas; j++) {
         UUID_PREGUNTA = uuidv4();
         splitUUID = UUID_PREGUNTA.split("-");
         UUID_PREGUNTA = splitUUID[0] //+ "-" + splitUUID[1]; // Acorta el  UUID GENERADO POR LA FUNCION uuidv4()  
 
+        preguntaDB = packagePreguntas[i].data[0].texto[j]   // Obtiene el elemento pregunta (individual)
+
         // Preparacion de data para insertar en la DB los campos requeridos
-        preguntaDB = packagePreguntas[i].data[0].texto[j]
         setPreguntaObjeto(Object.assign(preguntaObjeto, {
           id_pregunta: UUID_PREGUNTA,
           pregunta_cuerpo: preguntaDB.pregunta_cuerpo,
@@ -96,24 +99,23 @@ export const RevisionPreguntas = (props) => {
     }
   }, []);
 
+  // Función llamada al presionar un elemento de la lista de preguntas
   const onClickPregunta = (e) => {
     let id_num = parseInt(e.target.id);
     let mapPackagePreguntas = []
     let lengthPreguntas = packagePreguntas[0].data[0].texto.length;
-
     setTitleTextoRef("Preguntas texto " + (id_num + 1).toString());
 
     for (let i = 0; i < lengthPreguntas; i++) {
-      mapPackagePreguntas.push(packagePreguntas[id_num].data[0].texto[i])
+      mapPackagePreguntas.push(packagePreguntas[id_num].data[0].texto[i])   // se hace push del elemento de la lista correspondiente a las preguntas seleccionadas 
     }
     setPreguntas(mapPackagePreguntas);
   }
 
   const handleClickPruebas = () => {
-    console.log(Textos.length)
   }
 
-  const handleClick = () => {
+  const handleClickGenerarExamen = () => {
     setPreguntasDB();
     setIrConfiguracionExamen(true);
   }
@@ -121,8 +123,6 @@ export const RevisionPreguntas = (props) => {
   const addClassdivRefErrorMessage = () => {
     divRefErrorMessage.current.classList.add("hidden");
   };
-
-
 
   /*   const removeClassdivRefErrorMessage = () => {
       divRefErrorMessage.current.classList.remove("hidden");
@@ -195,7 +195,8 @@ export const RevisionPreguntas = (props) => {
                     <div className="col-span-12 sm:col-span-6 place-self-end">
                       <button
                         type="submit"
-                        className="md:text-base text-sm z-10 pl-1 sm:w-52 w-40 block focus:outline-none bg-green-400 hover:bg-green-500 focus:bg-green-500 text-black rounded-lg px-2 py-2 font-semibold"
+                        //className="md:text-base text-sm z-10 pl-1 sm:w-52 w-40 block focus:outline-none bg-green-400 hover:bg-green-500 focus:bg-green-500 text-black rounded-lg px-2 py-2 font-semibold"
+                        className="md:text-base text-sm z-10 pl-1 sm:w-52 w-44 block focus:outline-none bg-gray-200 text-gray-400 rounded-lg px-2 py-2 font-normal"
                       //onClick={this.handleClick}
                       >
                         Ver texto base
@@ -217,32 +218,10 @@ export const RevisionPreguntas = (props) => {
                     <hr></hr>
                     <div className="flex mt-2 px-4 items-center"><p className="hidden sm:block text-gray-500 text-sm md:text-sm">Cite: Questions Generator Algorithm - HuggingFace</p></div>
                   </div>
-                  {/*                   <div className="flex md:flex-row flex-col gap-y-2 md:gap-x-16 box__title bg-grey-lighter px-3  py-2 items-center self-center">
-                    <div className="">
-                      <button
-                        type="submit"
-                        className="text-base z-10 pl-1 block w-52 focus:outline-none bg-blue-200 hover:bg-blue-300 focus:bg-blue-300 text-black rounded-lg px-2 py-2 font-semibold"
-                        onClick={this.handleClick}
-                      >
-                        Editar
-                      </button>
-                    </div>
-                    <div className="">
-                      <button
-                        type="submit"
-                        className="text-base z-10 pl-1 w-52 block focus:outline-none bg-blue-200 hover:bg-blue-300 focus:bg-blue-300 text-black rounded-lg px-2 py-2 font-semibold"
-                        onClick={this.handleClick}
-                      >
-                        Volver a generar
-                      </button>
-                    </div>
-                  </div> */}
                 </div>
               </div>
             </div>
           </div>
-
-
 
           <div className="grid grid-rows justify-end items-end mt-4">
             <div className="flex md:flex-row flex-col gap-x-8 gap-y-2 box__title bg-grey-lighter px-3  py-2 items-center self-center">
@@ -259,7 +238,7 @@ export const RevisionPreguntas = (props) => {
                 <button
                   type="submit"
                   className="md:text-base text-sm z-10 pl-1 w-52 block focus:outline-none bg-yellow-400 hover:bg-yellow-500 focus:bg-yellow-500 text-black rounded-lg px-2 py-2 font-semibold"
-                  onClick={handleClick}
+                  onClick={handleClickGenerarExamen}
                 >
                   Generar exámenes
                       </button>
@@ -272,7 +251,6 @@ export const RevisionPreguntas = (props) => {
 
           {/* Error messages */}
           <div
-
             ref={divRefErrorMessage}
             className="hidden animate-pulse mt-1 relative py-1 pl-4 pr-10 leading-normal text-red-700 bg-red-100 rounded-lg"
             role="alert"
@@ -296,9 +274,7 @@ export const RevisionPreguntas = (props) => {
                 ></path>
               </svg>
             </span>
-
           </div>
-
         </div>
         <DropdownUser />
       </div >
@@ -310,6 +286,7 @@ export const RevisionPreguntas = (props) => {
   }
 }
 
+// Funciones que cambian el estilo del scroll y otras props de una librería
 const renderThumb = ({ style, ...props }) => {
   const thumbStyle = {
     borderRadius: 6,
