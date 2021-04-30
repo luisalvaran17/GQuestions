@@ -105,18 +105,10 @@ export const GenerateConfig = () => {
         const responseGeneracionUsuario = await CreateGeneracionUsuarioAPI(generacionUsuario);    // POST a GeneracionUsuario
 
         if (responseGeneracionConfig && responseGeneracionTipoPregunta && responseGeneracionUsuario) {    // Si todas las peticiones son ok
+          
           // Llamado a función que inserta los textos en la DB DJANGO
-
-          //history.push("/teacher/revision-textos");
+          localStorage.setItem('uuid_generacion', generacionConfiguracion.id);
           setIrRevisionTexto(true);
-          /* return(
-            <RevisionTextos props={Textos,UUID_GENERATE} />
-          ) */
-          /* history.push({
-            pathname: '/teacher/revision-textos',
-            //search: '?query=abc',
-            state: { textosFromGenerate: Textos, UUID_GENERATE: generacionConfiguracion.id }
-          }) */
         }
         else {
           console.log("Ha occurido un error");
@@ -159,7 +151,6 @@ export const GenerateConfig = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
   };
-
 
   // Función que valida los diferentes tipos de inputs y errores que podría cometer el usuario al rellenarlos
   const checkFieldsValidations = () => {
@@ -210,7 +201,6 @@ export const GenerateConfig = () => {
       return true;
     }
   };
-
 
   // Las dos siguientes funciones lo que haces es mostrar u ocultar un  div que contiene los mensajes de error (validaciones)
   // de los inputs 

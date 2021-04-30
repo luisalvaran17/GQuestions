@@ -81,7 +81,6 @@ export const RevisionPreguntas = (props) => {
           generacion_texto: UUID_TEXTO,
         }))
 
-
         await CreatePreguntaAPI(preguntaObjeto);  // insert preguntas (una por una con un id diferente)
         await CreateRespuestaCuerpoAPI(respuestaCuerpoObjeto) // insert respuesta cuerpo de cada pregunta
         await CreatePreguntaTextoAPI(preguntaRelacionObjeto); // insert pregunta relacionada con texto (tabla intermedia)
@@ -281,7 +280,7 @@ export const RevisionPreguntas = (props) => {
     );
   } else if (irConfiguracionExamen) {
     return (
-      <ExamenConfiguracion />
+      <ExamenConfiguracion textos={Textos}/>
     );
   }
 }
