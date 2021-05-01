@@ -8,7 +8,7 @@ import { CreateTextsAPI } from "../../api/CreateTextsAPI";
 import { CreateTextsRelacionAPI } from "../../api/CreateTextsRelacionAPI";
 import { RevisionPreguntas } from "./RevisionPreguntas";
 import Scrollbars from "react-custom-scrollbars";
-import AOS from "aos";
+import ReactDOM from 'react-dom';
 
 export const RevisionTextos = (props) => {
 
@@ -39,13 +39,11 @@ export const RevisionTextos = (props) => {
 
   useEffect(() => {
     getPreguntas(); // eslint-disable-next-line react-hooks/exhaustive-deps
-    AOS.init({
-      duration: 800,
-    })
-    /* window.onbeforeunload = function() {
-      return "Data will be lost if you leave the page, are you sure?";
-    }; */
-
+/* 
+    window.onbeforeunload = function() {
+      return "El progreso actual de la generación se perderá si recargas la página. ¿Deseas continuar?";
+    };
+ */
     // componentwillunmount
     return () => {
     }
@@ -133,13 +131,37 @@ export const RevisionTextos = (props) => {
     })
   }
 
+  const checkFieldsValidations = () => {
+    let boolEmpty = false;
+
+    let p_empty = "";
+
+    Textos.map(texto => {
+      if (texto.cuerpo === "") {
+        boolEmpty = true;
+        p_empty = React.createElement('p', {}, '●  Hay textos vacíos, por favor verifique que todos los textos no estén vacíos antes de continuar.');
+      }
+      return true; // return map prototype
+    })
+
+    if (boolEmpty) {
+      removeClassdivRefErrorMessage();
+      const X = React.createElement('div', {}, [p_empty]);
+      ReactDOM.render(X, document.getElementById('error_messages'));
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
+
   const addClassdivRefErrorMessage = () => {
     divRefErrorMessage.current.classList.add("hidden");
   };
 
-  /*   const removeClassdivRefErrorMessage = () => {
-      divRefErrorMessage.current.classList.remove("hidden");
-    }; */
+  const removeClassdivRefErrorMessage = () => {
+    divRefErrorMessage.current.classList.remove("hidden");
+  };
 
 
   // *************************************************************//
@@ -185,7 +207,8 @@ export const RevisionTextos = (props) => {
     setPreguntasStateInitial(mapPackagePreguntas);
   }
 
-  const handleClickPrueba = async () => {
+  const handleClickPrueba = () => {
+    checkFieldsValidations();
   }
 
   // Condicional para redireccionar con props en caso de que la generacion sea exitosa (Enviar al siguiente component funcional)
@@ -223,7 +246,7 @@ export const RevisionTextos = (props) => {
             <div className="grid grid-cols-12">
               <div className="col-span-2 sm:col-span-3">
                 <div className="flex ">
-                  <CustomScrollbars autoHide autoHideTimeout={900} autoHideDuration={400} style={{ height: "50vh" }} className="m-0 overflow-auto bg-white border shadow-md border-gray-200 sm:rounded-md rounded-r-none w-full lg:mr-16 md:mr-8 mr-4 md:text-base text-sm">
+                  <CustomScrollbars autoHide autoHideTimeout={900} autoHideDuration={400} style={{ height: "50vh" }} className="m-0 overflow-auto bg-white border shadow-md border-gray-200 sm:rounded-md rounded-r-none w-full lg:mr-16 md:mr-8 mr-0 md:text-base text-sm">
                     <ul className="divide-y divide-gray-300">
                       <li className="p-4 font-light text-gray-500">
                         <p className="hidden sm:block">PAQUETES DE TEXTOS</p>
@@ -238,7 +261,7 @@ export const RevisionTextos = (props) => {
                             onClick={onClickTextoList}
                             className="p-4 hover:bg-gray-50 cursor-pointer hover:text-yellowmain font-bold">
                             <p id={texto.id} className="hidden sm:block">Texto {texto.id}</p>
-                            <p id={texto.id} className="sm:hidden block">1</p>
+                            <p id={texto.id} className="sm:hidden block">{texto.id}</p>
                           </li>
                         ))
                       }
@@ -250,7 +273,7 @@ export const RevisionTextos = (props) => {
               <div className="grid col-span-9">
                 <div className="box border rounded flex flex-col shadow bg-white">
                   <div className="grid grid-cols-12 box__title bg-grey-lighter px-3 py-2 border-b items-center">
-                    <h3 className="hidden sm:block col-span-6 font-bold text-base text-green-700">
+                    <h3 className="hidden sm:block col-span-6 font-bold text-base text-black">
                       {titleTextoRef}
                     </h3>
                     <div className="col-span-12 sm:col-span-6 place-self-end">

@@ -5,7 +5,6 @@ import backgroundGeneral from "../../assets/images/background-general-green.png"
 import { DropdownUser } from "../user/DropdownUser";
 import { StepsProgress } from "./StepsProgress";
 import { Scrollbars } from 'react-custom-scrollbars';
-import AOS from "aos";
 import { CreatePreguntaAPI } from "../../api/Preguntas/CreatePreguntaAPI";
 import { CreateRespuestaCuerpoAPI } from "../../api/Preguntas/CreateRespuestaCuerpoAPI";
 import { CreatePreguntaTextoAPI } from "../../api/Preguntas/CreatePreguntaTextoAPI";
@@ -89,9 +88,9 @@ export const RevisionPreguntas = (props) => {
   }
 
   useEffect(() => {
-    AOS.init({
-      duration: 800,
-    })
+    window.onbeforeunload = function() {
+      return "El progreso actual de la generación se perderá si recargas la página. ¿Deseas continuar?";
+    };
 
     // componentwillunmount
     return () => {
@@ -101,6 +100,7 @@ export const RevisionPreguntas = (props) => {
   // Función llamada al presionar un elemento de la lista de preguntas
   const onClickPregunta = (e) => {
     let id_num = parseInt(e.target.id);
+
     let mapPackagePreguntas = []
     let lengthPreguntas = packagePreguntas[0].data[0].texto.length;
     setTitleTextoRef("Preguntas texto " + (id_num + 1).toString());
@@ -173,9 +173,9 @@ export const RevisionPreguntas = (props) => {
                             key={contador}
                             id={contador}
                             onClick={onClickPregunta}
-                            className="p-4 hover:bg-gray-50 cursor-pointer hover:text-yellowmain font-bold">
+                            className="p-4 hover:bg-gray-50 cursor-pointer hover:text-yellowmain font-bold focus:text-purple-600">
                             <p id={contador} className="hidden sm:block">Preguntas {contador = contador + 1}</p>
-                            <p id={contador} className="sm:hidden block">1</p>
+                            <p id={contador} className="sm:hidden block">{contador}</p>
                           </li>
                         ))
                       }
@@ -188,14 +188,14 @@ export const RevisionPreguntas = (props) => {
               <div className="grid col-span-9">
                 <div className="box border rounded flex flex-col shadow bg-white">
                   <div className="grid grid-cols-12 box__title bg-grey-lighter px-3 py-2 border-b items-center">
-                    <h3 className="hidden sm:block col-span-6 font-bold text-base text-green-700">
+                    <h3 className="hidden sm:block col-span-6 font-bold text-base text-black">
                       {titleTextoRef}
                     </h3>
                     <div className="col-span-12 sm:col-span-6 place-self-end">
                       <button
                         type="submit"
                         //className="md:text-base text-sm z-10 pl-1 sm:w-52 w-40 block focus:outline-none bg-green-400 hover:bg-green-500 focus:bg-green-500 text-black rounded-lg px-2 py-2 font-semibold"
-                        className="md:text-base text-sm z-10 pl-1 sm:w-52 w-44 block focus:outline-none bg-gray-200 text-gray-400 rounded-lg px-2 py-2 font-normal"
+                        className="md:text-base text-sm z-10 pl-1 sm:w-52 w-40 block focus:outline-none bg-gray-200 text-gray-400 rounded-lg px-2 py-2 font-normal"
                       //onClick={this.handleClick}
                       >
                         Ver texto base

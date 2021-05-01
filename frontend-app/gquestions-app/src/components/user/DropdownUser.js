@@ -38,7 +38,7 @@ export const DropdownUser = () => {
     return (
       <div>
         {/* Profile dropdown */}
-        <Menu as="div" className="absolute left-5 bottom-5 ml-3">
+        <Menu as="div" className="absolute xl:left-5 left-3 bottom-5 ml-3">
           {({ open }) => (
             <>
               <div>

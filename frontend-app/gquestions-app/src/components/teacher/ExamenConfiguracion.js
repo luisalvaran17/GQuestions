@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../../containers/Navbar";
 import "../../assets/styles/tailwind.css";
 import backgroundGeneral from "../../assets/images/background-general_4x-register.png";
@@ -33,6 +33,16 @@ export const ExamenConfiguracion = (props) => {
   })
 
   const [irExamenPublicado, setIrExamenPublicado] = useState(false)
+
+  useEffect(() => {
+    window.onbeforeunload = function() {
+      return "El progreso actual de la generación se perderá si recargas la página. ¿Deseas continuar?";
+    };
+    
+    // componentwillunmount
+    return () => {
+    }
+  }, []);
 
   const handleClick = () => {
     if (checkFieldsValidations() === true) {
@@ -136,7 +146,7 @@ export const ExamenConfiguracion = (props) => {
         <div>
           <Navbar className="fixed" />
         </div>
-        <div className="container md:mx-auto mx-10 mt-8">
+        <div data-aos="fade-right" className="container xl:mx-32 mx-4 md:mx-8 lg:mx-16 mt-8">
           <div className="grid grid-rows">
             <h1 className="font-black xl:text-5xl md:text-4xl sm:text-2xl md:text-left mb-12 lg:mb-20 text-2xl">
               Configuración examen

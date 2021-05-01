@@ -411,10 +411,13 @@ export const GenerateConfig = () => {
           </div>
 
           {/* Error messages */}
+          <div>
+            
+          </div>
           <div
 
             ref={divRefErrorMessage}
-            className="hidden animate-pulse mt-1 relative py-1 pl-4 pr-10 leading-normal text-red-700 bg-red-100 rounded-lg"
+            className="hidden animate-pulse mt-2 relative py-1 pl-4 pr-10 leading-normal text-red-700 bg-red-100 rounded-lg"
             role="alert"
           >
             <div id="error_messages" className="text-sm md:text-base">
