@@ -4,8 +4,7 @@ import "../../assets/styles/tailwind.css";
 import backgroundGeneral from "../../assets/images/background-general-green.png";
 import { DropdownUser } from "../user/DropdownUser";
 import { StepsProgress } from "./StepsProgress";
-import { CreateTextsAPI } from "../../api/CreateTextsAPI";
-import { CreateTextsRelacionAPI } from "../../api/CreateTextsRelacionAPI";
+import { CreateTextoAPI } from "../../api/Textos/CreateTextoAPI";
 import { RevisionPreguntas } from "./RevisionPreguntas";
 import Scrollbars from "react-custom-scrollbars";
 import ReactDOM from 'react-dom';
@@ -26,12 +25,7 @@ export const RevisionTextos = (props) => {
     cuerpo_texto: "",
     es_editado: false,
     es_regenerado: false,
-  })
-
-  // Estado utilizado para llaves foraneas de relacion Generacion - Texto
-  const [TextoGeneracionRelacion, setTextoGeneracionRelacion] = useState({
-    generacion: props.UUID_GENERATE,
-    generacion_texto: "",
+    generacion: "",
   })
 
   const [TextArea, setTextArea] = useState(Textos[0].cuerpo)  // Estado que guarda el value de TextArea dependiendo de cual texto se presione
@@ -63,24 +57,11 @@ export const RevisionTextos = (props) => {
           cuerpo_texto: texto.cuerpo,
           es_editado: texto.es_editado,
           es_regenerado: texto.es_regenerado,
+          generacion: props.UUID_GENERATE
         })
       )
       texto.id = UUID_TEXTO
-      CreateTextsAPI(TextoObjeto); // POST a la tabla GeneracionTexto
-      return true;
-    })
-  }
-
-  // Llamada a la Api para insertar los datos como relación en la base de datos
-  const setTextosIntermediaDatabase = () => {
-    Textos.map(texto => {   // Recorre cada texto y manda uno por uno a un POST con los campos necesarios
-      setTextoGeneracionRelacion(
-        Object.assign(TextoGeneracionRelacion, {
-          //generacion: UUID_GENERATE, // No necesario porque ya es asignado en el estado inicial del Hook 
-          generacion_texto: texto.id,
-        })
-      )
-      CreateTextsRelacionAPI(TextoGeneracionRelacion); // POST a la tabla intermedia Generacion_GeneracionTexto
+      CreateTextoAPI(TextoObjeto); // POST a la tabla GeneracionTexto
       return true;
     })
   }
@@ -89,7 +70,6 @@ export const RevisionTextos = (props) => {
   const handleClick = () => {
 
     setTextosDatabase();  // Llamada a función que inserta los textos en la DB
-    setTextosIntermediaDatabase();  // Llamada a función que inserta las llaves foraneas (Tabla intermedia)
 
     //setPreguntasFromResposeAPIFunction(); // Setea las preguntas en el estado preguntasDB para ser enviado a la revision de preguntas
     setIrRevisionPreguntas(true); // se cambia a true para redireccionar a la siguientes vista (revision preguntas)

@@ -5,7 +5,6 @@ import backgroundGeneral from "../../assets/images/background-general_4x-registe
 import { DropdownUser } from "../user/DropdownUser";
 import { StepsProgress } from "./StepsProgress";
 import { CreateExamenAPI } from "../../api/Examen/CreateExamenAPI";
-import { CreateUsuarioExamenGeneracionAPI } from "../../api/Examen/CreateUsuarioExamenGeneracionAPI";
 import ReactDOM from 'react-dom'
 import { ExamenPublicado } from "./ExamenPublicado";
 
@@ -23,22 +22,12 @@ export const ExamenConfiguracion = (props) => {
     n_intentos: 1,
     fecha_hora_ini: '',
     fecha_hora_fin: '',
-    fecha_hora_visualizacion: "2021-04-29T17:40",
+    generacion: '',
   });
-
-  const [examenUsuarioGeneracion, setExamenUsuarioGeneracion] = useState({
-    account: '',
-    examen: '',
-    generacion: localStorage.getItem('uuid_generacion'),
-  })
 
   const [irExamenPublicado, setIrExamenPublicado] = useState(false)
 
   useEffect(() => {
-    window.onbeforeunload = function() {
-      return "El progreso actual de la generación se perderá si recargas la página. ¿Deseas continuar?";
-    };
-    
     // componentwillunmount
     return () => {
     }
@@ -64,19 +53,10 @@ export const ExamenConfiguracion = (props) => {
       setExamenConfiguracion(
         Object.assign(examenConfiguracion, {
           id_examen: UUID_EXAMEN,
-        })
-      )
-
-      setExamenUsuarioGeneracion(
-        Object.assign(examenUsuarioGeneracion, {
-          account: localStorage.getItem('id_user'),
-          examen: UUID_EXAMEN,
           generacion: localStorage.getItem('uuid_generacion'),
         })
       )
-
-      await CreateExamenAPI(examenConfiguracion);
-      await CreateUsuarioExamenGeneracionAPI(examenUsuarioGeneracion);
+      await CreateExamenAPI(examenConfiguracion); // POST de examen al endpoint
     }
   }
 
@@ -100,7 +80,7 @@ export const ExamenConfiguracion = (props) => {
       examenConfiguracion.contrasena_exam === "" ||
       examenConfiguracion.n_intentos === 0 ||
       examenConfiguracion.fecha_hora_ini === "" ||
-      examenConfiguracion.fecha_hora_fin === "" 
+      examenConfiguracion.fecha_hora_fin === ""
     ) {
       boolEmpty = true;
       p_empty = React.createElement('p', {}, '●  Hay campos vacíos');

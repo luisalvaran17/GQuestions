@@ -7,7 +7,6 @@ import { StepsProgress } from "./StepsProgress";
 import { Scrollbars } from 'react-custom-scrollbars';
 import { CreatePreguntaAPI } from "../../api/Preguntas/CreatePreguntaAPI";
 import { CreateRespuestaCuerpoAPI } from "../../api/Preguntas/CreateRespuestaCuerpoAPI";
-import { CreatePreguntaTextoAPI } from "../../api/Preguntas/CreatePreguntaTextoAPI";
 import { ExamenConfiguracion } from "./ExamenConfiguracion";
 
 export const RevisionPreguntas = (props) => {
@@ -27,6 +26,7 @@ export const RevisionPreguntas = (props) => {
     id_pregunta: "",
     pregunta_cuerpo: "",
     respuesta_correcta: "",
+    generacion_texto: "",
   })
 
   const [respuestaCuerpoObjeto, setRespuestaCuerpoObjeto] = useState({  // Estado que se usa para insertar el cuerpo de la respuesta de cada pregunta en la DB
@@ -34,11 +34,6 @@ export const RevisionPreguntas = (props) => {
     resp_unica: "",
     opcion_multiple: "",
     completacion: "",
-  })
-
-  const [preguntaRelacionObjeto, setPreguntaRelacionObjeto] = useState({  // Estado utilizado para llaves foraneas de relacion Pregunta - Texto
-    generacion_pregunta: "",
-    generacion_texto: "",
   })
 
   // Llamada a la Api para insertar los datos en la base de datos
@@ -66,6 +61,7 @@ export const RevisionPreguntas = (props) => {
           id_pregunta: UUID_PREGUNTA,
           pregunta_cuerpo: preguntaDB.pregunta_cuerpo,
           respuesta_correcta: preguntaDB.respuesta_cuerpo.respuesta_correcta,
+          generacion_texto: UUID_TEXTO,
         }))
 
         setRespuestaCuerpoObjeto(Object.assign(respuestaCuerpoObjeto, {
@@ -75,23 +71,13 @@ export const RevisionPreguntas = (props) => {
           completacion: preguntaDB.respuesta_cuerpo.completacion,
         }))
 
-        setPreguntaRelacionObjeto(Object.assign(preguntaRelacionObjeto, {
-          generacion_pregunta: UUID_PREGUNTA,
-          generacion_texto: UUID_TEXTO,
-        }))
-
         await CreatePreguntaAPI(preguntaObjeto);  // insert preguntas (una por una con un id diferente)
         await CreateRespuestaCuerpoAPI(respuestaCuerpoObjeto) // insert respuesta cuerpo de cada pregunta
-        await CreatePreguntaTextoAPI(preguntaRelacionObjeto); // insert pregunta relacionada con texto (tabla intermedia)
       }
     }
   }
 
   useEffect(() => {
-    window.onbeforeunload = function() {
-      return "El progreso actual de la generación se perderá si recargas la página. ¿Deseas continuar?";
-    };
-
     // componentwillunmount
     return () => {
     }

@@ -5,9 +5,9 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import backgroundGeneral from "../assets/images/background-general.png";
 import imageStudent from "../assets/images/image-register2.png";
-import { LoginAPI } from "../api/LoginAPI";
-import { GetIDUser } from "../api/GetIDUser";
-import { GetToken } from "../api/GetToken";
+import { LoginAPI } from "../api/Usuario/LoginAPI";
+import { GetIDUser } from "../api/Usuario/GetIDUser";
+import { GetToken } from "../api/Usuario/GetToken";
 import ReactDOM from 'react-dom';
 
 export const Login = () => {

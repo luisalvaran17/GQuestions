@@ -1,5 +1,5 @@
 export const CreatePreguntaAPI = async (pregunta) => {
-    const response = await fetch("http://127.0.0.1:8000/api/generacion/create/generacion-pregunta", {
+    const response = await fetch("http://127.0.0.1:8000/api/generacion/create/pregunta", {
         method: "POST",
         headers: {
             Authorization: "Token " + localStorage.getItem("token"),

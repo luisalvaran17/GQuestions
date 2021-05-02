@@ -1,11 +1,11 @@
-export const CreatePreguntaTextoAPI = async(preguntaTexto) => {
-    const response = await fetch("http://127.0.0.1:8000/api/generacion/create/generacion-pregunta-intermedia", {
+export const CreateGeneracionTipoPreguntaAPI = async (generacionTipoPregunta) => {
+    const response = await fetch("http://127.0.0.1:8000/api/generacion/create/tipo-pregunta", {
         method: "POST",
         headers: {
             Authorization: "Token " + localStorage.getItem("token"),
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(preguntaTexto),
+        body: JSON.stringify(generacionTipoPregunta),
     }).then((res) => {
         if (res.ok) {
             return true;

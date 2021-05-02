@@ -5,9 +5,8 @@ import "../../assets/styles/tailwind.css";
 import backgroundGeneral from "../../assets/images/background-general_4x.png";
 import AOS from "aos";
 import { DropdownUser } from "../user/DropdownUser";
-import { CreateGeneracionConfigAPI } from "../../api/CreateGeneracionConfigAPI";
-import { CreateGeneracionTipoPreguntaAPI } from "../../api/CreateGeneracionTipoPreguntaAPI";
-import { CreateGeneracionUsuarioAPI } from "../../api/CreateGeneracionUsuarioAPI";
+import { CreateGeneracionConfiguracionAPI } from "../../api/Generacion/CreateGeneracionConfiguracionAPI";
+import { CreateGeneracionTipoPreguntaAPI } from "../../api/Generacion/CreateGeneracionTipoPreguntaAPI";
 import { StepsProgress } from "./StepsProgress";
 import { useHistory } from "react-router";
 import { RevisionTextos } from "./RevisionTextos";
@@ -31,27 +30,22 @@ export const GenerateConfig = () => {
 
 
   // Estado utilizado para campos de configuración de Generación de textos
-  const [generacionConfiguracion, setgeneracionConfiguracion] = useState({
+  const [generacionConfiguracion, setGeneracionConfiguracion] = useState({
     id: UUID_GENERATE,
     n_examenes: 10,
     cantidad_textos: 10,
     longit_texto: 200,
     n_preguntas: 0,
     inicio_oracion: "Aleatorio",
+    account: ""
   });
 
   // Estado utilizado para campos de configuración de tipo de preguntas en Generación de textos
-  const [generacionTipoPregunta, setgeneracionTipoPregunta] = useState({
+  const [generacionTipoPregunta, setGeneracionTipoPregunta] = useState({
     pregunta_abierta: true,
     opcion_multiple: true,
     completacion: false,
     generacion: UUID_GENERATE,
-  });
-
-  // Estado utilizado para llaves foraneas de relacion Generacion - Usuario
-  const [generacionUsuario, setgeneracionUsuario] = useState({
-    generacion: UUID_GENERATE,
-    account: 0,
   });
 
   useEffect(() => {
@@ -89,8 +83,8 @@ export const GenerateConfig = () => {
   // (Generacion, GeneracionTipoPregunta y GeneracionUsuario), además llama a dos funciones que,
   // inserta los textos generados y la relación entre la Generación y estos Textos
   const handleClick = async () => {
-    setgeneracionUsuario(
-      Object.assign(generacionUsuario, {
+    setGeneracionConfiguracion(
+      Object.assign(generacionConfiguracion, {
         account: localStorage.getItem("id_user")
       })
     );
@@ -98,13 +92,11 @@ export const GenerateConfig = () => {
     if (checkFieldsValidations() === true) {    // Si todos los campos cumplen las validaciones entonces hace los POST
 
       if (_isMounted) {
-        const responseGeneracionConfig = await CreateGeneracionConfigAPI(generacionConfiguracion);   // POST a Generacion
+        const responseGeneracionConfig = await CreateGeneracionConfiguracionAPI(generacionConfiguracion);   // POST a Generacion
 
         const responseGeneracionTipoPregunta = await CreateGeneracionTipoPreguntaAPI(generacionTipoPregunta);    // POST a GeneracionTipoPregunta
 
-        const responseGeneracionUsuario = await CreateGeneracionUsuarioAPI(generacionUsuario);    // POST a GeneracionUsuario
-
-        if (responseGeneracionConfig && responseGeneracionTipoPregunta && responseGeneracionUsuario) {    // Si todas las peticiones son ok
+        if (responseGeneracionConfig && responseGeneracionTipoPregunta) {    // Si todas las peticiones son ok
           
           // Llamado a función que inserta los textos en la DB DJANGO
           localStorage.setItem('uuid_generacion', generacionConfiguracion.id);
@@ -124,12 +116,12 @@ export const GenerateConfig = () => {
   const handleChangeConfiguracion = (e) => {
     const generacion_configuracion = generacionConfiguracion;
     generacion_configuracion[e.target.name] = parseInt(e.target.value);
-    setgeneracionConfiguracion(generacion_configuracion);
+    setGeneracionConfiguracion(generacion_configuracion);
   }
 
   const handleChangeInicioOracion = (e) => {
     e.target.name = e.target.value;
-    setgeneracionConfiguracion(
+    setGeneracionConfiguracion(
       Object.assign(generacionConfiguracion, {
         inicio_oracion: e.target.value
       })
@@ -141,7 +133,7 @@ export const GenerateConfig = () => {
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
 
-    setgeneracionTipoPregunta(
+    setGeneracionTipoPregunta(
       Object.assign(generacionTipoPregunta, {
         [name]: value
       })

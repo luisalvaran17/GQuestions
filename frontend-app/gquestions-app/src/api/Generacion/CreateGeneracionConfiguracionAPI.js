@@ -1,11 +1,11 @@
-export const CreateGeneracionUsuarioAPI = async (generacionUsuario) => {
-    const response = await fetch("http://127.0.0.1:8000/api/generacion/generacion-usuario/", {
+export const CreateGeneracionConfiguracionAPI = async(generacionConfiguracion) => {
+    const response = await fetch("http://127.0.0.1:8000/api/generacion/create/generacion", {
         method: "POST",
         headers: {
             Authorization: "Token " + localStorage.getItem("token"),
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(generacionUsuario),
+        body: JSON.stringify(generacionConfiguracion),
     }).then((res) => {
         if (res.ok) {
             return true;
@@ -17,4 +17,3 @@ export const CreateGeneracionUsuarioAPI = async (generacionUsuario) => {
     })
     return response;
 }
-

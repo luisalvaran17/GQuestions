@@ -10,10 +10,10 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import backgroundGeneral from "../assets/images/background-general_4x-register.png";
 import imageStudent from "../assets/images/image-register2.png";
-import { LoginAPI } from "../api/LoginAPI";
-import { RegisterUserAPI } from "../api/RegisterUserAPI";
-import { GetToken } from "../api/GetToken";
-import { GetIDUser } from "../api/GetIDUser";
+import { LoginAPI } from "../api/Usuario/LoginAPI";
+import { RegisterUserAPI } from "../api/Usuario/RegisterUserAPI";
+import { GetToken } from "../api/Usuario/GetToken";
+import { GetIDUser } from "../api/Usuario/GetIDUser";
 
 export const Register = () => {
 
@@ -121,7 +121,6 @@ export const Register = () => {
     const user = usuario;
     user[e.target.name] = e.target.value;
     setusuario(user);
-    console.log(usuario)
   };
 
   const handleChangePassword = (e) => {

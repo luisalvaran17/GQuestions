@@ -3,10 +3,10 @@ import '../../assets/styles/tailwind.css';
 import ReactDOM from 'react-dom';
 import { Helmet } from "react-helmet";
 import { useHistory } from 'react-router';
-import { LoginAPI } from '../../api/LoginAPI';
-import { GetToken } from '../../api/GetToken';
-import { GetIDUser } from '../../api/GetIDUser';
-import { RegisterUserAPI } from '../../api/RegisterUserAPI';
+import { LoginAPI } from '../../api/Usuario/LoginAPI';
+import { GetToken } from '../../api/Usuario/GetToken';
+import { GetIDUser } from '../../api/Usuario/GetIDUser';
+import { RegisterUserAPI } from '../../api/Usuario/RegisterUserAPI';
 
 export const RegisterWithGoogle = (response) => {
 
