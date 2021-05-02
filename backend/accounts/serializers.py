@@ -8,6 +8,11 @@ class AccountSerializer(serializers.ModelSerializer):
         fields = ('id', 'email', 'password', 'first_name', 'last_name', 'rol', 'fecha_nac', 'edad', 'is_admin', 'is_active', 'is_staff', 'is_superuser',
                   'hide_email')
 
+class AccountSerializerForNested(serializers.ModelSerializer):
+    class Meta:
+        model = Account
+        fields = ('id', 'email', 'rol')
+
 class AccountEmailSerializar(serializers.ModelSerializer):
     class Meta:
         model = Account

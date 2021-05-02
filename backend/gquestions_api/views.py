@@ -5,150 +5,151 @@ from rest_framework.decorators import api_view, permission_classes
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.permissions import IsAuthenticated
 
-from .serializers import GeneracionSerializer
-from .serializers import TipoPreguntaSerializer
-from .serializers import GeneracionUsuarioSerializer
-from .serializers import GeneracionTextoSerializer
-from .serializers import Generacion_GeneracionTextoSerializer
-from .serializers import ExamenSerializer
-from .serializers import GeneracionPreguntaSerializer
-from .serializers import CalificacionSerializer
-from .serializers import UsuarioExamenGeneracionSerializer
-from .serializers import GeneracionTextoPreguntaSerializer
-from .serializers import CalificacionUsuarioSerializer
-from .serializers import RespuestaCuerpoSerializer
+from .serializers import GeneracionSerializer, TipoPreguntaSerializer, GeneracionTextoSerializer, GeneracionPreguntaSerializer, GeneracionCreateSerializer
+from .serializers import CalificacionSerializer, CalificacionUsuarioSerializer, RespuestaCuerpoSerializer, GeneracionTextoCreateSerializer, ExamenSerializer
+from .serializers import GeneracionPreguntaCreateSerializer, GeneracionSimplificadoSerializer
 
-from .models import Generacion
-from .models import TipoPregunta
-from .models import GeneracionUsuario
-from .models import GeneracionTexto
-from .models import Generacion_GeneracionTexto
-from .models import Examen
-from .models import GeneracionPregunta
-from .models import Calificacion
-from .models import UsuarioExamenGeneracion
-from .models import GeneracionTextoPregunta
-from .models import CalificacionUsuario
-from .models import RespuestaCuerpo
+from .models import GeneracionModel
+from .models import TipoPreguntaModel
+from .models import GeneracionTextoModel
+from .models import GeneracionPreguntaModel
+from .models import ExamenModel
+from .models import CalificacionModel
+from .models import CalificacionUsuarioModel
+from .models import Account
+from .models import RespuestaCuerpoModel
 
 from rest_framework import generics
+from django.http import JsonResponse
 
 # Create your views here.
 # pylint: disable=maybe-no-member
 
 # ************************************************ #
-# * Register and list Generacion (configuración) * #
+# ** Create and list Generacion (configuración) ** #
 # ************************************************ # 
-@permission_classes([IsAuthenticated])
-class GeneracionListView(generics.ListCreateAPIView):
-    queryset = Generacion.objects.all()
+@permission_classes([IsAuthenticated])  
+class GeneracionListView(generics.ListAPIView):
+    queryset = GeneracionModel.objects.all()
     serializer_class = GeneracionSerializer
 
-# Register tipo pregunta (configuración)
 @permission_classes([IsAuthenticated])
-class TiposPreguntaCreateView(generics.CreateAPIView):
-    queryset = TipoPregunta.objects.all() 
+class GeneracionCreateView(generics.CreateAPIView):
+    queryset = GeneracionModel.objects.all()
+    serializer_class = GeneracionCreateSerializer
+
+@permission_classes([IsAuthenticated])
+class GeneracionTipoPreguntaView(generics.CreateAPIView):
+    queryset = TipoPreguntaModel.objects.all()
     serializer_class = TipoPreguntaSerializer
 
+# Query Generaciones usuario
+@api_view(["GET"])
 @permission_classes([IsAuthenticated])
-class GeneracionUsuarioView(generics.CreateAPIView):
-    queryset = GeneracionUsuario.objects.all()
-    serializer_class = GeneracionUsuarioSerializer
+def GetGeneracionesUsuarioView(request, account):
+    generacion = GeneracionModel.objects.filter(account=account)
+    serializer = GeneracionSimplificadoSerializer(generacion, many=True)
 
-# Register Generacion_Usuario
-""" @api_view(['POST'])
-def register_generacion_usuario(request, *args, **kwargs):
-    serializer_class = GeneracionUsuarioSerializer
-    queryset = Account.objects.all()
-    print(queryset)
-    serializer = GeneracionUsuarioSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
- """
+    return JsonResponse(serializer.data, safe=False, status=status.HTTP_200_OK)
 
 # ************************************************ #
-# ***** Register and list Generacion Texto ******* #
+# ******* Create and list Generacion Texto ******* #
 # ************************************************ # 
 @permission_classes([IsAuthenticated])
-class GeneracionTextoListView(generics.ListCreateAPIView):
-    queryset = GeneracionTexto.objects.all()
+class GeneracionTextoListView(generics.ListAPIView):
+    queryset = GeneracionTextoModel.objects.all()
     serializer_class = GeneracionTextoSerializer
 
-# Register Generacion de textos
 @permission_classes([IsAuthenticated])
 class GeneracionTextoCreateView(generics.CreateAPIView):
-    queryset = GeneracionTexto.objects.all()
-    serializer_class = GeneracionTextoSerializer
+    queryset = GeneracionTextoModel.objects.all()
+    serializer_class = GeneracionTextoCreateSerializer
 
-# Register Generacion de textos (Tabla intermedia)
+# Query Texto 
+@api_view(["GET"])
 @permission_classes([IsAuthenticated])
-class Generacion_GeneracionTextoCreateView(generics.CreateAPIView):
-    queryset = Generacion_GeneracionTexto.objects.all()
-    serializer_class = Generacion_GeneracionTextoSerializer
+def GetTextoView(request, id_texto):
+    texto = GeneracionTextoModel.objects.filter(id_texto=id_texto)
+    serializer = GeneracionTextoSerializer(texto, many=True)
+
+    return JsonResponse(serializer.data, safe=False, status=status.HTTP_200_OK)
 
 
 # ************************************************ #
-# **** Register and list Generacion Preguntas **** #
-# ************************************************ # 
-# List All Generacion de pregunta 
+# ***** Create and list Generacion Preguntas ***** #
+# ************************************************ #
 @permission_classes([IsAuthenticated])
-class GeneracionPreguntaListView(generics.ListCreateAPIView):
-    queryset = GeneracionPregunta.objects.all()
+class GeneracionPreguntaListView(generics.ListAPIView):
+    queryset = GeneracionPreguntaModel.objects.all()
     serializer_class = GeneracionPreguntaSerializer
 
-# Register generacion de Pregunta del texto
 @permission_classes([IsAuthenticated])
 class GeneracionPreguntaCreateView(generics.CreateAPIView):
-    queryset = GeneracionPregunta.objects.all()
+    queryset = GeneracionPreguntaModel.objects.all()
     serializer_class = GeneracionPreguntaSerializer
 
 # Register Respuesta cuerpo de Pregunta
 @permission_classes([IsAuthenticated])
 class RespuestaCuerpoCreateView(generics.CreateAPIView):
-    queryset = RespuestaCuerpo.objects.all()
+    queryset = RespuestaCuerpoModel.objects.all()
     serializer_class = RespuestaCuerpoSerializer
 
-# Register Tabla intermedia Pregunta y Texto (Relación)
 @permission_classes([IsAuthenticated])
-class GeneracionTextoPreguntaCreateView(generics.CreateAPIView):
-    queryset = GeneracionTextoPregunta.objects.all()
-    serializer_class = GeneracionTextoPreguntaSerializer
+class RespuestaCuerpoView(generics.ListAPIView):
+    queryset = RespuestaCuerpoModel.objects.all()
+    serializer_class = RespuestaCuerpoSerializer
+
+# Query Pregunta 
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def GetPreguntaView(request, id_pregunta):
+    pregunta = GeneracionPreguntaModel.objects.filter(id_pregunta=id_pregunta)
+    serializer = GeneracionPreguntaSerializer(pregunta, many=True)
+
+    return JsonResponse(serializer.data, safe=False, status=status.HTTP_200_OK)
 
 
 # ************************************************ #
-# *********** Register and list Examen *********** #
+# *********** Create and list Examen ************* #
 # ************************************************ # 
-# List All Generacion de pregunta 
 @permission_classes([IsAuthenticated])
-class ExamenListView(generics.ListCreateAPIView):
-    queryset = Examen.objects.all()
+class ExamenListView(generics.ListAPIView):
+    queryset = ExamenModel.objects.all()
     serializer_class = ExamenSerializer
 
-# Register Examen
 @permission_classes([IsAuthenticated])
 class ExamenCreateView(generics.CreateAPIView):
-    queryset = Examen.objects.all()
+    queryset = ExamenModel.objects.all()
     serializer_class = ExamenSerializer
-
-# Register Tabla intermedia Examen, Usuario y Generacion (Relación)
-@permission_classes([IsAuthenticated])
-class UsuarioExamenGeneracionCreateView(generics.CreateAPIView):
-    queryset = UsuarioExamenGeneracion.objects.all()
-    serializer_class = UsuarioExamenGeneracionSerializer
 
 
 # ************************************************ #
 # ******* Register and list Calificaciones ******* #
 # ************************************************ # 
-
 class CalificacionView(viewsets.ModelViewSet):
     serializer_class = CalificacionSerializer
-    queryset = Calificacion.objects.all()
+    queryset = CalificacionModel.objects.all()
 
 class CalificacionUsuarioView(viewsets.ModelViewSet):
     serializer_class = CalificacionUsuarioSerializer
-    queryset = CalificacionUsuario.objects.all()
+    queryset = CalificacionUsuarioModel.objects.all()
+
+
+# Query GeneracionUsuario
+""" @api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def get_generacion(request, id_generacion):
+    generacion = GeneracionModel.objects.filter(id=id_generacion)
+    serializer = GeneracionSerializer(generacion, many=True)
+
+    return JsonResponse(serializer.data, safe=False, status=status.HTTP_200_OK) """
+
+
+
+
+
+
+
+
  
+

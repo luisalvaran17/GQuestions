@@ -1,107 +1,102 @@
 from rest_framework import serializers
-from .models import Generacion
-from .models import TipoPregunta
-from .models import GeneracionUsuario
-from .models import GeneracionTexto
-from .models import Generacion_GeneracionTexto
-from .models import GeneracionPregunta
-from .models import Examen
-from .models import Calificacion
-from .models import CalificacionUsuario
+from .models import GeneracionModel
+from .models import TipoPreguntaModel
+from .models import GeneracionTextoModel
+from .models import GeneracionPreguntaModel
+from .models import ExamenModel
+from .models import CalificacionModel
+from .models import CalificacionUsuarioModel
 from .models import Account
-from .models import UsuarioExamenGeneracion
-from .models import GeneracionTextoPregunta
-from .models import RespuestaCuerpo
+from .models import RespuestaCuerpoModel
+from accounts.serializers import AccountSerializerForNested
 
 # pylint: disable=maybe-no-member
 
 # ******************************************** #
-# ***** Serializers Generacion (config) ****** #
+# *** Serializers Preguntas de los textos **** #
 # ******************************************** #
-class GeneracionSerializer(serializers.ModelSerializer):
+class RespuestaCuerpoSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Generacion
-        fields = ('id', 'n_examenes', 'longit_texto', 'n_preguntas', 'inicio_oracion')
+        model = RespuestaCuerpoModel
+        fields = "__all__"
 
-class TipoPreguntaSerializer(serializers.ModelSerializer):
-    generacion = serializers.PrimaryKeyRelatedField(many=False, queryset=Generacion.objects.all())
+class GeneracionPreguntaSerializer(serializers.ModelSerializer):
+    respuestas_cuerpo = RespuestaCuerpoSerializer(read_only=True, many=False)
     class Meta:
-        model = TipoPregunta
-        fields = ('generacion', 'pregunta_abierta', 'opcion_multiple', 'completacion')
+        model = GeneracionPreguntaModel
+        fields = "__all__"
 
-
-class GeneracionUsuarioSerializer(serializers.ModelSerializer):
-    generacion = serializers.PrimaryKeyRelatedField(many=False, queryset=Generacion.objects.all())
-    account = serializers.PrimaryKeyRelatedField(many=False, queryset=Account.objects.all())
+## CREATE
+class GeneracionPreguntaCreateSerializer(serializers.ModelSerializer):
+    generacion_texto = serializers.PrimaryKeyRelatedField(many=False, queryset=GeneracionTextoModel.objects.all())
     class Meta:
-        model = GeneracionUsuario
-        fields = ('generacion', 'account')
-
+        model = GeneracionTextoModel
+        fields = ('id_pregunta', 'pregunta_cuerpo', 'respuesta_correcta', 'generacion_texto')
 
 # ******************************************** #
 # ***** Serializers Generacion de textos ***** #
 # ******************************************** #
 class GeneracionTextoSerializer(serializers.ModelSerializer):
+    preguntas = GeneracionPreguntaSerializer(read_only=True, many=True)
     class Meta:
-        model = GeneracionTexto
-        fields = ('id_texto', 'cuerpo_texto', 'es_editado', 'es_regenerado')
+        model = GeneracionTextoModel
+        fields = "__all__"
 
-class Generacion_GeneracionTextoSerializer(serializers.ModelSerializer):
-    generacion = serializers.PrimaryKeyRelatedField(many=False, queryset=Generacion.objects.all())
-    generacion_texto = serializers.PrimaryKeyRelatedField(many=False, queryset=GeneracionTexto.objects.all())
+## CREATE
+class GeneracionTextoCreateSerializer(serializers.ModelSerializer):
+    generacion = serializers.PrimaryKeyRelatedField(many=False, queryset=GeneracionModel.objects.all())
     class Meta:
-        model = Generacion_GeneracionTexto
-        fields = ('generacion_texto', 'generacion')
-
-
-# ******************************************** #
-# *** Serializers Preguntas de los textos **** #
-# ******************************************** #
-class GeneracionPreguntaSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = GeneracionPregunta
-        fields = ('id_pregunta', 'pregunta_cuerpo', 'respuesta_correcta')
-
-class RespuestaCuerpoSerializer(serializers.ModelSerializer):
-    generacion_pregunta = serializers.PrimaryKeyRelatedField(many=False, queryset=GeneracionPregunta.objects.all())
-    class Meta:
-        model = RespuestaCuerpo
-        fields = ('generacion_pregunta', 'resp_unica','opcion_multiple', 'completacion')
-
-class GeneracionTextoPreguntaSerializer(serializers.ModelSerializer):
-    generacion_pregunta = serializers.PrimaryKeyRelatedField(many=False, queryset=GeneracionPregunta.objects.all())
-    generacion_texto = serializers.PrimaryKeyRelatedField(many=False, queryset=GeneracionTexto.objects.all())
-    class Meta:
-        model = GeneracionTextoPregunta
-        fields = ('generacion_pregunta', 'generacion_texto')
-
+        model = GeneracionTextoModel
+        fields = ('id_texto', 'cuerpo_texto', 'es_editado', 'es_regenerado', 'generacion')
 
 # ******************************************** #
 # *********** Serializers Examen ************* #
 # ******************************************** #
 class ExamenSerializer(serializers.ModelSerializer):
+    generacion = serializers.PrimaryKeyRelatedField(many=False, queryset=GeneracionModel.objects.all())
     class Meta:
-        model = Examen
-        fields = ('id_examen', 'title_exam', 'contrasena_exam', 'n_intentos', 'fecha_hora_ini','fecha_hora_fin','fecha_hora_visualizacion')
-
-class UsuarioExamenGeneracionSerializer(serializers.ModelSerializer):
-    account = serializers.PrimaryKeyRelatedField(many=False, queryset=Account.objects.all())
-    examen = serializers.PrimaryKeyRelatedField(many=False, queryset=Examen.objects.all())
-    generacion = serializers.PrimaryKeyRelatedField(many=False, queryset=Generacion.objects.all())
-    class Meta:
-        model = UsuarioExamenGeneracion
-        fields = ('account', 'examen', 'generacion')
-
+        model = ExamenModel
+        fields = "__all__"
 
 # ******************************************** #
 # ******** Serializers Calificaciones ******** #
 # ******************************************** #
 class CalificacionSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Calificacion
+        model = CalificacionModel
         fields = ('id_calificacion', 'nota', 'retroalim')
 
 class CalificacionUsuarioSerializer(serializers.ModelSerializer):
     class Meta:
-        model = CalificacionUsuario
+        model = CalificacionUsuarioModel
         fields = ('id_calificacion', 'id_examen') 
+
+
+# ******************************************** #
+# ***** Serializers Generacion (config) ****** #
+# ******************************************** #
+class TipoPreguntaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TipoPreguntaModel
+        fields = "__all__"
+
+class GeneracionSerializer(serializers.ModelSerializer):
+    account = AccountSerializerForNested(read_only=True, many=False)
+    generaciones_texto = GeneracionTextoSerializer(read_only=True, many=True)
+    generacion_examen = ExamenSerializer(read_only=True, many=True)
+    tipos_pregunta = TipoPreguntaSerializer(read_only=True, many=False)
+    class Meta:
+        model = GeneracionModel
+        fields = "__all__"
+
+class GeneracionSimplificadoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GeneracionModel
+        fields = ('id', 'n_examenes', 'longit_texto', 'n_preguntas', 'inicio_oracion', 'fecha_generacion', 'account')
+
+## CREATE
+class GeneracionCreateSerializer(serializers.ModelSerializer):
+    account = serializers.PrimaryKeyRelatedField(many=False, queryset=Account.objects.all())
+    class Meta:
+        model = GeneracionModel
+        fields = ('id', 'n_examenes', 'longit_texto', 'n_preguntas', 'inicio_oracion', 'account')

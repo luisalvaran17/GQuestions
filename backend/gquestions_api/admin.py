@@ -1,18 +1,14 @@
 from django.contrib import admin
 from rest_framework import serializers
-from .models import Generacion
-from .models import TipoPregunta
-from .models import GeneracionUsuario
-from .models import GeneracionTexto
-from .models import Generacion_GeneracionTexto
-from .models import GeneracionPregunta
-from .models import Examen
-from .models import Calificacion
-from .models import CalificacionUsuario
+from .models import GeneracionModel
+from .models import TipoPreguntaModel
+from .models import GeneracionTextoModel
+from .models import GeneracionPreguntaModel
+from .models import ExamenModel
+from .models import CalificacionModel
+from .models import CalificacionUsuarioModel
 from .models import Account
-from .models import UsuarioExamenGeneracion
-from .models import GeneracionTextoPregunta
-from .models import RespuestaCuerpo
+from .models import RespuestaCuerpoModel
 
 # Register your models here.
 
@@ -20,50 +16,34 @@ from .models import RespuestaCuerpo
 # **** model admin de generacion (Configuracion) **** #
 # *************************************************** #
 class GeneracionAdmin(admin.ModelAdmin):
-    list_display = ('id', 'n_examenes', 'longit_texto', 'n_preguntas', 'inicio_oracion')
+    list_display = ('id', 'n_examenes', 'longit_texto', 'n_preguntas', 'inicio_oracion','account')
 
 class TipoPreguntaAdmin(admin.ModelAdmin):
     list_display = ('generacion', 'pregunta_abierta', 'opcion_multiple', 'completacion')
-
-
-class GeneracionUsuarioAdmin(admin.ModelAdmin):
-    list_display = ('generacion', 'account')
 
 
 # *************************************************** #
 # ******* model admin de generacion de textos ******* #
 # *************************************************** #
 class GeneracionTextoAdmin(admin.ModelAdmin):
-    list_display = ('id_texto', 'cuerpo_texto', 'es_editado', 'es_regenerado')
-
-class Generacion_GeneracionTextoAdmin(admin.ModelAdmin):
-    list_display = ('generacion_texto', 'generacion')
-
+    list_display = ('id_texto', 'cuerpo_texto', 'es_editado', 'es_regenerado', 'generacion')
 
 
 # *************************************************** #
 # ******* model admin de generacion Preguntas ******* #
 # *************************************************** #
 class GeneracionPreguntaAdmin(admin.ModelAdmin):
-    list_display = ('id_pregunta', 'pregunta_cuerpo', 'respuesta_correcta')
+    list_display = ('id_pregunta', 'pregunta_cuerpo', 'respuesta_correcta', 'generacion_texto')
 
 class RespuestaCuerpoAdmin(admin.ModelAdmin):
     list_display = ('generacion_pregunta', 'resp_unica', 'opcion_multiple', 'completacion')
-
-class GeneracionTextoPreguntaAdmin(admin.ModelAdmin):
-    list_display = ('generacion_pregunta', 'generacion_texto')
-
 
 
 # *************************************************** #
 # ************ model admin de Examen **************** #
 # *************************************************** #
 class ExamenAdmin(admin.ModelAdmin):
-    list_display = ('id_examen', 'title_exam', 'contrasena_exam', 'n_intentos', 'fecha_hora_ini','fecha_hora_fin','fecha_hora_visualizacion')
-
-class UsuarioExamenGeneracionAdmin(admin.ModelAdmin):
-    list_display = ('account', 'examen', 'generacion')
-
+    list_display = ('id_examen', 'title_exam', 'contrasena_exam', 'n_intentos', 'fecha_hora_ini','fecha_hora_fin', 'generacion')
 
 # *************************************************** #
 # ********** model admin de Calificacion ************ #
@@ -76,15 +56,11 @@ class CalificacionUsuarioAdmin(admin.ModelAdmin):
 
 
 # Register your models here.
-admin.site.register(Generacion, GeneracionAdmin)
-admin.site.register(TipoPregunta, TipoPreguntaAdmin)
-admin.site.register(Examen, ExamenAdmin)
-admin.site.register(GeneracionPregunta, GeneracionPreguntaAdmin)
-admin.site.register(GeneracionTexto, GeneracionTextoAdmin)
-admin.site.register(Calificacion, CalificacionAdmin)
-admin.site.register(UsuarioExamenGeneracion, UsuarioExamenGeneracionAdmin)
-admin.site.register(GeneracionUsuario, GeneracionUsuarioAdmin)
-admin.site.register(RespuestaCuerpo, RespuestaCuerpoAdmin)
-admin.site.register(Generacion_GeneracionTexto, Generacion_GeneracionTextoAdmin)
-admin.site.register(GeneracionTextoPregunta, GeneracionTextoPreguntaAdmin)
-admin.site.register(CalificacionUsuario, CalificacionUsuarioAdmin)
+admin.site.register(GeneracionModel, GeneracionAdmin)
+admin.site.register(TipoPreguntaModel, TipoPreguntaAdmin)
+admin.site.register(ExamenModel, ExamenAdmin)
+admin.site.register(GeneracionPreguntaModel, GeneracionPreguntaAdmin)
+admin.site.register(GeneracionTextoModel, GeneracionTextoAdmin)
+admin.site.register(CalificacionModel, CalificacionAdmin)
+admin.site.register(RespuestaCuerpoModel, RespuestaCuerpoAdmin)
+admin.site.register(CalificacionUsuarioModel, CalificacionUsuarioAdmin)
