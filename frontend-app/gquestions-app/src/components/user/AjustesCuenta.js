@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../containers/Navbar";
 import "../../assets/styles/tailwind.css";
-import backgroundGeneral from "../../assets/images/background-general_4x-register.png";
+import backgroundGeneralCyanLight from "../../assets/images/background-general-cyan_dark.png";
+import backgroundGeneralCyanDark from "../../assets/images/background-general-cyan_light.png"
 import { Helmet } from "react-helmet";
 import AOS from "aos";
 import { DropdownUser } from "./DropdownUser";
@@ -55,7 +56,7 @@ export const AjustesCuenta = () => {
       <div
         className="flex container w-screen h-screen font-manrope"
         style={{
-          backgroundImage: `url(${backgroundGeneral})`,
+          backgroundImage: `url(${backgroundGeneralCyanLight})`,
           width: "100%",
           height: "",
           backgroundRepeat: "no-repeat",
@@ -369,7 +370,7 @@ export const AjustesCuenta = () => {
       <div
         className="flex container w-screen h-screen font-manrope"
         style={{
-          backgroundImage: `url(${backgroundGeneral})`,
+          backgroundImage: `url(${backgroundGeneralCyanLight})`,
           width: "100%",
           height: "",
           backgroundRepeat: "no-repeat",

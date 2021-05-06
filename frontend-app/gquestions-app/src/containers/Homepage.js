@@ -1,26 +1,47 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import '../assets/styles/tailwind.css';
-import backgroundHome from '../assets/images/background_home_2x.png';
+import backgroundHomeDark from '../assets/images/background_home_2x_dark.png';
+import backgroundHomeLight from '../assets/images/background_home_2x.png';
 import computerImage from '../assets/images/computer_image.png';
 import propositoImage from '../assets/images/propositos.png';
 import iconVentajas_1 from '../assets/images/ventajas-icon-1.png';
 import iconVentajas_2 from '../assets/images/ventajas-icon-2.png';
 import iconVentajas_3 from '../assets/images/ventajas-icon-3.png';
 import iconVentajas_4 from '../assets/images/ventajas-icon-4.png';
+import proposito1 from '../assets/images/proposito1.png';
+import proposito2 from '../assets/images/proposito2.png';
+import proposito3 from '../assets/images/proposito3.png';
+import proposito4 from '../assets/images/proposito4.png';
 import screnshootMobiles from '../assets/images/mobiles-screenshots.png';
 import LogoGQuestions from '../assets/images/logo.png';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import {CarouselEjemplo} from '../components/home/CarouselEjemplos';
-import {Footer} from '../components/home/Footer';
-import {useHome} from '../hooks/useHome'
+import { CarouselEjemplo } from '../components/home/CarouselEjemplos';
+import { Footer } from '../components/home/Footer';
+import { useHome } from '../hooks/useHome'
 
 export const Homepage = () => {
 
   const divRefMenu = React.createRef();
+  const darkMode = useRef();
+  const [darkModeBool, setDarkModeBool] = useState(localStorage.getItem('bool-dark'));
 
-  const {logged} = useHome();
+  const { logged } = useHome();
   const [navbar, setNavbar] = useState(false)
+
+  useEffect(() => {
+    if (darkMode.current !== undefined) {
+      if (localStorage.theme === 'dark') {
+        darkMode.current.classList.add('dark');
+        localStorage.setItem('bool-dark', true);
+        setDarkModeBool(true);
+      } else {
+        darkMode.current.classList.remove('dark');
+        localStorage.setItem('bool-dark', false);
+        setDarkModeBool(false);
+      }
+    }
+  }, [darkMode]);
 
   const addRemoveClassMenu = () => {
     let classList = divRefMenu.current.classList;
@@ -51,21 +72,38 @@ export const Homepage = () => {
   }
 
   window.addEventListener('scroll', changeBackgroundNavBar);
-      const scrollAnimation = () => {
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-          anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-    
-            document.querySelector(this.getAttribute('href')).scrollIntoView({
-              behavior: 'smooth',
-            });
-          });
-        });
-      };
+  const scrollAnimation = () => {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
 
-    if (logged === false) {
-      return (
-        <div className="font-manrope">
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth',
+        });
+      });
+    });
+  };
+
+  const handleDarkMode = (e) => {
+    const target = e.target;
+    const value = target.type === "checkbox" ? target.checked : target.value;
+    if (value === true) {
+      localStorage.setItem("theme", "dark");
+      localStorage.setItem('bool-dark', true);
+      darkMode.current.classList.add("dark");
+      setDarkModeBool(true);
+    }
+    else if (value === false) {
+      localStorage.removeItem("theme", "dark");
+      localStorage.removeItem('bool-dark');
+      darkMode.current.classList.remove("dark");
+      setDarkModeBool(false);
+    }
+  }
+
+  if (logged === false) {
+    return (
+      <div ref={darkMode} className={localStorage.getItem("theme")}>
         <div id='inicio'>
           <Helmet>
             <script src='https://unpkg.com/aos@2.3.1/dist/aos.js'></script>
@@ -74,8 +112,8 @@ export const Homepage = () => {
           <nav
             className={
               navbar
-                ? 'navbar shadow-sm h-auto mx-auto flex items-center justify-between flex-wrap py-6  bg-gradient-to-r from-yellowlight via-white to-white'
-                : 'navbar h-auto mx-auto flex items-center justify-between flex-wrap py-6 bg-transparent'
+                ? 'navbar shadow-sm h-auto mx-auto flex items-center justify-between flex-wrap py-6  bg-gradient-to-r from-yellowlight via-white dark:from-darkColor to-white dark:via-darkColor dark:to-darkColor dark:bg-darkColor dark:text-white border-b border border-gray-300 border-opacity-20'
+                : 'navbar h-auto mx-auto flex items-center justify-between flex-wrap py-6 bg-transparent dark:bg-darkColor dark:text-white'
             }
           >
             <a
@@ -88,7 +126,7 @@ export const Homepage = () => {
                 height='40px'
                 width='90px'
               />
-              <span className='font-black font-asap text-xl tracking-tight lg:mr-4'>
+              <span className='font-black font-asap xl:text-xl text-lg tracking-tight lg:mr-0'>
                 GQuestions
             </span>
             </a>
@@ -97,7 +135,7 @@ export const Homepage = () => {
               <button
                 onClick={addRemoveClassMenu}
                 id='boton'
-                className='flex px-3 py-2 border rounded border-yellow-400 hover:text-yellow-600 hover:border-yellow-600'
+                className='flex px-3 py-2 border rounded border-yellow-400  hover:text-yellow-600 hover:border-yellow-600 dark:bg-yellowlight dark:text-black outline-none focus:outline-none'
               >
                 <svg
                   className='fill-current h-3 w-3'
@@ -112,39 +150,62 @@ export const Homepage = () => {
             <div
               ref={divRefMenu}
               id='menu'
-              className='hidden w-full text-center lg:text-left gap-x-4 flex-grow lg:flex lg:items-center lg:w-auto font-medium mt-3'
+              className='hidden w-full text-center lg:text-left gap-x-2 flex-grow lg:flex lg:items-center lg:w-auto font-medium mt-3'
             >
               <div className='text-sm lg:flex-grow mb-2'>
                 <a
-                  href='#caracteristicas'
-                  className='p-2 block mt-4 lg:inline-block lg:mt-0 ml-3 mr-3 rounded-md hover:bg-yellowlight hover:text-yellow-800'
+                  href='#about'
+                  className='transition duration-500  p-2 block mt-4 lg:inline-block lg:mt-0 ml-3 mr-2 rounded-md hover:bg-yellowlight hover:text-yellow-800'
                 >
                   Acerca de
               </a>
                 <a
                   href='#caracteristicas'
                   onClick={scrollAnimation}
-                  className='p-2 block mt-4 lg:inline-block lg:mt-0 ml-3 mr-3 rounded-md hover:bg-yellowlight hover:text-yellow-800'
+                  className='transition duration-500 p-2 block mt-4 lg:inline-block lg:mt-0 ml-3 mr-2 rounded-md hover:bg-yellowlight hover:text-yellow-800'
                 >
                   Características
               </a>
                 <a
                   href='#ventajas'
-                  className='p-2 block mt-4 lg:inline-block lg:mt-0 ml-3 mr-3 rounded-md hover:bg-yellowlight hover:text-yellow-800'
+                  className='transition duration-500 p-2 block mt-4 lg:inline-block lg:mt-0 ml-3 mr-2 rounded-md hover:bg-yellowlight hover:text-yellow-800'
                 >
                   Ventajas
               </a>
                 <a
                   href='#ejemplos'
-                  className='p-2 block mt-4 lg:inline-block lg:mt-0 ml-3 rounded-md hover:bg-yellowlight hover:text-yellow-800'
+                  className='transition duration-500 p-2 block mt-4 lg:inline-block lg:mt-0 ml-2 rounded-md hover:bg-yellowlight hover:text-yellow-800'
                 >
                   Ejemplos
               </a>
               </div>
+
+              <div className="flex items-center justify-items-center justify-self-center place-content-center py-2 mr-2">
+              <span className="">
+                <svg className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+              </span>
+              <label className="mx-2 flex items-center relative w-max cursor-pointer select-none">
+                <input 
+                  type="checkbox" 
+                  className="appearance-none transition-colors cursor-pointer w-12 h-6 rounded-full outline-none focus:outline-none bg-gray-300"
+                  onChange={handleDarkMode}
+                  defaultChecked={darkModeBool}>
+                  </input>
+                <span className="w-5 h-5 right-7 absolute rounded-full transform transition-transform bg-white shadow-md" />
+              </label>
+              <span className="">
+                <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+              </span>
+              </div>
+
               <div>
                 <Link
                   to='/login'
-                  className='inline-block shadow-md text-sm text-black text-center z-10 w-full max-w-xs mx-auto bg-yellowlight hover:bg-yellow-400 focus:bg-yellow-400 rounded-lg px-2 py-2 font-semibold lg:mb-0 mb-2'
+                  className='transition duration-500 inline-block shadow-md text-sm text-black text-center z-10 w-full max-w-xs mx-auto bg-yellowlight hover:bg-yellowmain focus:bg-yellowmain rounded-lg px-2 py-2 font-semibold lg:mb-0 mb-2'
                 >
                   Iniciar sesión
               </Link>
@@ -152,7 +213,7 @@ export const Homepage = () => {
               <div className='lg:mr-16'>
                 <Link
                   to='/register'
-                  className='inline-block shadow-md text-sm text-black text-center z-10 w-full max-w-xs mx-auto bg-yellowmain hover:bg-yellow-600 focus:bg-yellow-600 rounded-lg px-2 py-2 font-semibold'
+                  className='transition duration-500 inline-block shadow-md text-sm text-black text-center z-10 w-full max-w-xs mx-auto bg-yellowmain hover:bg-yellow-600 focus:bg-yellow-600 rounded-lg px-2 py-2 font-semibold'
                 >
                   Registrarse
               </Link>
@@ -161,10 +222,10 @@ export const Homepage = () => {
           </nav>
 
           {/* Body */}
-          <div
-            className='mx-auto bg-local my-auto w-full py-32 xl:py-64'
+          <div 
+            className='mx-auto bg-local my-auto w-full py-32 xl:py-64 dark:bg-darkColor dark:text-white'
             style={{
-              backgroundImage: `url(${backgroundHome})`,
+              backgroundImage: `url(${darkModeBool ? backgroundHomeDark: backgroundHomeLight})`,
               width: '',
               height: '',
               backgroundRepeat: 'no-repeat',
@@ -173,7 +234,7 @@ export const Homepage = () => {
               minWidth: '',
             }}
           >
-            <div className='container  mx-auto flex'>
+            <div className='container mx-auto flex'>
               <div className='grid grid-cols-12'>
                 <div className='col-span-12 sm:col-span-6'>
                   <div className='grid grid-rows-3 lg:mx-8 md:mx-8 mx-8 text-sm md:text-base'>
@@ -201,7 +262,7 @@ export const Homepage = () => {
                 </div>
                 <div className='col-span-12 sm:col-span-6 place-self-center'>
                   <img
-                    className='w-1/2 lg:ml-40 xl:ml-64 sm:ml-32 ml-24'
+                    className='w-1/2 lg:ml-40 xl:ml-64 sm:ml-32 ml-24 dark:hidden'
                     src={computerImage}
                     alt='computer decorator'
                   />
@@ -213,10 +274,10 @@ export const Homepage = () => {
           <hr></hr>
 
           {/* Por qué utilizar un generador de exámenes */}
-          <div className='mx-auto my-auto w-full md:py-24 py-16'>
-            <div className='container mx-auto flex'>
+          <div className='mx-auto my-auto w-full md:py-24 py-16 dark:bg-darkColor dark:text-white'>
+            <div className='container mx-auto flex '>
               <div className='grid grid-rows md:mx-8 mx-8'>
-                <div className='grid grid-cols-12 lg:gap-x-16 gap-y-4'>
+                <div className='grid grid-cols-12 lg:gap-x-16 gap-y-4 '>
                   <div
                     data-aos='fade-right'
                     className='md:col-span-6 col-span-12 font-black xl:text-4xl md:text-3xl'
@@ -243,7 +304,7 @@ export const Homepage = () => {
           {/* Características */}
           <div
             id='caracteristicas'
-            className='mx-auto my-auto w-full md:py-24 py-0 md_py-8 bg-purplelight'
+            className='mx-auto my-auto w-full md:py-24 py-0 md_py-8 bg-purplelight dark:bg-darkGrayColor dark:text-white'
           >
             <div className='container mx-auto flex'>
               <div className='grid grid-rows md:mx-8 mx-8'>
@@ -259,42 +320,54 @@ export const Homepage = () => {
 
                 {/* Horizontal responsive */}
                 <div className='hidden md:block'>
-                  <div className='xl:ml-8'>
-                    <img src={propositoImage} alt='propósitos GQuestions'></img>
+                  
+                  <div className='grid grid-cols-12 font-bold lg:text-base text-sm text-justify'>
+                    <div className='md:col-span-3'>
+                      <img className="w-80" src={proposito1} alt="proposito 1"></img>
+                    </div>
+                    <div className='md:col-span-3'>
+                      <img className="w-80" src={proposito2} alt="proposito 1"></img>
+                    </div>
+                    <div className='md:col-span-3'>
+                      <img className="w-80" src={proposito3} alt="proposito 1"></img>
+                    </div>
+                    <div className='md:col-span-3'>
+                      <img className="w-80" src={proposito4} alt="proposito 1"></img>
+                    </div>
                   </div>
                   <div className='grid grid-cols-12 font-bold lg:text-base text-sm text-justify'>
-                    <div className='md:col-span-3 xl:ml-12 lg:ml-4  md:ml-0 '>
+                    <div className='md:col-span-3'>
                       Genera Exámenes
-                  </div>
-                    <div className='md:col-span-3 xl:ml-10 lg:ml-16 md:ml-8'>
+                    </div>
+                    <div className='md:col-span-3'>
                       Genera Textos
-                  </div>
-                    <div className='md:col-span-3 xl:ml-2 lg:ml-16 md:ml-8'>
+                    </div>
+                    <div className='md:col-span-3'>
                       Genera Preguntas
-                  </div>
-                    <div className='md:col-span-3 xl:ml-0 lg:ml-24 md:ml-12'>
+                    </div>
+                    <div className='md:col-span-3'>
                       Aplica el examen
+                    </div>
                   </div>
-                  </div>
-                  <div className='grid grid-cols-12 lg:text-base text-sm text-justify'>
-                    <div className='md:col-span-3 xl:ml-12 lg:ml-4  md:ml-0'>
-                      Turn your idea from concept to MVP
-                  </div>
-                    <div className='md:col-span-3 xl:ml-10 lg:ml-16 md:ml-8 xl:pr-16'>
+                  <div className='grid grid-cols-12 font-light lg:text-base text-sm text-justify'>
+                    <div className='md:col-span-3 pr-16'>
+                      Turn your idea from concept to MVP mpvpvpv mvpp
+                    </div>
+                    <div className='md:col-span-3 pr-16'>
                       Sketch out the product to align the user needs
-                  </div>
-                    <div className='md:col-span-3 xl:ml-2  lg:ml-16 md:ml-8'>
-                      Convert the designs into a live application
-                  </div>
-                    <div className='md:col-span-3 xl:ml-0  lg:ml-24 md:ml-12'>
-                      Launching the application to the market
-                  </div>
+                    </div>
+                    <div className='md:col-span-3 pr-16'>
+                      Convert the designs into a live application Convert the designs into a live application
+                    </div>
+                    <div className='md:col-span-3 pr-16'>
+                      Launching the application to the market Convert the designs into a live application
+                    </div>
                   </div>
                 </div>
                 {/* Vertical responsive */}
                 <div className='grid-cols-12 block md:hidden text-sm'>
                   <div className='col-span-2  hidden sm:block'></div>
-                  <div className='col-span-12 sm:col-span-10 '>
+                  <div className='col-span-12 sm:col-span-10 my-8'>
                     <div className='grid grid-rows-4 mt-3 text-justify'>
                       <div className='sm:mb-20 mb-4'>
                         <b>Genera Exámenes: </b>Turn your idea from concept to MVP
@@ -322,12 +395,12 @@ export const Homepage = () => {
           {/* Ventajas */}
           <div
             id='ventajas'
-            className='mx-auto my-auto w-full md:py-16 py-8 mb-8'
+            className='mx-auto my-auto w-full md:py-16 py-8 dark:bg-darkColor dark:text-white'
           >
             <div className='container mx-auto flex'>
               <div
                 data-aos='fade-up'
-                className='grid grid-rows md:gap-y-8 text-justify md:mx-8 mx-8 text-sm md:text-base'
+                className='grid grid-rows md:gap-y-8 text-justify md:mx-8 mx-8 text-sm md:text-base mb-8'
               >
                 <div className='py-8 font-black xl:text-4xl md:text-3xl text-xl text-justify md:text-left'>
                   <h1 className=''>Ventajas de utilizar nuestro generador </h1>
@@ -399,14 +472,14 @@ export const Homepage = () => {
           <hr></hr>
           {/* Ejemplos */}
 
-          <div id='ejemplos'>
-            <CarouselEjemplo />
+          <div id='ejemplos' className="">
+            <CarouselEjemplo theme={"dark"} />
           </div>
-
+          <hr></hr>
           {/* Uso */}
-          <div className='mx-auto my-auto w-full md:pt-8 pb-16 md:pb-16 py-0 mt-8'>
+          <div className='mx-auto my-auto w-full md:pt-8 pb-16 md:pb-16 py-0 dark:bg-darkColor dark:text-white'>
             <div className='container mx-auto flex'>
-              <div className='grid grid-rows md:mx-8 mx-8'>
+              <div className='grid grid-rows md:mx-8 mx-8 mt-16'>
                 <div className='grid grid-cols-12 items-center space-x-0 md:space-x-6'>
                   <div data-aos='fade-up' className='md:col-span-4 col-span-12'>
                     <h1 className='md:mx-0 font-black xl:text-4xl md:text-3xl text-justify md:text-left mb-2'>
@@ -446,7 +519,7 @@ export const Homepage = () => {
           {/* Uso móvil */}
           <div className='mx-auto my-auto w-full sm:pt-8 md:pb-0 py-0 md:pt-0 bg-cyanmain'>
             <div className='container mx-auto flex'>
-              <div className='grid grid-cols-12 md:mx-8 mx-8'>
+              <div className='grid grid-cols-12 md:mx-8 mx-8 sm:mt-8 mt-16'>
                 <div className='grid grid-rows-3 md:col-span-6 col-span-12 items-center text-sm md:text-base'>
                   <h1 className='font-black xl:text-4xl md:text-3xl text-xl text-justify md:text-left self-end'>
                     Genera, aplica y resuelve tus exámenes desde el móvil
@@ -465,20 +538,20 @@ export const Homepage = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div >
         <Footer />
-        </div>
-      );
-    } 
-    
-    /* ***************** */
-    /* ***************** */
-    /* *** Logueado **** */
-    /* ***************** */
-    /* ***************** */
-    else {
-      return (
-        <div className="font-manrope">
+      </div >
+    );
+  }
+
+  /* ***************** */
+  /* ***************** */
+  /* *** Logueado **** */
+  /* ***************** */
+  /* ***************** */
+  else {
+    return (
+      <div ref={darkMode} className="font-manrope">
         <div id='inicio'>
           <Helmet>
             <script src='https://unpkg.com/aos@2.3.1/dist/aos.js'></script>
@@ -487,8 +560,8 @@ export const Homepage = () => {
           <nav
             className={
               navbar
-                ? 'navbar shadow-sm h-auto mx-auto flex items-center justify-between flex-wrap py-6  bg-gradient-to-r from-yellowlight via-white to-white'
-                : 'navbar h-auto mx-auto flex items-center justify-between flex-wrap py-6 bg-transparent'
+              ? 'navbar shadow-sm h-auto mx-auto flex items-center justify-between flex-wrap py-6  bg-gradient-to-r from-yellowlight via-white dark:from-darkColor to-white dark:via-darkColor dark:to-darkColor dark:bg-darkColor dark:text-white border-b border border-gray-300 border-opacity-20'
+              : 'navbar h-auto mx-auto flex items-center justify-between flex-wrap py-6 bg-transparent dark:bg-darkColor dark:text-white'
             }
           >
             <a
@@ -510,7 +583,7 @@ export const Homepage = () => {
               <button
                 onClick={addRemoveClassMenu}
                 id='boton'
-                className='flex px-3 py-2 border rounded border-yellow-400 hover:text-yellow-600 hover:border-yellow-600'
+                className='flex px-3 py-2 border rounded border-yellow-400  hover:text-yellow-600 hover:border-yellow-600 dark:bg-yellowlight dark:text-black outline-none focus:outline-none'
               >
                 <svg
                   className='fill-current h-3 w-3'
@@ -525,60 +598,83 @@ export const Homepage = () => {
             <div
               ref={divRefMenu}
               id='menu'
-              className='hidden w-full text-center lg:text-left gap-x-4 flex-grow lg:flex lg:items-center lg:w-auto font-medium mt-3'
+              className='hidden w-full text-center lg:text-left gap-x-2 flex-grow lg:flex lg:items-center lg:w-auto font-medium mt-3'
             >
               <div className='text-sm lg:flex-grow mb-2'>
                 <a
-                  href='#caracteristicas'
-                  className='p-2 block mt-4 lg:inline-block lg:mt-0 ml-3 mr-3 rounded-md hover:bg-yellowlight hover:text-yellow-800'
+                  href='#about'
+                  className='transition duration-500  p-2 block mt-4 lg:inline-block lg:mt-0 ml-3 mr-2 rounded-md hover:bg-yellowlight hover:text-yellow-800'
                 >
                   Acerca de
               </a>
                 <a
                   href='#caracteristicas'
                   onClick={scrollAnimation}
-                  className='p-2 block mt-4 lg:inline-block lg:mt-0 ml-3 mr-3 rounded-md hover:bg-yellowlight hover:text-yellow-800'
+                  className='transition duration-500 p-2 block mt-4 lg:inline-block lg:mt-0 ml-3 mr-2 rounded-md hover:bg-yellowlight hover:text-yellow-800'
                 >
                   Características
               </a>
                 <a
                   href='#ventajas'
-                  className='p-2 block mt-4 lg:inline-block lg:mt-0 ml-3 mr-3 rounded-md hover:bg-yellowlight hover:text-yellow-800'
+                  className='transition duration-500 p-2 block mt-4 lg:inline-block lg:mt-0 ml-3 mr-2 rounded-md hover:bg-yellowlight hover:text-yellow-800'
                 >
                   Ventajas
               </a>
                 <a
                   href='#ejemplos'
-                  className='p-2 block mt-4 lg:inline-block lg:mt-0 ml-3 rounded-md hover:bg-yellowlight hover:text-yellow-800'
+                  className='transition duration-500 p-2 block mt-4 lg:inline-block lg:mt-0 ml-2 rounded-md hover:bg-yellowlight hover:text-yellow-800'
                 >
                   Ejemplos
               </a>
               </div>
+
+              <div className="flex items-center justify-items-center justify-self-center place-content-center py-2 mr-2">
+              <span className="">
+                <svg className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+              </span>
+              <label className="mx-2 flex items-center relative w-max cursor-pointer select-none">
+                <input 
+                  type="checkbox" 
+                  className="appearance-none transition-colors cursor-pointer w-12 h-6 rounded-full outline-none focus:outline-none bg-gray-300"
+                  onChange={handleDarkMode}
+                  defaultChecked={darkModeBool}>
+                  </input>
+                <span className="w-5 h-5 right-7 absolute rounded-full transform transition-transform bg-white shadow-md" />
+              </label>
+              <span className="">
+                <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+              </span>
+              </div>
+
               <div className="mr-10">
                 <Link
                   to='teacher/generacion'
-                  className='inline-block shadow-md text-sm lg:mr-3 lg:ml-0 text-black text-center  ml-10 z-10 w-full max-w-xs mx-auto bg-yellowlight hover:bg-yellow-400 focus:bg-yellow-400 rounded-lg px-2 py-2 font-semibold lg:mb-0 mb-2'
+                  className='inline-block shadow-md text-sm lg:mr-3 lg:ml-0 text-black text-center  
+                  ml-10 z-10 w-full max-w-xs mx-auto bg-yellowlight hover:bg-yellowmain focus:bg-yellowmain rounded-lg px-2 py-2 font-semibold lg:mb-0 mb-2'
                 >
                   Ir a tu cuenta
               </Link>
 
-              <div className=''>
-                <p
-                  className='inline-block text-sm  lg:mr-3 lg:ml-0 ml-10 text-black text-center z-10 w-full max-w-xs mx-auto'
-                >
-                  {localStorage.getItem('email')}
-              </p>
-              </div>
-
+                <div className=''>
+                  <p
+                    className='inline-block text-sm  lg:mr-3 lg:ml-0 ml-10 text-black dark:text-white text-center z-10 w-full max-w-xs mx-auto'
+                  >
+                    {localStorage.getItem('email')}
+                  </p>
+                </div>
               </div>
             </div>
           </nav>
 
-          {/* Body */}
-          <div
-            className='mx-auto bg-local my-auto w-full py-32 xl:py-64'
+{/* Body */}
+<div 
+            className='mx-auto bg-local my-auto w-full py-32 xl:py-64 dark:bg-darkColor dark:text-white'
             style={{
-              backgroundImage: `url(${backgroundHome})`,
+              backgroundImage: `url(${darkModeBool ? backgroundHomeDark: backgroundHomeLight})`,
               width: '',
               height: '',
               backgroundRepeat: 'no-repeat',
@@ -587,7 +683,7 @@ export const Homepage = () => {
               minWidth: '',
             }}
           >
-            <div className='container  mx-auto flex'>
+            <div className='container mx-auto flex'>
               <div className='grid grid-cols-12'>
                 <div className='col-span-12 sm:col-span-6'>
                   <div className='grid grid-rows-3 lg:mx-8 md:mx-8 mx-8 text-sm md:text-base'>
@@ -605,7 +701,7 @@ export const Homepage = () => {
                     </div>
                     <div className='text-center md:text-left'>
                       <Link
-                        to='/teacher/generacion'
+                        to='/register'
                         className='inline-block md:text-base text-sm text-black text-center z-10 w-full max-w-xs mx-auto bg-yellowmain hover:bg-yellow-600 focus:bg-yellow-600 rounded-lg px-2 py-4 font-semibold lg:mb-0 mb-2'
                       >
                         Empezar
@@ -615,7 +711,7 @@ export const Homepage = () => {
                 </div>
                 <div className='col-span-12 sm:col-span-6 place-self-center'>
                   <img
-                    className='w-1/2 lg:ml-40 xl:ml-64 sm:ml-32 ml-24'
+                    className='w-1/2 lg:ml-40 xl:ml-64 sm:ml-32 ml-24 dark:hidden'
                     src={computerImage}
                     alt='computer decorator'
                   />
@@ -627,10 +723,10 @@ export const Homepage = () => {
           <hr></hr>
 
           {/* Por qué utilizar un generador de exámenes */}
-          <div className='mx-auto my-auto w-full md:py-24 py-16'>
-            <div className='container mx-auto flex'>
+          <div className='mx-auto my-auto w-full md:py-24 py-16 dark:bg-darkColor dark:text-white'>
+            <div className='container mx-auto flex '>
               <div className='grid grid-rows md:mx-8 mx-8'>
-                <div className='grid grid-cols-12 lg:gap-x-16 gap-y-4'>
+                <div className='grid grid-cols-12 lg:gap-x-16 gap-y-4 '>
                   <div
                     data-aos='fade-right'
                     className='md:col-span-6 col-span-12 font-black xl:text-4xl md:text-3xl'
@@ -657,7 +753,7 @@ export const Homepage = () => {
           {/* Características */}
           <div
             id='caracteristicas'
-            className='mx-auto my-auto w-full md:py-24 py-0 md_py-8 bg-purplelight'
+            className='mx-auto my-auto w-full md:py-24 py-0 md_py-8 bg-purplelight dark:bg-darkGrayColor dark:text-white'
           >
             <div className='container mx-auto flex'>
               <div className='grid grid-rows md:mx-8 mx-8'>
@@ -673,42 +769,54 @@ export const Homepage = () => {
 
                 {/* Horizontal responsive */}
                 <div className='hidden md:block'>
-                  <div className='xl:ml-8'>
-                    <img src={propositoImage} alt='propósitos GQuestions'></img>
+                  
+                  <div className='grid grid-cols-12 font-bold lg:text-base text-sm text-justify'>
+                    <div className='md:col-span-3'>
+                      <img className="w-80" src={proposito1} alt="proposito 1"></img>
+                    </div>
+                    <div className='md:col-span-3'>
+                      <img className="w-80" src={proposito2} alt="proposito 1"></img>
+                    </div>
+                    <div className='md:col-span-3'>
+                      <img className="w-80" src={proposito3} alt="proposito 1"></img>
+                    </div>
+                    <div className='md:col-span-3'>
+                      <img className="w-80" src={proposito4} alt="proposito 1"></img>
+                    </div>
                   </div>
                   <div className='grid grid-cols-12 font-bold lg:text-base text-sm text-justify'>
-                    <div className='md:col-span-3 xl:ml-12 lg:ml-4  md:ml-0 '>
+                    <div className='md:col-span-3'>
                       Genera Exámenes
-                  </div>
-                    <div className='md:col-span-3 xl:ml-10 lg:ml-16 md:ml-8'>
+                    </div>
+                    <div className='md:col-span-3'>
                       Genera Textos
-                  </div>
-                    <div className='md:col-span-3 xl:ml-2 lg:ml-16 md:ml-8'>
+                    </div>
+                    <div className='md:col-span-3'>
                       Genera Preguntas
-                  </div>
-                    <div className='md:col-span-3 xl:ml-0 lg:ml-24 md:ml-12'>
+                    </div>
+                    <div className='md:col-span-3'>
                       Aplica el examen
+                    </div>
                   </div>
-                  </div>
-                  <div className='grid grid-cols-12 lg:text-base text-sm text-justify'>
-                    <div className='md:col-span-3 xl:ml-12 lg:ml-4  md:ml-0'>
-                      Turn your idea from concept to MVP
-                  </div>
-                    <div className='md:col-span-3 xl:ml-10 lg:ml-16 md:ml-8 xl:pr-16'>
+                  <div className='grid grid-cols-12 font-light lg:text-base text-sm text-justify'>
+                    <div className='md:col-span-3 pr-16'>
+                      Turn your idea from concept to MVP mpvpvpv mvpp
+                    </div>
+                    <div className='md:col-span-3 pr-16'>
                       Sketch out the product to align the user needs
-                  </div>
-                    <div className='md:col-span-3 xl:ml-2  lg:ml-16 md:ml-8'>
-                      Convert the designs into a live application
-                  </div>
-                    <div className='md:col-span-3 xl:ml-0  lg:ml-24 md:ml-12'>
-                      Launching the application to the market
-                  </div>
+                    </div>
+                    <div className='md:col-span-3 pr-16'>
+                      Convert the designs into a live application Convert the designs into a live application
+                    </div>
+                    <div className='md:col-span-3 pr-16'>
+                      Launching the application to the market Convert the designs into a live application
+                    </div>
                   </div>
                 </div>
                 {/* Vertical responsive */}
                 <div className='grid-cols-12 block md:hidden text-sm'>
                   <div className='col-span-2  hidden sm:block'></div>
-                  <div className='col-span-12 sm:col-span-10 '>
+                  <div className='col-span-12 sm:col-span-10 my-8'>
                     <div className='grid grid-rows-4 mt-3 text-justify'>
                       <div className='sm:mb-20 mb-4'>
                         <b>Genera Exámenes: </b>Turn your idea from concept to MVP
@@ -736,12 +844,12 @@ export const Homepage = () => {
           {/* Ventajas */}
           <div
             id='ventajas'
-            className='mx-auto my-auto w-full md:py-16 py-8 mb-8'
+            className='mx-auto my-auto w-full md:py-16 py-8 dark:bg-darkColor dark:text-white'
           >
             <div className='container mx-auto flex'>
               <div
                 data-aos='fade-up'
-                className='grid grid-rows md:gap-y-8 text-justify md:mx-8 mx-8 text-sm md:text-base'
+                className='grid grid-rows md:gap-y-8 text-justify md:mx-8 mx-8 text-sm md:text-base mb-8'
               >
                 <div className='py-8 font-black xl:text-4xl md:text-3xl text-xl text-justify md:text-left'>
                   <h1 className=''>Ventajas de utilizar nuestro generador </h1>
@@ -813,14 +921,14 @@ export const Homepage = () => {
           <hr></hr>
           {/* Ejemplos */}
 
-          <div id='ejemplos'>
-            <CarouselEjemplo />
+          <div id='ejemplos' className="">
+            <CarouselEjemplo theme={"dark"} />
           </div>
-
+          <hr></hr>
           {/* Uso */}
-          <div className='mx-auto my-auto w-full md:pt-8 pb-16 md:pb-16 py-0 mt-8'>
+          <div className='mx-auto my-auto w-full md:pt-8 pb-16 md:pb-16 py-0 dark:bg-darkColor dark:text-white'>
             <div className='container mx-auto flex'>
-              <div className='grid grid-rows md:mx-8 mx-8'>
+              <div className='grid grid-rows md:mx-8 mx-8 mt-16'>
                 <div className='grid grid-cols-12 items-center space-x-0 md:space-x-6'>
                   <div data-aos='fade-up' className='md:col-span-4 col-span-12'>
                     <h1 className='md:mx-0 font-black xl:text-4xl md:text-3xl text-justify md:text-left mb-2'>
@@ -860,7 +968,7 @@ export const Homepage = () => {
           {/* Uso móvil */}
           <div className='mx-auto my-auto w-full sm:pt-8 md:pb-0 py-0 md:pt-0 bg-cyanmain'>
             <div className='container mx-auto flex'>
-              <div className='grid grid-cols-12 md:mx-8 mx-8'>
+              <div className='grid grid-cols-12 md:mx-8 mx-8 sm:mt-8 mt-16'>
                 <div className='grid grid-rows-3 md:col-span-6 col-span-12 items-center text-sm md:text-base'>
                   <h1 className='font-black xl:text-4xl md:text-3xl text-xl text-justify md:text-left self-end'>
                     Genera, aplica y resuelve tus exámenes desde el móvil
@@ -879,10 +987,9 @@ export const Homepage = () => {
               </div>
             </div>
           </div>
-        </div>
-
+        </div >
         <Footer />
-        </div>
-      )
-    }
+      </div >
+    )
   }
+}

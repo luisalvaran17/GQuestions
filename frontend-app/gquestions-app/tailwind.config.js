@@ -1,6 +1,6 @@
 module.exports = {
   purge: [],
-  darkMode: false, // or 'media' or 'class'
+  darkMode: 'class', // or 'media' or 'class'
   theme: {
     extend: {
       colors: {
@@ -12,11 +12,17 @@ module.exports = {
         cyanlight: '#D5FAFC',
         cyanmain: '#2EC5CE',
         blueFooter: "#000817",
+        darkColor: '#18191F',
+        darkGrayColor: '#474A57',
       },
       fontFamily: {
         manrope: ['Manrope',],
         asap:['Asap']
-      }
+      },
+      backgroundImage: theme => ({
+        'hero-dark': "url('../images/background_home_2x_dark.png')",
+        'hero-light': "url('../images/background_home_2x.png')",
+       })
     },
   },
   variants: {

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../containers/Navbar";
 import "../../assets/styles/tailwind.css";
-import backgroundGeneral from "../../assets/images/background-general_4x-register.png";
+/* import backgroundGeneralCyanDark from "../../assets/images/background-general-cyan_dark.png";
+import backgroundGeneralCyanLight from "../../assets/images/background-general-cyan_light.png"; */
 import { DropdownUser } from "../user/DropdownUser";
 import { StepsProgress } from "./StepsProgress";
 import { CreateExamenAPI } from "../../api/Examen/CreateExamenAPI";
@@ -114,7 +115,7 @@ export const ExamenConfiguracion = (props) => {
       <div
         className="flex container w-screen h-screen font-manrope"
         style={{
-          backgroundImage: `url(${backgroundGeneral})`,
+          /* backgroundImage: `url(${backgroundGeneralCyanLight})`, */
           width: "100%",
           height: "",
           backgroundRepeat: "no-repeat",

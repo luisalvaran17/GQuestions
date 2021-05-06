@@ -13,16 +13,16 @@ export const Footer = () => {
   if (showModal === false) {
     return (
       <div className='bg-gray-200'>
-        <div className='bg-blueFooter'>
+        <div className='bg-darkColor'>
           <footer className='flex flex-wrap justify-between p-3 m-auto text-sm md:text-base pb-16'>
             <div className='container mx-auto flex flex-col flex-wrap items-center justify-between'>
-              <li className='p-2'>
+              <span className='p-4'>
                 <img
                   className='h-16'
                   src={LogoGQuestions}
                   alt='logo GQuestions'
                 />
-              </li>
+              </span>
 
               <ul className='flex mx-auto text-white text-center'>
                 <li className='p-2 cursor-pointer hover:underline'>

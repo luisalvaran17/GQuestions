@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "../assets/styles/tailwind.css";
 import { Helmet } from "react-helmet";
 import { Link, useHistory } from "react-router-dom";
@@ -8,16 +8,23 @@ import GoogleRegister from "react-google-login";
 import {ModalRegister} from "../components/login/ModalRegister";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import backgroundGeneral from "../assets/images/background-general_4x-register.png";
-import imageStudent from "../assets/images/image-register2.png";
+import imageStudent from "../assets/images/image-register.png";
 import { LoginAPI } from "../api/Usuario/LoginAPI";
 import { RegisterUserAPI } from "../api/Usuario/RegisterUserAPI";
 import { GetToken } from "../api/Usuario/GetToken";
 import { GetIDUser } from "../api/Usuario/GetIDUser";
+import backgroundGeneralCyanDark from "../assets/images/background-general-cyan_dark.png";
+import backgroundGeneralCyanLight from "../assets/images/background-general-cyan_light.png";
 
+/* CITAR FREEPIK
+<a href='https://www.freepik.com/vectors/banner'>Banner vector created by upklyak - www.freepik.com</a>
+*/
 export const Register = () => {
 
   const divRefErrorMessage = React.createRef();
+
+  const darkModeRef = useRef();
+  const [darkModeBool, setDarkModeBool] = useState(localStorage.getItem('bool-dark'));
 
   // Hooks
   const [_isMounted, set_isMounted] = useState(false);
@@ -46,6 +53,15 @@ export const Register = () => {
     AOS.init({
       duration: 800,
     });
+
+    if(localStorage.theme === 'dark'){
+      setDarkModeBool(true);
+      darkModeRef.current.classList.add('dark')
+    }else{
+      setDarkModeBool(false);
+      darkModeRef.current.classList.remove('dark')
+    }
+
     set_isMounted(true);
 
     // componentwillunmount
@@ -211,9 +227,9 @@ export const Register = () => {
   if (redirect === false && modalShow === false) {
     return (
       <div
-        className="xl:px-60 lg:px-32 sm:px-16 px-2 min-h-screen mx-auto font-manrope"
+        ref={darkModeRef} className="xl:px-60 lg:px-32 sm:px-16 px-2 min-h-screen mx-auto font-manrope"
         style={{
-          backgroundImage: `url(${backgroundGeneral})`,
+          backgroundImage: `url(${darkModeBool ? backgroundGeneralCyanDark: backgroundGeneralCyanLight})`,
           width: "",
           height: "",
           backgroundRepeat: "no-repeat",
@@ -241,11 +257,11 @@ export const Register = () => {
               url('https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.min.css')
             </style>
           </Helmet>
-          <div className="text-sm md:text-md bg-gray-100 text-gray-500 rounded-3xl shadow-xl w-full overflow-hidden">
+          <div className="border dark:border-gray-300 border-gray-500 border-opacity-20 text-sm md:text-md bg-gray-100 text-gray-500 rounded-3xl shadow-xl w-full overflow-hidden dark:bg-darkColor dark:text-white">
             <div className="md:flex w-full">
-              <div className="hidden lg:block  w-1/2 bg-yellowBackground">
-                <div className="flex items-center mt-20 p-10">
-                  <img className="" src={imageStudent} alt=""></img>
+              <div className="hidden lg:block  w-1/2 bg-yellowlight dark:bg-darkGrayColor border-r border-opacity-40 border-gray-300">
+                <div className="flex items-center mt-32 ">
+                  <img className="w-full" src={imageStudent} style={{width:'1000'}} alt=""></img>
                 </div>
               </div>
               <form
@@ -253,7 +269,7 @@ export const Register = () => {
                 className="w-full lg:w-1/2 py-10 px-5 lg:px-10"
               >
                 <div className="text-center mb-10">
-                  <h1 className="font-black text-2xl md:text-3xl mb-8 text-center text-gray-600">
+                  <h1 className="font-black text-2xl md:text-3xl mb-8 text-center text-gray-600 dark:text-gray-200">
                     REGISTRARSE
                   </h1>
                 </div>
@@ -414,7 +430,7 @@ export const Register = () => {
                         <input
                           type="date"
                           id="fecha_nacimiento"
-                          className="transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2 
+                          className="dark:text-gray-500 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2 
                           focus:ring-yellowlight w-full -ml-10 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow;"
                           placeholder="dd/mm/aaaa"
                           name="fecha_nac"
@@ -429,7 +445,7 @@ export const Register = () => {
                     <div className="py-1 col-span-12 my-0">
                       <button
                         type="submit"
-                        className="text-base z-10 pl-1 block w-full mx-auto mb-2 focus:outline-none bg-yellow-500 hover:bg-yellow-600 focus:bg-yellow-600 text-white rounded-lg px-2 py-2 font-semibold"
+                        className="transition-colors duration-500 text-base z-10 pl-1 block w-full mx-auto mb-2 focus:outline-none bg-yellowmain hover:bg-yellow-700 focus:bg-yellow-700 text-black rounded-lg px-2 py-2 font-semibold"
                         onClick={handleClickRegister}
                       >
                         REGISTRARSE
@@ -480,12 +496,12 @@ export const Register = () => {
                         <button
                           onClick={renderProps.onClick}
                           disabled={renderProps.disabled}
-                          className="w-full flex items-center justify-center px-4 py-2 space-x-2 transition-colors duration-300 border border-gray-800 rounded-md group hover:bg-gray-800 focus:outline-none"
+                          className="w-full flex items-center justify-center px-4 py-2 space-x-2 transition-colors duration-500 border border-gray-800 dark:bg-gray-800 dark:hover:bg-gray-900 rounded-md group hover:bg-gray-800 focus:outline-none"
                         >
                           <span>
                             <i className="fab fa-google mr-2"></i>
                           </span>
-                          <span className="text-sm font-medium text-gray-800 group-hover:text-white">
+                          <span className="text-sm font-medium text-gray-800 group-hover:text-white dark:text-white">
                             Google
                           </span>
                         </button>

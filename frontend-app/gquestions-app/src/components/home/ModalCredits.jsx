@@ -12,7 +12,7 @@ export const ModalCredits = () => {
   return (
     <div
       ref={divModal}
-      className='fixed z-10 inset-0 overflow-y-auto'
+      className='fixed z-10 inset-0 overflow-y-auto font-manrope'
       aria-labelledby='modal-title'
       role='dialog'
       aria-modal='true'
@@ -35,7 +35,7 @@ export const ModalCredits = () => {
             <div className='sm:flex sm:items-start'>
               <div className='mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left'>
                 <h3
-                  className='text-xl font-bold leading-6 text-gray-900'
+                  className='text-xl font-bold leading-6 text-gray-900 uppercase'
                   id='modal-title'
                 >
                   Créditos
@@ -44,12 +44,9 @@ export const ModalCredits = () => {
                   <p className='text-base font-semibold'>
                     Imagen en página de registro:
                     </p>
-                  <a
-                    href='https://www.freepik.com/vectors/health'
-                    className='text-sm underline'
-                  >
-                    Health vector created by freepik - www.freepik.com
-                    </a>
+                    
+                    <a href='https://www.freepik.com/vectors/banner' className='text-sm underline'>
+                      Banner vector created by upklyak - www.freepik.com</a>
                 </div>
               </div>
             </div>
@@ -58,7 +55,7 @@ export const ModalCredits = () => {
             <button
               type='button'
               onClick={acceptButton}
-              className='w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-yellowmain text-base text-black font-semibold hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm'
+              className='transition duration-500 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-yellowmain text-base text-black font-semibold hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm'
             >
               Aceptar
               </button>

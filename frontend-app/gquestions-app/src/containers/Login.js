@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet";
 import { Link, useHistory } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import backgroundGeneral from "../assets/images/background-general.png";
-import imageStudent from "../assets/images/image-register2.png";
+import backgroundGeneralYellowDark from "../assets/images/background-general-yellow_dark.png";
+import backgroundGeneralYellowLight from "../assets/images/background-general-yellow_light.png";
+import imageStudent from "../assets/images/image-register.png";
 import { LoginAPI } from "../api/Usuario/LoginAPI";
 import { GetIDUser } from "../api/Usuario/GetIDUser";
 import { GetToken } from "../api/Usuario/GetToken";
@@ -13,6 +14,8 @@ import ReactDOM from 'react-dom';
 export const Login = () => {
 
   const divRefErrorMessage = React.createRef();
+  const darkModeRef = useRef();
+  const [darkModeBool, setDarkModeBool] = useState(localStorage.getItem('bool-dark'));
 
   // Hooks
   const [_isMounted, set_isMounted] = useState(false);
@@ -49,6 +52,15 @@ export const Login = () => {
     AOS.init({
       duration: 800,
     });
+
+    if(localStorage.theme === 'dark'){
+      setDarkModeBool(true);
+      darkModeRef.current.classList.add('dark')
+    }else{
+      setDarkModeBool(false);
+      darkModeRef.current.classList.remove('dark')
+    }
+
     set_isMounted(true);
     return () => {
       set_isMounted(false);
@@ -101,9 +113,9 @@ export const Login = () => {
 
   return (
     <div
-      className="xl:px-64 lg:px-32 sm:px-16 px-2 min-h-screen mx-auto font-manrope"
+      ref={darkModeRef} className="xl:px-64 lg:px-32 sm:px-16 px-2 min-h-screen mx-auto font-manrope"
       style={{
-        backgroundImage: `url(${backgroundGeneral})`,
+        backgroundImage: `url(${darkModeBool ? backgroundGeneralYellowDark: backgroundGeneralYellowLight})`,
         width: "",
         height: "",
         backgroundRepeat: "no-repeat",
@@ -131,9 +143,9 @@ export const Login = () => {
             url('https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.min.css')
             </style>
         </Helmet>
-        <div className="text-sm md:text-base bg-gray-100 text-gray-500 rounded-3xl shadow-xl w-full md:w-full overflow-hidden">
+        <div className="border border-gray-300 border-opacity-20 text-sm md:text-base bg-gray-100 text-gray-500 rounded-3xl shadow-xl w-full md:w-full overflow-hidden dark:bg-darkColor dark:text-white">
           <div className="md:flex md:w-full">
-            <div className="hidden md:block w-1/2 bg-yellowBackground py-10 px-10">
+            <div className="hidden md:block w-1/2 bg-yellowlight dark:bg-darkGrayColor border-r border-opacity-40 border-gray-300">
               <div className="flex items-center mt-20 ">
                 <img className="" src={imageStudent} alt=""></img>
               </div>
@@ -143,7 +155,7 @@ export const Login = () => {
               className="w-full md:w-1/2 py-10 px-5 md:px-10"
             >
               <div className="text-center mb-10">
-                <h1 className="font-black text-2xl md:text-3xl mb-8 text-center text-gray-600">
+                <h1 className="font-black text-2xl md:text-3xl mb-8 text-center text-gray-600 dark:text-gray-200">
                   INICIAR SESIÓN
                   </h1>
               </div>
@@ -186,7 +198,7 @@ export const Login = () => {
                       <input
                         type="password"
                         id="password"
-                        className="transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2 focus:ring-yellowlight w-full -ml-10 pl-10 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
+                        className="dark:text-gray-500 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2 focus:ring-yellowlight w-full -ml-10 pl-10 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
                         name="password"
                         placeholder="Ingresa tu contraseña"
                         onChange={handleChange}
@@ -243,7 +255,7 @@ export const Login = () => {
                   <div className="py-1 lg:py-0 col-span-12">
                     <button
                       type="submit"
-                      className="z-10 block w-full focus:outline-none mx-auto bg-yellow-500 hover:bg-yellow-600 focus:bg-yellow-600 text-white rounded-lg py-2 font-semibold"
+                      className="transition-colors duration-500 z-10 block w-full focus:outline-none mx-auto bg-yellowmain hover:bg-yellow-700 focus:bg-yellow-700 text-black rounded-lg py-2 font-semibold"
                       onClick={handleClickLogin}
                     >
                       INICIAR SESIÓN
