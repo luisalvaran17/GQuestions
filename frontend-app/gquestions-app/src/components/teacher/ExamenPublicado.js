@@ -42,7 +42,7 @@ export const ExamenPublicado = () => {
                                   focus:ring-yellowlight w-full pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
 
               name="cod_generado"
-              disabled="true"
+              disabled={true}
               value="http://enlace_prueba/uuid_generacion"
             />
           </div>

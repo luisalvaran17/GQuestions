@@ -27,7 +27,7 @@ function Navbar() {
   }
 
   function handleClickAjustes() {
-    history.push("/teacher/revision-textos");
+    history.push("/teacher/visualizar-generacion");
   }
 
   useEffect(() => {

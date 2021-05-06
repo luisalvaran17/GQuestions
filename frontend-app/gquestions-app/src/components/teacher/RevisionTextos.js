@@ -32,7 +32,8 @@ export const RevisionTextos = (props) => {
   const [ValTemp, setValTemp] = useState("1") // Estado que sirve para guardar el id del texto de manera temporal
 
   useEffect(() => {
-    getPreguntas(); // eslint-disable-next-line react-hooks/exhaustive-deps
+    const lengthTexto = props.textosFromGenerate.length
+    getPreguntas(lengthTexto);// eslint-disable-next-line react-hooks/exhaustive-deps
 /* 
     window.onbeforeunload = function() {
       return "El progreso actual de la generación se perderá si recargas la página. ¿Deseas continuar?";
@@ -41,7 +42,7 @@ export const RevisionTextos = (props) => {
     // componentwillunmount
     return () => {
     }
-  }, []);
+  }, [props.textosFromGenerate.length]);
 
   // Llamada a la Api para insertar los datos en la base de datos
   const setTextosDatabase = () => {
@@ -156,10 +157,10 @@ export const RevisionTextos = (props) => {
   const [preguntasStateInitial, setPreguntasStateInitial] = useState([])
 
   // get data Preguntas endpoint 
-  const getPreguntas = async () => {
+  const getPreguntas = async (lengthTexto) => {
 
     let arrayTempPackagePreguntas = []
-    for (let i = 0; i < Textos.length; i++) {
+    for (let i = 0; i <lengthTexto; i++) {
       const response = await fetch(url) // You can await here
         .then((res) => res.json())
         .then((json) => {
@@ -172,11 +173,9 @@ export const RevisionTextos = (props) => {
       arrayTempPackagePreguntas.push(response); // Se ingresa elemento response al array
     }
     setPackagePreguntas(arrayTempPackagePreguntas); // Asignación de conjunto de respuestas al estado packagePreguntas
-    stateInitialPreguntas(arrayTempPackagePreguntas);
+    //stateInitialPreguntas(arrayTempPackagePreguntas);
 
-  }
-
-  const stateInitialPreguntas = (arrayTempPackagePreguntas) => {
+    // stateInitialPreguntas
     let mapPackagePreguntas = []
     let lengthPreguntas = arrayTempPackagePreguntas[0].data[0].texto.length;
 
