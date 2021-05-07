@@ -1,16 +1,35 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Navbar from "../../containers/Navbar";
 import "../../assets/styles/tailwind.css";
-import backgroundGeneral from "../../assets/images/background-general-green.png";
+import backgroundGeneralGreenDark from "../../assets/images/background-general-green_dark.png";
+import backgroundGeneralGreenLight from "../../assets/images/background-general-green_light.png";
 import { DropdownUser } from "../user/DropdownUser";
 import { Link } from 'react-router-dom'
 
 export const ExamenPublicado = () => {
+
+
+  // Hooks dark mode
+  const darkModeRef = useRef();
+  const [darkModeBool, setDarkModeBool] = useState(localStorage.getItem('bool-dark'));
+
+  useEffect(() => {
+    if (localStorage.theme === 'dark') {
+      setDarkModeBool(true);
+      darkModeRef.current.classList.add('dark')
+    } else {
+      setDarkModeBool(false);
+      darkModeRef.current.classList.remove('dark')
+    }
+
+  }, []);
+
   return (
     <div
+      ref={darkModeRef}
       className="flex container xl:justify-center xl:items-center w-screen h-screen font-manrope"
       style={{
-        backgroundImage: `url(${backgroundGeneral})`,
+        backgroundImage: `url(${darkModeBool ? backgroundGeneralGreenDark: backgroundGeneralGreenLight})`,
         width: "100%",
         height: "",
         backgroundRepeat: "no-repeat",
@@ -25,13 +44,13 @@ export const ExamenPublicado = () => {
       <div className="container flex justify-center items-center">
         <div className="">
           <div className="grid text-center cols-span-12 mx-4">
-            <h1 className="font-bold xl:text-5xl  md:text-4xl sm:text-3xl text-xl mb-10">
+            <h1 className="font-bold xl:text-5xl  md:text-4xl sm:text-3xl text-xl mb-10 dark:text-white">
               Examen publicado con éxito
               </h1>
           </div>
 
           <div className="text-center self-end mb-3 col-span-12">
-            <p className="text-gray-500 font-semibold text-sm">Enlace del examen</p>
+            <p className="text-gray-500 font-semibold text-md dark:text-gray-400">Enlace del examen</p>
           </div>
 
           <div className="grid text-center px-12 md:px-20 col-span-12">

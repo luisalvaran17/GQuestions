@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useHistory } from 'react-router';
 import { Helmet } from "react-helmet";
+import Scrollbars from "react-custom-scrollbars";
 
 export const VisualizacionGeneracion = () => {
 
@@ -13,7 +14,19 @@ export const VisualizacionGeneracion = () => {
     const [examenTitle, setExamenTitle] = useState("Examen 1")
     const questionsTitle = useRef("Preguntas");
 
+
+    // Hooks dark mode
+    const darkModeRef = useRef();
+    const [darkModeBool, setDarkModeBool] = useState(localStorage.getItem('bool-dark'));
+
     useEffect(() => {
+        if (localStorage.theme === 'dark') {
+            setDarkModeBool(true);
+            darkModeRef.current.classList.add('dark')
+        } else {
+            setDarkModeBool(false);
+            darkModeRef.current.classList.remove('dark')
+        }
         getGeneracionFromDB();// eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -68,75 +81,109 @@ export const VisualizacionGeneracion = () => {
     }
 
     return (
-        <div className="container grid grid-rows md:mx-auto sm:px-16 px-8 my-10 font-manrope">
-            <Helmet>
-                <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-                    rel="stylesheet"></link>
-                <link
-                    href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css"
-                    rel="stylesheet" type='text/css'></link>
-            </Helmet>
-            <button
-                type="submit"
-                className="justify-self-end md:text-base text-sm z-10 pl-1 block w-40 focus:outline-none bg-yellowlight hover:bg-yellowmain focus:bg-yellowmain text-black rounded-lg px-2 py-2 font-semibold"
-                onClick={handleClickVolver}
-            >
-                Volver
+        <div
+            ref={darkModeRef}
+            className="flex container w-screen h-screen font-manrope"
+            style={{
+                backgroundColor: `${darkModeBool ? '#18191F' : '#ffffff'}`,
+                width: "100%",
+                height: "",
+                backgroundRepeat: "no-repeat",
+                backgroundSize: "cover",
+                minHeight: "",
+                minWidth: "100%",
+            }}>
+
+            <div className="container grid grid-rows md:mx-auto sm:px-16 px-8 my-10">
+                <Helmet>
+                    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+                        rel="stylesheet"></link>
+                    <link
+                        href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css"
+                        rel="stylesheet" type='text/css'></link>
+                </Helmet>
+
+                <div className="justify-self-end">
+                    <button
+                        type="submit"
+                        className="transition duration-500 justify-self-end md:text-base text-sm z-10 pl-1 block w-40 focus:outline-none bg-yellowmain hover:bg-yellow-600
+                         focus:bg-yellow-600 text-black rounded-lg px-2 py-2 font-semibold"
+                        onClick={handleClickVolver}
+                    >
+                        Volver
                 </button>
 
-            <div className="w-full flex justify-center mb-16 py-6">
-                <div className="w-full">
-                    <div className="w-full flex flex-col md:flex-row rounded-lg overflow-hidden shadow-lg">
-                        <div className="w-full md:w-1/4 h-auto">
-                            <div className="top flex items-center px-5 h-16 bg-yellowmain font-bold uppercase">
-                                <div className="ml-3 flex flex-col text-2xl">
-                                    Exámenes
+                </div>
+
+                <div className="w-full flex justify-center mb-16 py-6">
+                    <div className="w-full">
+                        <div className="w-full flex flex-col md:flex-row rounded-lg overflow-hidden shadow-lg border dark:border-gray-700">
+                            <div className="w-full md:w-1/4 h-auto">
+                                <div className="top flex items-center px-5 h-16 bg-yellowmain font-bold uppercase">
+                                    <div className="ml-3 flex flex-col text-2xl">
+                                        Exámenes
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="bg-gray-100 w-full h-full sm:flex md:block">
-                                {
-                                    textosPreguntas.map((item, contador = 1) => (
-                                        <button key={item.id_texto} id={item.id_texto} onClick={onClickExamen}
-                                            className="py-4 w-full flex justify-between items-center px-5 hover:bg-gray-200 cursor-pointer focus:outline-none focus:bg-gray-200">
-                                            <span ><i className="fa fa-book mr-2" aria-hidden="true"></i>Examen {contador = contador + 1}</span>
-                                        </button>
-                                    ))
-                                }
 
-                            </div>
-                        </div>
-
-
-                        <div className="w-full md:w-3/4">
-                            <div className="top flex items-center px-5 h-16 bg-yellowlight text-2xl uppercase">
-                                <div id="title-1" className="">
-                                    <p>{examenTitle}</p>
-                                </div>
-                            </div>
-
-                            <div className="w-full px-5 py-3 max-h-screen overflow-y-auto">
-                                <h1 className="uppercase font-semibold">Texto</h1>
-                                <p>{texto}</p>
-                                <br></br>
-                                <h1 ref={questionsTitle} className="uppercase font-semibold">Preguntas</h1>
-                                <ul>
+                                <CustomScrollbars
+                                    autoHide
+                                    autoHideTimeout={900}
+                                    autoHideDuration={400}
+                                    style={{ height: "50vh" }}
+                                    className="bg-gray-100 w-full h-full sm:flex md:block dark:bg-darkColor dark:text-white">
                                     {
-                                        preguntas.map(pregunta => (
-                                            <li key={pregunta.id_pregunta}>
-                                                <p>{pregunta.pregunta_cuerpo}</p>
-                                                <p>{pregunta.respuesta_correcta}</p>
-                                                <br></br>
-                                            </li>
+                                        textosPreguntas.map((item, contador = 1) => (
+                                            <button key={item.id_texto} id={item.id_texto} onClick={onClickExamen}
+                                                className="transition duration-500 py-4 w-full flex justify-between items-center px-5 focus:outline-none hover:bg-gray-50 cursor-pointer
+                                             hover:text-yellowmain font-bold dark:hover:bg-darkGrayColor dark:hover:text-yellowlight dark:focus:text-yellowlight
+                                             dark:focus:bg-darkGrayColor focus:bg-gray-200">
+                                                <span ><i className="fa fa-book mr-2" aria-hidden="true"></i>Examen {contador = contador + 1}</span>
+                                            </button>
                                         ))
                                     }
-                                </ul>
+
+                                </CustomScrollbars>
+                            </div>
+
+
+                            <div className="w-full md:w-3/4">
+                                <div className="top flex items-center px-5 h-16 bg-yellowlight text-2xl uppercase">
+                                    <div id="title-1" className="">
+                                        <p>{examenTitle}</p>
+                                    </div>
+                                </div>
+
+                                <CustomScrollbars
+                                    autoHide
+                                    autoHideTimeout={900}
+                                    autoHideDuration={400}
+                                    style={{ height: "60vh" }}
+                                >
+                                    <div className="w-full px-5 py-3 max-h-screen overflow-y-auto bg-white">
+
+                                        <h1 className="uppercase font-semibold">Texto</h1>
+                                        <p>{texto}</p>
+                                        <br></br>
+                                        <h1 ref={questionsTitle} className="uppercase font-semibold">Preguntas</h1>
+                                        <ul>
+                                            {
+                                                preguntas.map(pregunta => (
+                                                    <li key={pregunta.id_pregunta}>
+                                                        <p>{pregunta.pregunta_cuerpo}</p>
+                                                        <p>{pregunta.respuesta_correcta}</p>
+                                                        <br></br>
+                                                    </li>
+                                                ))
+                                            }
+                                        </ul>
+                                    </div>
+                                </CustomScrollbars>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            {/* {
+                {/* {
                 textosPreguntas.map((item, contador = 1) => (
                     <div key={contador} className="grid grid-rows rounded-lg shadow-md my-1 p-4 gap-y-2">
 
@@ -166,6 +213,25 @@ export const VisualizacionGeneracion = () => {
                     </div>
                 ))
             } */}
+            </div>
+
         </div>
     )
 }
+
+// Funciones que cambian el estilo del scroll y otras props de una librería
+const renderThumb = ({ style, ...props }) => {
+    const thumbStyle = {
+        borderRadius: 6,
+        backgroundColor: 'rgba(35, 49, 86, 0.8)'
+    };
+    return <div style={{ ...style, ...thumbStyle }} {...props} />;
+};
+
+const CustomScrollbars = props => (
+    <Scrollbars
+        renderThumbHorizontal={renderThumb}
+        renderThumbVertical={renderThumb}
+        {...props}
+    />
+);

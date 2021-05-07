@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "../../containers/Navbar";
 import "../../assets/styles/tailwind.css";
-import backgroundGeneral from "../../assets/images/background-general-green.png";
+import backgroundGeneral from "../../assets/images/background-general-green_light.png";
 
 export const LoginExamen = () => {
 

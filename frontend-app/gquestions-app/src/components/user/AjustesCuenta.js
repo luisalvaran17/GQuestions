@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Navbar from "../../containers/Navbar";
 import "../../assets/styles/tailwind.css";
-import backgroundGeneralCyanLight from "../../assets/images/background-general-cyan_dark.png";
-import backgroundGeneralCyanDark from "../../assets/images/background-general-cyan_light.png"
+import backgroundGeneralCyanDark from "../../assets/images/background-general-cyan_dark.png";
+import backgroundGeneralCyanLight from "../../assets/images/background-general-cyan_light.png"
 import { Helmet } from "react-helmet";
 import AOS from "aos";
 import { DropdownUser } from "./DropdownUser";
@@ -12,6 +12,9 @@ export const AjustesCuenta = () => {
   const divRefErrorMessage = React.createRef();
   const [pestaña, setpestaña] = useState("tab_perfil")
 
+  // Hooks dark mode
+  const darkModeRef = useRef();
+  const [darkModeBool, setDarkModeBool] = useState(localStorage.getItem('bool-dark'));
 
   const handleClick = async () => {
     /* if (checkFieldsValidations() === true) {
@@ -34,6 +37,15 @@ export const AjustesCuenta = () => {
     AOS.init({
       duration: 400,
     })
+
+    if(localStorage.theme === 'dark'){
+      setDarkModeBool(true);
+      darkModeRef.current.classList.add('dark')
+    }else{
+      setDarkModeBool(false);
+      darkModeRef.current.classList.remove('dark')
+    }
+
   }, []);
 
   const addClassdivRefErrorMessage = () => {
@@ -54,9 +66,10 @@ export const AjustesCuenta = () => {
   if (pestaña === "tab_perfil") {
     return (
       <div
+        ref={darkModeRef}
         className="flex container w-screen h-screen font-manrope"
         style={{
-          backgroundImage: `url(${backgroundGeneralCyanLight})`,
+          backgroundImage: `url(${darkModeBool ? backgroundGeneralCyanDark: backgroundGeneralCyanLight})`,
           width: "100%",
           height: "",
           backgroundRepeat: "no-repeat",
@@ -92,7 +105,7 @@ export const AjustesCuenta = () => {
 
           <div className="grid grid-rows">
 
-            <h1 className="font-black xl:text-5xl md:text-4xl sm:text-2xl md:text-left mb-12 lg:mb-10 text-2xl">
+            <h1 className="font-black xl:text-5xl md:text-4xl sm:text-2xl md:text-left mb-12 lg:mb-10 text-2xl dark:text-white">
               Ajustes de cuenta
             </h1>
 
@@ -100,12 +113,12 @@ export const AjustesCuenta = () => {
             {/* Nav bar Tab */}
             <ul className="flex border-b">
               <li className="-mb-px mr-1">
-                <button className="bg-white focus:outline-none outline-none inline-block border-l border-t border-r rounded-t py-2 px-4 text-yellow-600 font-semibold"
+                <button className="bg-white dark:bg-darkColor focus:outline-none outline-none inline-block border-l border-t border-r rounded-t py-2 px-4 text-yellowmain font-semibold"
                   onClick={clickOnPerfil}
                 >Perfil</button>
               </li>
               <li className="mr-1">
-                <button className="bg-white inline-block focus:outline-none outline-none py-2 px-4 text-gray-500 hover:text-yellow-600 font-semibold"
+                <button className="bg-white dark:bg-darkColor inline-block focus:outline-none outline-none py-2 px-4 text-gray-500 hover:text-yellowmain font-semibold"
                   onClick={clickOnContrasena}>Contraseña</button>
               </li>
 
@@ -114,17 +127,17 @@ export const AjustesCuenta = () => {
             <div className="grid grid-cols-12 md:gap-x-16">
               {/* Información personal */}
               <div className="md:col-span-6 col-span-12 mt-10">
-                <div className="sm:p-6 p-2 bg-white rounded-lg shadow-md">
+                <div className="sm:p-6 p-2 bg-white dark:bg-darkColor border dark:border-gray-500 rounded-lg shadow-md">
 
                   {/* Nombre y fecha de nacimiento */}
                   <div className="sm:ml-6 ml-2 pt-1">
                     <div className="grid grid-cols-12">
-                      <h4 className="col-span-9 sm:col-span-11 sm:text-xl text-lg text-gray-900 leading-tight">Información personal</h4>
+                      <h4 className="col-span-9 sm:col-span-11 sm:text-xl text-lg text-gray-900 dark:text-gray-100 leading-tight">Información personal</h4>
 
                       <div className="sm:col-span-1 col-span-3">
                         <button
                           type="submit"
-                          className="px-4 focus:outline-none py-2 mb-1"
+                          className="px-4 focus:outline-none py-2 mb-1 dark:text-yellowlight"
                           onClick={handleClick}
                         >
                           <span className="material-icons-outlined mr-2">&#xe3c9;</span>
@@ -136,7 +149,7 @@ export const AjustesCuenta = () => {
                       <div className="md:w-1/2 px-3 mb-3">
                         <label
                           htmlFor=""
-                          className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 mb-2"
+                          className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2"
                         >
                           Nombre
                         </label>
@@ -156,7 +169,7 @@ export const AjustesCuenta = () => {
                       <div className="md:w-1/2 px-3 mb-3">
                         <label
                           htmlFor=""
-                          className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 mb-2"
+                          className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2"
                         >
                           Fecha nacimiento
                         </label>
@@ -181,7 +194,7 @@ export const AjustesCuenta = () => {
                   <div className="sm:ml-6 ml-2">
                     <label
                       htmlFor=""
-                      className="text-xs font-semibold px-1 text-gray-500 self-end py-2"
+                      className="text-xs font-semibold px-1 text-gray-500 dark:text-gray-300 self-end py-2 "
                     >
                       Correo electrónico
                         </label>
@@ -207,7 +220,8 @@ export const AjustesCuenta = () => {
                   <div className="grid grid-cols-12 sm:ml-6 ml-2 mt-8">
                     <button
                       type="submit"
-                      className="col-start-0 md:col-start-7 md:col-span-6 col-span-12 z-10 px-4 focus:outline-none bg-yellow-500 hover:bg-yellow-600 focus:bg-yellow-600 text-white rounded-lg py-2 mb-1 font-semibold"
+                      className="transition duration-500 col-start-0 md:col-start-7 md:col-span-6 col-span-12 z-10 px-4 focus:outline-none 
+                      bg-yellowmain hover:bg-yellow-600 focus:bg-yellow-600 text-white rounded-lg py-2 mb-1 font-semibold"
                       onClick={handleClick}
                     >
                       Guardar
@@ -221,17 +235,17 @@ export const AjustesCuenta = () => {
               {/* Otra información */}
               <div className="md:col-span-6 col-span-12 mt-10">
 
-                <div className="sm:p-6 p-2 bg-white rounded-lg shadow-md">
+                <div className="sm:p-6 p-2 bg-white rounded-lg shadow-md dark:bg-darkColor border dark:border-gray-500">
 
                   {/* Organización y otro */}
                   <div className="sm:ml-6 ml-2 pt-1">
                     <div className="grid grid-cols-12">
-                      <h4 className="col-span-9 sm:col-span-11 sm:text-xl text-lg text-gray-900 leading-tight">Otra información</h4>
+                      <h4 className="col-span-9 sm:col-span-11 sm:text-xl text-lg text-gray-900 dark:text-gray-100 leading-tight">Otra información</h4>
 
                       <div className="sm:col-span-1 col-span-3">
                         <button
                           type="submit"
-                          className="px-4 focus:outline-none py-2 mb-1"
+                          className="px-4 focus:outline-none py-2 mb-1 dark:text-yellowlight"
                           onClick={handleClick}
                         >
                           <span className="material-icons-outlined mr-2">&#xe3c9;</span>
@@ -243,7 +257,7 @@ export const AjustesCuenta = () => {
                       <div className="md:w-1/2 px-3 mb-3">
                         <label
                           htmlFor=""
-                          className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 mb-2"
+                          className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2"
                         >
                           Organización
                         </label>
@@ -263,7 +277,7 @@ export const AjustesCuenta = () => {
                       <div className="md:w-1/2 px-3 mb-3">
                         <label
                           htmlFor=""
-                          className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 mb-2"
+                          className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2"
                         >
                           Lipsum
                         </label>
@@ -286,7 +300,7 @@ export const AjustesCuenta = () => {
                   <div className="sm:ml-6 ml-2">
                     <label
                       htmlFor=""
-                      className="text-xs font-semibold px-1 text-gray-500 self-end py-2"
+                      className="text-xs font-semibold px-1 text-gray-500 dark:text-gray-300 self-end py-2"
                     >
                       Tipo de cuenta
                         </label>
@@ -310,7 +324,8 @@ export const AjustesCuenta = () => {
                   <div className="grid grid-cols-12 sm:ml-6 ml-2 mt-8">
                     <button
                       type="submit"
-                      className="col-start-0 md:col-start-7 md:col-span-6 col-span-12 z-10 px-4 focus:outline-none bg-yellow-500 hover:bg-yellow-600 focus:bg-yellow-600 text-white rounded-lg py-2 mb-1 font-semibold"
+                      className="transition duration-500 col-start-0 md:col-start-7 md:col-span-6 col-span-12 z-10 px-4 focus:outline-none bg-yellowmain 
+                      hover:bg-yellow-600 focus:bg-yellow-600 text-white rounded-lg py-2 mb-1 font-semibold"
                       onClick={handleClick}
                     >
                       Guardar
@@ -368,9 +383,10 @@ export const AjustesCuenta = () => {
   if (pestaña) {
     return (
       <div
+        ref={darkModeRef}
         className="flex container w-screen h-screen font-manrope"
         style={{
-          backgroundImage: `url(${backgroundGeneralCyanLight})`,
+          backgroundImage: `url(${darkModeBool ? backgroundGeneralCyanDark: backgroundGeneralCyanLight})`,
           width: "100%",
           height: "",
           backgroundRepeat: "no-repeat",
@@ -403,19 +419,19 @@ export const AjustesCuenta = () => {
         <div data-aos="fade-right" className="container 2xl:mx-auto md:mx-8 mx-4 mt-8 md:text-base text-sm">
           <div className="grid grid-rows">
 
-            <h1 className="font-black xl:text-5xl md:text-4xl sm:text-2xl md:text-left mb-12 lg:mb-10 text-2xl">
+            <h1 className="font-black xl:text-5xl md:text-4xl sm:text-2xl md:text-left mb-12 lg:mb-10 text-2xl dark:text-white">
               Ajustes de cuenta
           </h1>
             {/* Nav bar Tab */}
             <ul className="flex border-b">
               <li className="mr-1">
-                <button className="bg-white inline-block focus:outline-none outline-none py-2 px-4 text-gray-500 hover:text-yellow-600 font-semibold"
+                <button className="bg-white dark:bg-darkColor inline-block focus:outline-none outline-none py-2 px-4 text-gray-500 hover:text-yellowmain font-semibold"
                   onClick={clickOnPerfil}
                 >Perfil</button>
               </li>
               <li className="-mb-px mr-1">
-                <button className="bg-white inline-block focus:outline-none outline-none border-l border-t border-r rounded-t py-2 px-4 
-                  text-yellow-600 font-semibold"
+                <button className="bg-white dark:bg-darkColor inline-block focus:outline-none outline-none border-l border-t border-r rounded-t py-2 px-4 
+                  text-yellowmain font-semibold"
                   onClick={clickOnContrasena}>Contraseña</button>
               </li>
 
@@ -424,16 +440,16 @@ export const AjustesCuenta = () => {
             <div className="grid grid-cols-12 md:gap-x-16">
               {/* Contraseña */}
               <div className="md:col-span-6 col-span-12 mt-10">
-                <div className="sm:p-6 p-2 bg-white rounded-lg shadow-md">
+                <div className="sm:p-6 p-2 bg-white rounded-lg shadow-md dark:bg-darkColor border dark:border-gray-500">
 
                   <div className="sm:ml-6 ml-2 pt-1">
                     <div className="grid grid-cols-12">
-                      <h4 className="col-span-9 sm:col-span-11 sm:text-xl text-lg text-gray-900 leading-tight">Cambiar contraseña</h4>
+                      <h4 className="col-span-9 sm:col-span-11 sm:text-xl text-lg text-gray-900 dark:text-gray-100 leading-tight">Cambiar contraseña</h4>
 
                       <div className="sm:col-span-1 col-span-3">
                         <button
                           type="submit"
-                          className="px-4 focus:outline-none py-2 mb-1"
+                          className="px-4 focus:outline-none py-2 mb-1 dark:text-yellowlight"
                           onClick={handleClick}
                         >
                           <span className="material-icons-outlined mr-2">&#xe3c9;</span>
@@ -445,7 +461,7 @@ export const AjustesCuenta = () => {
                       <div className="md:w-1/2 px-3 mb-3">
                         <label
                           htmlFor=""
-                          className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 mb-2"
+                          className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2"
                         >
                           Contraseña actual
                       </label>
@@ -465,7 +481,7 @@ export const AjustesCuenta = () => {
                       <div className="md:w-1/2 px-3 mb-3">
                         <label
                           htmlFor=""
-                          className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 mb-2"
+                          className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2"
                         >
                           Contraseña nueva
                       </label>
@@ -489,7 +505,7 @@ export const AjustesCuenta = () => {
                   <div className="sm:ml-6 ml-2">
                     <label
                       htmlFor=""
-                      className="text-xs font-semibold px-1 text-gray-500 self-end py-2"
+                      className="text-xs font-semibold px-1 text-gray-500 dark:text-gray-300 self-end py-2"
                     >
                       Confirmar contraseña nueva
                       </label>
@@ -511,7 +527,8 @@ export const AjustesCuenta = () => {
                   <div className="grid grid-cols-12 sm:ml-6 ml-2 mt-8">
                     <button
                       type="submit"
-                      className="col-start-0 md:col-start-7 md:col-span-6 col-span-12 z-10 px-4 focus:outline-none bg-yellow-500 hover:bg-yellow-600 focus:bg-yellow-600 text-white rounded-lg py-2 mb-1 font-semibold"
+                      className="transition duration-500 col-start-0 md:col-start-7 md:col-span-6 col-span-12 z-10 px-4 focus:outline-none
+                       bg-yellowmain hover:bg-yellow-600 focus:bg-yellow-600 text-white rounded-lg py-2 mb-1 font-semibold"
                       onClick={handleClick}
                     >
                       Guardar

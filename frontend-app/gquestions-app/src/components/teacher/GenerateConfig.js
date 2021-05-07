@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ReactDOM from 'react-dom'
 import Navbar from "../../containers/Navbar";
 import "../../assets/styles/tailwind.css";
-import backgroundGeneral from "../../assets/images/background-general_4x.png";
+import backgroundGeneralCyanDark from "../../assets/images/background-general-cyan_dark.png";
+import backgroundGeneralCyanLight from "../../assets/images/background-general-cyan_light.png";
 import AOS from "aos";
 import { DropdownUser } from "../user/DropdownUser";
 import { CreateGeneracionConfiguracionAPI } from "../../api/Generacion/CreateGeneracionConfiguracionAPI";
@@ -15,6 +16,10 @@ export const GenerateConfig = () => {
   const divRefErrorMessage = React.createRef();
   const { v4: uuidv4 } = require("uuid");
   const UUID_GENERATE = uuidv4(); // uuid autogenerado para id de Generacion
+
+  // Hooks Dark mode
+  const darkModeRef = useRef();
+  const [darkModeBool, setDarkModeBool] = useState(localStorage.getItem('bool-dark'));
 
   // Hooks
   const history = useHistory();
@@ -54,6 +59,14 @@ export const GenerateConfig = () => {
       duration: 800,
     })
     set_isMounted(true);
+
+    if(localStorage.theme === 'dark'){
+      setDarkModeBool(true);
+      darkModeRef.current.classList.add('dark')
+    }else{
+      setDarkModeBool(false);
+      darkModeRef.current.classList.remove('dark')
+    }
 
     // componentwillunmount
     return () => {
@@ -209,9 +222,10 @@ export const GenerateConfig = () => {
   if (!irRevisionTexto) {
     return (
       <div
+        ref={darkModeRef} 
         className="flex container w-screen h-screen font-manrope"
         style={{
-          backgroundImage: `url(${backgroundGeneral})`,
+          backgroundImage: `url(${darkModeBool ? backgroundGeneralCyanDark: backgroundGeneralCyanLight})`,
           width: "100%",
           height: "",
           backgroundRepeat: "no-repeat",
@@ -226,12 +240,12 @@ export const GenerateConfig = () => {
 
         <div data-aos="fade-right" className="container xl:mx-32 mx-4 md:mx-8 lg:mx-16 mt-8">
           <div className="grid grid-rows">
-            <h1 className="font-black xl:text-5xl md:text-4xl sm:text-2xl md:text-left mb-12 lg:mb-20 text-2xl">
+            <h1 className="font-black xl:text-5xl md:text-4xl sm:text-2xl md:text-left mb-12 lg:mb-20 text-2xl dark:text-white">
               Parámetros de generación
             </h1>
             <div className="grid grid-cols-12 sm:mb-44 mb-0">
               <div className="grid sm:col-span-4 col-span-12 sm:mr-8 mr-0 mb-2">
-                <label className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 mb-2">
+                <label className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
                   Cantidad de exámenes
                 </label>
                 <input
@@ -247,7 +261,7 @@ export const GenerateConfig = () => {
               </div>
 
               <div className="grid sm:col-span-4 col-span-12 sm:mr-8 mr-0 mb-2">
-                <label className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 mb-2">
+                <label className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
                   Cantidad de textos
                 </label>
                 <input
@@ -263,7 +277,7 @@ export const GenerateConfig = () => {
               </div>
 
               <div className="grid sm:col-span-4 col-span-12 sm:mr-8 mr-0 mb-2">
-                <label className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 mb-2">
+                <label className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
                   Longitud de texto
                 </label>
                 <input
@@ -281,7 +295,7 @@ export const GenerateConfig = () => {
 
             <div className="grid grid-cols-12">
               <div className="grid sm:col-span-4 col-span-12 sm:mr-8 mr-0 mb-2">
-                <label className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 mb-2">
+                <label className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 mb-2 dark:text-gray-300">
                   Cantidad de preguntas
                 </label>
                 <input
@@ -297,7 +311,7 @@ export const GenerateConfig = () => {
               </div>
 
               <div className="grid sm:col-span-4 col-span-12 sm:mr-8 mr-0 mb-2">
-                <label className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 mb-2">
+                <label className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
                   Inicio oración
                 </label>
                 <select
@@ -323,7 +337,7 @@ export const GenerateConfig = () => {
               <div className="grid grid-rows lg:mx-0 sm:col-span-6 col-span-12 md:col-span-4">
                 <label
                   htmlFor="pregunta_abierta"
-                  className="sm:mx-0 pt-8 sm:pt-10 text-xs font-semibold px-1 text-gray-500 self-end py-2"
+                  className="sm:mx-0 pt-8 sm:pt-10 text-xs font-semibold px-1 text-gray-500 dark:text-gray-300 self-end py-2"
                 >
                   Tipo de preguntas
                 </label>
@@ -341,7 +355,7 @@ export const GenerateConfig = () => {
                           defaultChecked="true"
                           onChange={handleInputChangeTiposPregunta}
                         ></input>
-                        <span className="ml-2 text-gray-700">
+                        <span className="ml-2 text-gray-700 dark:text-gray-100">
                           Pregunta abierta
                         </span>
                       </label>
@@ -357,7 +371,7 @@ export const GenerateConfig = () => {
                           defaultChecked="true"
                           onChange={handleInputChangeTiposPregunta}
                         ></input>
-                        <span className="ml-2 text-gray-700">
+                        <span className="ml-2 text-gray-700 dark:text-gray-100">
                           Opción múltiple
                         </span>
                       </label>
@@ -372,7 +386,7 @@ export const GenerateConfig = () => {
                           className="form-checkbox h-5 w-5 text-yellow-500"
                           onChange={handleInputChangeTiposPregunta}
                         ></input>
-                        <span className="ml-2 text-gray-700">Completación</span>
+                        <span className="ml-2 text-gray-700 dark:text-gray-100">Completación</span>
                       </label>
                     </div>
                   </div>
@@ -381,7 +395,7 @@ export const GenerateConfig = () => {
             </form>
 
             <div className="py-3 mt-4 w-full">
-              <p className="text-sm text-gray-600 my-1">
+              <p className="text-sm text-gray-600 dark:text-gray-300 my-1">
                 Tiempo de generación apróximado: 120s{" "}
               </p>
               <div className="bg-gray-300 w-full mb-4 h-1">
@@ -391,14 +405,14 @@ export const GenerateConfig = () => {
             <div className="grid grid-rows justify-end items-end">
               <button
                 type="submit"
-                className="z-10 px-4 block focus:outline-none bg-yellow-500 hover:bg-yellow-600 focus:bg-yellow-600 text-white rounded-lg py-2 mb-1 font-semibold"
+                className="transition duration-500 z-10 px-4 block focus:outline-none bg-yellow-500 hover:bg-yellow-600 focus:bg-yellow-600 text-white rounded-lg py-2 mb-1 font-semibold"
                 onClick={handleClick}
               >
                 Generar textos
               </button>
             </div>
 
-
+          {/* StepProgress */}
             <StepsProgress active={1} />
           </div>
 

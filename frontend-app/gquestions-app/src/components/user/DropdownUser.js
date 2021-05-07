@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useRef, useState } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import { Redirect } from 'react-router'
 
@@ -10,6 +10,17 @@ export const DropdownUser = () => {
 
   const [closeSession, setCloseSession] = useState(false)
   const [ajustesCuenta, setAjustesCuenta] = useState(false)
+
+  // Hooks dark mode
+  const darkModeRef = useRef();
+
+  useEffect(() => {
+    if (localStorage.theme === 'dark') {
+      darkModeRef.current.classList.add('dark')
+    } else {
+      darkModeRef.current.classList.remove('dark')
+    }
+  }, []);
 
   const onClickLogout = async () => {
     await fetch(
@@ -23,7 +34,10 @@ export const DropdownUser = () => {
       }
     ).then((data => {
       if (data.ok) {
-        localStorage.clear();
+        localStorage.removeItem('email');
+        localStorage.removeItem('token');
+        localStorage.removeItem('uuid_generacion');
+        localStorage.removeItem('id_user');
         setCloseSession(true);
       }
     }))
@@ -36,14 +50,14 @@ export const DropdownUser = () => {
 
   if (closeSession === false && ajustesCuenta === false) {
     return (
-      <div>
+      <div ref={darkModeRef}>
         {/* Profile dropdown */}
         <Menu as="div" className="absolute xl:left-5 left-3 bottom-5 ml-3">
           {({ open }) => (
             <>
               <div>
                 <Menu.Button className="outline-none focus:outline-none">
-                  <div className='mt-auto flex items-center p-2 text-black bg-yellowlight	dark:text-yellow-500 rounded-full mb-1'>
+                  <div className='mt-auto flex items-center p-2 text-yellow-800 bg-yellowlight	rounded-full mb-1'>
                     <svg
                       className='fill-current h-4 w-4 m-2 '
                       aria-hidden='true'
@@ -74,11 +88,11 @@ export const DropdownUser = () => {
               >
                 <Menu.Items
                   static
-                  className="absolute bottom-0 left-6 mb-10 mt-2 w-72 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                  className="absolute bottom-0 left-6 mb-10 mt-2 w-72 rounded-md shadow-lg py-1 bg-white dark:bg-darkColor border dark:border dark:border-gray-700 ring-1 ring-black ring-opacity-5 focus:outline-none"
                 >
                   <Menu.Item>
                     <div className={
-                      'block font-light px-4 py-2 text-sm text-gray-700 border-b'}>
+                      'block font-light px-4 py-2 text-sm text-gray-700 dark:text-gray-100 border-b'}>
                       <p className="font-bold" >Logueado como</p>
                       <p
                       >
@@ -93,7 +107,7 @@ export const DropdownUser = () => {
                         onClick={onClickAjustesCuenta}
                         className={classNames(
                           active ? 'bg-gray-100' : '',
-                          'w-full outline-none focus:outline-none text-left font-bold px-4 py-2 text-sm text-gray-700'
+                          'transition duration-500 w-full outline-none focus:outline-none text-left font-bold px-4 py-2 text-sm text-gray-700 dark:text-gray-100 dark:hover:bg-yellowlight dark:hover:text-black'
                         )}
                       >
                         Ajustes de cuenta
@@ -105,7 +119,7 @@ export const DropdownUser = () => {
                       <button
                         className={classNames(
                           active ? 'bg-gray-100' : '',
-                          'block px-4 py-2 text-sm text-gray-700'
+                          'transition duration-500 w-full outline-none focus:outline-none text-left font-bold px-4 py-2 text-sm text-gray-700 dark:text-gray-100 dark:hover:bg-yellowlight dark:hover:text-black'
                         )}
                       >
                         Términos y condiciones
@@ -118,7 +132,7 @@ export const DropdownUser = () => {
                         onClick={onClickLogout}
                         className={classNames(
                           active ? 'bg-gray-100' : '',
-                          'w-full outline-none focus:outline-none text-left font-bold px-4 py-2 text-sm text-gray-700'
+                          'transition duration-500 w-full outline-none focus:outline-none text-left font-bold px-4 py-2 text-sm text-gray-700 dark:text-gray-100 dark:hover:bg-yellowlight dark:hover:text-black'
                         )}
                       >
                         Cerrar sesión

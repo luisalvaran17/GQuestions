@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
 import arrowPrev from '../../assets/images/arrow-circle-up-solid.svg';
 import arrowNext from '../../assets/images/arrow-circle-down-solid.svg';
 
 export const CarouselEjemplo = (props) => {
-  const theme = props.theme;
 
   useEffect(() => {
   }, []);

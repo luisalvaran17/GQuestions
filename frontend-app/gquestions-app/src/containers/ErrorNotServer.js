@@ -1,7 +1,7 @@
 import React from 'react';
 import '../assets/styles/tailwind.css';
 import backgroundGeneralCyanLight from "../assets/images/background-general-cyan_dark.png";
-import backgroundGeneralCyanDark from "../assets/images/background-general-cyan_light.png"
+/* import backgroundGeneralCyanDark from "../assets/images/background-general-cyan_light.png" */
 import { useHistory } from 'react-router';
 
 export const ErrorNotServer = () => {

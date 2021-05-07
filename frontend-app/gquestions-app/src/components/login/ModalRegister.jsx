@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import '../../assets/styles/tailwind.css';
 
 export const ModalRegister = () => {
@@ -9,6 +9,17 @@ export const ModalRegister = () => {
     divModal.current.classList.add('hidden');
   };
 
+  // Hooks dark mode
+  const darkModeRef = useRef();
+
+  useEffect(() => {
+    if (localStorage.theme === 'dark') {
+      darkModeRef.current.classList.add('dark')
+    } else {
+      darkModeRef.current.classList.remove('dark')
+    }
+  }, []);
+
   return (
     <div
       ref={divModal}
@@ -17,7 +28,9 @@ export const ModalRegister = () => {
       role='dialog'
       aria-modal='true'
     >
-      <div className='flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0'>
+      <div 
+        ref={darkModeRef}
+        className='flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0'>
         <div
           className='fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity'
           aria-hidden='true'
@@ -30,8 +43,8 @@ export const ModalRegister = () => {
           &#8203;
           </span>
 
-        <div className='inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full'>
-          <div className='bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4'>
+        <div className='inline-block align-bottom bg-white  rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full'>
+          <div className='bg-white dark:bg-darkColor px-4 pt-5 pb-4 sm:p-6 sm:pb-4 border-b border-gray-600'>
             <div className='sm:flex sm:items-start'>
               <div className='mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10'>
                 <svg
@@ -52,13 +65,13 @@ export const ModalRegister = () => {
               </div>
               <div className='mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left'>
                 <h3
-                  className='text-lg leading-6 font-medium text-gray-900'
+                  className='text-lg leading-6 font-medium text-gray-900 dark:text-white'
                   id='modal-title'
                 >
                   El usuario ya está registrado
                   </h3>
                 <div className='mt-2'>
-                  <p className='text-sm text-gray-500'>
+                  <p className='text-sm text-gray-500 dark:text-white'>
                     Puedes ir a la pantalla de iniciar sesión e introducir tu
                     correo electrónico y contraseña
                     </p>
@@ -66,11 +79,11 @@ export const ModalRegister = () => {
               </div>
             </div>
           </div>
-          <div className='bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse'>
+          <div className='bg-gray-50 dark:bg-darkColor px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse'>
             <button
               type='button'
               onClick={acceptButton}
-              className='w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm'
+              className='transition duration-500 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm'
             >
               Aceptar
               </button>

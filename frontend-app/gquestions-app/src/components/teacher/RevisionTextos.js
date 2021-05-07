@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Navbar from "../../containers/Navbar";
 import "../../assets/styles/tailwind.css";
-import backgroundGeneral from "../../assets/images/background-general-green.png";
+import backgroundGeneralGreenDark from "../../assets/images/background-general-green_dark.png";
+import backgroundGeneralGreenLight from "../../assets/images/background-general-green_light.png";
 import { DropdownUser } from "../user/DropdownUser";
 import { StepsProgress } from "./StepsProgress";
 import { CreateTextoAPI } from "../../api/Textos/CreateTextoAPI";
@@ -14,6 +15,10 @@ export const RevisionTextos = (props) => {
   const { v4: uuidv4 } = require("uuid"); // id aleatorio (uuuidv4)
 
   const divRefErrorMessage = React.createRef(); // const ref error messages (div DOM)
+
+  // Hooks dark mode
+  const darkModeRef = useRef();
+  const [darkModeBool, setDarkModeBool] = useState(localStorage.getItem('bool-dark'));
 
   const [titleTextoRef, setTitleTextoRef] = useState("Texto 1") // Título que se setea cuando se presiona click en otro texto
   const Textos = props.textosFromGenerate;   // Estado que guarda todos los textos generados en la vista anterior (GenerateConfig), recibido por props
@@ -34,6 +39,15 @@ export const RevisionTextos = (props) => {
   useEffect(() => {
     const lengthTexto = props.textosFromGenerate.length
     getPreguntas(lengthTexto);// eslint-disable-next-line react-hooks/exhaustive-deps
+
+    if(localStorage.theme === 'dark'){
+      setDarkModeBool(true);
+      darkModeRef.current.classList.add('dark')
+    }else{
+      setDarkModeBool(false);
+      darkModeRef.current.classList.remove('dark')
+    }
+
 /* 
     window.onbeforeunload = function() {
       return "El progreso actual de la generación se perderá si recargas la página. ¿Deseas continuar?";
@@ -194,9 +208,10 @@ export const RevisionTextos = (props) => {
   if (!irRevisionPreguntas) {
     return (
       <div
+        ref={darkModeRef}
         className="flex container w-screen h-screen font-manrope"
         style={{
-          backgroundImage: `url(${backgroundGeneral})`,
+          backgroundImage: `url(${darkModeBool ? backgroundGeneralGreenDark: backgroundGeneralGreenLight})`,
           width: "100%",
           height: "",
           backgroundRepeat: "no-repeat",
@@ -208,16 +223,14 @@ export const RevisionTextos = (props) => {
         <div className="">
           <Navbar className="fixed" />
         </div>
-        <div className="container xl:mx-32 mx-4 md:mx-8 lg:mx-16 mt-8">
+        <div className="container xl:mx-32 mx-4 md:mx-8 lg:mx-16 mt-8 ">
           <div className="grid grid-rows space-y-8 mb-8">
-            <h1 className="font-bold xl:text-5xl md:text-4xl sm:text-3xl text-xl">
+            <h1 className="font-bold xl:text-5xl md:text-4xl sm:text-3xl text-xl dark:text-white">
               Revisión de textos
             </h1>
-            <p className="text-gray-500 font-semibold text-sm md:text-base">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et
-              ultricies lacus, vel porta libero. Nulla posuere erat sed quam
-              dictum, eget ultrices ligula egestas. Sed non tortor non dui
-              malesuada faucibus non at est. Mauris sodales sem mi.
+            <p className="text-gray-500 font-semibold text-sm md:text-base dark:text-white">
+              Estos son los textos generados por el algoritmo, puede visualizar cada uno navegando a través de la lista de la izquierda. <br></br>
+              Si desea editar cualquier texto puede hacerlo directamente presionando "clic" encima del texto y hacer la modificación (se guarda automáticamente).
             </p>
           </div>
 
@@ -225,9 +238,14 @@ export const RevisionTextos = (props) => {
             <div className="grid grid-cols-12">
               <div className="col-span-2 sm:col-span-3">
                 <div className="flex ">
-                  <CustomScrollbars autoHide autoHideTimeout={900} autoHideDuration={400} style={{ height: "50vh" }} className="m-0 overflow-auto bg-white border shadow-md border-gray-200 sm:rounded-md rounded-r-none w-full lg:mr-16 md:mr-8 mr-0 md:text-base text-sm">
+                  <CustomScrollbars 
+                    autoHide 
+                    autoHideTimeout={900} 
+                    autoHideDuration={400} style={{ height: "50vh" }} 
+                    className="m-0 overflow-auto bg-white dark:bg-darkColor dark:text-gray-200 border shadow-md 
+                    border-gray-500 sm:rounded-md rounded-r-none w-full lg:mr-16 md:mr-8 mr-0 md:text-base text-sm">
                     <ul className="divide-y divide-gray-300">
-                      <li className="p-4 font-light text-gray-500">
+                      <li className="p-4 font-bold text-gray-500 dark:text-white dark:font-bold">
                         <p className="hidden sm:block">PAQUETES DE TEXTOS</p>
                         <p className="sm:hidden block">T</p>
                       </li>
@@ -238,7 +256,7 @@ export const RevisionTextos = (props) => {
                             key={texto.id}
                             id={texto.id}
                             onClick={onClickTextoList}
-                            className="p-4 hover:bg-gray-50 cursor-pointer hover:text-yellowmain font-bold">
+                            className="p-4 hover:bg-gray-50 cursor-pointer hover:text-yellowmain font-bold dark:hover:bg-darkGrayColor dark:hover:text-yellowlight">
                             <p id={texto.id} className="hidden sm:block">Texto {texto.id}</p>
                             <p id={texto.id} className="sm:hidden block">{texto.id}</p>
                           </li>
@@ -267,12 +285,13 @@ export const RevisionTextos = (props) => {
                   </div>
                   <textarea
                     placeholder=""
-                    className="h-full resize-none focus:border-gray-400 p-2 m-1 bg-transparent text-gray-600 text-sm md:text-base "
+                    className="h-full resize-none focus:border-gray-400 p-2 m-1 bg-transparent text-gray-600 text-sm md:text-base outline-none focus:outline-none"
                     value={TextArea}
                     onChange={handleTextArea}
                   >
                   </textarea>
                   <hr></hr>
+                    <div className="flex mt-2 py-2 px-4 items-center"><p className="hidden sm:block text-gray-500 text-sm md:text-sm">Cite: GPT2 Algorithm from Hugging Face</p></div>
                 </div>
               </div>
             </div>
@@ -292,7 +311,7 @@ export const RevisionTextos = (props) => {
               <div className="">
                 <button
                   type="submit"
-                  className="md:text-base text-sm z-10 pl-1 w-52 block focus:outline-none bg-yellow-400 hover:bg-yellow-500 focus:bg-yellow-500 text-black rounded-lg px-2 py-2 font-semibold"
+                  className="transition duration-500 md:text-base text-sm z-10 pl-1 w-52 block focus:outline-none bg-yellowmain hover:bg-yellow-600 focus:bg-yellow-600 text-black rounded-lg px-2 py-2 font-semibold"
                   onClick={handleClick}
                 >
                   Generar preguntas

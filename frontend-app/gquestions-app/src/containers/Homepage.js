@@ -3,7 +3,6 @@ import '../assets/styles/tailwind.css';
 import backgroundHomeDark from '../assets/images/background_home_2x_dark.png';
 import backgroundHomeLight from '../assets/images/background_home_2x.png';
 import computerImage from '../assets/images/computer_image.png';
-import propositoImage from '../assets/images/propositos.png';
 import iconVentajas_1 from '../assets/images/ventajas-icon-1.png';
 import iconVentajas_2 from '../assets/images/ventajas-icon-2.png';
 import iconVentajas_3 from '../assets/images/ventajas-icon-3.png';
@@ -103,8 +102,11 @@ export const Homepage = () => {
 
   if (logged === false) {
     return (
+
       <div ref={darkMode} className={localStorage.getItem("theme")}>
+
         <div id='inicio'>
+
           <Helmet>
             <script src='https://unpkg.com/aos@2.3.1/dist/aos.js'></script>
           </Helmet>
@@ -181,25 +183,25 @@ export const Homepage = () => {
               </div>
 
               <div className="flex items-center justify-items-center justify-self-center place-content-center py-2 mr-2">
-              <span className="">
-                <svg className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                </svg>
-              </span>
-              <label className="mx-2 flex items-center relative w-max cursor-pointer select-none">
-                <input 
-                  type="checkbox" 
-                  className="appearance-none transition-colors cursor-pointer w-12 h-6 rounded-full outline-none focus:outline-none bg-gray-300"
-                  onChange={handleDarkMode}
-                  defaultChecked={darkModeBool}>
+                <span className="">
+                  <svg className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                  </svg>
+                </span>
+                <label className="mx-2 flex items-center relative w-max cursor-pointer select-none">
+                  <input
+                    type="checkbox"
+                    className="appearance-none transition-colors cursor-pointer w-12 h-6 rounded-full outline-none focus:outline-none bg-gray-300"
+                    onChange={handleDarkMode}
+                    defaultChecked={darkModeBool}>
                   </input>
-                <span className="w-5 h-5 right-7 absolute rounded-full transform transition-transform bg-white shadow-md" />
-              </label>
-              <span className="">
-                <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                </svg>
-              </span>
+                  <span className="w-5 h-5 right-7 absolute rounded-full transform transition-transform bg-white shadow-md" />
+                </label>
+                <span className="">
+                  <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                  </svg>
+                </span>
               </div>
 
               <div>
@@ -220,12 +222,11 @@ export const Homepage = () => {
               </div>
             </div>
           </nav>
-
           {/* Body */}
-          <div 
+          <div
             className='mx-auto bg-local my-auto w-full py-32 xl:py-64 dark:bg-darkColor dark:text-white'
             style={{
-              backgroundImage: `url(${darkModeBool ? backgroundHomeDark: backgroundHomeLight})`,
+              backgroundImage: `url(${darkModeBool ? backgroundHomeDark : backgroundHomeLight})`,
               width: '',
               height: '',
               backgroundRepeat: 'no-repeat',
@@ -320,7 +321,7 @@ export const Homepage = () => {
 
                 {/* Horizontal responsive */}
                 <div className='hidden md:block'>
-                  
+
                   <div className='grid grid-cols-12 font-bold lg:text-base text-sm text-justify'>
                     <div className='md:col-span-3'>
                       <img className="w-80" src={proposito1} alt="proposito 1"></img>
@@ -560,8 +561,8 @@ export const Homepage = () => {
           <nav
             className={
               navbar
-              ? 'navbar shadow-sm h-auto mx-auto flex items-center justify-between flex-wrap py-6  bg-gradient-to-r from-yellowlight via-white dark:from-darkColor to-white dark:via-darkColor dark:to-darkColor dark:bg-darkColor dark:text-white border-b border border-gray-300 border-opacity-20'
-              : 'navbar h-auto mx-auto flex items-center justify-between flex-wrap py-6 bg-transparent dark:bg-darkColor dark:text-white'
+                ? 'navbar shadow-sm h-auto mx-auto flex items-center justify-between flex-wrap py-6  bg-gradient-to-r from-yellowlight via-white dark:from-darkColor to-white dark:via-darkColor dark:to-darkColor dark:bg-darkColor dark:text-white border-b border border-gray-300 border-opacity-20'
+                : 'navbar h-auto mx-auto flex items-center justify-between flex-wrap py-6 bg-transparent dark:bg-darkColor dark:text-white'
             }
           >
             <a
@@ -629,25 +630,25 @@ export const Homepage = () => {
               </div>
 
               <div className="flex items-center justify-items-center justify-self-center place-content-center py-2 mr-2">
-              <span className="">
-                <svg className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                </svg>
-              </span>
-              <label className="mx-2 flex items-center relative w-max cursor-pointer select-none">
-                <input 
-                  type="checkbox" 
-                  className="appearance-none transition-colors cursor-pointer w-12 h-6 rounded-full outline-none focus:outline-none bg-gray-300"
-                  onChange={handleDarkMode}
-                  defaultChecked={darkModeBool}>
+                <span className="">
+                  <svg className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                  </svg>
+                </span>
+                <label className="mx-2 flex items-center relative w-max cursor-pointer select-none">
+                  <input
+                    type="checkbox"
+                    className="appearance-none transition-colors cursor-pointer w-12 h-6 rounded-full outline-none focus:outline-none bg-gray-300"
+                    onChange={handleDarkMode}
+                    defaultChecked={darkModeBool}>
                   </input>
-                <span className="w-5 h-5 right-7 absolute rounded-full transform transition-transform bg-white shadow-md" />
-              </label>
-              <span className="">
-                <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                </svg>
-              </span>
+                  <span className="w-5 h-5 right-7 absolute rounded-full transform transition-transform bg-white shadow-md" />
+                </label>
+                <span className="">
+                  <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                  </svg>
+                </span>
               </div>
 
               <div className="mr-10">
@@ -670,11 +671,11 @@ export const Homepage = () => {
             </div>
           </nav>
 
-{/* Body */}
-<div 
+          {/* Body */}
+          <div
             className='mx-auto bg-local my-auto w-full py-32 xl:py-64 dark:bg-darkColor dark:text-white'
             style={{
-              backgroundImage: `url(${darkModeBool ? backgroundHomeDark: backgroundHomeLight})`,
+              backgroundImage: `url(${darkModeBool ? backgroundHomeDark : backgroundHomeLight})`,
               width: '',
               height: '',
               backgroundRepeat: 'no-repeat',
@@ -769,7 +770,7 @@ export const Homepage = () => {
 
                 {/* Horizontal responsive */}
                 <div className='hidden md:block'>
-                  
+
                   <div className='grid grid-cols-12 font-bold lg:text-base text-sm text-justify'>
                     <div className='md:col-span-3'>
                       <img className="w-80" src={proposito1} alt="proposito 1"></img>

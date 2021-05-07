@@ -14,6 +14,8 @@ import ReactDOM from 'react-dom';
 export const Login = () => {
 
   const divRefErrorMessage = React.createRef();
+
+  // Hooks dark mode
   const darkModeRef = useRef();
   const [darkModeBool, setDarkModeBool] = useState(localStorage.getItem('bool-dark'));
 

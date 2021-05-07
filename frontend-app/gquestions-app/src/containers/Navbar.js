@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import Logo from '../assets/images/logo.png';
@@ -8,11 +8,22 @@ function Navbar() {
 
   let history = useHistory();
   let location = useLocation();
+  const darkModeRef = useRef();
 
   const divRefButtonDashboard = React.createRef();
   const divRefButtonGeneracion = React.createRef();
   const divRefButtonEstadisticas = React.createRef();
   const divRefButtonAjustes = React.createRef();
+
+  useEffect(() => {
+
+    if(localStorage.theme === 'dark'){
+      darkModeRef.current.classList.add('dark')
+    }else{
+      darkModeRef.current.classList.remove('dark')
+    }
+
+  }, []);
 
   function handleClickDashboard() {
     history.push("/teacher/dashboard")
@@ -53,8 +64,8 @@ function Navbar() {
   });
 
   return (
-    <div className='flex h-screen font-manrope font-semibold'>
-      <nav className='xl:w-28 w-24 h-full flex flex-col items-center bg-white dark:bg-gray-800 pt-6 pb-2 border-r-2 mb-4 border-r-black'>
+    <div  ref={darkModeRef} className='flex h-screen font-manrope font-semibold'>
+      <nav className='xl:w-28 w-24 h-full flex flex-col items-center bg-white pt-6 pb-2 border-r mb-4 border-r-black dark:bg-darkColor dark:border-gray-500'>
         <div>
           <Link to="/">
             <img className="" src={Logo} alt='Logo app' />
