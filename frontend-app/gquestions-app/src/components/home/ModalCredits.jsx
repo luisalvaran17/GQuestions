@@ -60,6 +60,7 @@ export const ModalCredits = () => {
                   <a
                     href='https://www.freepik.com/vectors/banner'
                     target="_blank"
+                    rel="noreferrer"
                     className='text-sm underline dark:text-blue-500'>
                     Banner vector created by upklyak - www.freepik.com</a>
                 </div>

@@ -147,7 +147,7 @@ export const Login = () => {
         </Helmet>
         <div className="border border-gray-300 border-opacity-20 text-sm md:text-base bg-gray-100 text-gray-500 rounded-3xl shadow-xl w-full md:w-full overflow-hidden dark:bg-darkColor dark:text-white">
           <div className="md:flex md:w-full">
-            <div className="hidden md:block w-1/2 bg-yellowlight dark:bg-darkGrayColor border-r border-opacity-40 border-gray-300">
+            <div className="hidden md:block w-1/2 bg-yellowlight dark:bg-darkGrayColor2 border-r border-opacity-40 border-gray-300">
               <div className="flex items-center mt-20 ">
                 <img className="" src={imageStudent} alt=""></img>
               </div>

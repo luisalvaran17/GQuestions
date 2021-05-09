@@ -257,9 +257,9 @@ export const Register = () => {
               url('https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.min.css')
             </style>
           </Helmet>
-          <div className="border dark:border-gray-300 border-gray-500 border-opacity-20 text-sm md:text-md bg-gray-100 text-gray-500 rounded-3xl shadow-xl w-full overflow-hidden dark:bg-darkColor dark:text-white">
+          <div className="border border-gray-300 border-opacity-20 text-sm md:text-md bg-gray-100 text-gray-500 rounded-3xl shadow-xl w-full overflow-hidden dark:bg-darkColor dark:text-white">
             <div className="md:flex w-full">
-              <div className="hidden lg:block  w-1/2 bg-yellowlight dark:bg-darkGrayColor border-r border-opacity-40 border-gray-300">
+              <div className="hidden lg:block  w-1/2 bg-yellowlight dark:bg-darkGrayColor2 border-r border-opacity-40 border-gray-300">
                 <div className="flex items-center mt-32 ">
                   <img className="w-full" src={imageStudent} style={{width:'1000'}} alt=""></img>
                 </div>

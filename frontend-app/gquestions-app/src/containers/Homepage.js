@@ -24,6 +24,7 @@ export const Homepage = () => {
   const divRefMenu = React.createRef();
   const darkMode = useRef();
   const [darkModeBool, setDarkModeBool] = useState(localStorage.getItem('bool-dark'));
+  console.log(darkModeBool)
 
   const { logged } = useHome();
   const [navbar, setNavbar] = useState(false)
@@ -36,7 +37,6 @@ export const Homepage = () => {
         setDarkModeBool(true);
       } else {
         darkMode.current.classList.remove('dark');
-        localStorage.setItem('bool-dark', false);
         setDarkModeBool(false);
       }
     }
@@ -114,7 +114,7 @@ export const Homepage = () => {
           <nav
             className={
               navbar
-                ? 'navbar shadow-sm h-auto mx-auto flex items-center justify-between flex-wrap py-6  bg-gradient-to-r from-yellowlight via-white dark:from-darkColor to-white dark:via-darkColor dark:to-darkColor dark:bg-darkColor dark:text-white border-b border border-gray-300 border-opacity-20'
+                ? 'navbar shadow-sm h-auto mx-auto flex items-center justify-between flex-wrap py-6  bg-gradient-to-r from-yellowlight via-white dark:from-darkColor to-white dark:via-darkColor dark:to-darkColor dark:bg-darkColor dark:text-white border-b border-gray-300 border-opacity-20'
                 : 'navbar h-auto mx-auto flex items-center justify-between flex-wrap py-6 bg-transparent dark:bg-darkColor dark:text-white'
             }
           >
@@ -561,7 +561,7 @@ export const Homepage = () => {
           <nav
             className={
               navbar
-                ? 'navbar shadow-sm h-auto mx-auto flex items-center justify-between flex-wrap py-6  bg-gradient-to-r from-yellowlight via-white dark:from-darkColor to-white dark:via-darkColor dark:to-darkColor dark:bg-darkColor dark:text-white border-b border border-gray-300 border-opacity-20'
+                ? 'navbar shadow-sm h-auto mx-auto flex items-center justify-between flex-wrap py-6  bg-gradient-to-r from-yellowlight via-white dark:from-darkColor to-white dark:via-darkColor dark:to-darkColor dark:bg-darkColor dark:text-white border-b border-gray-300 border-opacity-20'
                 : 'navbar h-auto mx-auto flex items-center justify-between flex-wrap py-6 bg-transparent dark:bg-darkColor dark:text-white'
             }
           >
