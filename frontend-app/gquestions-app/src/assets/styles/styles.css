@@ -78,5 +78,7 @@ input:checked {
 input:checked ~ span:last-child {
     --tw-translate-x: 1.6rem; /* translate-x-7 */
 }
+
+
 /* Línea para compilar tailwind css */
 /* npx tailwindcss build ./src/assets/styles/styles.css -o ./src/assets/styles/tailwind.css */

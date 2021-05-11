@@ -6,25 +6,38 @@ import backgroundGeneralGreenLight from "../../assets/images/background-general-
 import { DropdownUser } from "../user/DropdownUser";
 import { StepsProgress } from "./StepsProgress";
 import { CreateTextoAPI } from "../../api/Textos/CreateTextoAPI";
-import { RevisionPreguntas } from "./RevisionPreguntas";
 import Scrollbars from "react-custom-scrollbars";
 import ReactDOM from 'react-dom';
+import { CreatePreguntaAPI } from "../../api/Preguntas/CreatePreguntaAPI";
+import { CreateRespuestaCuerpoAPI } from "../../api/Preguntas/CreateRespuestaCuerpoAPI";
+import { ExamenConfiguracion } from "./ExamenConfiguracion";
+import { Helmet } from "react-helmet";
 
 export const RevisionTextos = (props) => {
 
   const { v4: uuidv4 } = require("uuid"); // id aleatorio (uuuidv4)
 
   const divRefErrorMessage = React.createRef(); // const ref error messages (div DOM)
+  const textAreaRef = useRef();
+  const preguntasAreaRef = useRef();
+  const buttonTextRef = useRef();
+  const buttonPreguntasRef = useRef();
+  const [disabledTextArea, setDisabledTextArea] = useState(true)
+
+  const [eventsButton, setEventsButton] = useState([])
+
+  const [preguntas, setPreguntas] = useState(props.textosFromGenerate[0].preguntas) // Estado inicial seteado a las preguntas del primer texto (por defecto)
 
   // Hooks dark mode
   const darkModeRef = useRef();
   const [darkModeBool, setDarkModeBool] = useState(localStorage.getItem('bool-dark'));
 
-  const [titleTextoRef, setTitleTextoRef] = useState("Texto 1") // Título que se setea cuando se presiona click en otro texto
+  //const [titleTextoRef, setTitleTextoRef] = useState("Texto 1") // Título que se setea cuando se presiona click en otro texto
   const Textos = props.textosFromGenerate;   // Estado que guarda todos los textos generados en la vista anterior (GenerateConfig), recibido por props
 
-  const [irRevisionPreguntas, setIrRevisionPreguntas] = useState(false) // Estado que sirve para redireccionar a la siguiente vista al presionar el botón(RevisionPreguntas)
+  const [irConfiguracionExamen, setIrConfiguracionExamen] = useState(false) // Estado que sirve para redireccionar a la siguiente vista al presionar el botón(RevisionPreguntas)
 
+  // TEXTO
   const [TextoObjeto, setTextoObjeto] = useState({  // Estado que se usa para insertar texto por texto en la DB
     id_texto: "",
     cuerpo_texto: "",
@@ -33,26 +46,39 @@ export const RevisionTextos = (props) => {
     generacion: "",
   })
 
+  // PREGUNTA
+  const [preguntaObjeto, setPreguntaObjeto] = useState({  // Estado que se usa para insertar pregunta por pregunta de los textos en la DB
+    id_pregunta: "",
+    pregunta_cuerpo: "",
+    respuesta_correcta: "",
+    generacion_texto: "",
+  })
+
+  const [respuestaCuerpoObjeto, setRespuestaCuerpoObjeto] = useState({  // Estado que se usa para insertar el cuerpo de la respuesta de cada pregunta en la DB
+    generacion_pregunta: "",
+    resp_unica: "",
+    opcion_multiple: "",
+    completacion: "",
+  })
+
+
   const [TextArea, setTextArea] = useState(Textos[0].cuerpo)  // Estado que guarda el value de TextArea dependiendo de cual texto se presione
   const [ValTemp, setValTemp] = useState("1") // Estado que sirve para guardar el id del texto de manera temporal
 
   useEffect(() => {
-    const lengthTexto = props.textosFromGenerate.length
-    getPreguntas(lengthTexto);// eslint-disable-next-line react-hooks/exhaustive-deps
-
-    if(localStorage.theme === 'dark'){
+    if (localStorage.theme === 'dark') {
       setDarkModeBool(true);
       darkModeRef.current.classList.add('dark')
-    }else{
+    } else {
       setDarkModeBool(false);
       darkModeRef.current.classList.remove('dark')
     }
 
-/* 
-    window.onbeforeunload = function() {
-      return "El progreso actual de la generación se perderá si recargas la página. ¿Deseas continuar?";
-    };
- */
+    /* 
+        window.onbeforeunload = function() {
+          return "El progreso actual de la generación se perderá si recargas la página. ¿Deseas continuar?";
+        };
+     */
     // componentwillunmount
     return () => {
     }
@@ -62,7 +88,7 @@ export const RevisionTextos = (props) => {
   const setTextosDatabase = () => {
     let UUID_TEXTO = ""
     let splitUUID = []
-    Textos.map(texto => {   // Recorre cada texto y manda uno por uno a un POST con los campos necesarios
+    Textos.map(async texto => {   // Recorre cada texto y manda uno por uno a un POST con los campos necesarios
       UUID_TEXTO = uuidv4();
       splitUUID = UUID_TEXTO.split("-");
       UUID_TEXTO = splitUUID[0] + "-" + splitUUID[1]; // Acorta el  UUID GENERADO POR LA FUNCION uuidv4()
@@ -76,18 +102,63 @@ export const RevisionTextos = (props) => {
         })
       )
       texto.id = UUID_TEXTO
-      CreateTextoAPI(TextoObjeto); // POST a la tabla GeneracionTexto
+      await CreateTextoAPI(TextoObjeto); // POST a la tabla GeneracionTexto
       return true;
     })
   }
 
+
+  // Llamada a la Api para insertar los datos en la base de datos
+  const setPreguntasDB = async () => {
+    let preguntaDB = [];
+    let lengthPreguntas = Textos[0].preguntas.length; // Captura la cantidad de preguntas de cada texto
+
+    let UUID_PREGUNTA = ""
+    let UUID_TEXTO = "" // utilizada para guardar temporalmente el uuid del texto base y crear la relacion con las preguntas de dicho texto
+    let splitUUID = []
+
+    for (let i = 0; i < Textos.length; i++) { //todo: acomodar length
+
+      UUID_TEXTO = Textos[i].id;  // get UUID Texto generado en la vista anterior perteneciente a las preguntas generadas a partir de dicho texto
+
+      for (let j = 0; j < lengthPreguntas; j++) {
+        UUID_PREGUNTA = uuidv4();
+        splitUUID = UUID_PREGUNTA.split("-");
+        UUID_PREGUNTA = splitUUID[0] //+ "-" + splitUUID[1]; // Acorta el  UUID GENERADO POR LA FUNCION uuidv4()  
+
+        preguntaDB = Textos[i].preguntas[j]   // Obtiene el elemento pregunta (individual)
+
+        // Preparacion de data para insertar en la DB los campos requeridos
+        setPreguntaObjeto(Object.assign(preguntaObjeto, {
+          id_pregunta: UUID_PREGUNTA,
+          pregunta_cuerpo: preguntaDB.pregunta_cuerpo,
+          respuesta_correcta: preguntaDB.respuesta_correcta,
+          generacion_texto: UUID_TEXTO,
+        }))
+
+        setRespuestaCuerpoObjeto(Object.assign(respuestaCuerpoObjeto, {
+          generacion_pregunta: UUID_PREGUNTA,
+          resp_unica: preguntaDB.respuestas_cuerpo.resp_unica,
+          opcion_multiple: preguntaDB.respuestas_cuerpo.opcion_multiple,
+          completacion: preguntaDB.respuestas_cuerpo.completacion,
+        }))
+
+        await CreatePreguntaAPI(preguntaObjeto);  // insert preguntas (una por una con un id diferente)
+        await CreateRespuestaCuerpoAPI(respuestaCuerpoObjeto) // insert respuesta cuerpo de cada pregunta
+      }
+    }
+  }
+
+
   // Función llamada al presionar el botón de "generar preguntas"
   const handleClick = () => {
 
-    setTextosDatabase();  // Llamada a función que inserta los textos en la DB
-
-    //setPreguntasFromResposeAPIFunction(); // Setea las preguntas en el estado preguntasDB para ser enviado a la revision de preguntas
-    setIrRevisionPreguntas(true); // se cambia a true para redireccionar a la siguientes vista (revision preguntas)
+    if (checkFieldsValidations() === true) {
+      setTextosDatabase();  // Llamada a función que inserta los textos en la DB
+      setPreguntasDB();     // Llamada a función que inserta los preguntas en la DB
+      //setPreguntasFromResposeAPIFunction(); // Setea las preguntas en el estado preguntasDB para ser enviado a la revision de preguntas
+      setIrConfiguracionExamen(true); // se cambia a true para redireccionar a la siguientes vista (revision preguntas)
+    }
 
     // Todo: Traer bool true or false si se efectuan todos los POST CORRECTAMENTE
     /* const boolTextos = setTextosDatabase();
@@ -114,16 +185,60 @@ export const RevisionTextos = (props) => {
 
   // Función llamada al presionar un elemento de la lista de textos
   const onClickTextoList = (e) => {
+
+    eventsButton.map(style => {
+      style.backgroundColor = "white"
+      style.color = "black"
+      return true;
+    })
+
+    e.target.style.backgroundColor = "#FFE3C1";
+    e.target.style.color = "#18191F"
+
+    const updateEvents = [...eventsButton, e.target.style];
+    setEventsButton(updateEvents);
+
+
     Textos.map(texto => {
       if (texto.id === e.target.id) {
+        handleClickTexto();
         setTextArea(texto.cuerpo);
         setValTemp(texto.id);
-        setTitleTextoRef("Texto " + texto.id);
+        //setTitleTextoRef("Texto " + texto.id);
+        setPreguntas(texto.preguntas)
         return true
       } else {
         return false
       }
     })
+  }
+
+  const handleClickTexto = () => {
+    preguntasAreaRef.current.classList.add("hidden")
+    textAreaRef.current.classList.remove("hidden")
+
+    // button text
+    buttonTextRef.current.classList.add("bg-yellowlight")
+    buttonTextRef.current.classList.add("text-yellow-800")
+    buttonTextRef.current.classList.add("border-yellowmain")
+
+    buttonPreguntasRef.current.classList.remove("bg-yellowlight")
+    buttonPreguntasRef.current.classList.remove("text-yellow-800")
+    buttonPreguntasRef.current.classList.remove("border-yellowmain")
+  }
+
+  const handleClickPreguntas = () => {
+    textAreaRef.current.classList.add("hidden")
+    preguntasAreaRef.current.classList.remove("hidden")
+
+    // button preguntas
+    buttonPreguntasRef.current.classList.add("bg-yellowlight")
+    buttonPreguntasRef.current.classList.add("text-yellow-800")
+    buttonPreguntasRef.current.classList.add("border-yellowmain")
+
+    buttonTextRef.current.classList.remove("bg-yellowlight")
+    buttonTextRef.current.classList.remove("text-yellow-800")
+    buttonTextRef.current.classList.remove("border-yellowmain")
   }
 
   const checkFieldsValidations = () => {
@@ -158,60 +273,19 @@ export const RevisionTextos = (props) => {
     divRefErrorMessage.current.classList.remove("hidden");
   };
 
-
-  // *************************************************************//
-  // *************************************************************//
-  // Get and set data questions, send to RevisionPreguntas.js     //
-  // ********************** API de prueba *********************** //
-  // https://run.mocky.io/v3/e70eb6be-b785-46e9-a5a0-bf96ddb658ae //
-  //  ************************************************************//
-  // *************************************************************//
-  const url = "https://run.mocky.io/v3/e70eb6be-b785-46e9-a5a0-bf96ddb658ae";  // Endpoint PREGUNTAS fake
-  const [packagePreguntas, setPackagePreguntas] = useState([])
-  const [preguntasStateInitial, setPreguntasStateInitial] = useState([])
-
-  // get data Preguntas endpoint 
-  const getPreguntas = async (lengthTexto) => {
-
-    let arrayTempPackagePreguntas = []
-    for (let i = 0; i <lengthTexto; i++) {
-      const response = await fetch(url) // You can await here
-        .then((res) => res.json())
-        .then((json) => {
-          return json
-        })
-        .catch(err => {
-          console.log(err)
-          return false;
-        })
-      arrayTempPackagePreguntas.push(response); // Se ingresa elemento response al array
-    }
-    setPackagePreguntas(arrayTempPackagePreguntas); // Asignación de conjunto de respuestas al estado packagePreguntas
-    //stateInitialPreguntas(arrayTempPackagePreguntas);
-
-    // stateInitialPreguntas
-    let mapPackagePreguntas = []
-    let lengthPreguntas = arrayTempPackagePreguntas[0].data[0].texto.length;
-
-    for (let i = 0; i < lengthPreguntas; i++) {
-      mapPackagePreguntas.push(arrayTempPackagePreguntas[0].data[0].texto[i])
-    }
-
-    setPreguntasStateInitial(mapPackagePreguntas);
-  }
-
   const handleClickPrueba = () => {
-    checkFieldsValidations();
+    if (disabledTextArea === false) setDisabledTextArea(true);
+    else if (disabledTextArea) setDisabledTextArea(false);
   }
 
   // Condicional para redireccionar con props en caso de que la generacion sea exitosa (Enviar al siguiente component funcional)
-  if (!irRevisionPreguntas) {
+  if (!irConfiguracionExamen) {
     return (
       <div
         ref={darkModeRef}
         className="flex container w-screen h-screen font-manrope"
         style={{
-          backgroundImage: `url(${darkModeBool ? backgroundGeneralGreenDark: backgroundGeneralGreenLight})`,
+          backgroundImage: `url(${darkModeBool ? backgroundGeneralGreenDark : backgroundGeneralGreenLight})`,
           width: "100%",
           height: "",
           backgroundRepeat: "no-repeat",
@@ -220,17 +294,21 @@ export const RevisionTextos = (props) => {
           minWidth: "100%",
         }}
       >
+        <Helmet>
+          <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
+            rel="stylesheet"></link>
+        </Helmet>
+
         <div className="">
           <Navbar className="fixed" />
         </div>
         <div className="container xl:mx-32 mx-4 md:mx-8 lg:mx-16 mt-8 ">
           <div className="grid grid-rows space-y-8 mb-8">
             <h1 className="font-bold xl:text-5xl md:text-4xl sm:text-3xl text-xl dark:text-white">
-              Revisión de textos
+              Revisión de Generación
             </h1>
             <p className="text-gray-500 font-semibold text-sm md:text-base dark:text-white">
-              Estos son los textos generados por el algoritmo, puede visualizar cada uno navegando a través de la lista de la izquierda. <br></br>
-              Si desea editar cualquier texto puede hacerlo directamente presionando "clic" encima del texto y hacer la modificación (se guarda automáticamente).
+              Estos son los textos y preguntas generados por el algoritmo, puede visualizar cada uno navegando a través de la lista de la izquierda. <br></br>
             </p>
           </div>
 
@@ -238,28 +316,36 @@ export const RevisionTextos = (props) => {
             <div className="grid grid-cols-12">
               <div className="col-span-2 sm:col-span-3">
                 <div className="flex ">
-                  <CustomScrollbars 
-                    autoHide 
-                    autoHideTimeout={900} 
-                    autoHideDuration={400} style={{ height: "50vh" }} 
-                    className="m-0 overflow-auto bg-white dark:bg-darkColor dark:text-gray-200 border shadow-md 
-                    border-gray-500 sm:rounded-md rounded-r-none w-full lg:mr-16 md:mr-8 mr-0 md:text-base text-sm">
+                  <CustomScrollbars
+                    autoHide
+                    autoHideTimeout={900}
+                    autoHideDuration={400} style={{ height: "50vh" }}
+                    className="m-0 overflow-auto bg-white border shadow-md border-gray-500 sm:rounded-md 
+                    rounded-r-none w-full lg:mr-16 md:mr-8 mr-0 md:text-base text-sm">
                     <ul className="divide-y divide-gray-300">
-                      <li className="p-4 font-bold text-gray-500 dark:text-white dark:font-bold">
-                        <p className="hidden sm:block">PAQUETES DE TEXTOS</p>
+                      <li className="p-4 font-bold text-gray-500">
+                        <p className="hidden sm:block">PAQUETES DE GENERACIONES</p>
                         <p className="sm:hidden block">T</p>
                       </li>
 
                       {
-                        Textos.map(texto => (
-                          <li
-                            key={texto.id}
-                            id={texto.id}
-                            onClick={onClickTextoList}
-                            className="p-4 hover:bg-gray-50 cursor-pointer hover:text-yellowmain font-bold dark:hover:bg-darkGrayColor dark:hover:text-yellowlight">
-                            <p id={texto.id} className="hidden sm:block">Texto {texto.id}</p>
-                            <p id={texto.id} className="sm:hidden block">{texto.id}</p>
-                          </li>
+                        Textos.map((texto, contador = 1) => (
+                          <div className="">
+                            <button key={texto.id}
+                              id={texto.id}
+                              onClick={onClickTextoList}
+                              className="hidden text-left sm:block transition duration-500 py-4 w-full justify-between items-center px-5 focus:outline-none font-bold">
+                              Examen {texto.id}
+                            </button>
+                            <button key={texto.id + contador}
+                              id={texto.id}
+                              onClick={onClickTextoList}
+                              className="sm:hidden block text-left transition duration-500 py-4 w-full justify-between items-center px-5 focus:outline-none font-bold">
+                              {texto.id}
+                            </button>
+                          </div>
+
+
                         ))
                       }
                     </ul>
@@ -269,29 +355,76 @@ export const RevisionTextos = (props) => {
 
               <div className="grid col-span-9">
                 <div className="box border rounded flex flex-col shadow bg-white">
-                  <div className="grid grid-cols-12 box__title bg-grey-lighter px-3 py-2 border-b items-center">
-                    <h3 className="hidden sm:block col-span-6 font-bold text-base text-black">
-                      {titleTextoRef}
-                    </h3>
-                    <div className="col-span-12 sm:col-span-6 place-self-end">
+                  <div className="grid grid-cols-12 items-center border-b">
+                    <div className="sm:block col-span-6 font-bold text-base text-black">
                       <button
-                        type="submit"
+                        ref={buttonTextRef}
+                        className="transition duration-500 md:text-base text-sm z-10 pl-1 w-full block focus:outline-none
+                         bg-yellowlight text-yellow-800 border-yellowmain hover:bg-yellowlight focus:bg-yellowlight 
+                         rounded-sm border focus:border-yellowmain px-2 py-2 font-bold"
+                        onClick={handleClickTexto}
+                      >
+                        Texto
+                      </button>
+                    </div>
+
+                    <div className="sm:block col-span-6 font-bold text-base text-black">
+                      <button
+                        ref={buttonPreguntasRef}
+                        className="transition duration-500 md:text-base text-sm z-10 pl-1 w-full block focus:outline-none
+                         bg-gray-100 text-gray-800 hover:bg-yellowlight hover focus:bg-yellowlight 
+                         rounded-sm border focus:border-yellowmain px-2 py-2 font-bold"
+                        onClick={handleClickPreguntas}
+                      >
+                        Preguntas
+                      </button>
+                    </div>
+                  </div>
+
+                  <CustomScrollbars
+                    autoHide
+                    autoHideTimeout={900}
+                    autoHideDuration={400}
+                    className="m-0 overflow-auto" 
+                    style={{ height: "40vh" }}>
+                    <textarea
+                      ref={textAreaRef}
+                      className="h-full pl-6 py-4 w-11/12 m-0 resize-none focus:border-gray-400  bg-transparent text-gray-600 text-sm md:text-base outline-none focus:outline-none"
+                      value={TextArea}
+                      disabled={disabledTextArea}
+                      onChange={handleTextArea}
+                    >
+
+                    </textarea>
+                    <div
+                      ref={preguntasAreaRef}
+                      className="hidden h-full w-full resize-none focus:border-gray-400 p-2 m-1 bg-transparent text-gray-600 text-sm md:text-base outline-none focus:outline-none"
+                    >
+                      {
+                        preguntas.map(pregunta => (
+                          <div className="">
+                            <p>{pregunta.pregunta_cuerpo}</p>
+                            <p>{pregunta.respuesta_correcta}</p>
+                            <br></br>
+                          </div>
+
+                        ))
+                      }
+                    </div>
+                  </CustomScrollbars>
+                  <hr></hr>
+                  <div className="grid grid-cols-12 mt-2 px-4 items-center">
+                    <p className="col-span-7 hidden md:block text-gray-500 text-sm md:text-sm">Cite: GPT2 Algorithm from Hugging Face</p>
+
+                    <div className="md:col-span-5 col-span-12 place-self-end">
+                      <button
                         //className="md:text-base text-sm z-10 pl-1 sm:w-52 w-44 block focus:outline-none bg-green-400 hover:bg-green-500 focus:bg-green-500 text-black rounded-lg px-2 py-2 font-semibold"
-                        className="md:text-base text-sm z-10 pl-1 sm:w-52 w-44 block focus:outline-none bg-gray-200 text-gray-400 rounded-lg px-2 py-2 font-normal"
+                        className="md:text-base text-sm z-10 pl-1 sm:w-52 w-40 block focus:outline-none bg-gray-200 text-gray-400 rounded-lg px-2 py-1 font-normal"
                       >
                         Volver a generar
                       </button>
                     </div>
                   </div>
-                  <textarea
-                    placeholder=""
-                    className="h-full resize-none focus:border-gray-400 p-2 m-1 bg-transparent text-gray-600 text-sm md:text-base outline-none focus:outline-none"
-                    value={TextArea}
-                    onChange={handleTextArea}
-                  >
-                  </textarea>
-                  <hr></hr>
-                    <div className="flex mt-2 py-2 px-4 items-center"><p className="hidden sm:block text-gray-500 text-sm md:text-sm">Cite: GPT2 Algorithm from Hugging Face</p></div>
                 </div>
               </div>
             </div>
@@ -302,10 +435,11 @@ export const RevisionTextos = (props) => {
               <div className="">
                 <button
                   type="submit"
-                  className="md:text-base text-sm z-10 pl-1 block w-52 focus:outline-none bg-red-200 hover:bg-red-300 focus:bg-red-300 text-black rounded-lg px-2 py-2 font-semibold"
+                  className="transition duration-500 md:text-base text-sm z-10 pl-1 block w-52 focus:outline-none bg-yellowlight hover:bg-yellowmain focus:bg-yellowmain
+                   text-black rounded-lg px-2 py-2 font-semibold"
                   onClick={handleClickPrueba}
                 >
-                  Pruebas
+                  Editar textos
                       </button>
               </div>
               <div className="">
@@ -353,9 +487,9 @@ export const RevisionTextos = (props) => {
         <DropdownUser />  {/* Elemento menú del usuario */}
       </div>
     );
-  } else if (irRevisionPreguntas) {
+  } else if (irConfiguracionExamen) {
     return (
-      <RevisionPreguntas packagePreguntas={packagePreguntas} preguntas={preguntasStateInitial} textos={Textos} />
+      <ExamenConfiguracion textos={Textos} />
     );
   }
 }
@@ -364,7 +498,7 @@ export const RevisionTextos = (props) => {
 const renderThumb = ({ style, ...props }) => {
   const thumbStyle = {
     borderRadius: 6,
-    backgroundColor: 'rgba(35, 49, 86, 0.8)'
+    backgroundColor: 'rgba(35, 49, 86, 0.8)',
   };
   return <div style={{ ...style, ...thumbStyle }} {...props} />;
 };

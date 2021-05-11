@@ -141,7 +141,7 @@ export const ExamenConfiguracion = (props) => {
         <div>
           <Navbar className="fixed" />
         </div>
-        <div data-aos="fade-right" className="container xl:mx-32 mx-4 md:mx-8 lg:mx-16 mt-8 dark:text-white">
+        <div className="container xl:mx-32 mx-4 md:mx-8 lg:mx-16 mt-8 dark:text-white">
           <div className="grid grid-rows">
             <h1 className="font-black xl:text-5xl md:text-4xl sm:text-2xl md:text-left mb-12 lg:mb-20 text-2xl">
               Configuración examen

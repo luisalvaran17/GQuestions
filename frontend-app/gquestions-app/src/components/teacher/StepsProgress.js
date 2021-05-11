@@ -8,15 +8,11 @@ export const StepsProgress = (active) => {
     const componentTextosCircleRef = useRef()
     const componentTextosTextRef = useRef()
 
-    const componentPreguntasCircleRef = useRef()
-    const componentPreguntasTextRef = useRef()
-
     const componentConfirmarCircleRef = useRef()
     const componentConfirmarTextRef = useRef()
 
     // Refs lines stepper
     const refLine1 = useRef();
-    const refLine2 = useRef();
     const refLine3 = useRef();
 
     // Hooks Dark mode
@@ -35,12 +31,6 @@ export const StepsProgress = (active) => {
         refLine1.current.classList.add("border-yellowmain")
     }
 
-    const modifyRefPreguntas = () => {
-        componentPreguntasCircleRef.current.classList.add("bg-yellowmain")
-        componentPreguntasCircleRef.current.classList.add("text-white")
-        componentPreguntasTextRef.current.classList.add("font-bold")
-        refLine2.current.classList.add("border-yellowmain")
-    }
 
     const modifyRefConfirmar = () => {
         componentConfirmarCircleRef.current.classList.add("bg-yellowmain")
@@ -61,11 +51,9 @@ export const StepsProgress = (active) => {
             else if (active.active === 3) {
                 modifyRefGeneracion();
                 modifyRefTextos();
-                modifyRefPreguntas();
             } else if (active.active === 4) {
                 modifyRefGeneracion();
                 modifyRefTextos();
-                modifyRefPreguntas();
                 modifyRefConfirmar();
             }
         }
@@ -105,13 +93,7 @@ export const StepsProgress = (active) => {
                             <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-align-center"><line x1="18" y1="10" x2="6" y2="10"></line><line x1="21" y1="6" x2="3" y2="6"></line><line x1="21" y1="14" x2="3" y2="14"></line><line x1="18" y1="18" x2="6" y2="18"></line></svg>
 
                         </div>
-                        <div ref={componentTextosTextRef} className="hidden sm:block absolute top-0 -ml-10 text-center mt-16 w-32 text-xs font-medium uppercase dark:text-gray-100">Textos</div>
-                    </div>
-                    <div ref={refLine2} className="flex-auto border-t-2 transition duration-500 ease-in-out border-gray-300"></div>
-                    <div className="flex items-center text-gray-700 dark:text-gray-100 relative">
-                        <div ref={componentPreguntasCircleRef} className="rounded-full shadow-sm transition duration-500 ease-in-out h-12 w-12 py-3 border-2 border-gray-300">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-help-circle"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></div>
-                        <div ref={componentPreguntasTextRef} className="hidden sm:block absolute top-0 -ml-10 text-center mt-16 w-32 text-xs font-medium uppercase dark:text-gray-100">Preguntas</div>
+                        <div ref={componentTextosTextRef} className="hidden sm:block absolute top-0 -ml-10 text-center mt-16 w-32 text-xs font-medium uppercase dark:text-gray-100">Exámenes</div>
                     </div>
                     <div ref={refLine3} className="flex-auto border-t-2 transition duration-500 ease-in-out border-gray-300"></div>
                     <div className="flex items-center text-gray-700 dark:text-gray-100 relative">

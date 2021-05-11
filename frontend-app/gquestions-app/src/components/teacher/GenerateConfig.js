@@ -31,8 +31,7 @@ export const GenerateConfig = () => {
   // ********************** API de prueba *********************** //
   // https://run.mocky.io/v3/d3287804-d069-482d-b770-3156f369a631//
   //  ************************************************************//
-  const url = "https://run.mocky.io/v3/d3287804-d069-482d-b770-3156f369a631"; // Endpoint TEXTOS fake
-
+  const url = "https://run.mocky.io/v3/de89395b-4f1f-4fb2-9947-8f3b95adc09f"; // Endpoint TEXTOS fake
 
   // Estado utilizado para campos de configuración de Generación de textos
   const [generacionConfiguracion, setGeneracionConfiguracion] = useState({
