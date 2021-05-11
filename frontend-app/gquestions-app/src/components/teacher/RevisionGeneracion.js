@@ -13,7 +13,7 @@ import { CreateRespuestaCuerpoAPI } from "../../api/Preguntas/CreateRespuestaCue
 import { ExamenConfiguracion } from "./ExamenConfiguracion";
 import { Helmet } from "react-helmet";
 
-export const RevisionTextos = (props) => {
+export const RevisionGeneracion = (props) => {
 
   const { v4: uuidv4 } = require("uuid"); // id aleatorio (uuuidv4)
 
@@ -308,7 +308,7 @@ export const RevisionTextos = (props) => {
               Revisión de Generación
             </h1>
             <p className="text-gray-500 font-semibold text-sm md:text-base dark:text-white">
-              Estos son los textos y preguntas generados por el algoritmo, puede visualizar cada uno navegando a través de la lista de la izquierda. <br></br>
+              Estos son los textos y preguntas generadas por el algoritmo, puede visualizar cada uno navegando a través de la lista de la izquierda. <br></br>
             </p>
           </div>
 

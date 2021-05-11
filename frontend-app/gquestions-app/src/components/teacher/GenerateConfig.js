@@ -10,7 +10,7 @@ import { CreateGeneracionConfiguracionAPI } from "../../api/Generacion/CreateGen
 import { CreateGeneracionTipoPreguntaAPI } from "../../api/Generacion/CreateGeneracionTipoPreguntaAPI";
 import { StepsProgress } from "./StepsProgress";
 import { useHistory } from "react-router";
-import { RevisionTextos } from "./RevisionTextos";
+import { RevisionGeneracion } from "./RevisionGeneracion";
 
 export const GenerateConfig = () => {
   const divRefErrorMessage = React.createRef();
@@ -451,7 +451,7 @@ export const GenerateConfig = () => {
     );
   } else if (irRevisionTexto) {
     return(
-      <RevisionTextos textosFromGenerate={Textos} UUID_GENERATE={generacionConfiguracion.id} />
+      <RevisionGeneracion textosFromGenerate={Textos} UUID_GENERATE={generacionConfiguracion.id} />
     )
   }
 }
