@@ -52,6 +52,15 @@ def GetGeneracionesUsuarioView(request, account):
 
     return JsonResponse(serializer.data, safe=False, status=status.HTTP_200_OK)
 
+# Query Generacion usuario
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def GetGeneracionUsuarioView(request, id_generacion):
+    generacion = GeneracionModel.objects.filter(id=id_generacion)
+    serializer = GeneracionSerializer(generacion, many=True)
+
+    return JsonResponse(serializer.data, safe=False, status=status.HTTP_200_OK)
+
 # ************************************************ #
 # ******* Create and list Generacion Texto ******* #
 # ************************************************ # 
