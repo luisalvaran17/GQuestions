@@ -226,7 +226,7 @@ export const Register = () => {
   const onClickBackHome = () => {
     history.push("");
   }
-  
+
   if (redirect === false && modalShow === false) {
     return (
       <div
@@ -259,25 +259,28 @@ export const Register = () => {
           <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
             rel="stylesheet"></link>
         </Helmet>
-        {/* Button back to home */}
-        <span className="flex absolute right-20 top-10 hover:text-white">
-          <button
-            className="btn-back"
-            onClick={onClickBackHome}>
-            <span
-              className="material-icons"
-
-            >&#xe5e0;
-          </span>Home
-        </button>
-        </span>
 
         <div
           data-aos="fade-left"
           className="min-w-screen min-h-screen flex items-center justify-center px-4 sm:px-0 py-4 md:mx-16 lg:mx-4 2xl:mx-52 xl:mx-4 text-xs sm:text-base"
         >
 
-          <div className="border border-gray-300 border-opacity-20 text-sm md:text-md bg-gray-100 text-gray-500 rounded-3xl shadow-xl w-full overflow-hidden dark:bg-darkColor dark:text-white">
+          <div className="border md:mt-0 mt-16 border-gray-300 border-opacity-20 text-sm md:text-md bg-gray-100 text-gray-500 rounded-3xl shadow-xl w-full overflow-hidden dark:bg-darkColor dark:text-white">
+
+            {/* Button back to home */}
+            <div className="">
+              <span className="flex absolute right-18 md:top-16 top-8 hover:text-white">
+                <button
+                  className="btn-back"
+                  onClick={onClickBackHome}>
+                  <span
+                    className="material-icons"
+                  >&#xe5e0;
+                </span>Home
+            </button>
+              </span>
+            </div>
+
             <div className="md:flex w-full">
               <div className="hidden lg:block  w-1/2 bg-yellowlight dark:bg-darkGrayColor2 border-r border-opacity-40 border-gray-300">
                 <div className="flex items-center mt-32 ">

@@ -147,21 +147,10 @@ export const Login = () => {
             </style>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
           rel="stylesheet"></link>
-          <title>Iniciar sesión - GQuestions</title>
+        <title>Iniciar sesión - GQuestions</title>
       </Helmet>
 
-      {/* Button back to home */}
-      <span className="flex absolute right-20 top-10 hover:text-white">
-        <button
-          className="btn-back"
-          onClick={onClickBackHome}>
-          <span
-            className="material-icons"
 
-          >&#xe5e0;
-          </span>Home
-        </button>
-      </span>
 
       <div
         data-aos="fade-left"
@@ -169,7 +158,23 @@ export const Login = () => {
       >
 
 
+
         <div className="border border-gray-300 border-opacity-20 text-sm md:text-base bg-gray-100 text-gray-500 rounded-3xl shadow-xl w-full md:w-full overflow-hidden dark:bg-darkColor dark:text-white">
+
+          {/* Button back to home */}
+          <div className="">
+            <span className="flex absolute right-18 top-16 hover:text-white">
+              <button
+                className="btn-back"
+                onClick={onClickBackHome}>
+                <span
+                  className="material-icons"
+                >&#xe5e0;
+                </span>Home
+            </button>
+            </span>
+          </div>
+
           <div className="md:flex md:w-full">
             <div className="hidden md:block w-1/2 bg-yellowlight dark:bg-darkGrayColor2 border-r border-opacity-40 border-gray-300">
               <div className="flex items-center mt-20 ">
@@ -281,7 +286,7 @@ export const Login = () => {
                   <div className="py-1 lg:py-0 col-span-12">
                     <button
                       type="submit"
-                      className="btn-primary" 
+                      className="btn-primary"
                       onClick={handleClickLogin}
                     >
                       INICIAR SESIÓN

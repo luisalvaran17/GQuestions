@@ -27,6 +27,7 @@ export const Homepage = () => {
 
   const { logged } = useHome();
   const [navbar, setNavbar] = useState(false)
+  const [buttonUp, setButtonUp] = useState(false)
 
   useEffect(() => {
     if (darkMode.current !== undefined) {
@@ -62,14 +63,18 @@ export const Homepage = () => {
   };
 
   const changeBackgroundNavBar = () => {
-    if (window.scrollY >= 20) {
-      setNavbar(true);
-    } else {
-      setNavbar(false);
-    }
+    if (window.scrollY >= 20) setNavbar(true)
+    else setNavbar(false)
+  }
+
+  const showButtonUp = () => {
+    if (window.scrollY >= 600) setButtonUp(true)
+    else setButtonUp(false)
   }
 
   window.addEventListener('scroll', changeBackgroundNavBar);
+  window.addEventListener('scroll', showButtonUp)
+
   const scrollAnimation = () => {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {
@@ -109,6 +114,8 @@ export const Homepage = () => {
           <Helmet>
             <script src='https://unpkg.com/aos@2.3.1/dist/aos.js'></script>
             <title>GQuestions App</title>
+            <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+              rel="stylesheet"></link>
           </Helmet>
           {/* Header - Navbar */}
           <nav
@@ -182,29 +189,30 @@ export const Homepage = () => {
               </a>
               </div>
 
+              {/* Night or light mode */}
               <div className="flex items-center justify-items-center justify-self-center place-content-center py-2 mr-2">
                 <span className="">
-                  <svg className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="h-5 w-5 dark:text-gray-400 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                   </svg>
                 </span>
                 <label className="mx-2 flex items-center relative w-max cursor-pointer select-none">
                   <input
                     type="checkbox"
-                    className="appearance-none transition-colors cursor-pointer w-12 h-6 rounded-full outline-none focus:outline-none bg-gray-300"
+                    className="appearance-none transition-colors cursor-pointer w-12 h-6 rounded-full outline-none focus:outline-none bg-gray-300 dark:bg-yellowmain"
                     onChange={handleDarkMode}
                     defaultChecked={darkModeBool}>
                   </input>
-                  <span className="w-5 h-5 right-7 absolute rounded-full transform transition-transform bg-white shadow-md" />
+                  <span className="w-5 h-5 right-7 absolute rounded-full transform transition-transform bg-darkGrayColor dark:bg-darkColor shadow-md" />
                 </label>
                 <span className="">
-                  <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="h-5 w-5 text-gray-400 dark:text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                   </svg>
                 </span>
               </div>
 
-              <div> 
+              <div>
                 <Link
                   to='/login'
                   className='lg:m-0 mb-2 transition duration-500 inline-block shadow-md md:text-base text-sm text-darkGrayColor text-center
@@ -217,7 +225,7 @@ export const Homepage = () => {
                   to='/register'
                   className='transition duration-500 inline-block shadow-md md:text-base text-sm text-white text-center 
                   z-10 w-full max-w-xs mx-auto bg-yellowmain hover:bg-yellow-600 focus:bg-yellow-600 rounded-lg px-2 py-2 font-semibold outline-none focus:outline-none'
-                  >
+                >
                   Registrarse
               </Link>
               </div>
@@ -237,6 +245,22 @@ export const Homepage = () => {
             }}
           >
             <div className='container mx-auto flex'>
+              <a
+                href='#inicio'
+                onClick={scrollAnimation}
+              >
+                <button
+                  className={
+                    buttonUp
+                      ? 'animation-cards-examples fixed right-8 bottom-8 rounded-full w-11 h-11 bg-white bg-opacity-80 text-darkGrayColor shadow-md outline-none focus:outline-none'
+                      : 'hidden'}
+                >
+                  <span
+                    className="mt-1 material-icons"
+                  >&#xe5d8;
+                </span>
+                </button>
+              </a>
               <div className='grid grid-cols-12'>
                 <div className='col-span-12 sm:col-span-6'>
                   <div className='grid grid-rows-3 lg:mx-8 md:mx-8 mx-8 text-sm md:text-base'>
@@ -542,6 +566,7 @@ export const Homepage = () => {
             </div>
           </div>
         </div >
+
         <Footer />
       </div >
     );
@@ -558,6 +583,9 @@ export const Homepage = () => {
         <div id='inicio'>
           <Helmet>
             <script src='https://unpkg.com/aos@2.3.1/dist/aos.js'></script>
+            <title>GQuestions App</title>
+            <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+              rel="stylesheet"></link>
           </Helmet>
           {/* Header - Navbar */}
           <nav
@@ -631,23 +659,24 @@ export const Homepage = () => {
               </a>
               </div>
 
+              {/* Night or light mode */}
               <div className="flex items-center justify-items-center justify-self-center place-content-center py-2 mr-2">
                 <span className="">
-                  <svg className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="h-5 w-5 dark:text-gray-400 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                   </svg>
                 </span>
                 <label className="mx-2 flex items-center relative w-max cursor-pointer select-none">
                   <input
                     type="checkbox"
-                    className="appearance-none transition-colors cursor-pointer w-12 h-6 rounded-full outline-none focus:outline-none bg-gray-300"
+                    className="appearance-none transition-colors cursor-pointer w-12 h-6 rounded-full outline-none focus:outline-none bg-gray-300 dark:bg-yellowmain"
                     onChange={handleDarkMode}
                     defaultChecked={darkModeBool}>
                   </input>
-                  <span className="w-5 h-5 right-7 absolute rounded-full transform transition-transform bg-white shadow-md" />
+                  <span className="w-5 h-5 right-7 absolute rounded-full transform transition-transform bg-darkGrayColor dark:bg-darkColor shadow-md" />
                 </label>
                 <span className="">
-                  <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="h-5 w-5 text-gray-400 dark:text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                   </svg>
                 </span>
@@ -656,8 +685,9 @@ export const Homepage = () => {
               <div className="mr-10">
                 <Link
                   to='teacher/generacion'
-                  className='inline-block shadow-md text-sm lg:mr-3 lg:ml-0 text-black text-center  
-                  ml-10 z-10 w-full max-w-xs mx-auto bg-yellowlight hover:bg-yellowmain focus:bg-yellowmain rounded-lg px-2 py-2 font-semibold lg:mb-0 mb-2'
+                  className='transition duration-500 inline-block shadow-md text-sm lg:mr-3 lg:ml-0 text-darkGrayColor text-center  
+                  ml-10 z-10 w-full max-w-xs mx-auto bg-yellowlight focus:bg-yellowlightdark hover:bg-yellowlightdark 
+                  rounded-lg px-2 py-2 font-semibold lg:mb-0 mb-2'
                 >
                   Ir a tu cuenta
               </Link>
@@ -687,6 +717,22 @@ export const Homepage = () => {
             }}
           >
             <div className='container mx-auto flex'>
+              <a
+                href='#inicio'
+                onClick={scrollAnimation}
+              >
+                <button
+                  className={
+                    buttonUp
+                      ? 'animation-cards-examples fixed right-8 bottom-8 rounded-full w-11 h-11 bg-white bg-opacity-80 text-darkGrayColor shadow-md outline-none focus:outline-none'
+                      : 'hidden'}
+                >
+                  <span
+                    className="mt-1 material-icons"
+                  >&#xe5d8;
+                </span>
+                </button>
+              </a>
               <div className='grid grid-cols-12'>
                 <div className='col-span-12 sm:col-span-6'>
                   <div className='grid grid-rows-3 lg:mx-8 md:mx-8 mx-8 text-sm md:text-base'>
