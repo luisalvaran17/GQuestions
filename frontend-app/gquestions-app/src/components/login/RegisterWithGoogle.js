@@ -159,6 +159,7 @@ export const RegisterWithGoogle = (response) => {
       }}>
       <div className='min-w-screen min-h-screen flex items-center justify-center px-8 py-4 xl:px-64 md:py-32 text-xs sm:text-base'>
         <Helmet>
+          <title>Registro - GQuestions</title>
           <script
             src='https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.js'
             defer
@@ -276,7 +277,7 @@ export const RegisterWithGoogle = (response) => {
                   <div className='py-1 col-span-12 my-0'>
                     <button
                       type='submit'
-                      className='transition duration-500 dark:text-darkColor text-base z-10 pl-1 block w-full mx-auto mb-2 bg-yellow-500 hover:bg-yellow-600 focus:bg-yellow-600 text-white rounded-lg px-2 py-2 font-semibold'
+                      className='btn-primary'
                       onClick={handleClickAccept}
                     >
                       TERMINAR

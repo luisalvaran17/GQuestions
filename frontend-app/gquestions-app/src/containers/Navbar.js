@@ -14,12 +14,13 @@ function Navbar() {
   const divRefButtonGeneracion = React.createRef();
   const divRefButtonEstadisticas = React.createRef();
   const divRefButtonAjustes = React.createRef();
+  const divRefButtonCalificaciones = React.createRef();
 
   useEffect(() => {
 
-    if(localStorage.theme === 'dark'){
+    if (localStorage.theme === 'dark') {
       darkModeRef.current.classList.add('dark')
-    }else{
+    } else {
       darkModeRef.current.classList.remove('dark')
     }
 
@@ -41,6 +42,10 @@ function Navbar() {
     history.push("/teacher/visualizar-generacion");
   }
 
+  function handleClickCalificaciones() {
+    history.push("/teacher/calificaciones");
+  }
+
   useEffect(() => {
     if (location.pathname === '/teacher/generacion') {
       divRefButtonGeneracion.current.classList.add('bg-yellowlight');
@@ -58,17 +63,22 @@ function Navbar() {
       divRefButtonEstadisticas.current.classList.add('bg-yellowlight');
       divRefButtonEstadisticas.current.classList.add('text-yellow-700');
     }
+    if (location.pathname === '/teacher/calificaciones') {
+      divRefButtonCalificaciones.current.classList.add('bg-yellowlight');
+      divRefButtonCalificaciones.current.classList.add('text-yellow-700');
+    }
     AOS.init({
       duration: 1000,
     })
   });
 
   return (
-    <div  ref={darkModeRef} className='flex h-screen font-manrope font-semibold'>
-      <nav className='xl:w-28 w-24 h-full flex flex-col items-center bg-white pt-6 pb-2 border-r mb-4 border-r-black dark:bg-darkColor dark:border-gray-500'>
+    <div ref={darkModeRef} className='flex h-screen font-manrope font-semibold'>
+      <nav className='h-full sm:w-28 w-24 flex flex-col items-center bg-white pt-6 pb-2 border-r 
+      mb-4 border-r-black dark:bg-darkColor dark:border-gray-500'>
         <div>
           <Link to="/">
-            <img className="" src={Logo} alt='Logo app' />
+            <img className="w-28" src={Logo} alt='Logo app' />
           </Link>
         </div>
 
@@ -78,7 +88,7 @@ function Navbar() {
             className='mt-3 p-2 transition duration-300 hover:ring-2 hover:ring-yellowlight hover:text-yellow-800
               hover:bg-yellowlight hover:opacity-75 dark-hover:text-yellow-300 rounded-lg'
           >
-            <button onClick={handleClickGeneracion} className='flex flex-col items-center ml-2 focus:outline-none'>
+            <button onClick={handleClickGeneracion} className='w-full flex flex-col items-center focus:outline-none'>
               <svg
                 aria-hidden='true'
                 focusable='false'
@@ -100,7 +110,7 @@ function Navbar() {
 
           <li ref={divRefButtonDashboard} className='mt-3 p-2 transition duration-300 hover:ring-2 hover:ring-yellowlight hover:text-yellow-800
               hover:bg-yellowlight hover:opacity-75 dark-hover:text-yellow-300 rounded-lg'>
-            <button onClick={handleClickDashboard} className='flex flex-col items-center ml-2 focus:outline-none'>
+            <button onClick={handleClickDashboard} className='w-full flex flex-col items-center focus:outline-none'>
               <svg className='fill-current h-5 w-5' viewBox='0 0 24 24'>
                 <path
                   d='M19 5v2h-4V5h4M9 5v6H5V5h4m10 8v6h-4v-6h4M9
@@ -112,11 +122,9 @@ function Navbar() {
             </button>
           </li>
 
-          <li ref={divRefButtonEstadisticas}
-            className='mt-3 p-2 transition duration-300 hover:ring-2 hover:ring-yellowlight hover:text-yellow-800
-              hover:bg-yellowlight hover:opacity-75 dark-hover:text-yellow-300 rounded-lg'
-          >
-            <button onClick={handleClickEstadisticas} className='flex flex-col items-center ml-2 focus:outline-none'>
+          <li ref={divRefButtonEstadisticas} className='mt-3 p-2 transition duration-300 hover:ring-2 hover:ring-yellowlight hover:text-yellow-800
+              hover:bg-yellowlight hover:opacity-75 dark-hover:text-yellow-300 rounded-lg'>
+            <button onClick={handleClickEstadisticas} className='w-full flex flex-col items-center focus:outline-none'>
               <svg
                 aria-hidden='true'
                 focusable='false'
@@ -136,10 +144,27 @@ function Navbar() {
             </button>
           </li>
 
+          <li ref={divRefButtonCalificaciones}
+            className='mt-3 p-2 transition duration-300 hover:ring-2 hover:ring-yellowlight hover:text-yellow-800
+              hover:bg-yellowlight hover:opacity-75 dark-hover:text-yellow-300 rounded-lg'
+          >
+            <button onClick={handleClickCalificaciones} className='w-full flex flex-col items-center focus:outline-none'>
+              <svg
+                className='fill-current h-6 w-6'
+                xmlns="http://www.w3.org/2000/svg"
+                version="1.1"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24">
+                <path d="M13,12H20V13.5H13M13,9.5H20V11H13M13,14.5H20V16H13M21,4H3A2,2 0 0,0 1,6V19A2,2 0 0,0 3,21H21A2,2 0 0,0 23,19V6A2,2 0 0,0 21,4M21,19H12V6H21" />
+              </svg>
+              <span className='text-xs mt-2'>Calificaciones</span>
+            </button>
+          </li>
 
           <li ref={divRefButtonAjustes} className='mt-3 p-2 transition duration-300 hover:ring-2 hover:ring-yellowlight hover:text-yellow-800
               hover:bg-yellowlight hover:opacity-75 dark-hover:text-yellow-300 rounded-lg'>
-            <button onClick={handleClickAjustes} className='flex flex-col items-center ml-2 focus:outline-none'>
+            <button onClick={handleClickAjustes} className='w-full flex flex-col items-center focus:outline-none'>
               <svg
                 className='fill-current h-6 w-6'
                 xmlns='http://www.w3.org/2000/svg'

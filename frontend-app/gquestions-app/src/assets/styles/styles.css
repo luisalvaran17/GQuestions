@@ -79,6 +79,22 @@ input:checked ~ span:last-child {
     --tw-translate-x: 1.6rem; /* translate-x-7 */
 }
 
+/*  Buttons */
+/* Button Back Home in login and register */
+.btn-back {
+    @apply w-full px-8 flex transition duration-500 bg-yellowlight text-darkGrayColor p-2 rounded-lg 
+    hover:bg-yellowlightdark font-bold outline-none focus:outline-none shadow-md;
+}
+
+.btn-primary {
+    @apply transition duration-500 inline-block shadow-md md:text-base text-sm text-white text-center w-full
+    z-10 mx-auto bg-yellowmain hover:bg-yellow-600 focus:bg-yellow-600 rounded-lg px-12 py-2 font-semibold outline-none focus:outline-none;
+}
+
+.btn-secondary{
+    @apply transition duration-500 inline-block shadow-md md:text-base text-sm text-darkGrayColor text-center w-full
+    z-10 mx-auto bg-yellowlight focus:bg-yellowlightdark hover:bg-yellowlightdark rounded-lg px-12 py-2 font-semibold outline-none focus:outline-none;
+}
 
 /* Línea para compilar tailwind css */
 /* npx tailwindcss build ./src/assets/styles/styles.css -o ./src/assets/styles/tailwind.css */

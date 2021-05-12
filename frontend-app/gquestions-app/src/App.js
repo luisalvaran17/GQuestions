@@ -16,6 +16,7 @@ import { ExamenPublicado } from './components/teacher/ExamenPublicado';
 import { LoginExamen } from './components/student/LoginExamen';
 import { AjustesCuenta } from './components/user/AjustesCuenta';
 import { VisualizacionGeneracion } from './components/teacher/VisualizacionGeneracion';
+import { Calificaciones } from './components/teacher/Calificaciones';
 
 export const App = () => {
 
@@ -35,8 +36,8 @@ export const App = () => {
         <PrivateRoute exact path='/teacher/examen-configuracion' component={ExamenConfiguracion} />
         <PrivateRoute exact path='/teacher/examen-publicado' component={ExamenPublicado} />
         <PrivateRoute exact path='/teacher/visualizar-generacion' component={VisualizacionGeneracion} />
-{/*         <PrivateRoute exact path='/teacher/revision-textos' component={RevisionTextos} />
-        <PrivateRoute exact path='/teacher/revision-preguntas' component={RevisionPreguntas} /> */}
+        <PrivateRoute exact path='/teacher/calificaciones' component={Calificaciones} />
+        
 
         {/* Rutas Estudiante */}
         <PrivateRoute exact path='/student/login-examen' component={LoginExamen} />

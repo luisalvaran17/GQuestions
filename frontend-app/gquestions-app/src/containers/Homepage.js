@@ -24,7 +24,6 @@ export const Homepage = () => {
   const divRefMenu = React.createRef();
   const darkMode = useRef();
   const [darkModeBool, setDarkModeBool] = useState(localStorage.getItem('bool-dark'));
-  console.log(darkModeBool)
 
   const { logged } = useHome();
   const [navbar, setNavbar] = useState(false)
@@ -40,7 +39,7 @@ export const Homepage = () => {
         setDarkModeBool(false);
       }
     }
-  }, [darkMode]);
+  }, []);
 
   const addRemoveClassMenu = () => {
     let classList = divRefMenu.current.classList;
@@ -105,10 +104,11 @@ export const Homepage = () => {
 
       <div ref={darkMode} className={localStorage.getItem("theme")}>
 
-        <div id='inicio'>
+        <div id='inicio' className="font-manrope">
 
           <Helmet>
             <script src='https://unpkg.com/aos@2.3.1/dist/aos.js'></script>
+            <title>GQuestions App</title>
           </Helmet>
           {/* Header - Navbar */}
           <nav
@@ -157,7 +157,7 @@ export const Homepage = () => {
               <div className='text-sm lg:flex-grow mb-2'>
                 <a
                   href='#about'
-                  className='transition duration-500  p-2 block mt-4 lg:inline-block lg:mt-0 ml-3 mr-2 rounded-md hover:bg-yellowlight hover:text-yellow-800'
+                  className='font-manrope transition duration-500  p-2 block mt-4 lg:inline-block lg:mt-0 ml-3 mr-2 rounded-md hover:bg-yellowlight hover:text-yellow-800'
                 >
                   Acerca de
               </a>
@@ -204,19 +204,20 @@ export const Homepage = () => {
                 </span>
               </div>
 
-              <div>
+              <div> 
                 <Link
                   to='/login'
-                  className='transition duration-500 inline-block shadow-md text-sm text-black text-center z-10 w-full max-w-xs mx-auto bg-yellowlight hover:bg-yellowmain focus:bg-yellowmain rounded-lg px-2 py-2 font-semibold lg:mb-0 mb-2'
-                >
+                  className='lg:m-0 mb-2 transition duration-500 inline-block shadow-md md:text-base text-sm text-darkGrayColor text-center
+                   z-10 w-full max-w-xs mx-auto bg-yellowlight focus:bg-yellowlightdark hover:bg-yellowlightdark rounded-lg px-2 py-2 font-semibold outline-none focus:outline-none'>
                   Iniciar sesión
               </Link>
               </div>
               <div className='lg:mr-16'>
                 <Link
                   to='/register'
-                  className='transition duration-500 inline-block shadow-md text-sm text-black text-center z-10 w-full max-w-xs mx-auto bg-yellowmain hover:bg-yellow-600 focus:bg-yellow-600 rounded-lg px-2 py-2 font-semibold'
-                >
+                  className='transition duration-500 inline-block shadow-md md:text-base text-sm text-white text-center 
+                  z-10 w-full max-w-xs mx-auto bg-yellowmain hover:bg-yellow-600 focus:bg-yellow-600 rounded-lg px-2 py-2 font-semibold outline-none focus:outline-none'
+                  >
                   Registrarse
               </Link>
               </div>
@@ -254,7 +255,8 @@ export const Homepage = () => {
                     <div className='text-center md:text-left'>
                       <Link
                         to='/register'
-                        className='inline-block md:text-base text-sm text-black text-center z-10 w-full max-w-xs mx-auto bg-yellowmain hover:bg-yellow-600 focus:bg-yellow-600 rounded-lg px-2 py-4 font-semibold lg:mb-0 mb-2'
+                        className='ransition duration-500 inline-block shadow-md md:text-base text-sm text-white text-center z-10 w-full max-w-xs mx-auto bg-yellowmain
+                         hover:bg-yellow-600 focus:bg-yellow-600 rounded-lg outline-none focus:outline-none px-2 py-4 font-semibold lg:mb-0 mb-2'
                       >
                         Empezar
                     </Link>

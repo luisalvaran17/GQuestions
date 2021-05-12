@@ -1,12 +1,16 @@
 import React from 'react';
 import Navbar from '../../containers/Navbar';
 import '../../assets/styles/tailwind.css';
+import { Helmet } from 'react-helmet';
 import { DropdownUser } from '../user/DropdownUser';
 
 export const Estadisticas = () => {
 
   return (
     <div className='flex container w-screen h-screen font-manrope'>
+      <Helmet>
+        <title>Estadísticas - GQuestions</title>
+      </Helmet>
       <div>
         <Navbar className='fixed' />
       </div>

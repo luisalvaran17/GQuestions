@@ -35,6 +35,7 @@ export const Login = () => {
       // Obtiene el token y lo guarda en el estado
       // Redirecciona al home sí el usuario existe y es correcto
       if (_isMounted) {
+
         const response = await LoginAPI(credentials);
 
         if (response === true) {
@@ -55,10 +56,10 @@ export const Login = () => {
       duration: 800,
     });
 
-    if(localStorage.theme === 'dark'){
+    if (localStorage.theme === 'dark') {
       setDarkModeBool(true);
       darkModeRef.current.classList.add('dark')
-    }else{
+    } else {
       setDarkModeBool(false);
       darkModeRef.current.classList.remove('dark')
     }
@@ -113,11 +114,15 @@ export const Login = () => {
     e.preventDefault();
   };
 
+  const onClickBackHome = () => {
+    history.push("");
+  }
+
   return (
     <div
       ref={darkModeRef} className="xl:px-64 lg:px-32 sm:px-16 px-2 min-h-screen mx-auto font-manrope"
       style={{
-        backgroundImage: `url(${darkModeBool ? backgroundGeneralYellowDark: backgroundGeneralYellowLight})`,
+        backgroundImage: `url(${darkModeBool ? backgroundGeneralYellowDark : backgroundGeneralYellowLight})`,
         width: "",
         height: "",
         backgroundRepeat: "no-repeat",
@@ -126,25 +131,44 @@ export const Login = () => {
         minWidth: "",
       }}
     >
+      <Helmet>
+        <script
+          src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.js"
+          defer
+        ></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js"></script>
+        <script
+          src="https://kit.fontawesome.com/51d411da80.js"
+          crossorigin="anonymous"
+        ></script>
+        <style>
+          @import
+          url('https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.min.css')
+            </style>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet"></link>
+          <title>Iniciar sesión - GQuestions</title>
+      </Helmet>
+
+      {/* Button back to home */}
+      <span className="flex absolute right-20 top-10 hover:text-white">
+        <button
+          className="btn-back"
+          onClick={onClickBackHome}>
+          <span
+            className="material-icons"
+
+          >&#xe5e0;
+          </span>Home
+        </button>
+      </span>
+
       <div
         data-aos="fade-left"
         className="min-w-screen min-h-screen flex items-center justify-center px-8 py-4 xl:px-20 2xl:px-44 text-xs sm:text-base"
       >
-        <Helmet>
-          <script
-            src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.js"
-            defer
-          ></script>
-          <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js"></script>
-          <script
-            src="https://kit.fontawesome.com/51d411da80.js"
-            crossorigin="anonymous"
-          ></script>
-          <style>
-            @import
-            url('https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.min.css')
-            </style>
-        </Helmet>
+
+
         <div className="border border-gray-300 border-opacity-20 text-sm md:text-base bg-gray-100 text-gray-500 rounded-3xl shadow-xl w-full md:w-full overflow-hidden dark:bg-darkColor dark:text-white">
           <div className="md:flex md:w-full">
             <div className="hidden md:block w-1/2 bg-yellowlight dark:bg-darkGrayColor2 border-r border-opacity-40 border-gray-300">
@@ -166,7 +190,7 @@ export const Login = () => {
                   <div className="w-full px-3 mb-5">
                     <label
                       htmlFor=""
-                      className="text-xs font-semibold px-1 text-gray-500 self-end py-2"
+                      className="text-xs font-semibold px-1 self-end py-2"
                     >
                       Correo electrónico
                       </label>
@@ -189,7 +213,7 @@ export const Login = () => {
                   <div className="w-full px-3 mb-12">
                     <label
                       htmlFor=""
-                      className="text-xs font-semibold px-1 text-gray-500 self-end py-2"
+                      className="text-xs font-semibold px-1 self-end py-2"
                     >
                       Contraseña
                       </label>
@@ -257,7 +281,7 @@ export const Login = () => {
                   <div className="py-1 lg:py-0 col-span-12">
                     <button
                       type="submit"
-                      className="transition-colors duration-500 z-10 block w-full focus:outline-none mx-auto bg-yellowmain hover:bg-yellow-700 focus:bg-yellow-700 text-black rounded-lg py-2 font-semibold"
+                      className="btn-primary" 
                       onClick={handleClickLogin}
                     >
                       INICIAR SESIÓN

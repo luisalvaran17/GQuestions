@@ -194,7 +194,7 @@ export const ExamenConfiguracion = (props) => {
               </div>
             </div>
 
-            <div className="grid grid-cols-12 mb-44 ">
+            <div className="grid grid-cols-12 sm:mb-44 mb-32 ">
               <div className="grid sm:col-span-4 col-span-12 mr-8 mb-2">
                 <label className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
                   Nombre del examen
@@ -232,7 +232,7 @@ export const ExamenConfiguracion = (props) => {
             <div className="grid grid-rows justify-end items-end">
               <button
                 type="submit"
-                className="transition duration-500 z-10 px-4 block focus:outline-none bg-yellowmain hover:bg-yellow-600 focus:bg-yellow-600 text-black rounded-lg py-2 mb-1 font-semibold"
+                className="btn-primary"
                 onClick={handleClick}
               >
                 Terminar y públicar

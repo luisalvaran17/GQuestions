@@ -5,7 +5,7 @@ import { Link, useHistory } from "react-router-dom";
 import ReactDOM from 'react-dom';
 import { RegisterWithGoogle } from "../components/login/RegisterWithGoogle";
 import GoogleRegister from "react-google-login";
-import {ModalRegister} from "../components/login/ModalRegister";
+import { ModalRegister } from "../components/login/ModalRegister";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import imageStudent from "../assets/images/image-register.png";
@@ -54,10 +54,10 @@ export const Register = () => {
       duration: 800,
     });
 
-    if(localStorage.theme === 'dark'){
+    if (localStorage.theme === 'dark') {
       setDarkModeBool(true);
       darkModeRef.current.classList.add('dark')
-    }else{
+    } else {
       setDarkModeBool(false);
       darkModeRef.current.classList.remove('dark')
     }
@@ -223,13 +223,16 @@ export const Register = () => {
     divRefErrorMessage.current.classList.remove("hidden");
   };
 
-
+  const onClickBackHome = () => {
+    history.push("");
+  }
+  
   if (redirect === false && modalShow === false) {
     return (
       <div
         ref={darkModeRef} className="xl:px-60 lg:px-32 sm:px-16 px-2 min-h-screen mx-auto font-manrope"
         style={{
-          backgroundImage: `url(${darkModeBool ? backgroundGeneralCyanDark: backgroundGeneralCyanLight})`,
+          backgroundImage: `url(${darkModeBool ? backgroundGeneralCyanDark : backgroundGeneralCyanLight})`,
           width: "",
           height: "",
           backgroundRepeat: "no-repeat",
@@ -238,30 +241,47 @@ export const Register = () => {
           minWidth: "",
         }}
       >
+        <Helmet>
+          <title>Registrarse - GQuestions</title>
+          <script
+            src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.js"
+            defer
+          ></script>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js"></script>
+          <script
+            src="https://kit.fontawesome.com/51d411da80.js"
+            crossorigin="anonymous"
+          ></script>
+          <style>
+            @import
+            url('https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.min.css')
+            </style>
+          <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+            rel="stylesheet"></link>
+        </Helmet>
+        {/* Button back to home */}
+        <span className="flex absolute right-20 top-10 hover:text-white">
+          <button
+            className="btn-back"
+            onClick={onClickBackHome}>
+            <span
+              className="material-icons"
+
+            >&#xe5e0;
+          </span>Home
+        </button>
+        </span>
+
         <div
           data-aos="fade-left"
           className="min-w-screen min-h-screen flex items-center justify-center px-4 sm:px-0 py-4 md:mx-16 lg:mx-4 2xl:mx-52 xl:mx-4 text-xs sm:text-base"
         >
-          <Helmet>
-            <script
-              src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.js"
-              defer
-            ></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js"></script>
-            <script
-              src="https://kit.fontawesome.com/51d411da80.js"
-              crossorigin="anonymous"
-            ></script>
-            <style>
-              @import
-              url('https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.min.css')
-            </style>
-          </Helmet>
+
           <div className="border border-gray-300 border-opacity-20 text-sm md:text-md bg-gray-100 text-gray-500 rounded-3xl shadow-xl w-full overflow-hidden dark:bg-darkColor dark:text-white">
             <div className="md:flex w-full">
               <div className="hidden lg:block  w-1/2 bg-yellowlight dark:bg-darkGrayColor2 border-r border-opacity-40 border-gray-300">
                 <div className="flex items-center mt-32 ">
-                  <img className="w-full" src={imageStudent} style={{width:'1000'}} alt=""></img>
+                  <img className="w-full" src={imageStudent} style={{ width: '1000' }} alt=""></img>
                 </div>
               </div>
               <form
@@ -269,8 +289,8 @@ export const Register = () => {
                 className="w-full lg:w-1/2 py-10 px-5 lg:px-10"
               >
                 <div className="text-center mb-10">
-                  <h1 className="font-black text-2xl md:text-3xl mb-8 text-center text-gray-600 dark:text-gray-200">
-                    REGISTRARSE
+                  <h1 className="font-black text-2xl md:text-3xl mb-8 text-center text-gray-600 dark:text-gray-200 uppercase">
+                    Registrarse
                   </h1>
                 </div>
                 <div>
@@ -322,7 +342,7 @@ export const Register = () => {
                     <div className="w-full px-3 mb-3">
                       <label
                         htmlFor=""
-                        className="text-xs font-semibold px-1 text-gray-500 self-end py-2"
+                        className="text-xs font-semibold px-1 self-end py-2"
                       >
                         Correo electrónico
                       </label>
@@ -345,7 +365,7 @@ export const Register = () => {
                     <div className="w-full px-3 mb-3">
                       <label
                         htmlFor=""
-                        className="text-xs font-semibold px-1 text-gray-500 self-end py-2"
+                        className="text-xs font-semibold px-1 self-end py-2"
                       >
                         Contraseña nueva
                       </label>
@@ -366,7 +386,7 @@ export const Register = () => {
                     <div className="w-full px-3 mb-3">
                       <label
                         htmlFor=""
-                        className="text-xs font-semibold px-1 text-gray-500 self-end py-2"
+                        className="text-xs font-semibold px-1 self-end py-2"
                       >
                         Confirmar contraseña
                       </label>
@@ -445,7 +465,7 @@ export const Register = () => {
                     <div className="py-1 col-span-12 my-0">
                       <button
                         type="submit"
-                        className="transition-colors duration-500 text-base z-10 pl-1 block w-full mx-auto mb-2 focus:outline-none bg-yellowmain hover:bg-yellow-700 focus:bg-yellow-700 text-black rounded-lg px-2 py-2 font-semibold"
+                        className="btn-primary"
                         onClick={handleClickRegister}
                       >
                         REGISTRARSE

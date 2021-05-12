@@ -10,6 +10,7 @@ import { GetGeneracionesUsuarioAPI } from '../../api/Dashboard/GetGeneracionesUs
 import { useHistory } from 'react-router';
 import { PrintGeneracion } from './PrintGeneracion';
 import Scrollbars from "react-custom-scrollbars";
+import emptyImage from '../../assets/images/empty_generaciones.png';
 
 export const Dashboard = () => {
 
@@ -17,6 +18,7 @@ export const Dashboard = () => {
   const history = useHistory();
   const [irDownload, setIrDownload] = useState(false)
   const [downloadGeneracion, setDownloadGeneracion] = useState([])
+  const [generacionesEmpty, setGeneracionesEmpty] = useState(false)
 
   // Hooks dark mode
   const darkModeRef = useRef();
@@ -30,6 +32,10 @@ export const Dashboard = () => {
       setDarkModeBool(false);
       darkModeRef.current.classList.remove('dark')
     }
+    AOS.init({
+      duration: 800,
+    })
+    getGeneracionesFromDB();// eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getGeneracionFromDB = async (id_generacion) => {
@@ -51,17 +57,13 @@ export const Dashboard = () => {
     return generacion;
   }
 
-
-  useEffect(() => {
-    AOS.init({
-      duration: 800,
-    })
-    getGeneracionesFromDB();
-  }, []);
-
   const getGeneracionesFromDB = async () => {
+    const response = await GetGeneracionesUsuarioAPI(localStorage.getItem('id_user'));
+    setGeneraciones(response)
 
-    setGeneraciones(await GetGeneracionesUsuarioAPI(localStorage.getItem('id_user')));
+    // Verificaca de que haya elementos generados, si no los hay, entonces, muestra mensaje de vacío
+    if (response.length === 0) setGeneracionesEmpty(true)
+    else setGeneracionesEmpty(false)
   }
 
   const onClickVerGeneracion = (e) => {
@@ -97,6 +99,7 @@ export const Dashboard = () => {
         }}
       >
         <Helmet>
+          <title>Dashboard - GQuestions</title>
           <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
             rel="stylesheet"></link>
         </Helmet>
@@ -104,7 +107,7 @@ export const Dashboard = () => {
           <Navbar className='fixed' />
         </div>
 
-        <div data-aos="fade-right" className='container lg:ml-32 mx-16 mt-8 lg:text-base text-sm dark:text-white'>
+        <div data-aos="fade-right" className='container lg:ml-32 sm:mx-16 mx-4 mt-8 lg:text-base text-sm dark:text-white'>
           <h1 className='font-black xl:text-5xl md:text-4xl text-2xl md:text-left md:mb-10 '>
             Dashboard
           </h1>
@@ -119,15 +122,15 @@ export const Dashboard = () => {
           Pruebas
         </button> */}
           <div className="mt-10">
-
-            <p className="text-gray-500 dark:text-gray-200 mb-4">HISTORIAL DE GENERACIONES</p>
+            <p className={generacionesEmpty ? "hidden" : "text-gray-500 dark:text-gray-200 mb-4 uppercase text-lg"}>Historial de generaciones</p>
           </div>
           <CustomScrollbars
+            className={generacionesEmpty ? 'hidden' : ''}
             autoHide
             autoHideTimeout={900}
             autoHideDuration={400}
             style={{ height: "70vh" }}>
-            <ul className="">
+            <ul >
               {
                 generaciones.map((generacion, contador = 1) => (
                   <li
@@ -143,27 +146,28 @@ export const Dashboard = () => {
                             className="hover:text-yellowmain text-gray-900 dark:text-gray-50 dark:hover:text-yellowmain material-icons mr-2"
                             onClick={onClickVerGeneracion}
                             id={generacion.id}
-                          >&#xe8f4;</span>
+                          >&#xe8f4;
+                          </span>
 
                           <span
-                            className="hover:text-yellowmain text-gray-900 dark:text-gray-50 dark:hover:text-yellowmain material-icons mr-2 border-l border-black dark:border-gray-400 px-2"
+                            className="hover:text-yellowmain text-gray-900 dark:text-gray-50 dark:hover:text-yellowmain material-icons mr-2"
                             onClick={onClickDownload}
                             id={generacion.id}
-                          >&#xe8ad;
-                        <span
-                              className="hover:text-yellowmain text-gray-900 dark:text-gray-50 dark:hover:text-yellowmain material-icons mr-2"
-                              onClick={onClickDownload}
-                              id={generacion.id}
-                            >&#xf090;</span>
-                          </span>
+                          >&#xf090;
+                            </span>
                         </div>
                       </div>
                     </div>
                   </li>)
                 )
               }
+
             </ul>
           </CustomScrollbars>
+          <div className={generacionesEmpty ? 'py-40 px-6 select-none' : 'hidden'}>
+            <p className="dark:text-gray-200 text-gray-800 text-center">Oops... Todavía no tienes generaciones, puedes ir a la pestaña de generación y generar tus primeros exámenes</p>
+            <img src={emptyImage} alt="empty" className="md:w-96 py-8 sm:w-64 w-64" style={{ display: "block", margin: "auto" }}></img>
+          </div>
         </div>
         <DropdownUser />
       </div>

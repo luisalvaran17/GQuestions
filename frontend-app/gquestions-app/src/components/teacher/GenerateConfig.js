@@ -2,9 +2,10 @@ import React, { useEffect, useRef, useState } from "react";
 import ReactDOM from 'react-dom'
 import Navbar from "../../containers/Navbar";
 import "../../assets/styles/tailwind.css";
-import backgroundGeneralCyanDark from "../../assets/images/background-general-cyan_dark.png";
-import backgroundGeneralCyanLight from "../../assets/images/background-general-cyan_light.png";
+import backgroundGeneralYellowDark from "../../assets/images/background-general-yellow_dark.png";
+import backgroundGeneralYellowLight from "../../assets/images/background-general-yellow_light.png";
 import AOS from "aos";
+import { Helmet } from 'react-helmet'
 import { DropdownUser } from "../user/DropdownUser";
 import { CreateGeneracionConfiguracionAPI } from "../../api/Generacion/CreateGeneracionConfiguracionAPI";
 import { CreateGeneracionTipoPreguntaAPI } from "../../api/Generacion/CreateGeneracionTipoPreguntaAPI";
@@ -59,10 +60,10 @@ export const GenerateConfig = () => {
     })
     set_isMounted(true);
 
-    if(localStorage.theme === 'dark'){
+    if (localStorage.theme === 'dark') {
       setDarkModeBool(true);
       darkModeRef.current.classList.add('dark')
-    }else{
+    } else {
       setDarkModeBool(false);
       darkModeRef.current.classList.remove('dark')
     }
@@ -109,7 +110,7 @@ export const GenerateConfig = () => {
         const responseGeneracionTipoPregunta = await CreateGeneracionTipoPreguntaAPI(generacionTipoPregunta);    // POST a GeneracionTipoPregunta
 
         if (responseGeneracionConfig && responseGeneracionTipoPregunta) {    // Si todas las peticiones son ok
-          
+
           // Llamado a función que inserta los textos en la DB DJANGO
           localStorage.setItem('uuid_generacion', generacionConfiguracion.id);
           setIrRevisionTexto(true);
@@ -221,10 +222,10 @@ export const GenerateConfig = () => {
   if (!irRevisionTexto) {
     return (
       <div
-        ref={darkModeRef} 
+        ref={darkModeRef}
         className="flex container w-screen h-screen font-manrope"
         style={{
-          backgroundImage: `url(${darkModeBool ? backgroundGeneralCyanDark: backgroundGeneralCyanLight})`,
+          backgroundImage: `url(${darkModeBool ? backgroundGeneralYellowDark : backgroundGeneralYellowLight})`,
           width: "100%",
           height: "",
           backgroundRepeat: "no-repeat",
@@ -233,6 +234,9 @@ export const GenerateConfig = () => {
           minWidth: "100%",
         }}
       >
+        <Helmet>
+          <title>Generación - GQuestions</title>
+        </Helmet>
         <div>
           <Navbar className="fixed" />
         </div>
@@ -401,23 +405,23 @@ export const GenerateConfig = () => {
                 <div className="bg-yellowmain w-4/6 h-full"></div>
               </div>
             </div>
-            <div className="grid grid-rows justify-end items-end">
+            <div className="grid justify-end items-end">
               <button
                 type="submit"
-                className="transition duration-500 z-10 px-4 block focus:outline-none bg-yellow-500 hover:bg-yellow-600 focus:bg-yellow-600 text-white rounded-lg py-2 mb-1 font-semibold"
+                className="btn-primary"
                 onClick={handleClick}
               >
-                Generar textos
+                Generar
               </button>
             </div>
 
-          {/* StepProgress */}
+            {/* StepProgress */}
             <StepsProgress active={1} />
           </div>
 
           {/* Error messages */}
           <div>
-            
+
           </div>
           <div
 
@@ -450,7 +454,7 @@ export const GenerateConfig = () => {
       </div>
     );
   } else if (irRevisionTexto) {
-    return(
+    return (
       <RevisionGeneracion textosFromGenerate={Textos} UUID_GENERATE={generacionConfiguracion.id} />
     )
   }

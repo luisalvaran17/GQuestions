@@ -4,7 +4,8 @@ import "../../assets/styles/tailwind.css";
 import backgroundGeneralGreenDark from "../../assets/images/background-general-green_dark.png";
 import backgroundGeneralGreenLight from "../../assets/images/background-general-green_light.png";
 import { DropdownUser } from "../user/DropdownUser";
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 export const ExamenPublicado = () => {
 
@@ -29,7 +30,7 @@ export const ExamenPublicado = () => {
       ref={darkModeRef}
       className="flex container xl:justify-center xl:items-center w-screen h-screen font-manrope"
       style={{
-        backgroundImage: `url(${darkModeBool ? backgroundGeneralGreenDark: backgroundGeneralGreenLight})`,
+        backgroundImage: `url(${darkModeBool ? backgroundGeneralGreenDark : backgroundGeneralGreenLight})`,
         width: "100%",
         height: "",
         backgroundRepeat: "no-repeat",
@@ -38,6 +39,9 @@ export const ExamenPublicado = () => {
         minWidth: "100%",
       }}
     >
+      <Helmet>
+        <title>Examen publicado - GQuestions</title>
+      </Helmet>
       <div className="xl:absolute xl:left-0">
         <Navbar className="fixed" />
       </div>

@@ -96,6 +96,7 @@ export const VisualizacionGeneracion = () => {
 
             <div className="container grid grid-rows md:mx-auto sm:px-16 px-8 my-10">
                 <Helmet>
+                    <title>Ver Generaciones - GQuestions</title>
                     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
                         rel="stylesheet"></link>
                     <link
@@ -106,8 +107,7 @@ export const VisualizacionGeneracion = () => {
                 <div className="justify-self-end">
                     <button
                         type="submit"
-                        className="transition duration-500 justify-self-end md:text-base text-sm z-10 pl-1 block w-40 focus:outline-none bg-yellowmain hover:bg-yellow-600
-                         focus:bg-yellow-600 text-black rounded-lg px-2 py-2 font-semibold"
+                        className="btn-back"
                         onClick={handleClickVolver}
                     >
                         Volver
@@ -118,7 +118,7 @@ export const VisualizacionGeneracion = () => {
                 <div className="w-full flex justify-center mb-16 py-6">
                     <div className="w-full">
                         <div className="w-full flex flex-col md:flex-row rounded-lg overflow-hidden shadow-lg border dark:border-gray-700">
-                            <div className="w-full md:w-1/4 h-auto">
+                            <div className="w-full md:w-1/4 ">
                                 <div className="top flex items-center px-5 h-16 bg-yellowmain font-bold uppercase">
                                     <div className="ml-3 flex flex-col text-2xl">
                                         Exámenes
@@ -129,7 +129,7 @@ export const VisualizacionGeneracion = () => {
                                     autoHide
                                     autoHideTimeout={900}
                                     autoHideDuration={400}
-                                    style={{ height: "50vh" }}
+                                    style={{ height: "60vh" }}
                                     className="bg-gray-100 w-full h-full sm:flex md:block dark:bg-darkColor dark:text-white">
                                     {
                                         textosPreguntas.map((item, contador = 1) => (
@@ -159,7 +159,7 @@ export const VisualizacionGeneracion = () => {
                                     autoHideDuration={400}
                                     style={{ height: "60vh" }}
                                 >
-                                    <div className="w-full px-5 py-3 max-h-screen overflow-y-auto bg-white">
+                                    <div className="w-full px-5 py-3 max-h-screen overflow-y-auto bg-white h-full">
 
                                         <h1 className="uppercase font-semibold">Texto</h1>
                                         <p>{texto}</p>

@@ -3,6 +3,7 @@ import '../assets/styles/tailwind.css';
 import backgroundGeneralCyanLight from "../assets/images/background-general-cyan_dark.png";
 /* import backgroundGeneralCyanDark from "../assets/images/background-general-cyan_light.png" */
 import { useHistory } from 'react-router';
+import { Helmet } from 'react-helmet';
 
 export const ErrorNotServer = () => {
 
@@ -11,7 +12,7 @@ export const ErrorNotServer = () => {
   const backHome = () => {
     history.push('/')
   }
-  
+
   return (
     <div className='flex container w-screen h-screen font-manrope'
       style={{
@@ -23,7 +24,9 @@ export const ErrorNotServer = () => {
         minHeight: '',
         minWidth: "100%",
       }}>
-
+      <Helmet>
+        <title>No server - GQuestions</title>
+      </Helmet>
       <div className='container md:mx-auto mx-4 items-center place-self-center'>
         <h1 className="text-5xl font-bold">UPS... ERROR SERVER</h1>
         <p className="text-sm">ERR_CONNECTION_REFUSED</p>
@@ -34,7 +37,7 @@ export const ErrorNotServer = () => {
         >
           Volver
                 </button>
-        
+
       </div>
     </div>
   );

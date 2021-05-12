@@ -319,7 +319,8 @@ export const RevisionGeneracion = (props) => {
                   <CustomScrollbars
                     autoHide
                     autoHideTimeout={900}
-                    autoHideDuration={400} style={{ height: "50vh" }}
+                    autoHideDuration={400} 
+                    style={{ height: "50vh" }}
                     className="m-0 overflow-auto bg-white border shadow-md border-gray-500 sm:rounded-md 
                     rounded-r-none w-full lg:mr-16 md:mr-8 mr-0 md:text-base text-sm">
                     <ul className="divide-y divide-gray-300">
@@ -435,8 +436,9 @@ export const RevisionGeneracion = (props) => {
               <div className="">
                 <button
                   type="submit"
-                  className="transition duration-500 md:text-base text-sm z-10 pl-1 block w-52 focus:outline-none bg-yellowlight hover:bg-yellowmain focus:bg-yellowmain
-                   text-black rounded-lg px-2 py-2 font-semibold"
+                  className="transition duration-500 shadow-md md:text-base text-sm text-darkGrayColor text-center 
+                  z-10 mx-auto w-52 bg-yellowlight focus:bg-yellowlightdark hover:bg-yellowlightdark rounded-lg px-2 py-2 font-semibold outline-none focus:outline-none;
+              "
                   onClick={handleClickPrueba}
                 >
                   Editar textos
@@ -445,10 +447,11 @@ export const RevisionGeneracion = (props) => {
               <div className="">
                 <button
                   type="submit"
-                  className="transition duration-500 md:text-base text-sm z-10 pl-1 w-52 block focus:outline-none bg-yellowmain hover:bg-yellow-600 focus:bg-yellow-600 text-black rounded-lg px-2 py-2 font-semibold"
+                  className="transition duration-500 shadow-md md:text-base text-sm text-white text-center 
+                  z-10 mx-auto outline-none focus:outline-none w-52 block bg-yellowmain hover:bg-yellow-600 focus:bg-yellow-600 rounded-lg px-2 py-2 font-semibold"
                   onClick={handleClick}
                 >
-                  Generar preguntas
+                  Generar examénes
                       </button>
               </div>
             </div>

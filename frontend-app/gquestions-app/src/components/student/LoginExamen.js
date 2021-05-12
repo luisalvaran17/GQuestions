@@ -2,13 +2,14 @@ import React from "react";
 import Navbar from "../../containers/Navbar";
 import "../../assets/styles/tailwind.css";
 import backgroundGeneral from "../../assets/images/background-general-green_light.png";
+import { Helmet } from "react-helmet";
 
 export const LoginExamen = () => {
 
   const handleClick = () => {
     console.log("nothing")
   }
-  
+
   return (
     <div
       className="flex container xl:justify-center xl:items-center w-screen h-screen font-manrope"
@@ -22,6 +23,9 @@ export const LoginExamen = () => {
         minWidth: "100%",
       }}
     >
+      <Helmet>
+        <title>Ingresar a examen - GQuestions</title>
+      </Helmet>
       <div className="xl:absolute xl:left-0">
         <Navbar className="fixed" />
       </div>
