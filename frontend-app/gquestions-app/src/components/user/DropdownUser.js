@@ -44,7 +44,7 @@ export const DropdownUser = () => {
       .catch(err => err)
   }
 
-  const onClickAjustesCuenta = () => {
+  const onClickAjustesCuenta = async () => {
     setAjustesCuenta(true)
   }
 
@@ -152,7 +152,10 @@ export const DropdownUser = () => {
     );
   } else if (ajustesCuenta) {
     return (
-      <Redirect to='/user/ajustes-cuenta' />
+      <Redirect to={{
+        pathname: '/user/ajustes-cuenta',
+      }}
+      />
     );
   }
 }
