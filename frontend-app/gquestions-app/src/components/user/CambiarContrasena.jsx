@@ -61,7 +61,6 @@ export const CambiarContrasena = () => {
 
     }
 
-
     const checkFieldsValidations = () => {
 
         let p_empty;

@@ -9,6 +9,7 @@ import { DropdownUser } from "./DropdownUser";
 import { UpdateInfoPerfilUserAPI } from "../../api/Usuario/UpdateInfoPerfilUserAPI";
 import { GetUserAPI } from "../../api/Usuario/GetUserAPI";
 import { CambiarContrasena } from "./CambiarContrasena";
+import { InformacionAdicional } from "./InformacionAdicional";
 
 export const AjustesCuenta = () => {
 
@@ -35,6 +36,8 @@ export const AjustesCuenta = () => {
     last_name: '',
     fecha_nac: ''
   })
+
+  const [user, setUser] = useState([])
 
   useEffect(() => {
     AOS.init({
@@ -70,6 +73,7 @@ export const AjustesCuenta = () => {
         })
       )
 
+      setUser(user)
       return true;
     })
   }
@@ -473,7 +477,7 @@ export const AjustesCuenta = () => {
             <div className="grid grid-cols-12 md:gap-x-16">
               {/* Contraseña */}
               <div className="xl:col-span-6 lg:col-span-7 sm:col-span-10 col-span-12 mt-10">
-                <CambiarContrasena />
+                <CambiarContrasena /> {/* Component */}
               </div>
             </div>
 
@@ -585,107 +589,10 @@ export const AjustesCuenta = () => {
 
             </ul>
 
-
-
             <div className="grid grid-cols-12 md:gap-x-16">
               {/* Organización */}
               <div className="xl:col-span-6 lg:col-span-7 sm:col-span-10 col-span-12 mt-10">
-                <div className="sm:p-6 p-2 bg-white rounded-lg shadow-md dark:bg-darkColor border dark:border-gray-500">
-
-                  <div className="sm:ml-6 ml-2 pt-1">
-                    <div className="grid grid-cols-12">
-                      <h4 className="col-span-9 sm:col-span-11 sm:text-xl text-lg text-gray-900 dark:text-gray-100 leading-tight">Información adicional</h4>
-
-                      <div className="sm:col-span-1 col-span-3">
-                        <button
-                          type="submit"
-                          className="px-4 focus:outline-none py-2 mb-1 dark:text-yellowlight"
-                          onClick={handleClickEdit}
-                        >
-                          <span className="material-icons-outlined mr-2">&#xe3c9;</span>
-                        </button>
-                      </div>
-                    </div>
-
-                    <div className="grid grid-rows-2 grid-cols-1 md:flex -mx-3 mt-4">
-                      <div className="md:w-1/2 px-3 mb-3">
-                        <label
-                           
-                          className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2"
-                        >
-                          Organización
-                        </label>
-                        <div className="flex">
-                          <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
-                            <i className="hidden sm:block mdi mdi-domain text-gray-400 text-lg"></i>
-                          </div>
-                          <input
-                            type="text"
-                            className="text-gray-500 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2 
-                            focus:ring-yellowlight w-full -ml-10 sm:pl-10 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
-                            placeHolder="Ingrese su organización"
-                            disabled={true}
-                          />
-                        </div>
-                      </div>
-                      <div className="md:w-1/2 px-3 mb-3">
-                        <label
-                           
-                          className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2"
-                        >
-                          Lipsum
-                        </label>
-                        <div className="flex">
-                          <input
-                            type="text"
-                            className="text-gray-500 text-sm md:text-base sm:col-span-4 col-span-12 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2
-                                  focus:ring-yellowlight w-full 2xl:w-96 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
-
-                            placeHolder="Otro campo"
-                            disabled={true}
-                            onChange={handleClickEdit}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Tipo de cuenta */}
-                  <div className="sm:ml-6 ml-2">
-                    <label
-                       
-                      className="text-xs font-semibold px-1 text-gray-500 dark:text-gray-300 self-end py-2"
-                    >
-                      Tipo de cuenta
-                        </label>
-                    <div className="flex">
-                      <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
-                        <i className="hidden sm:block mdi mdi-account-outline text-gray-400 text-lg"></i>
-
-                      </div>
-                      <input
-                        type="text"
-                        className="text-gray-500 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2 
-                        focus:ring-yellowlight w-full -ml-10 sm:pl-10 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
-                        placeHolder="Docente"
-                        disabled={true}
-                      //onChange={handleChange}
-                      />
-                    </div>
-                  </div>
-
-                  {/* Button guardar */}
-                  <div className="grid grid-cols-12 sm:ml-6 ml-2 mt-8">
-                    <button
-                      type="submit"
-                      className="transition duration-500 col-start-0 md:col-start-7 md:col-span-6 col-span-12 z-10 px-4 focus:outline-none
-                      bg-yellowmain hover:bg-yellow-600 focus:bg-yellow-600 text-white rounded-lg py-2 mb-1 font-semibold"
-                      onClick={handleClickEdit}
-                    >
-                      Guardar
-                    </button>
-                  </div>
-                </div>
+                <InformacionAdicional user={user}/>
               </div>
             </div>
 
