@@ -8,6 +8,7 @@ import AOS from "aos";
 import { DropdownUser } from "./DropdownUser";
 import { UpdateInfoPerfilUserAPI } from "../../api/Usuario/UpdateInfoPerfilUserAPI";
 import { GetUserAPI } from "../../api/Usuario/GetUserAPI";
+import { CambiarContrasena } from "./CambiarContrasena";
 
 export const AjustesCuenta = () => {
 
@@ -28,6 +29,7 @@ export const AjustesCuenta = () => {
   const darkModeRef = useRef();
   const [darkModeBool, setDarkModeBool] = useState(localStorage.getItem('bool-dark'));
 
+  // State info perfil
   const [informacionPerfil, setInformacionPerfil] = useState({
     first_name: '',
     last_name: '',
@@ -46,19 +48,28 @@ export const AjustesCuenta = () => {
       setDarkModeBool(false);
       darkModeRef.current.classList.remove('dark')
     }
-    getUser();
+    getUser();// eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getUser = async () => {
     const id_user = localStorage.getItem('id_user');
     const users = await GetUserAPI(id_user);
     const user = users.users;
-    
+
     user.map(item => {
       setFirstName(item.first_name);
       setLastName(item.last_name);
       setFechaNac(item.fecha_nac);
       setEmail(item.email);
+
+      setInformacionPerfil(
+        Object.assign(informacionPerfil, {
+          first_name: item.first_name,
+          last_name: item.last_name,
+          fecha_nac: item.fecha_nac,
+        })
+      )
+
       return true;
     })
   }
@@ -79,6 +90,7 @@ export const AjustesCuenta = () => {
     divRefSuccessMessage.current.classList.remove("hidden");
   };
 
+  // nabigation tabs
   const clickOnContrasena = () => {
     setpestaña("tab_contrasena");
   }
@@ -99,6 +111,8 @@ export const AjustesCuenta = () => {
       })
     )
   }
+
+  
 
   const handleClickUpdatePerfil = async () => {
     const id_user = localStorage.getItem('id_user');
@@ -192,7 +206,6 @@ export const AjustesCuenta = () => {
 
                       <div className="sm:col-span-1 col-span-3">
                         <button
-                          type="submit"
                           className="transition duration-500 hover:bg-yellowlight hover:bg-opacity-40 rounded-full w-12 h-12 focus:outline-none dark:text-yellowlight"
                           onClick={handleClickEdit}
                         >
@@ -204,7 +217,7 @@ export const AjustesCuenta = () => {
                     <div className="grid grid-rows-2 grid-cols-1 md:flex -mx-3 mt-4">
                       <div className="md:w-1/2 px-3 mb-3">
                         <label
-                          htmlFor=""
+                           
                           className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2"
                         >
                           Nombres
@@ -222,13 +235,14 @@ export const AjustesCuenta = () => {
                             defaultValue={firstName}
                             onChange={onChangeInfoPerfil}
                             name="first_name"
+                            id="first_name"
                             disabled={disableEditInfo}
                           />
                         </div>
                       </div>
                       <div className="md:w-1/2 px-3 mb-3">
                         <label
-                          htmlFor=""
+                           
                           className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2"
                         >
                           Apellidos
@@ -254,7 +268,7 @@ export const AjustesCuenta = () => {
                     <div className="grid grid-rows-2 grid-cols-1 md:flex -mx-3 ">
                       <div className="md:w-1/2 px-3 mb-3">
                         <label
-                          htmlFor=""
+                           
                           className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2"
                         >
                           Fecha nacimiento
@@ -279,7 +293,7 @@ export const AjustesCuenta = () => {
                       </div>
                       <div className="md:w-1/2 px-3 mb-3">
                         <label
-                          htmlFor=""
+                           
                           className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2"
                         >
                           Correo electrónico
@@ -459,100 +473,7 @@ export const AjustesCuenta = () => {
             <div className="grid grid-cols-12 md:gap-x-16">
               {/* Contraseña */}
               <div className="xl:col-span-6 lg:col-span-7 sm:col-span-10 col-span-12 mt-10">
-                <div className="sm:p-6 p-2 bg-white rounded-lg shadow-md dark:bg-darkColor border dark:border-gray-500">
-
-                  <div className="sm:ml-6 ml-2 pt-1">
-                    <div className="grid grid-cols-12">
-                      <h4 className="col-span-9 sm:col-span-11 sm:text-xl text-lg text-gray-900 dark:text-gray-100 leading-tight">Cambiar contraseña</h4>
-
-                      <div className="sm:col-span-1 col-span-3">
-                        <button
-                          type="submit"
-                          className="px-4 focus:outline-none py-2 mb-1 dark:text-yellowlight"
-                          onClick={handleClickEdit}
-                        >
-                          <span className="material-icons-outlined mr-2">&#xe3c9;</span>
-                        </button>
-                      </div>
-                    </div>
-
-                    <div className="grid grid-rows-2 grid-cols-1 md:flex -mx-3 mt-4">
-                      <div className="md:w-1/2 px-3 mb-3">
-                        <label
-                          htmlFor=""
-                          className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2"
-                        >
-                          Contraseña actual
-                      </label>
-                        <div className="flex">
-                          <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
-                            <i className="mdi mdi-lock-outline text-gray-400 text-lg"></i>
-                          </div>
-                          <input
-                            type="password"
-                            id="password"
-                            className="transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2 focus:ring-yellowlight w-full -ml-10 pl-10 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
-                            name="password"
-                            placeholder="* * * * * * * * *"
-                          />
-                        </div>
-                      </div>
-                      <div className="md:w-1/2 px-3 mb-3">
-                        <label
-                          htmlFor=""
-                          className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2"
-                        >
-                          Contraseña nueva
-                      </label>
-                        <div className="flex">
-                          <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
-                            <i className="mdi mdi-lock-outline text-gray-400 text-lg"></i>
-                          </div>
-                          <input
-                            type="password"
-                            id="password"
-                            className="transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2 focus:ring-yellowlight w-full -ml-10 pl-10 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
-                            name="password"
-                            placeholder="Ingresa tu contraseña"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Confirmar contraseña nueva */}
-                  <div className="sm:ml-6 ml-2">
-                    <label
-                      htmlFor=""
-                      className="text-xs font-semibold px-1 text-gray-500 dark:text-gray-300 self-end py-2"
-                    >
-                      Confirmar contraseña nueva
-                      </label>
-                    <div className="flex">
-                      <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
-                        <i className="mdi mdi-lock-outline text-gray-400 text-lg"></i>
-                      </div>
-                      <input
-                        type="password"
-                        id="password"
-                        className="transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2 focus:ring-yellowlight w-full -ml-10 pl-10 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
-                        name="password"
-                        placeholder="Ingresa tu contraseña"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Button guardar */}
-                  <div className="grid grid-cols-12 sm:ml-6 ml-2 mt-8">
-                    <button
-                      type="submit"
-                      className="transition duration-500 col-start-0 md:col-start-7 md:col-span-6 col-span-12 z-10 px-4 focus:outline-none
-                      bg-yellowmain hover:bg-yellow-600 focus:bg-yellow-600 text-white rounded-lg py-2 mb-1 font-semibold"
-                    >
-                      Guardar
-                  </button>
-                  </div>
-                </div>
+                <CambiarContrasena />
               </div>
             </div>
 
@@ -689,7 +610,7 @@ export const AjustesCuenta = () => {
                     <div className="grid grid-rows-2 grid-cols-1 md:flex -mx-3 mt-4">
                       <div className="md:w-1/2 px-3 mb-3">
                         <label
-                          htmlFor=""
+                           
                           className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2"
                         >
                           Organización
@@ -702,14 +623,14 @@ export const AjustesCuenta = () => {
                             type="text"
                             className="text-gray-500 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2 
                             focus:ring-yellowlight w-full -ml-10 sm:pl-10 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
-                            placeholder="Ingrese su organización"
+                            placeHolder="Ingrese su organización"
                             disabled={true}
                           />
                         </div>
                       </div>
                       <div className="md:w-1/2 px-3 mb-3">
                         <label
-                          htmlFor=""
+                           
                           className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2"
                         >
                           Lipsum
@@ -720,7 +641,7 @@ export const AjustesCuenta = () => {
                             className="text-gray-500 text-sm md:text-base sm:col-span-4 col-span-12 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2
                                   focus:ring-yellowlight w-full 2xl:w-96 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
 
-                            placeholder="Otro campo"
+                            placeHolder="Otro campo"
                             disabled={true}
                             onChange={handleClickEdit}
                           />
@@ -732,7 +653,7 @@ export const AjustesCuenta = () => {
                   {/* Tipo de cuenta */}
                   <div className="sm:ml-6 ml-2">
                     <label
-                      htmlFor=""
+                       
                       className="text-xs font-semibold px-1 text-gray-500 dark:text-gray-300 self-end py-2"
                     >
                       Tipo de cuenta
@@ -746,7 +667,7 @@ export const AjustesCuenta = () => {
                         type="text"
                         className="text-gray-500 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2 
                         focus:ring-yellowlight w-full -ml-10 sm:pl-10 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
-                        placeholder="Docente"
+                        placeHolder="Docente"
                         disabled={true}
                       //onChange={handleChange}
                       />
