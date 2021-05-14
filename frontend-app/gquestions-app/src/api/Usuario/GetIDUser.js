@@ -1,5 +1,5 @@
-export const GetIDUser = (email) => {
-    fetch(
+export const GetIDUser = async (email) => {
+    const response = await fetch(
         "http://127.0.0.1:8000/api/id-user/" +
         email,
         {
@@ -8,6 +8,9 @@ export const GetIDUser = (email) => {
         }
     ).then((res) => res.json())
         .then((json) => {
-            localStorage.setItem("id_user", json[0].id)
-        });
-}
+            return json[0].id
+        }).catch((err) => {
+            return false;
+        })
+    return response;
+}       
