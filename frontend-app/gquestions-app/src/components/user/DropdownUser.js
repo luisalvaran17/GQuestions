@@ -1,6 +1,7 @@
-import { Fragment, useEffect, useRef, useState } from 'react'
-import { Menu, Transition } from '@headlessui/react'
-import { Redirect } from 'react-router'
+import { Fragment, useEffect, useRef, useState } from 'react';
+import { Dialog, Menu, Transition } from '@headlessui/react';
+import { Redirect } from 'react-router';
+import { UpdateTerminosUserAPI } from '../../api/Usuario/UpdateTerminosUserAPI';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -13,6 +14,12 @@ export const DropdownUser = () => {
 
   // Hooks dark mode
   const darkModeRef = useRef();
+
+  // Hooks Terminos y condiciones
+  const [isOpen, setIsOpen] = useState(false)
+  const [terminos, setTerminos] = useState({
+    terminos_condiciones: false,
+  })
 
   useEffect(() => {
     if (localStorage.theme === 'dark') {
@@ -48,10 +55,143 @@ export const DropdownUser = () => {
     setAjustesCuenta(true)
   }
 
+  function openModal() {
+    setIsOpen(true)
+  }
+  
+  function closeModal() {
+    setIsOpen(false);
+  }
+
+  const closeModalNoAccept = async () => {
+    const id_user = localStorage.getItem('id_user');
+    setTerminos(
+      Object.assign(terminos, {
+        terminos_condiciones: false,
+      })
+    )
+    await UpdateTerminosUserAPI(id_user, terminos)
+    setIsOpen(false)
+  }
+
+  const closeModalAccept = async () => {
+    const id_user = localStorage.getItem('id_user');
+    setTerminos(
+      Object.assign(terminos, {
+        terminos_condiciones: true,
+      })
+    )
+    await UpdateTerminosUserAPI(id_user, terminos);
+    setIsOpen(false);
+  }
+
   if (closeSession === false && ajustesCuenta === false) {
     return (
       <div ref={darkModeRef}>
         {/* Profile dropdown */}
+
+        {/* Términos y condiciones Modal */}
+        <Transition appear show={isOpen} as={Fragment}>
+          <Dialog
+            as="div"
+            className="fixed inset-0 z-10 overflow-y-auto"
+            onClose={closeModal}
+          >
+            {/* Use the overlay to style a dim backdrop for your dialog */}
+            <Dialog.Overlay className="fixed inset-0 bg-black opacity-60" />
+            <div className="min-h-screen px-4 text-center">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0"
+                enterTo="opacity-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100"
+                leaveTo="opacity-0"
+              >
+                <Dialog.Overlay className="fixed inset-0" />
+              </Transition.Child>
+
+              {/* This element is to trick the browser into centering the modal contents. */}
+              <span
+                className="inline-block h-screen align-middle"
+                aria-hidden="true"
+              >
+                &#8203;
+            </span>
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <div className="inline-block w-full max-w-3xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                  <Dialog.Title
+                    as="h3"
+                    className="text-xl font-medium leading-6 text-gray-900"
+                  >
+                    Términos y condiciones
+                </Dialog.Title>
+                  <div className="mt-2">
+                    <ul className="px-6 list-disc space-y-2 md:text-justify">
+                      <li>
+                        <p className="text-sm text-gray-500">
+                          Debido a que los modelos de lenguaje a gran escala como GPT-2 no distinguen la realidad de la ficción, el texto generado no debe ser considerado
+                          verdadero.
+                        </p>
+                      </li>
+                      <li>
+                        <p className="text-sm text-gray-500">
+                          El uso de GPT-2 en esta aplicación web tiene el propósito de ayudar en el aprendizaje del idioma Inglés (ayuda gramatical, vocabulario, lectura y escritura).
+                          </p>
+                      </li>
+                      <li>
+                        <p className="text-sm text-gray-500">
+                          Es importante mencionar que el modelo GPT-2 puede reflejar sesgos inherentes a los sistemas en los que fueron entrenados, sin embargo, se ha implementado una estrategia que intenta reducir los posibles sesgos que pueda presentar el sistema en esta implementación.
+                        </p>
+                      </li>
+                      <li className="list-none">
+                        <p className="text-sm text-gray-500 p-4 bg-gray-100 rounded-xl text-left">
+                          "No encontramos diferencias estadísticamente significativas en las sondas de sesgo de género, raza y religión entre 774M y 1.5B, lo que implica que todas las versiones de GPT-2 deben abordarse con niveles similares de precaución en los casos de uso que son sensibles a los sesgos en torno a los atributos humanos."
+                            <b> Model card GPT-2</b><br></br>
+                          <a className="text-blue-600 underline outline-none focus:outline-none"
+                            href="https://github.com/openai/gpt-2/blob/master/model_card.md#out-of-scope-use-cases"
+                            target="_blank" rel="noreferrer">
+                            https://github.com/openai/gpt-2/blob/master/model_card.md#out-of-scope-use-cases
+                            </a>
+                        </p>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div className="flex mt-4 pr-6 justify-end space-x-4">
+                    <button
+                      type="button"
+                      className="transition duration-500 inline-flex justify-center px-12 py-2 text-sm font-medium text-red-900 bg-red-100 border border-transparent 
+                        rounded-md hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                      onClick={closeModalNoAccept}
+                    >
+                      No acepto
+                      </button>
+                    <button
+                      type="button"
+                      className="transition duration-500 inline-flex justify-center px-12 py-2 text-sm font-medium text-green-900 bg-green-100 border border-transparent 
+                        rounded-md hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                      onClick={closeModalAccept}
+                    >
+                      Acepto
+                      </button>
+                  </div>
+                </div>
+              </Transition.Child>
+            </div>
+          </Dialog>
+        </Transition>
+
+
         <Menu as="div" className="absolute xl:left-5 left-3 bottom-5 ml-3">
           {({ open }) => (
             <>
@@ -117,6 +257,7 @@ export const DropdownUser = () => {
                   <Menu.Item>
                     {({ active }) => (
                       <button
+                        onClick={openModal}
                         className={classNames(
                           active ? 'bg-gray-100' : '',
                           'transition duration-500 w-full outline-none focus:outline-none text-left font-bold px-4 py-2 text-sm text-gray-700 dark:text-gray-100 dark:hover:bg-yellowlight dark:hover:text-black'

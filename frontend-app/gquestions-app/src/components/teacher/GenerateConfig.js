@@ -362,7 +362,7 @@ export const GenerateConfig = () => {
                     <div className="flex mt-4 pr-6 justify-end space-x-4">
                       <button
                         type="button"
-                        className="inline-flex justify-center px-12 py-2 text-sm font-medium text-red-900 bg-red-100 border border-transparent 
+                        className="transition duration-500 inline-flex justify-center px-12 py-2 text-sm font-medium text-red-900 bg-red-100 border border-transparent 
                         rounded-md hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                         onClick={closeModalNoAccept}
                       >
@@ -370,7 +370,7 @@ export const GenerateConfig = () => {
                       </button>
                       <button
                         type="button"
-                        className="inline-flex justify-center px-12 py-2 text-sm font-medium text-green-900 bg-green-100 border border-transparent 
+                        className="transition duration-500 inline-flex justify-center px-12 py-2 text-sm font-medium text-green-900 bg-green-100 border border-transparent 
                         rounded-md hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                         onClick={closeModalAccept}
                       >
