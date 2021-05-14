@@ -6,7 +6,7 @@ ROL_USER = (('Estudiante', 'Estudiante'),
             ('Docente', 'Docente'),
             )
 class MyAccountManger (BaseUserManager):
-    def create_user(self, email, first_name, last_name, rol, fecha_nac, edad,  password=None,):
+    def create_user(self, email, first_name, last_name, rol, fecha_nac, edad, organizacion, terminos_condiciones, password=None,):
         if not email:
             raise ValueError("Users must have an email address")
         user = self.model(
@@ -16,12 +16,14 @@ class MyAccountManger (BaseUserManager):
             rol = rol,
             fecha_nac = fecha_nac,
             edad = edad,
+            organizacion = organizacion,
+            terminos_condiciones = terminos_condiciones,
         )
         user.set_password(password)
         user.save(using=self.db)
         return user
 
-    def create_superuser(self,  email, first_name, last_name, rol, fecha_nac, edad,  password=None,):
+    def create_superuser(self,  email, first_name, last_name, rol, fecha_nac, edad, organizacion, terminos_condiciones, password=None,):
         user = self.create_user (
             email = self.normalize_email(email),
             password = password,
@@ -30,6 +32,8 @@ class MyAccountManger (BaseUserManager):
             rol = rol,
             fecha_nac = fecha_nac,
             edad = edad,
+            organizacion = organizacion,
+            terminos_condiciones = terminos_condiciones,
         )
         user.is_admin = True
         user.is_superuser = True
@@ -49,6 +53,8 @@ class Account(AbstractUser):
     rol             = models.CharField(choices=ROL_USER, max_length=20, null=False)
     fecha_nac       = models.DateField(null=True)
     edad            = models.SmallIntegerField(null=True)
+    organizacion    = models.CharField(max_length=100, null=True)
+    terminos_condiciones = models.BooleanField(default=False)
 
     objects = MyAccountManger()
 

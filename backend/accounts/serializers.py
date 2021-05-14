@@ -5,8 +5,13 @@ from .models import Account
 class AccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = Account
-        fields = ('id', 'email', 'password', 'first_name', 'last_name', 'rol', 'fecha_nac', 'edad', 'is_admin', 'is_active', 'is_staff', 'is_superuser',
+        fields = ('id', 'email', 'password', 'first_name', 'last_name', 'rol', 'fecha_nac', 'edad', 'organizacion', 'terminos_condiciones', 'is_admin', 'is_active', 'is_staff', 'is_superuser',
                   'hide_email')
+
+class AccountSerializerUpdate(serializers.ModelSerializer):
+    class Meta:
+        model = Account
+        fields = ('id', 'first_name', 'last_name', 'fecha_nac', 'organizacion', 'terminos_condiciones')
 
 class AccountSerializerForNested(serializers.ModelSerializer):
     class Meta:

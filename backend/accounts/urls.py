@@ -7,7 +7,9 @@ from accounts import views
 urlpatterns = [
     path('api/usuarios/', get_users, name='usuarios'),
     path('api/usuarios/<int:user>', get_user),
-    path('api/update-info-user/<int:user>', update_user, name='update_user'),
+    path('api/update-info-user/<int:id_user>', update_user, name='update_user'),
+    path('api/update-organizacion-user/<int:id_user>', update_organizacion_user, name='update_org'),
+    path('api/update-terminos-user/<int:id_user>', update_terminos_user, name='update_terminos'),
     path('api/register/', RegisterAPI.as_view(), name='register'),
     path('api/login/', Login.as_view(), name='login'),
     path('api/logout/', knox_views.LogoutView.as_view(), name='logout'),

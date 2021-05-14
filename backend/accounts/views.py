@@ -68,21 +68,35 @@ def get_users(request):
 # Update usuarios
 @api_view(["PUT"])
 @permission_classes([IsAuthenticated])
-def update_user(request, user):
-    user = request.user.email
-    payload = json.loads(request.body)
-    try:
-        user_item = User.objects.filter(email=user)
-        # returns 1 or 0
-        user_item.update(**payload)
-        user = Account.objects.get(email=user)
-        # user_info_personal = user.usuario.edad Así se obtiene una tupla de una relación
-        serializer = AccountSerializer(user)
-        return JsonResponse({'user': serializer.data}, safe=False, status=status.HTTP_200_OK)
-    except ObjectDoesNotExist as e:
-        return JsonResponse({'error': str(e)}, safe=False, status=status.HTTP_404_NOT_FOUND)
-    except Exception:
-        return JsonResponse({'error': 'Something terrible went wrong'}, safe=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+def update_user(request, id_user):
+    user = Account.objects.get(id=id_user)
+    serializer = AccountSerializerUpdate(user, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# Update organizacion user
+@api_view(["PUT"])      
+@permission_classes([IsAuthenticated])
+def update_organizacion_user(request, id_user):
+    user = Account.objects.get(id=id_user)
+    serializer = AccountSerializerUpdate(user, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# Update terminos y condiciones user
+@api_view(["PUT"])      
+@permission_classes([IsAuthenticated])
+def update_terminos_user(request, id_user):
+    user = Account.objects.get(id=id_user)
+    serializer = AccountSerializerUpdate(user, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # Register usuarios
 class RegisterAPI(generics.GenericAPIView):
