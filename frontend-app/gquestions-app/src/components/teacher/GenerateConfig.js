@@ -106,7 +106,6 @@ export const GenerateConfig = () => {
   const getTerminos = async () => {
     const id_user = localStorage.getItem('id_user');
     const user = await GetUserAPI(id_user)
-    console.log(user)
     const terminos_condiciones = user.users[0].terminos_condiciones
     setIsOpen(!terminos_condiciones)
   }

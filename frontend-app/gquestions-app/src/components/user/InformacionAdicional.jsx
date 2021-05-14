@@ -1,16 +1,24 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import { GetUserAPI } from '../../api/Usuario/GetUserAPI';
 import { UpdateOrganizacionUserAPI } from '../../api/Usuario/UpdateOrganizacionUserAPI';
 
-export const InformacionAdicional = (props) => {
+export const InformacionAdicional = () => {
 
     // State button edit
     const [disableEditInfo, setDisableEditInfo] = useState(true);
 
     const divRefSuccessMessage = useRef();
 
+    const [organizacionRender, setOrganizacionRender] = useState("")
+    const [tipoCuenta, setTipoCuenta] = useState("")
+
     const [informacionAdicional, setInformacionAdicional] = useState({
-        organizacion: props.user[0].organizacion,
+        organizacion: '',
     })
+
+    useEffect(() => {
+        getUser();// eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const onChangeInfoAdicional = (e) => {
         const name = e.target.name;
@@ -23,9 +31,20 @@ export const InformacionAdicional = (props) => {
         )
     }
 
+    const getUser = async () => {
+        const id_user = localStorage.getItem('id_user');
+        const users = await GetUserAPI(id_user);
+        const user = users.users;
+
+        user.map(item => {
+            setOrganizacionRender(item.organizacion);
+            setTipoCuenta(item.rol);
+            return true;
+        })
+    }
+
     const handleClickUpdateInfoAdicional = async () => {
         const id_user = localStorage.getItem('id_user');
-
         const response = await UpdateOrganizacionUserAPI(id_user, informacionAdicional);
 
         if (response) {
@@ -35,7 +54,6 @@ export const InformacionAdicional = (props) => {
         else {
             console.log("Ha ocurrido un error en el servidor")
         }
-
     }
 
     const handleClickEdit = () => {
@@ -87,7 +105,7 @@ export const InformacionAdicional = (props) => {
                                     disableEditInfo
                                         ? "bg-gray-200 text-gray-500 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2 focus:ring-yellowlight w-full -ml-10 sm:pl-10 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 shadow"
                                         : "bg-white text-gray-900 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2 focus:ring-yellowlight w-full -ml-10 sm:pl-10 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 shadow"}
-                                defaultValue={props.user[0].organizacion}
+                                defaultValue={organizacionRender}
                                 onChange={onChangeInfoAdicional}
                                 name="organizacion"
                                 id="organizacion"
@@ -115,9 +133,8 @@ export const InformacionAdicional = (props) => {
                     <input
                         type="text"
                         className="bg-gray-200 text-gray-500 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2 focus:ring-yellowlight w-full -ml-10 sm:pl-10 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 shadow"
-                        defaultValue={props.user[0].rol}
+                        defaultValue={tipoCuenta}
                         disabled={true}
-                    //onChange={handleChange}
                     />
                 </div>
             </div>
@@ -148,7 +165,6 @@ export const InformacionAdicional = (props) => {
                     </svg>
                 </span>
             </div>
-
 
             {/* Button guardar */}
             <div className="grid grid-cols-12 sm:ml-6 ml-2 mt-8">
