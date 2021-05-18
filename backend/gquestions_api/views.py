@@ -43,6 +43,19 @@ class GeneracionTipoPreguntaView(generics.CreateAPIView):
     queryset = TipoPreguntaModel.objects.all()
     serializer_class = TipoPreguntaSerializer
 
+# Query count generaciones
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def GetAllCountsGeneracionesView(request, account):
+    dict_count = {}
+    generacion = GeneracionModel.objects.filter(account=account)
+    generacion_count = generacion.count()
+    serializer = GeneracionSerializer(generacion, many=True)
+    dict_count ['generaciones_count'] = generacion_count
+    dict_count['generaciones'] = serializer.data
+
+    return JsonResponse(dict_count, safe=False, status=status.HTTP_200_OK)
+
 # Query Generaciones usuario
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])

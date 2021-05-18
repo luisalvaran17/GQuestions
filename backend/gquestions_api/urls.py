@@ -12,6 +12,7 @@ from .views import GeneracionPreguntaListView
 from .views import ExamenListView
 from .views import GetGeneracionesUsuarioView
 from .views import GetGeneracionUsuarioView
+from .views import GetAllCountsGeneracionesView
 
 from django.urls import include, path
 
@@ -23,6 +24,7 @@ urlpatterns = [ # todo: acomodar las rutas (ej. create or list or delete etc)
     path('api/generacion/create/tipo-pregunta', GeneracionTipoPreguntaView.as_view()),
     path('api/generacion/get/generaciones/<slug:account>', GetGeneracionesUsuarioView),
     path('api/generacion/get/<slug:id_generacion>', GetGeneracionUsuarioView),
+    path('api/generacion/get/count/generaciones/<slug:account>', GetAllCountsGeneracionesView),
 
     # Generacion textos
     path('api/generacion/list/textos', GeneracionTextoListView.as_view()),
