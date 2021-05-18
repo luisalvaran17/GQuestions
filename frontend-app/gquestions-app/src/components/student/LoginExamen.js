@@ -26,9 +26,9 @@ export const LoginExamen = () => {
       <Helmet>
         <title>Ingresar a examen - GQuestions</title>
       </Helmet>
-      <div className="xl:absolute xl:left-0">
-        <Navbar className="fixed" />
-      </div>
+
+      <Navbar className="fixed" />
+      
       <div className="container flex justify-center items-center">
         <div className="">
           <div className="grid text-center cols-span-12 mx-4">

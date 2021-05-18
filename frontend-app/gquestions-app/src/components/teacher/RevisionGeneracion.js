@@ -299,9 +299,8 @@ export const RevisionGeneracion = (props) => {
             rel="stylesheet"></link>
         </Helmet>
 
-        <div className="">
-          <Navbar className="fixed" />
-        </div>
+        <Navbar className="fixed" />
+
         <div className="container xl:mx-32 mx-4 md:mx-8 lg:mx-16 mt-8 ">
           <div className="grid grid-rows space-y-8 mb-8">
             <h1 className="font-bold xl:text-5xl md:text-4xl sm:text-3xl text-xl dark:text-white">
@@ -319,7 +318,7 @@ export const RevisionGeneracion = (props) => {
                   <CustomScrollbars
                     autoHide
                     autoHideTimeout={900}
-                    autoHideDuration={400} 
+                    autoHideDuration={400}
                     style={{ height: "50vh" }}
                     className="m-0 overflow-auto bg-white border shadow-md border-gray-500 sm:rounded-md 
                     rounded-r-none w-full lg:mr-16 md:mr-8 mr-0 md:text-base text-sm">
@@ -386,7 +385,7 @@ export const RevisionGeneracion = (props) => {
                     autoHide
                     autoHideTimeout={900}
                     autoHideDuration={400}
-                    className="m-0 overflow-auto" 
+                    className="m-0 overflow-auto"
                     style={{ height: "40vh" }}>
                     <textarea
                       ref={textAreaRef}

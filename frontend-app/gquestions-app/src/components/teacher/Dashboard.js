@@ -87,7 +87,7 @@ export const Dashboard = () => {
     return (
       <div
         ref={darkModeRef}
-        className="flex container w-screen h-screen font-manrope"
+        className="flex container w-screen font-manrope"
         style={{
           backgroundImage: `url(${darkModeBool ? backgroundGeneralYellowDark : backgroundGeneralYellowLight})`,
           width: "100%",
@@ -103,72 +103,82 @@ export const Dashboard = () => {
           <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
             rel="stylesheet"></link>
         </Helmet>
-        <div>
-          <Navbar className='fixed' />
-        </div>
 
-        <div data-aos="fade-right" className='container lg:ml-32 sm:mx-16 mx-4 mt-8 lg:text-base text-sm dark:text-white'>
-          <h1 className='font-black xl:text-5xl md:text-4xl text-2xl md:text-left md:mb-10 '>
-            Dashboard
+        <Navbar className='fixed' />
+
+        <CustomScrollbars
+          autoHide
+          autoHideTimeout={900}
+          autoHideDuration={400}
+          style={{ height: "100vh" }}
+          data-aos="fade-right"
+          className='container lg:text-base text-sm dark:text-white'>
+
+
+          <div className="grid grid-rows xl:pl-32 px-8 py-8 md:px-8 lg:pl-16">
+            <h1 className='font-black xl:text-5xl md:text-4xl text-2xl md:text-left md:mb-10 '>
+              Dashboard
           </h1>
-          <p className="text-gray-500 font-semibold text-sm md:text-base dark:text-gray-200">
-            Aquí puedes deslizar y visualizar tus exámenes generados
+            <p className="text-gray-500 font-semibold text-sm md:text-base dark:text-gray-200">
+              Aquí puedes deslizar y visualizar tus exámenes generados
           </p>
-          {/* <button
+            {/* <button
           type="submit"
           className="md:text-base text-sm z-10 pl-1 block w-52 focus:outline-none bg-red-200 hover:bg-red-300 focus:bg-red-300 text-black rounded-lg px-2 py-2 font-semibold"
           onClick={handleClickPrueba}
           >
           Pruebas
         </button> */}
-          <div className="mt-10">
-            <p className={generacionesEmpty ? "hidden" : "text-gray-500 dark:text-gray-200 mb-4 uppercase text-lg"}>Historial de generaciones</p>
-          </div>
-          <CustomScrollbars
-            className={generacionesEmpty ? 'hidden' : ''}
-            autoHide
-            autoHideTimeout={900}
-            autoHideDuration={400}
-            style={{ height: "70vh" }}>
-            <ul >
-              {
-                generaciones.map((generacion, contador = 1) => (
-                  <li
-                    key={contador}
-                    className="transition duration-500 py-4 rounded-xl hover:bg-gray-300 px-4 hover:bg-opacity-40 cursor-pointer font-bold border-b border-gray-300 dark:border-gray-700">
-                    <div className="grid grid-rows-">
-                      <p className="hidden sm:block">Generación número: {contador = contador + 1}</p>
-                      <div className="grid grid-cols-12">
-                        <p className="col-span-12 mb-4 sm:col-span-8 text-gray-500 text-sm dark:text-gray-400">Públicado - {generacion.fecha_generacion} | Número de examenes: {generacion.n_examenes} | Número de preguntas: {generacion.n_preguntas * generacion.n_examenes}</p>
-                        <div className="col-span-12 sm:col-span-4 place-self-center sm:place-self-end">
+            <div className="mt-10">
+              <p className={generacionesEmpty ? "hidden" : "text-gray-500 dark:text-gray-200 mb-4 uppercase text-lg"}>Historial de generaciones</p>
+            </div>
+            <CustomScrollbars
+              className={generacionesEmpty ? 'hidden' : ''}
+              autoHide
+              autoHideTimeout={900}
+              autoHideDuration={400}
+              style={{ height: "70vh" }}>
+              <ul >
+                {
+                  generaciones.map((generacion, contador = 1) => (
+                    <li
+                      key={contador}
+                      className="transition duration-500 py-4 rounded-xl hover:bg-gray-300 px-4 hover:bg-opacity-40 cursor-pointer font-bold border-b border-gray-300 dark:border-gray-700">
+                      <div className="grid grid-rows-">
+                        <p className="hidden sm:block">Generación número: {contador = contador + 1}</p>
+                        <div className="grid grid-cols-12">
+                          <p className="col-span-12 mb-4 sm:col-span-8 text-gray-500 text-sm dark:text-gray-400">Públicado - {generacion.fecha_generacion} | Número de examenes: {generacion.n_examenes} | Número de preguntas: {generacion.n_preguntas * generacion.n_examenes}</p>
+                          <div className="col-span-12 sm:col-span-4 place-self-center sm:place-self-end">
 
-                          <span
-                            className="hover:text-yellowmain text-gray-900 dark:text-gray-50 dark:hover:text-yellowmain material-icons mr-2"
-                            onClick={onClickVerGeneracion}
-                            id={generacion.id}
-                          >&#xe8f4;
+                            <span
+                              className="hover:text-yellowmain text-gray-900 dark:text-gray-50 dark:hover:text-yellowmain material-icons mr-2"
+                              onClick={onClickVerGeneracion}
+                              id={generacion.id}
+                            >&#xe8f4;
                           </span>
 
-                          <span
-                            className="hover:text-yellowmain text-gray-900 dark:text-gray-50 dark:hover:text-yellowmain material-icons mr-2"
-                            onClick={onClickDownload}
-                            id={generacion.id}
-                          >&#xf090;
+                            <span
+                              className="hover:text-yellowmain text-gray-900 dark:text-gray-50 dark:hover:text-yellowmain material-icons mr-2"
+                              onClick={onClickDownload}
+                              id={generacion.id}
+                            >&#xf090;
                             </span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </li>)
-                )
-              }
+                    </li>)
+                  )
+                }
 
-            </ul>
-          </CustomScrollbars>
-          <div className={generacionesEmpty ? 'py-40 px-6 select-none' : 'hidden'}>
-            <p className="dark:text-gray-200 text-gray-800 text-center">Oops... Todavía no tienes generaciones, puedes ir a la pestaña de generación y generar tus primeros exámenes</p>
-            <img src={emptyImage} alt="empty" className="md:w-96 py-8 sm:w-64 w-64" style={{ display: "block", margin: "auto" }}></img>
+              </ul>
+            </CustomScrollbars>
+            <div className={generacionesEmpty ? 'py-40 px-6 select-none' : 'hidden'}>
+              <p className="dark:text-gray-200 text-gray-800 text-center">Oops... Todavía no tienes generaciones, puedes ir a la pestaña de generación y generar tus primeros exámenes</p>
+              <img src={emptyImage} alt="empty" className="md:w-96 py-8 sm:w-64 w-64" style={{ display: "block", margin: "auto" }}></img>
+            </div>
+
           </div>
-        </div>
+        </CustomScrollbars>
         <DropdownUser />
       </div>
     );

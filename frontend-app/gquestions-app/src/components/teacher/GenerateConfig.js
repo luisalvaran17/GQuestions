@@ -16,6 +16,7 @@ import { Dialog, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
 import { GetUserAPI } from '../../api/Usuario/GetUserAPI';
 import { UpdateTerminosUserAPI } from "../../api/Usuario/UpdateTerminosUserAPI";
+import Scrollbars from "react-custom-scrollbars";
 
 export const GenerateConfig = () => {
   const divRefErrorMessage = React.createRef();
@@ -248,7 +249,7 @@ export const GenerateConfig = () => {
         terminos_condiciones: true,
       })
     )
-    
+
     await UpdateTerminosUserAPI(id_user, terminos)
   }
 
@@ -259,9 +260,10 @@ export const GenerateConfig = () => {
   // CONDICIONAL PARA REDIRECCIONAR CON PROPS EN CASO DE QUE LA GENERACIÓN SEA EXITOSA (ENVIAR A SIGUIENTE COMPONENT FUNCTIONAL)
   if (!irRevisionTexto) {
     return (
+
       <div
         ref={darkModeRef}
-        className="flex container w-screen h-screen font-manrope"
+        className="flex container w-screen font-manrope"
         style={{
           backgroundImage: `url(${darkModeBool ? backgroundGeneralYellowDark : backgroundGeneralYellowLight})`,
           width: "100%",
@@ -275,11 +277,15 @@ export const GenerateConfig = () => {
         <Helmet>
           <title>Generación - GQuestions</title>
         </Helmet>
-        <div>
-          <Navbar className="fixed" />
-        </div>
 
-        <div data-aos="fade-right" className="container xl:mx-32 mx-4 md:mx-8 lg:mx-16 mt-8">
+        <Navbar className="" />
+
+        <CustomScrollbars
+          autoHide
+          autoHideTimeout={900}
+          autoHideDuration={400}
+          style={{ height: "100vh" }}
+          data-aos="fade-right" className="container">
 
           {/* Términos y condiciones Modal */}
           <Transition appear show={isOpen} as={Fragment}>
@@ -348,9 +354,9 @@ export const GenerateConfig = () => {
                           <p className="text-sm text-gray-500 p-4 bg-gray-100 rounded-xl text-left">
                             "No encontramos diferencias estadísticamente significativas en las sondas de sesgo de género, raza y religión entre 774M y 1.5B, lo que implica que todas las versiones de GPT-2 deben abordarse con niveles similares de precaución en los casos de uso que son sensibles a los sesgos en torno a los atributos humanos."
                             <b> Model card GPT-2</b><br></br>
-                            <a className="text-blue-600 underline outline-none focus:outline-none" 
-                            href="https://github.com/openai/gpt-2/blob/master/model_card.md#out-of-scope-use-cases" 
-                            target="_blank" rel="noreferrer">
+                            <a className="text-blue-600 underline outline-none focus:outline-none"
+                              href="https://github.com/openai/gpt-2/blob/master/model_card.md#out-of-scope-use-cases"
+                              target="_blank" rel="noreferrer">
                               https://github.com/openai/gpt-2/blob/master/model_card.md#out-of-scope-use-cases
                             </a>
                           </p>
@@ -382,7 +388,7 @@ export const GenerateConfig = () => {
             </Dialog>
           </Transition>
 
-          <div className="grid grid-rows">
+          <div className="grid grid-rows xl:pl-32 px-8 py-8 md:px-8 lg:pl-16">
             <h1 className="font-black xl:text-5xl md:text-4xl sm:text-2xl md:text-left mb-12 lg:mb-20 text-2xl dark:text-white">
               Parámetros de generación
             </h1>
@@ -589,7 +595,7 @@ export const GenerateConfig = () => {
               </svg>
             </span>
           </div>
-        </div>
+        </CustomScrollbars>
         <DropdownUser />
       </div>
     );
@@ -599,3 +605,20 @@ export const GenerateConfig = () => {
     )
   }
 }
+
+// Funciones que cambian el estilo del scroll y otras props de una librería
+const renderThumb = ({ style, ...props }) => {
+  const thumbStyle = {
+    borderRadius: 6,
+    backgroundColor: 'rgba(35, 49, 86, 0.8)',
+  };
+  return <div style={{ ...style, ...thumbStyle }} {...props} />;
+};
+
+const CustomScrollbars = props => (
+  <Scrollbars
+    renderThumbHorizontal={renderThumb}
+    renderThumbVertical={renderThumb}
+    {...props}
+  />
+);

@@ -17,7 +17,7 @@ import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { CarouselEjemplo } from '../components/home/CarouselEjemplos';
 import { Footer } from '../components/home/Footer';
-import { useHome } from '../hooks/useHome'
+import { useHome } from '../hooks/useHome';
 
 export const Homepage = () => {
 
@@ -126,7 +126,7 @@ export const Homepage = () => {
             }
           >
             <a
-              className='animation-cards-examples flex items-center flex-shrink-0  mr-0 lg:ml-16'
+              className='animation-cards-examples flex items-center flex-shrink-0  mr-0 sm:ml-16 ml-4'
               href='#inicio'
             >
               <img
@@ -140,7 +140,7 @@ export const Homepage = () => {
             </span>
             </a>
 
-            <div className='block lg:hidden mr-4'>
+            <div className='block lg:hidden sm:mr-16 mr-4'>
               <button
                 onClick={addRemoveClassMenu}
                 id='boton'
@@ -159,38 +159,38 @@ export const Homepage = () => {
             <div
               ref={divRefMenu}
               id='menu'
-              className='hidden w-full text-center lg:text-left gap-x-2 flex-grow lg:flex lg:items-center lg:w-auto font-medium mt-3'
+              className='hidden w-full sm:ml-16 ml-4 mr-2 lg:text-left gap-x-2 flex-grow lg:flex lg:items-center lg:w-auto font-medium mt-3'
             >
               <div className='text-sm lg:flex-grow mb-2'>
                 <a
                   href='#about'
-                  className='font-manrope transition duration-500  p-2 block mt-4 lg:inline-block lg:mt-0 ml-3 mr-2 rounded-md hover:bg-yellowlight hover:text-yellow-800'
+                  className='transition duration-500 p-2 block mt-2 lg:inline-block lg:mt-0 ml-3 mr-2 rounded-md hover:bg-yellowlight hover:text-yellow-800'
                 >
                   Acerca de
               </a>
                 <a
                   href='#caracteristicas'
                   onClick={scrollAnimation}
-                  className='transition duration-500 p-2 block mt-4 lg:inline-block lg:mt-0 ml-3 mr-2 rounded-md hover:bg-yellowlight hover:text-yellow-800'
+                  className='transition duration-500 p-2 block mt-2 lg:inline-block lg:mt-0 ml-3 mr-2 rounded-md hover:bg-yellowlight hover:text-yellow-800'
                 >
                   Características
               </a>
                 <a
                   href='#ventajas'
-                  className='transition duration-500 p-2 block mt-4 lg:inline-block lg:mt-0 ml-3 mr-2 rounded-md hover:bg-yellowlight hover:text-yellow-800'
+                  className='transition duration-500 p-2 block mt-2 lg:inline-block lg:mt-0 ml-3 mr-2 rounded-md hover:bg-yellowlight hover:text-yellow-800'
                 >
                   Ventajas
               </a>
                 <a
                   href='#ejemplos'
-                  className='transition duration-500 p-2 block mt-4 lg:inline-block lg:mt-0 ml-2 rounded-md hover:bg-yellowlight hover:text-yellow-800'
+                  className='transition duration-500 p-2 block mt-2 lg:inline-block lg:mt-0 ml-3 mr-2 rounded-md hover:bg-yellowlight hover:text-yellow-800'
                 >
                   Ejemplos
               </a>
               </div>
 
               {/* Night or light mode */}
-              <div className="flex items-center justify-items-center justify-self-center place-content-center py-2 mr-2">
+              <div className="flex items-center justify-items-center justify-self-center place-content-center py-2 ml-3 mr-2 mb-2 rounded-lg bg-gray-100 lg:bg-transparent  lg:dark:bg-darkColor dark:bg-darkGrayColor2">
                 <span className="">
                   <svg className="h-5 w-5 dark:text-gray-400 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
@@ -212,19 +212,19 @@ export const Homepage = () => {
                 </span>
               </div>
 
-              <div>
+              <div className="ml-3 mr-2 lg:m-0">
                 <Link
                   to='/login'
                   className='lg:m-0 mb-2 transition duration-500 inline-block shadow-md md:text-base text-sm text-darkGrayColor text-center
-                   z-10 w-full max-w-xs mx-auto bg-yellowlight focus:bg-yellowlightdark hover:bg-yellowlightdark rounded-lg px-2 py-2 font-semibold outline-none focus:outline-none'>
+                   z-10 w-full mx-auto bg-yellowlight focus:bg-yellowlightdark hover:bg-yellowlightdark rounded-lg px-2 py-2 font-semibold outline-none focus:outline-none'>
                   Iniciar sesión
               </Link>
               </div>
-              <div className='lg:mr-16'>
+              <div className='ml-3 mr-2 lg:mr-16 lg:ml-0'>
                 <Link
                   to='/register'
                   className='transition duration-500 inline-block shadow-md md:text-base text-sm text-white text-center 
-                  z-10 w-full max-w-xs mx-auto bg-yellowmain hover:bg-yellow-600 focus:bg-yellow-600 rounded-lg px-2 py-2 font-semibold outline-none focus:outline-none'
+                  z-10 w-full mx-auto bg-yellowmain hover:bg-yellow-600 focus:bg-yellow-600 rounded-lg px-2 py-2 font-semibold outline-none focus:outline-none'
                 >
                   Registrarse
               </Link>
@@ -232,6 +232,7 @@ export const Homepage = () => {
             </div>
           </nav>
           {/* Body */}
+          
           <div
             className='mx-auto bg-local my-auto w-full py-32 xl:py-64 dark:bg-darkColor dark:text-white'
             style={{
@@ -596,7 +597,7 @@ export const Homepage = () => {
             }
           >
             <a
-              className='animation-cards-examples flex items-center flex-shrink-0  mr-0 lg:ml-16'
+              className='animation-cards-examples flex items-center flex-shrink-0  mr-0 sm:ml-16 ml-4'
               href='#inicio'
             >
               <img
@@ -605,12 +606,12 @@ export const Homepage = () => {
                 height='40px'
                 width='90px'
               />
-              <span className='font-black font-asap text-xl tracking-tight lg:mr-4'>
+              <span className='font-black font-asap xl:text-xl text-lg tracking-tight lg:mr-0'>
                 GQuestions
             </span>
             </a>
 
-            <div className='block lg:hidden mr-4'>
+            <div className='block lg:hidden sm:mr-16 mr-4'>
               <button
                 onClick={addRemoveClassMenu}
                 id='boton'
@@ -629,12 +630,12 @@ export const Homepage = () => {
             <div
               ref={divRefMenu}
               id='menu'
-              className='hidden w-full text-center lg:text-left gap-x-2 flex-grow lg:flex lg:items-center lg:w-auto font-medium mt-3'
+              className='hidden w-full sm:ml-16 ml-4 mr-2 lg:text-left gap-x-2 flex-grow lg:flex lg:items-center lg:w-auto font-medium mt-3'
             >
               <div className='text-sm lg:flex-grow mb-2'>
                 <a
                   href='#about'
-                  className='transition duration-500  p-2 block mt-4 lg:inline-block lg:mt-0 ml-3 mr-2 rounded-md hover:bg-yellowlight hover:text-yellow-800'
+                  className='transition duration-500 p-2 block mt-4 lg:inline-block lg:mt-0 ml-3 mr-2 rounded-md hover:bg-yellowlight hover:text-yellow-800'
                 >
                   Acerca de
               </a>
@@ -660,7 +661,7 @@ export const Homepage = () => {
               </div>
 
               {/* Night or light mode */}
-              <div className="flex items-center justify-items-center justify-self-center place-content-center py-2 mr-2">
+              <div className="flex items-center justify-items-center justify-self-center place-content-center py-2 ml-3 mr-2 mb-2 rounded-lg bg-gray-100 lg:bg-transparent lg:dark:bg-darkColor dark:bg-darkGrayColor2 sm:mr-2">
                 <span className="">
                   <svg className="h-5 w-5 dark:text-gray-400 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
@@ -682,11 +683,11 @@ export const Homepage = () => {
                 </span>
               </div>
 
-              <div className="mr-10">
+              <div className="ml-3 mr-2 sm:mr-16">
                 <Link
                   to='teacher/generacion'
                   className='transition duration-500 inline-block shadow-md text-sm lg:mr-3 lg:ml-0 text-darkGrayColor text-center  
-                  ml-10 z-10 w-full max-w-xs mx-auto bg-yellowlight focus:bg-yellowlightdark hover:bg-yellowlightdark 
+                  z-10 w-full mx-auto bg-yellowlight focus:bg-yellowlightdark hover:bg-yellowlightdark 
                   rounded-lg px-2 py-2 font-semibold lg:mb-0 mb-2'
                 >
                   Ir a tu cuenta
@@ -694,7 +695,7 @@ export const Homepage = () => {
 
                 <div className=''>
                   <p
-                    className='inline-block text-sm  lg:mr-3 lg:ml-0 ml-10 text-black dark:text-white text-center z-10 w-full max-w-xs mx-auto'
+                    className='inline-block text-sm  lg:mr-3 lg:ml-0 text-black dark:text-white text-center z-10 w-full mx-auto'
                   >
                     {localStorage.getItem('email')}
                   </p>

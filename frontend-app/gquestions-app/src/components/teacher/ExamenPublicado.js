@@ -28,7 +28,7 @@ export const ExamenPublicado = () => {
   return (
     <div
       ref={darkModeRef}
-      className="flex container xl:justify-center xl:items-center w-screen h-screen font-manrope"
+      className="flex container w-screen font-manrope"
       style={{
         backgroundImage: `url(${darkModeBool ? backgroundGeneralGreenDark : backgroundGeneralGreenLight})`,
         width: "100%",
@@ -42,10 +42,10 @@ export const ExamenPublicado = () => {
       <Helmet>
         <title>Examen publicado - GQuestions</title>
       </Helmet>
-      <div className="xl:absolute xl:left-0">
+
         <Navbar className="fixed" />
-      </div>
-      <div className="container flex justify-center items-center">
+
+      <div className="container mx-auto flex justify-center items-center h-full" style={{height: "100vh"}}>
         <div className="">
           <div className="grid text-center cols-span-12 mx-4">
             <h1 className="font-bold xl:text-5xl  md:text-4xl sm:text-3xl text-xl mb-10 dark:text-white">

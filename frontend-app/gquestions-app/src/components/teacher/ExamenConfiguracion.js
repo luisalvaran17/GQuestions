@@ -15,7 +15,7 @@ export const ExamenConfiguracion = (props) => {
   const Textos = props.textos;
 
   const { v4: uuidv4 } = require("uuid"); // id aleatorio (uuuidv4)  
-  
+
   // Hooks dark mode
   const darkModeRef = useRef();
   const [darkModeBool, setDarkModeBool] = useState(localStorage.getItem('bool-dark'));
@@ -34,10 +34,10 @@ export const ExamenConfiguracion = (props) => {
 
   useEffect(() => {
 
-    if(localStorage.theme === 'dark'){
+    if (localStorage.theme === 'dark') {
       setDarkModeBool(true);
       darkModeRef.current.classList.add('dark')
-    }else{
+    } else {
       setDarkModeBool(false);
       darkModeRef.current.classList.remove('dark')
     }
@@ -129,7 +129,7 @@ export const ExamenConfiguracion = (props) => {
         ref={darkModeRef}
         className="flex container w-screen h-screen font-manrope"
         style={{
-          backgroundImage: `url(${darkModeBool ? backgroundGeneralGreenDark: backgroundGeneralGreenLight})`,
+          backgroundImage: `url(${darkModeBool ? backgroundGeneralGreenDark : backgroundGeneralGreenLight})`,
           width: "100%",
           height: "",
           backgroundRepeat: "no-repeat",
@@ -138,9 +138,8 @@ export const ExamenConfiguracion = (props) => {
           minWidth: "100%",
         }}
       >
-        <div>
-          <Navbar className="fixed" />
-        </div>
+
+        <Navbar className="fixed" />
         <div className="container xl:mx-32 mx-4 md:mx-8 lg:mx-16 mt-8 dark:text-white">
           <div className="grid grid-rows">
             <h1 className="font-black xl:text-5xl md:text-4xl sm:text-2xl md:text-left mb-12 lg:mb-20 text-2xl">

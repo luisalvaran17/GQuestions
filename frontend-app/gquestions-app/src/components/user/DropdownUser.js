@@ -192,7 +192,7 @@ export const DropdownUser = () => {
         </Transition>
 
 
-        <Menu as="div" className="absolute xl:left-5 left-3 bottom-5 ml-3">
+        <Menu as="div" className="absolute xl:left-5 sm:left-5 left-3 bottom-5 ml-3">
           {({ open }) => (
             <>
               <div>

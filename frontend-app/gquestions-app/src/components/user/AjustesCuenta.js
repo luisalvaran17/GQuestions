@@ -79,9 +79,8 @@ export const AjustesCuenta = () => {
             rel="stylesheet"></link>
         </Helmet>
 
-        <div>
-          <Navbar className="absolute left-0 bottom-0" />
-        </div>
+          <Navbar className="fixed" />
+          
         <div data-aos="" className="container 2xl:mx-auto md:mx-8 mx-4 mt-8 md:text-base text-sm">
 
 
@@ -160,9 +159,8 @@ export const AjustesCuenta = () => {
             rel="stylesheet"></link>
         </Helmet>
 
-        <div>
-          <Navbar className="fixed" />
-        </div>
+        <Navbar className="fixed" />
+
         <div data-aos="fade-right" className="container 2xl:mx-auto md:mx-8 mx-4 mt-8 md:text-base text-sm">
           <div className="grid grid-rows">
 
@@ -240,9 +238,8 @@ export const AjustesCuenta = () => {
             rel="stylesheet"></link>
         </Helmet>
 
-        <div>
-          <Navbar className="fixed" />
-        </div>
+        <Navbar className="fixed" />
+        
         <div data-aos="fade-right" className="container 2xl:mx-auto md:mx-8 mx-4 mt-8 md:text-base text-sm">
           <div className="grid grid-rows">
 

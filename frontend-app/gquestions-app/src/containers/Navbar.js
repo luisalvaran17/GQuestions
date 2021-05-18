@@ -73,7 +73,7 @@ function Navbar() {
   });
 
   return (
-    <div ref={darkModeRef} className='flex h-screen font-manrope font-semibold'>
+    <div ref={darkModeRef} className='flex font-manrope font-semibold'>
       <nav className='h-full sm:w-28 w-24 flex flex-col items-center bg-white pt-6 pb-2 border-r 
       mb-4 border-r-black dark:bg-darkColor dark:border-gray-500'>
         <div>
