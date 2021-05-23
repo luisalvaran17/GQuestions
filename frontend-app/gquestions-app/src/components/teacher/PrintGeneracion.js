@@ -9,16 +9,15 @@ export const PrintGeneracion = (props) => {
 
     useEffect(() => {
         window.print();
-        history.push("/teacher/generacion")
+        window.location.reload();
     }, [history]);
 
-
     return (
-        <div className="bg-black">
+        <div className="bg-black text-black">
             <Helmet>
                 <title>Exámenes generados</title>
             </Helmet>
-            <div id="divToPrint" className="mt4 font-manrope" styles={{
+            <div id="divToPrint" className="font-manrope" styles={{
                 backgroundColor: '#f5f5f5',
                 width: '210mm',
                 minHeight: '297mm',

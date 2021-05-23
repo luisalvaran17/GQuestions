@@ -5,6 +5,7 @@ import backgroundGeneralGreenDark from "../../assets/images/background-general-g
 import backgroundGeneralGreenLight from "../../assets/images/background-general-green_light.png";
 import { DropdownUser } from "../user/DropdownUser";
 import { StepsProgress } from "./StepsProgress";
+import { CreateConfiguracionExamenAPI } from "../../api/Examen/CreateConfiguracionExamenAPI";
 import { CreateExamenAPI } from "../../api/Examen/CreateExamenAPI";
 import ReactDOM from 'react-dom'
 import { ExamenPublicado } from "./ExamenPublicado";
@@ -13,7 +14,6 @@ export const ExamenConfiguracion = (props) => {
 
   const divRefErrorMessage = React.createRef();
   const Textos = props.textos;
-
   const { v4: uuidv4 } = require("uuid"); // id aleatorio (uuuidv4)  
 
   // Hooks dark mode
@@ -21,7 +21,7 @@ export const ExamenConfiguracion = (props) => {
   const [darkModeBool, setDarkModeBool] = useState(localStorage.getItem('bool-dark'));
 
   const [examenConfiguracion, setExamenConfiguracion] = useState({
-    id_examen: "",
+    id_configuracion_examen: "",
     title_exam: "Sin título",
     contrasena_exam: '',
     n_intentos: 1,
@@ -29,6 +29,13 @@ export const ExamenConfiguracion = (props) => {
     fecha_hora_fin: '',
     generacion: '',
   });
+
+  const [examen, setExamen] = useState({
+    id_examen: '',
+    assigned_to: '',
+    texto: '',
+    examen_configuracion: ''
+  })
 
   const [irExamenPublicado, setIrExamenPublicado] = useState(false)
 
@@ -55,22 +62,37 @@ export const ExamenConfiguracion = (props) => {
   }
 
   const setExamenesDB = async () => {
-
+    let UUID_EXAMEN_CONFIGURACION = ""
     let UUID_EXAMEN = "" // utilizada para guardar temporalmente el uuid del texto base y crear la relacion con las preguntas de dicho texto
     let splitUUID = []
 
-    for (let i = 0; i < Textos.length; i++) {
+    UUID_EXAMEN_CONFIGURACION = uuidv4();
+    splitUUID = UUID_EXAMEN_CONFIGURACION.split("-");
+    UUID_EXAMEN_CONFIGURACION = splitUUID[0] //+ "-" + splitUUID[1]; // Acorta el  UUID GENERADO POR LA FUNCION uuidv4() 
+    setExamenConfiguracion(
+      Object.assign(examenConfiguracion, {
+        id_configuracion_examen: UUID_EXAMEN_CONFIGURACION,
+        generacion: localStorage.getItem('uuid_generacion'),
+      })
+    )
+
+    await CreateConfiguracionExamenAPI(examenConfiguracion); // POST de examen al endpoint
+
+    for (let i = 0; i < Textos.length; i++) { 
+
       UUID_EXAMEN = uuidv4();
       splitUUID = UUID_EXAMEN.split("-");
       UUID_EXAMEN = splitUUID[0] //+ "-" + splitUUID[1]; // Acorta el  UUID GENERADO POR LA FUNCION uuidv4()  
 
-      setExamenConfiguracion(
-        Object.assign(examenConfiguracion, {
+      setExamen(
+        Object.assign(examen, {
           id_examen: UUID_EXAMEN,
           generacion: localStorage.getItem('uuid_generacion'),
+          texto: Textos[i].id,
+          examen_configuracion: UUID_EXAMEN_CONFIGURACION,
         })
       )
-      await CreateExamenAPI(examenConfiguracion); // POST de examen al endpoint
+      await CreateExamenAPI(examen); // POST de examen al endpoint
     }
   }
 
@@ -80,7 +102,6 @@ export const ExamenConfiguracion = (props) => {
         [e.target.name]: e.target.value,
       })
     )
-    console.log(examenConfiguracion)
   };
 
   const checkFieldsValidations = () => {

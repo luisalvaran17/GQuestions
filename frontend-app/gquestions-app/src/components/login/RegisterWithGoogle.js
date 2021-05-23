@@ -25,7 +25,6 @@ export const RegisterWithGoogle = (response) => {
     password: '',
     rol: 'Estudiante', // por defecto
     fecha_nac: '',
-    edad: null,
   });
 
   const [confirmation_pass, setconfirmation_pass] = useState({

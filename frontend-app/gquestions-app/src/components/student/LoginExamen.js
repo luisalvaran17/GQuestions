@@ -3,16 +3,16 @@ import Navbar from "../../containers/Navbar";
 import "../../assets/styles/tailwind.css";
 import backgroundGeneral from "../../assets/images/background-general-green_light.png";
 import { Helmet } from "react-helmet";
+import { DropdownUser } from "../user/DropdownUser";
 
 export const LoginExamen = () => {
-
   const handleClick = () => {
     console.log("nothing")
   }
 
   return (
     <div
-      className="flex container xl:justify-center xl:items-center w-screen h-screen font-manrope"
+      className="flex container w-screen font-manrope"
       style={{
         backgroundImage: `url(${backgroundGeneral})`,
         width: "100%",
@@ -29,7 +29,7 @@ export const LoginExamen = () => {
 
       <Navbar className="fixed" />
       
-      <div className="container flex justify-center items-center">
+      <div className="container mx-auto flex justify-center items-center" style={{height:"100vh"}}>
         <div className="">
           <div className="grid text-center cols-span-12 mx-4">
             <h1 className="font-bold xl:text-5xl  md:text-4xl sm:text-3xl text-xl mb-10">
@@ -63,6 +63,7 @@ export const LoginExamen = () => {
 
         </div>
       </div>
+      <DropdownUser />
     </div>
   );
 }

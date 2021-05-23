@@ -17,6 +17,7 @@ import { LoginExamen } from './components/student/LoginExamen';
 import { AjustesCuenta } from './components/user/AjustesCuenta';
 import { VisualizacionGeneracion } from './components/teacher/VisualizacionGeneracion';
 import { Calificaciones } from './components/teacher/Calificaciones';
+import { ChooseExamenes } from './components/student/ChooseExamenes';
 
 export const App = () => {
 
@@ -41,6 +42,7 @@ export const App = () => {
 
         {/* Rutas Estudiante */}
         <PrivateRoute exact path='/student/login-examen' component={LoginExamen} />
+        <PrivateRoute exact path='/student/choose/examen/:id' component={ChooseExamenes} />
 
         {/* Rutas genericas */}
         <PrivateRoute exact path='/user/ajustes-cuenta' component={AjustesCuenta} />

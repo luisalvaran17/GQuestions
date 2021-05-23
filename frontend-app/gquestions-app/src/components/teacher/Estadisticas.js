@@ -52,7 +52,7 @@ export const Estadisticas = () => {
     let dates = [];
 
     generaciones.map(generacion => {
-      total_examenes = generacion.generacion_examen.length;
+      total_examenes = generacion.generacion_examenes[0].examenes.length;
       total_textos += generacion.generaciones_texto.length;
       total_preguntas += generacion.n_preguntas * generacion.generaciones_texto.length;
       date = new Date(generacion.fecha_generacion)
@@ -348,7 +348,7 @@ export const Estadisticas = () => {
                 </div>
                 <div className="col-span-12 mt-5">
                   <div className="grid gap-2 grid-cols-1 lg:grid-cols-2">
-                    <div className="bg-white text-black dark:bg-darkGrayColor2 border border-transparent dark:border-gray-700 shadow-lg" id="chartpie"></div>
+                    <div className="bg-white text-black dark:bg-darkGrayColor2 border border-transparent dark:border-gray-700 shadow-lg p-4" id="chartpie"></div>
                     <div className="bg-white text-black dark:bg-darkGrayColor2 border border-transparent dark:border-gray-700 shadow-lg p-4" id="splineArea"></div>
                   </div>
                 </div>
