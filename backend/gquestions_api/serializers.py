@@ -3,6 +3,7 @@ from .models import GeneracionModel
 from .models import TipoPreguntaModel
 from .models import GeneracionTextoModel
 from .models import GeneracionPreguntaModel
+from .models import ExamenConfiguracionModel
 from .models import ExamenModel
 from .models import CalificacionModel
 from .models import CalificacionUsuarioModel
@@ -53,9 +54,25 @@ class GeneracionTextoCreateSerializer(serializers.ModelSerializer):
 # *********** Serializers Examen ************* #
 # ******************************************** #
 class ExamenSerializer(serializers.ModelSerializer):
-    generacion = serializers.PrimaryKeyRelatedField(many=False, queryset=GeneracionModel.objects.all())
+    texto = serializers.PrimaryKeyRelatedField(many=False, queryset=GeneracionTextoModel.objects.all())
+    examen_configuracion = serializers.PrimaryKeyRelatedField(many=False, queryset=ExamenConfiguracionModel.objects.all())
     class Meta:
         model = ExamenModel
+        fields = "__all__"
+
+class ExamenUpdateSerializer(serializers.ModelSerializer):
+    id_examen = serializers.CharField(required=False)
+    texto = serializers.CharField(required=False)
+    examen_configuracion = serializers.CharField(required=False)
+    class Meta:
+        model = ExamenModel
+        fields = "__all__"
+
+class ExamenConfiguracionSerializer(serializers.ModelSerializer):
+    generacion = serializers.PrimaryKeyRelatedField(many=False, queryset=GeneracionModel.objects.all())
+    examenes = ExamenSerializer(read_only=True, many=True)
+    class Meta:
+        model = ExamenConfiguracionModel
         fields = "__all__"
 
 # ******************************************** #
@@ -83,7 +100,7 @@ class TipoPreguntaSerializer(serializers.ModelSerializer):
 class GeneracionSerializer(serializers.ModelSerializer):
     account = AccountSerializerForNested(read_only=True, many=False)
     generaciones_texto = GeneracionTextoSerializer(read_only=True, many=True)
-    generacion_examen = ExamenSerializer(read_only=True, many=True)
+    generacion_examenes = ExamenConfiguracionSerializer(read_only=True, many=True)
     tipos_pregunta = TipoPreguntaSerializer(read_only=True, many=False)
     class Meta:
         model = GeneracionModel

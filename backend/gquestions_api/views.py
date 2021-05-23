@@ -6,18 +6,19 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.permissions import IsAuthenticated
 
 from .serializers import GeneracionSerializer, TipoPreguntaSerializer, GeneracionTextoSerializer, GeneracionPreguntaSerializer, GeneracionCreateSerializer
-from .serializers import CalificacionSerializer, CalificacionUsuarioSerializer, RespuestaCuerpoSerializer, GeneracionTextoCreateSerializer, ExamenSerializer
-from .serializers import GeneracionPreguntaCreateSerializer, GeneracionSimplificadoSerializer
+from .serializers import CalificacionSerializer, CalificacionUsuarioSerializer, RespuestaCuerpoSerializer, GeneracionTextoCreateSerializer, ExamenConfiguracionSerializer
+from .serializers import GeneracionPreguntaCreateSerializer, GeneracionSimplificadoSerializer, ExamenSerializer, ExamenUpdateSerializer
 
 from .models import GeneracionModel
 from .models import TipoPreguntaModel
 from .models import GeneracionTextoModel
 from .models import GeneracionPreguntaModel
-from .models import ExamenModel
+from .models import ExamenConfiguracionModel
 from .models import CalificacionModel
 from .models import CalificacionUsuarioModel
 from .models import Account
 from .models import RespuestaCuerpoModel
+from .models import ExamenModel
 
 from rest_framework import generics
 from django.http import JsonResponse
@@ -135,15 +136,56 @@ def GetPreguntaView(request, id_pregunta):
 # *********** Create and list Examen ************* #
 # ************************************************ # 
 @permission_classes([IsAuthenticated])
-class ExamenListView(generics.ListAPIView):
+class ExamenConfiguracionListView(generics.ListAPIView):
+    queryset = ExamenConfiguracionModel.objects.all()
+    serializer_class = ExamenConfiguracionSerializer
+
+# Create configuracion examen
+@permission_classes([IsAuthenticated])
+class ExamenConfiguracionCreateView(generics.CreateAPIView):
+    queryset = ExamenConfiguracionModel.objects.all()
+    serializer_class = ExamenConfiguracionSerializer
+
+# List examenes (All)
+@permission_classes([IsAuthenticated])
+class ExamenesListView(generics.ListAPIView):
     queryset = ExamenModel.objects.all()
     serializer_class = ExamenSerializer
 
+# Create Examen
 @permission_classes([IsAuthenticated])
 class ExamenCreateView(generics.CreateAPIView):
     queryset = ExamenModel.objects.all()
     serializer_class = ExamenSerializer
 
+# Get examen
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def GetExamenView(request, id_examen):
+    examen = ExamenModel.objects.filter(id_examen=id_examen)
+    serializer = ExamenSerializer(examen, many=True)
+    assigned_to = serializer.data[0].get('assigned_to')
+    response = {}
+
+    if (assigned_to == None):
+        response['assigned'] = False
+    else:
+        response['assigned'] = True
+
+    return JsonResponse(response, safe=False, status=status.HTTP_200_OK)
+
+# Update Examen
+@api_view(["PUT"])
+@permission_classes([IsAuthenticated])
+def UpdateExamenView(request, id_examen):
+
+    examen = ExamenModel.objects.get(id_examen=id_examen)
+    serializer = ExamenUpdateSerializer(examen, data=request.data)
+
+    if serializer.is_valid():   
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # ************************************************ #
 # ******* Register and list Calificaciones ******* #

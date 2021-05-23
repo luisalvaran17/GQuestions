@@ -134,8 +134,6 @@ class Login(KnoxLoginView):
         return super(Login, self).post(request, format=None)
 
 # Change password view
-
-
 class ChangePasswordView(generics.UpdateAPIView):
     # An endpoint for changing password.
     serializer_class = ChangePasswordSerializer

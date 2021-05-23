@@ -9,6 +9,8 @@ from .models import CalificacionModel
 from .models import CalificacionUsuarioModel
 from .models import Account
 from .models import RespuestaCuerpoModel
+from .models import ExamenConfiguracionModel
+from .models import ExamenModel
 
 # Register your models here.
 
@@ -42,8 +44,11 @@ class RespuestaCuerpoAdmin(admin.ModelAdmin):
 # *************************************************** #
 # ************ model admin de Examen **************** #
 # *************************************************** #
+class ExamenConfiguracionAdmin(admin.ModelAdmin):
+    list_display = ('id_configuracion_examen', 'title_exam', 'contrasena_exam', 'n_intentos', 'fecha_hora_ini','fecha_hora_fin', 'generacion')
+
 class ExamenAdmin(admin.ModelAdmin):
-    list_display = ('id_examen', 'title_exam', 'contrasena_exam', 'n_intentos', 'fecha_hora_ini','fecha_hora_fin', 'generacion')
+    list_display = ('id_examen', 'assigned_to', 'texto', 'examen_configuracion')
 
 # *************************************************** #
 # ********** model admin de Calificacion ************ #
@@ -58,6 +63,7 @@ class CalificacionUsuarioAdmin(admin.ModelAdmin):
 # Register your models here.
 admin.site.register(GeneracionModel, GeneracionAdmin)
 admin.site.register(TipoPreguntaModel, TipoPreguntaAdmin)
+admin.site.register(ExamenConfiguracionModel, ExamenConfiguracionAdmin)
 admin.site.register(ExamenModel, ExamenAdmin)
 admin.site.register(GeneracionPreguntaModel, GeneracionPreguntaAdmin)
 admin.site.register(GeneracionTextoModel, GeneracionTextoAdmin)

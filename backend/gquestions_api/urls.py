@@ -1,7 +1,7 @@
 from .views import GeneracionTextoCreateView
 from .views import GeneracionPreguntaCreateView
 from .views import RespuestaCuerpoCreateView
-from .views import ExamenCreateView
+from .views import ExamenConfiguracionCreateView
 from .views import GetTextoView
 from .views import GetPreguntaView
 from .views import GeneracionListView
@@ -9,10 +9,14 @@ from .views import GeneracionCreateView
 from .views import GeneracionTipoPreguntaView
 from .views import GeneracionTextoListView
 from .views import GeneracionPreguntaListView
-from .views import ExamenListView
+from .views import ExamenConfiguracionListView
 from .views import GetGeneracionesUsuarioView
 from .views import GetGeneracionUsuarioView
 from .views import GetAllCountsGeneracionesView
+from .views import ExamenesListView
+from .views import ExamenCreateView
+from .views import GetExamenView
+from .views import UpdateExamenView
 
 from django.urls import include, path
 
@@ -38,8 +42,14 @@ urlpatterns = [ # todo: acomodar las rutas (ej. create or list or delete etc)
     path('api/generacion/get/pregunta/<slug:id_pregunta>', GetPreguntaView),
 
     # Generacion Examenes
-    path('api/generacion/list/examenes', ExamenListView.as_view()),
+    path('api/generacion/list/configuracion-examenes', ExamenConfiguracionListView.as_view()),
+    path('api/generacion/create/configuracion-examen', ExamenConfiguracionCreateView.as_view()),
+
+    path('api/generacion/list/examenes', ExamenesListView.as_view()),
     path('api/generacion/create/examen', ExamenCreateView.as_view()),
+    path('api/generacion/get/examen/<slug:id_examen>', GetExamenView),
+
+    path('api/generacion/update/examen/<slug:id_examen>', UpdateExamenView)
 
     ## Queries con llaves
     #path('api/generacion/get/generacion-usuario/<int:account>', get_generaciones_usuario),

@@ -74,20 +74,29 @@ class RespuestaCuerpoModel(models.Model):
 # ******************************************** #
 # ********* Tablas generacion Examen ********* #
 # ******************************************** #
-class ExamenModel(models.Model):
-    id_examen = models.CharField(primary_key=True, null=False, max_length=255)
+class ExamenConfiguracionModel(models.Model):
+    id_configuracion_examen = models.CharField(primary_key=True, null=False, max_length=255)
     title_exam = models.CharField(max_length=200, default='Sin título')
     contrasena_exam = models.CharField(max_length=200, null=False)
     n_intentos = models.SmallIntegerField(default=1)
     fecha_hora_ini = models.DateTimeField(null=False)
-    fecha_hora_fin = models.DateTimeField(null=False)
-    #account = models.ForeignKey(Account, on_delete=models.CASCADE)
+    fecha_hora_fin = models.DateTimeField(null=False)    
     generacion = models.ForeignKey(
-        GeneracionModel, related_name="generacion_examen", on_delete=models.CASCADE)
+        GeneracionModel, related_name="generacion_examenes", on_delete=models.CASCADE)
+
+    def _str_(self):
+        return self.id_configuracion_examen
+
+class ExamenModel(models.Model):
+    id_examen = models.CharField(primary_key=True, null=False, max_length=255)
+    assigned_to = models.ForeignKey(Account, on_delete=models.CASCADE, null=True)
+    texto = models.ForeignKey(
+        GeneracionTextoModel, related_name="texto_examen", on_delete=models.CASCADE)
+    examen_configuracion = models.ForeignKey(
+        ExamenConfiguracionModel, related_name="examenes", on_delete=models.CASCADE)
 
     def _str_(self):
         return self.id_examen
-
 
 # ******************************************** #
 # *********** Tablas Calificacion ************ #
