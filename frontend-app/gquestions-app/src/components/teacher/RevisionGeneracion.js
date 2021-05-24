@@ -17,6 +17,8 @@ export const RevisionGeneracion = (props) => {
 
   const { v4: uuidv4 } = require("uuid"); // id aleatorio (uuuidv4)
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const divRefErrorMessage = React.createRef(); // const ref error messages (div DOM)
   const textAreaRef = useRef();
   const preguntasAreaRef = useRef();
@@ -73,7 +75,7 @@ export const RevisionGeneracion = (props) => {
       setDarkModeBool(false);
       darkModeRef.current.classList.remove('dark')
     }
-
+    setIsLoading(false);
     /* 
         window.onbeforeunload = function() {
           return "El progreso actual de la generación se perderá si recargas la página. ¿Deseas continuar?";
@@ -89,6 +91,7 @@ export const RevisionGeneracion = (props) => {
     let UUID_TEXTO = ""
     let splitUUID = []
     Textos.map(async texto => {   // Recorre cada texto y manda uno por uno a un POST con los campos necesarios
+      setIsLoading(true);
       UUID_TEXTO = uuidv4();
       splitUUID = UUID_TEXTO.split("-");
       UUID_TEXTO = splitUUID[0] + "-" + splitUUID[1]; // Acorta el  UUID GENERADO POR LA FUNCION uuidv4()
@@ -147,17 +150,21 @@ export const RevisionGeneracion = (props) => {
         await CreateRespuestaCuerpoAPI(respuestaCuerpoObjeto) // insert respuesta cuerpo de cada pregunta
       }
     }
+    setIsLoading(false);
   }
 
 
   // Función llamada al presionar el botón de "generar preguntas"
-  const handleClick = () => {
+  const handleClick = async() => {
 
     if (checkFieldsValidations() === true) {
-      setTextosDatabase();  // Llamada a función que inserta los textos en la DB
-      setPreguntasDB();     // Llamada a función que inserta los preguntas en la DB
+      await setTextosDatabase();  // Llamada a función que inserta los textos en la DB
+      await setPreguntasDB();     // Llamada a función que inserta los preguntas en la DB
       //setPreguntasFromResposeAPIFunction(); // Setea las preguntas en el estado preguntasDB para ser enviado a la revision de preguntas
-      setIrConfiguracionExamen(true); // se cambia a true para redireccionar a la siguientes vista (revision preguntas)
+      
+      if(isLoading === false){
+        setIrConfiguracionExamen(true); // se cambia a true para redireccionar a la siguientes vista (revision preguntas)
+      }
     }
 
     // Todo: Traer bool true or false si se efectuan todos los POST CORRECTAMENTE
@@ -295,8 +302,8 @@ export const RevisionGeneracion = (props) => {
         }}
       >
         <Helmet>
-          <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
-            rel="stylesheet"></link>
+          <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet"></link>
+          <link rel="stylesheet" href="https://pagecdn.io/lib/font-awesome/5.10.0-11/css/all.min.css" integrity="sha256-p9TTWD+813MlLaxMXMbTA7wN/ArzGyW/L7c5+KkjOkM=" crossorigin="anonymous"/>
         </Helmet>
 
         <Navbar className="fixed" />
@@ -335,7 +342,7 @@ export const RevisionGeneracion = (props) => {
                               id={texto.id}
                               onClick={onClickTextoList}
                               className="hidden text-left sm:block transition duration-500 py-4 w-full justify-between items-center px-5 focus:outline-none font-bold">
-                              Examen {texto.id}
+                              Examen {contador = contador + 1}
                             </button>
                             <button key={texto.id + contador}
                               id={texto.id}
@@ -436,14 +443,14 @@ export const RevisionGeneracion = (props) => {
                 <button
                   type="submit"
                   className="transition duration-500 shadow-md md:text-base text-sm text-darkGrayColor text-center 
-                  z-10 mx-auto w-52 bg-yellowlight focus:bg-yellowlightdark hover:bg-yellowlightdark rounded-lg px-2 py-2 font-semibold outline-none focus:outline-none;
-              "
+                  z-10 mx-auto w-52 bg-yellowlight focus:bg-yellowlightdark hover:bg-yellowlightdark rounded-lg px-2 py-2 font-semibold outline-none focus:outline-none;"
                   onClick={handleClickPrueba}
                 >
                   Editar textos
-                      </button>
+                </button>
               </div>
               <div className="">
+                {!isLoading && 
                 <button
                   type="submit"
                   className="transition duration-500 shadow-md md:text-base text-sm text-white text-center 
@@ -451,7 +458,18 @@ export const RevisionGeneracion = (props) => {
                   onClick={handleClick}
                 >
                   Generar examénes
-                      </button>
+                </button>
+              }{isLoading && 
+                  <button
+                  type="submit"
+                  className="transition duration-500 shadow-md md:text-base text-sm text-white text-center 
+                  z-10 mx-auto outline-none focus:outline-none w-52 block bg-yellowmain hover:bg-yellow-600 focus:bg-yellow-600 rounded-lg px-2 py-2 font-semibold"
+                >
+                    <span class="text-white my-0 mr-4 w-0 h-0">
+                        <i class="fas fa-circle-notch fa-spin fa-x"></i>
+                    </span>
+                  Creando ...
+                </button>}
               </div>
             </div>
           </div>

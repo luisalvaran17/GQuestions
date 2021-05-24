@@ -13,6 +13,7 @@ import { PrintGeneracion } from './PrintGeneracion';
 import Scrollbars from "react-custom-scrollbars";
 import emptyImage from '../../assets/images/empty_generaciones.png';
 import { Dialog, Transition } from '@headlessui/react';
+import { LoadingPage } from '../../containers/LoadingPage';
 
 export const Dashboard = () => {
 
@@ -21,6 +22,8 @@ export const Dashboard = () => {
   const [irDownload, setIrDownload] = useState(false)
   const [downloadGeneracion, setDownloadGeneracion] = useState([])
   const [generacionesEmpty, setGeneracionesEmpty] = useState(false)
+
+  const [isLoading, setIsLoading] = useState(true);
 
   // Hooks dark mode
   const darkModeRef = useRef();
@@ -43,6 +46,7 @@ export const Dashboard = () => {
     AOS.init({
       duration: 800,
     })
+    setIsLoading(false);
     getGeneracionesFromDB();// eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -66,12 +70,15 @@ export const Dashboard = () => {
   }
 
   const getGeneracionesFromDB = async () => {
+    setIsLoading(true);
     const response = await GetGeneracionesUsuarioAPI(localStorage.getItem('id_user'));
     setGeneraciones(response)
 
     // Verificaca de que haya elementos generados, si no los hay, entonces, muestra mensaje de vacío
     if (response.length === 0) setGeneracionesEmpty(true)
     else setGeneracionesEmpty(false)
+
+    setIsLoading(false);
   }
 
   const onClickVerGeneracion = (e) => {
@@ -92,7 +99,7 @@ export const Dashboard = () => {
   }
 
   function openModal(e) {
-    setLinkExamenes("localhost:3000/student/choose/examen/" + e.target.id)
+    setLinkExamenes("localhost:3000/student/login-examen/" + e.target.id)
     setIsOpen(true)
   }
 
@@ -155,13 +162,16 @@ export const Dashboard = () => {
             <div className="mt-10">
               <p className={generacionesEmpty ? "hidden" : "text-gray-500 dark:text-gray-200 mb-4 uppercase text-lg"}>Historial de generaciones</p>
             </div>
+
             <CustomScrollbars
               className={generacionesEmpty ? 'hidden' : ''}
               autoHide
               autoHideTimeout={900}
               autoHideDuration={400}
               style={{ height: "70vh" }}>
-              <ul >
+              
+              {!isLoading &&
+              <ul>
                 {
                   generaciones.map((generacion, contador = 1) => (
                     <li
@@ -174,21 +184,21 @@ export const Dashboard = () => {
                           <div className="col-span-12 sm:col-span-4 place-self-center sm:place-self-end">
 
                             <span
-                              className="hover:text-yellowmain text-gray-900 dark:text-gray-50 dark:hover:text-yellowmain material-icons mr-2"
+                              className="transition duration-500 hover:text-yellowmain text-gray-900 dark:text-gray-50 dark:hover:text-yellowmain material-icons mr-2"
                               id={generacion.id}
                               onClick={openModal}
                             >&#xe157;
                             </span>
 
                             <span
-                              className="hover:text-yellowmain text-gray-900 dark:text-gray-50 dark:hover:text-yellowmain material-icons mr-2"
+                              className="transition duration-500 hover:text-yellowmain text-gray-900 dark:text-gray-50 dark:hover:text-yellowmain material-icons mr-2"
                               onClick={onClickVerGeneracion}
                               id={generacion.id}
                             >&#xe8f4;
                             </span>
 
                             <span
-                              className="hover:text-yellowmain text-gray-900 dark:text-gray-50 dark:hover:text-yellowmain material-icons mr-2"
+                              className="transition duration-500 hover:text-yellowmain text-gray-900 dark:text-gray-50 dark:hover:text-yellowmain material-icons mr-2"
                               onClick={onClickDownload}
                               id={generacion.id}
                             >&#xf090;
@@ -201,6 +211,10 @@ export const Dashboard = () => {
                 }
 
               </ul>
+            }{isLoading && 
+              <div>
+                <LoadingPage />
+              </div>}
             </CustomScrollbars>
 
             {/* Link exámenes Modal */}

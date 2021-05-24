@@ -23,6 +23,8 @@ export const GenerateConfig = () => {
   const { v4: uuidv4 } = require("uuid");
   const UUID_GENERATE = uuidv4(); // uuid autogenerado para id de Generacion
 
+  const [isLoading, setIsLoading] = useState(false);
+
   // Hooks Dark mode
   const darkModeRef = useRef();
   const [darkModeBool, setDarkModeBool] = useState(localStorage.getItem('bool-dark'));
@@ -50,7 +52,7 @@ export const GenerateConfig = () => {
     id: UUID_GENERATE,
     n_examenes: 10,
     cantidad_textos: 10,
-    longit_texto: 200,
+    longit_texto: 300,
     n_preguntas: 0,
     inicio_oracion: "Aleatorio",
     account: ""
@@ -65,7 +67,6 @@ export const GenerateConfig = () => {
   });
 
   useEffect(() => {
-    getTextos();  // Obtiene los textos desde el endpoint (url)
     getTerminos();
     AOS.init({
       duration: 800,
@@ -79,6 +80,7 @@ export const GenerateConfig = () => {
       setDarkModeBool(false);
       darkModeRef.current.classList.remove('dark')
     }
+    setIsLoading(false);
 
     // componentwillunmount
     return () => {
@@ -89,6 +91,7 @@ export const GenerateConfig = () => {
   // get data Textos endpoint 
   const getTextos = async () => {
 
+    setIsLoading(true);
     // You can await here
     const response = await fetch(url)
       .then((res) => res.json())
@@ -102,6 +105,7 @@ export const GenerateConfig = () => {
 
     // Asignación de respuesta al stado Textos
     setTextos(response.data);
+    setIsLoading(false);
   }
 
   const getTerminos = async () => {
@@ -115,6 +119,8 @@ export const GenerateConfig = () => {
   // (Generacion, GeneracionTipoPregunta y GeneracionUsuario), además llama a dos funciones que,
   // inserta los textos generados y la relación entre la Generación y estos Textos
   const handleClick = async () => {
+
+    await getTextos();  // Obtiene los textos desde el endpoint (url)
     setGeneracionConfiguracion(
       Object.assign(generacionConfiguracion, {
         account: localStorage.getItem("id_user")
@@ -124,6 +130,7 @@ export const GenerateConfig = () => {
     if (checkFieldsValidations() === true) {    // Si todos los campos cumplen las validaciones entonces hace los POST
 
       if (_isMounted) {
+        setIsLoading(true);
         const responseGeneracionConfig = await CreateGeneracionConfiguracionAPI(generacionConfiguracion);   // POST a Generacion
 
         const responseGeneracionTipoPregunta = await CreateGeneracionTipoPreguntaAPI(generacionTipoPregunta);    // POST a GeneracionTipoPregunta
@@ -132,6 +139,7 @@ export const GenerateConfig = () => {
 
           // Llamado a función que inserta los textos en la DB DJANGO
           localStorage.setItem('uuid_generacion', generacionConfiguracion.id);
+          setIsLoading(false);
           setIrRevisionTexto(true);
         }
         else {
@@ -201,9 +209,9 @@ export const GenerateConfig = () => {
       boolTextosMenor = true;
       p_textosMenor = React.createElement('p', {}, '●  La cantidad de textos debe ser mayor o igual a la cantidad de exámenes');
     }
-    if (generacionConfiguracion.longit_texto < 200) {
+    if (generacionConfiguracion.longit_texto < 300) {
       boolLongTexto = true;
-      p_longTexto = React.createElement('p', {}, '●  La longitud del texto debe ser mayor a 200 carácteres');
+      p_longTexto = React.createElement('p', {}, '●  La longitud del texto debe ser mayor a 300 carácteres');
     }
     if (generacionConfiguracion.n_preguntas > 10) {
       boolCantidadPreguntas = true;
@@ -276,6 +284,7 @@ export const GenerateConfig = () => {
       >
         <Helmet>
           <title>Generación - GQuestions</title>
+          <link rel="stylesheet" href="https://pagecdn.io/lib/font-awesome/5.10.0-11/css/all.min.css" integrity="sha256-p9TTWD+813MlLaxMXMbTA7wN/ArzGyW/L7c5+KkjOkM=" crossorigin="anonymous"/>
         </Helmet>
 
         <Navbar className="" />
@@ -411,22 +420,6 @@ export const GenerateConfig = () => {
 
               <div className="grid sm:col-span-4 col-span-12 sm:mr-8 mr-0 mb-2">
                 <label className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
-                  Cantidad de textos
-                </label>
-                <input
-                  type="number"
-                  id="cant_textos"
-                  className="grid text-sm md:text-base sm:col-span-4 col-span-12 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2
-                                  focus:ring-yellowlight w-full 2xl:w-96 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
-                  name="cantidad_textos"
-                  defaultValue=""
-                  placeholder="Por defecto 10"
-                  onChange={handleChangeConfiguracion}
-                />
-              </div>
-
-              <div className="grid sm:col-span-4 col-span-12 sm:mr-8 mr-0 mb-2">
-                <label className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
                   Longitud de texto
                 </label>
                 <input
@@ -436,15 +429,13 @@ export const GenerateConfig = () => {
                                   focus:ring-yellowlight w-full 2xl:w-96 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
                   name="longit_texto"
                   defaultValue=""
-                  placeholder="Por defecto 200"
+                  placeholder="Por defecto 300"
                   onChange={handleChangeConfiguracion}
                 />
               </div>
-            </div>
 
-            <div className="grid grid-cols-12">
               <div className="grid sm:col-span-4 col-span-12 sm:mr-8 mr-0 mb-2">
-                <label className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 mb-2 dark:text-gray-300">
+                <label className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
                   Cantidad de preguntas
                 </label>
                 <input
@@ -458,17 +449,20 @@ export const GenerateConfig = () => {
                   onChange={handleChangeConfiguracion}
                 />
               </div>
+            </div>
 
+            <div className="grid grid-cols-12">
               <div className="grid sm:col-span-4 col-span-12 sm:mr-8 mr-0 mb-2">
-                <label className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
-                  Inicio oración
+                <label className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 mb-2 dark:text-gray-300">
+                  Inicio de oración
                 </label>
                 <select
                   type="text"
                   id="ini_oracion"
                   className="grid text-sm md:text-base sm:col-span-4 col-span-12 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2
-                                  focus:ring-yellowlight w-full 2xl:w-96 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
+                                  focus:ring-yellowlight w-full 2xl:w-96 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-gray-300 shadow text-gray-500"
                   name="inicio_oracion"
+                  disabled={true}
                   defaultValue="Aleatorio"
                   onChange={handleChangeInicioOracion}
                 >
@@ -476,6 +470,26 @@ export const GenerateConfig = () => {
                   <option>Personalizado</option>
                   <option>Completo</option>
                 </select>
+              </div>
+
+              <div className="grid sm:col-span-4 col-span-12 sm:mr-8 mr-0 mb-2">
+                {/* <label className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
+                  Inicio oración
+                </label>
+                <select
+                  type="text"
+                  id="ini_oracion"
+                  className="grid text-sm md:text-base sm:col-span-4 col-span-12 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2
+                                  focus:ring-yellowlight w-full 2xl:w-96 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow text-gray-500"
+                  name="inicio_oracion"
+                  disabled={true}
+                  defaultValue="Aleatorio"
+                  onChange={handleChangeInicioOracion}
+                >
+                  <option>Aleatorio</option>
+                  <option>Personalizado</option>
+                  <option>Completo</option>
+                </select> */}
               </div>
             </div>
 
@@ -545,20 +559,35 @@ export const GenerateConfig = () => {
 
             <div className="py-3 mt-4 w-full">
               <p className="text-sm text-gray-600 dark:text-gray-300 my-1">
-                Tiempo de generación apróximado: 120s{" "}
+                Tiempo de generación apróximado: 120s
               </p>
               <div className="bg-gray-300 w-full mb-4 h-1">
-                <div className="bg-yellowmain w-4/6 h-full"></div>
+                <div className="bg-yellowmain w-4/5 h-full text-right">
+                  <p className="text-gray-700 dark:text-white font-bold p-1 text-sm">70%</p>
+                </div>
               </div>
             </div>
+
             <div className="grid justify-end items-end">
-              <button
-                type="submit"
-                className="btn-primary"
-                onClick={handleClick}
-              >
-                Generar
+              {!isLoading &&
+                <button
+                  type="submit"
+                  className="btn-primary"
+                  onClick={handleClick}
+                >
+                  Generar
               </button>
+              }{isLoading &&
+                <button
+                  type="submit"
+                  className="btn-primary"
+                  onClick={handleClick}
+                >
+                  <span class="text-white my-0 mr-4 w-0 h-0">
+                    <i class="fas fa-circle-notch fa-spin fa-x"></i>
+                  </span>
+                Generando ...
+              </button>}
             </div>
 
             {/* StepProgress */}

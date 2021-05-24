@@ -9,12 +9,15 @@ import { CreateConfiguracionExamenAPI } from "../../api/Examen/CreateConfiguraci
 import { CreateExamenAPI } from "../../api/Examen/CreateExamenAPI";
 import ReactDOM from 'react-dom'
 import { ExamenPublicado } from "./ExamenPublicado";
+import { Helmet } from "react-helmet";
 
 export const ExamenConfiguracion = (props) => {
 
   const divRefErrorMessage = React.createRef();
   const Textos = props.textos;
   const { v4: uuidv4 } = require("uuid"); // id aleatorio (uuuidv4)  
+
+  const [isLoading, setIsLoading] = useState(false);
 
   // Hooks dark mode
   const darkModeRef = useRef();
@@ -48,16 +51,16 @@ export const ExamenConfiguracion = (props) => {
       setDarkModeBool(false);
       darkModeRef.current.classList.remove('dark')
     }
-
+    setIsLoading(false);
     // componentwillunmount
     return () => {
     }
   }, []);
 
-  const handleClick = () => {
+  const handleClick = async () => {
     if (checkFieldsValidations() === true) {
-      setExamenesDB();
-      setIrExamenPublicado(true);
+      await setExamenesDB();
+      if (isLoading === false) setIrExamenPublicado(true);
     }
   }
 
@@ -76,9 +79,10 @@ export const ExamenConfiguracion = (props) => {
       })
     )
 
+    setIsLoading(true);
     await CreateConfiguracionExamenAPI(examenConfiguracion); // POST de examen al endpoint
 
-    for (let i = 0; i < Textos.length; i++) { 
+    for (let i = 0; i < Textos.length; i++) {
 
       UUID_EXAMEN = uuidv4();
       splitUUID = UUID_EXAMEN.split("-");
@@ -94,6 +98,7 @@ export const ExamenConfiguracion = (props) => {
       )
       await CreateExamenAPI(examen); // POST de examen al endpoint
     }
+    setIsLoading(false);
   }
 
   const handleChange = (e) => {
@@ -159,6 +164,9 @@ export const ExamenConfiguracion = (props) => {
           minWidth: "100%",
         }}
       >
+        <Helmet>
+          <link rel="stylesheet" href="https://pagecdn.io/lib/font-awesome/5.10.0-11/css/all.min.css" integrity="sha256-p9TTWD+813MlLaxMXMbTA7wN/ArzGyW/L7c5+KkjOkM=" crossorigin="anonymous" />
+        </Helmet>
 
         <Navbar className="fixed" />
         <div className="container xl:mx-32 mx-4 md:mx-8 lg:mx-16 mt-8 dark:text-white">
@@ -249,14 +257,26 @@ export const ExamenConfiguracion = (props) => {
             <div className="py-3 mt-4 w-full">
               <hr></hr>
             </div>
+
             <div className="grid grid-rows justify-end items-end">
-              <button
-                type="submit"
-                className="btn-primary"
-                onClick={handleClick}
-              >
-                Terminar y públicar
+              {!isLoading &&
+                <button
+                  type="submit"
+                  className="btn-primary"
+                  onClick={handleClick}
+                >
+                  Terminar y públicar
               </button>
+              }{isLoading &&
+                <button
+                  type="submit"
+                  className="btn-primary"
+                >
+                  <span class="text-white my-0 mr-4 w-0 h-0">
+                    <i class="fas fa-circle-notch fa-spin fa-x"></i>
+                  </span>
+                  Publicando ...
+                </button>}
             </div>
           </div>
 

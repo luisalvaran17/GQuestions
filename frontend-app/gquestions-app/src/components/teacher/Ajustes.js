@@ -22,7 +22,6 @@ const modes = [
   },
 ]
 
-
 export const Ajustes = () => {
 
   // Hooks dark mode

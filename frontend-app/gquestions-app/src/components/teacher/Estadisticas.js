@@ -9,12 +9,15 @@ import backgroundGeneralYellowDark from "../../assets/images/background-general-
 import backgroundGeneralYellowLight from "../../assets/images/background-general-yellow_light.png";
 import ApexCharts from 'apexcharts';
 import { GetCountsGeneraciones } from '../../api/Estadisticas/GetCountsGeneraciones';
+import { LoadingPage } from '../../containers/LoadingPage';
 
 export const Estadisticas = () => {
 
   // Hooks dark mode
   const darkModeRef = useRef();
   const [darkModeBool, setDarkModeBool] = useState(localStorage.getItem('bool-dark'));
+
+  const [isLoading, setIsLoading] = useState(true);
 
   // Hooks count
   const [countGeneraciones, setCountGeneraciones] = useState({
@@ -35,12 +38,15 @@ export const Estadisticas = () => {
     AOS.init({
       duration: 800,
     })
+    setIsLoading(false);
     getAllCountsGeneraciones();// eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
 
   const getAllCountsGeneraciones = async () => {
     const id_user = localStorage.getItem('id_user');
+
+    setIsLoading(true)
     const counts = await GetCountsGeneraciones(id_user);
     const generaciones = counts.generaciones
 
@@ -52,7 +58,11 @@ export const Estadisticas = () => {
     let dates = [];
 
     generaciones.map(generacion => {
-      total_examenes = generacion.generacion_examenes[0].examenes.length;
+      if (generacion.generacion_examenes.length !== 0) {
+        total_examenes = generacion.generacion_examenes[0].examenes.length;
+      } else {
+        total_examenes = 0;
+      }
       total_textos += generacion.generaciones_texto.length;
       total_preguntas += generacion.n_preguntas * generacion.generaciones_texto.length;
       date = new Date(generacion.fecha_generacion)
@@ -73,6 +83,8 @@ export const Estadisticas = () => {
         "preguntas_count": total_preguntas,
       })
     )
+
+    setIsLoading(false)
     columnChart(arrayColumnsChart);
     splineArea(contadorMesesGeneraciones(dates));
   }
@@ -246,116 +258,121 @@ export const Estadisticas = () => {
             Aquí puedes visualizar datos de tus generaciones
           </p>
 
-          <div className="w-full grid mb-4 pb-10 pr-6 dark:border-transparent sm:px-8 rounded-3xl bg-gray-100 dark:bg-darkColor border border-transparent sm:dark:border-gray-700  shadow">
+          {!isLoading &&
+            <div className="w-full grid mb-4 pb-10 pr-6 dark:border-transparent sm:px-8 rounded-3xl bg-gray-100 dark:bg-darkColor border border-transparent sm:dark:border-gray-700  shadow">
 
-            <div className="grid grid-cols-12 gap-6">
-              <div className="grid grid-cols-12 col-span-12 gap-6 xxl:col-span-9">
-                <div className="col-span-12 mt-8">
-                  <div className="grid grid-cols-12 gap-6 mt-5">
-                    <span className="transform hover:scale-105 transition duration-300 shadow-xl rounded-lg col-span-12 
+              <div className="grid grid-cols-12 gap-6">
+                <div className="grid grid-cols-12 col-span-12 gap-6 xxl:col-span-9">
+                  <div className="col-span-12 mt-8">
+                    <div className="grid grid-cols-12 gap-6 mt-5">
+                      <span className="transform hover:scale-105 transition duration-300 shadow-xl rounded-lg col-span-12 
                     sm:col-span-6 xl:col-span-3 intro-y bg-white dark:bg-darkGrayColor2 border  border-transparent dark:border-gray-700"
-                    >
-                      <div className="p-5">
-                        <div className="flex justify-between">
-                          <span
-                            className="text-blue-500 material-icons mr-2"
-                          >&#xf1c6;
+                      >
+                        <div className="p-5">
+                          <div className="flex justify-between">
+                            <span
+                              className="text-blue-500 material-icons mr-2"
+                            >&#xf1c6;
                           </span>
-                          <div
-                            className="bg-blue-500 rounded-full h-6 px-2 flex justify-items-center text-white font-semibold text-sm">
-                            <span className="flex items-center">Total</span>
+                            <div
+                              className="bg-blue-500 rounded-full h-6 px-2 flex justify-items-center text-white font-semibold text-sm">
+                              <span className="flex items-center">Total</span>
+                            </div>
                           </div>
-                        </div>
-                        <div className="w-full flex-1">
-                          <div>
-                            <div className="mt-3 text-3xl font-bold leading-8">{countGeneraciones.generaciones_count}</div>
+                          <div className="w-full flex-1">
+                            <div>
+                              <div className="mt-3 text-3xl font-bold leading-8">{countGeneraciones.generaciones_count}</div>
 
-                            <div className="mt-1 text-base text-gray-600 dark:text-gray-200">Generaciones</div>
+                              <div className="mt-1 text-base text-gray-600 dark:text-gray-200">Generaciones</div>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </span>
-                    <span className="transform hover:scale-105 transition duration-300 shadow-xl rounded-lg col-span-12 
+                      </span>
+                      <span className="transform hover:scale-105 transition duration-300 shadow-xl rounded-lg col-span-12 
                     sm:col-span-6 xl:col-span-3 intro-y bg-white dark:bg-darkGrayColor2 border  border-transparent dark:border-gray-700"
-                      href="#">
-                      <div className="p-5">
-                        <div className="flex justify-between">
-                          <span
-                            className="text-green-500 material-icons mr-2"
-                          >&#xf04c;
+                        href="#">
+                        <div className="p-5">
+                          <div className="flex justify-between">
+                            <span
+                              className="text-green-500 material-icons mr-2"
+                            >&#xf04c;
                           </span>
-                          <div
-                            className="bg-green-500 rounded-full h-6 px-2 flex justify-items-center text-white font-semibold text-sm">
-                            <span className="flex items-center">Total</span>
+                            <div
+                              className="bg-green-500 rounded-full h-6 px-2 flex justify-items-center text-white font-semibold text-sm">
+                              <span className="flex items-center">Total</span>
+                            </div>
                           </div>
-                        </div>
-                        <div className="w-full flex-1">
-                          <div>
-                            <div className="mt-3 text-3xl font-bold leading-8">{countGeneraciones.examenes_count}</div>
+                          <div className="w-full flex-1">
+                            <div>
+                              <div className="mt-3 text-3xl font-bold leading-8">{countGeneraciones.examenes_count}</div>
 
-                            <div className="mt-1 text-base text-gray-600 dark:text-gray-200">Exámenes</div>
+                              <div className="mt-1 text-base text-gray-600 dark:text-gray-200">Exámenes</div>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </span>
-                    <span className="transform hover:scale-105 transition duration-300 shadow-xl rounded-lg col-span-12 
+                      </span>
+                      <span className="transform hover:scale-105 transition duration-300 shadow-xl rounded-lg col-span-12 
                     sm:col-span-6 xl:col-span-3 intro-y bg-white dark:bg-darkGrayColor2 border  border-transparent dark:border-gray-700"
-                      href="#">
-                      <div className="p-5">
-                        <div className="flex justify-between">
-                          <span
-                            className="text-yellow-500 material-icons mr-2"
-                          >&#xe8d2;
+                        href="#">
+                        <div className="p-5">
+                          <div className="flex justify-between">
+                            <span
+                              className="text-yellow-500 material-icons mr-2"
+                            >&#xe8d2;
                           </span>
-                          <div
-                            className="bg-yellow-500 rounded-full h-6 px-2 flex justify-items-center text-white font-semibold text-sm">
-                            <span className="flex items-center">Total</span>
+                            <div
+                              className="bg-yellow-500 rounded-full h-6 px-2 flex justify-items-center text-white font-semibold text-sm">
+                              <span className="flex items-center">Total</span>
+                            </div>
                           </div>
-                        </div>
-                        <div className="w-full flex-1">
-                          <div>
-                            <div className="mt-3 text-3xl font-bold leading-8">{countGeneraciones.textos_count}</div>
+                          <div className="w-full flex-1">
+                            <div>
+                              <div className="mt-3 text-3xl font-bold leading-8">{countGeneraciones.textos_count}</div>
 
-                            <div className="mt-1 text-base text-gray-600 dark:text-gray-200">Textos</div>
+                              <div className="mt-1 text-base text-gray-600 dark:text-gray-200">Textos</div>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </span>
-                    <span className="transform hover:scale-105 transition duration-300 shadow-xl rounded-lg col-span-12 
+                      </span>
+                      <span className="transform hover:scale-105 transition duration-300 shadow-xl rounded-lg col-span-12 
                     sm:col-span-6 xl:col-span-3 intro-y bg-white dark:bg-darkGrayColor2 border  border-transparent dark:border-gray-700"
-                      href="#">
-                      <div className="p-5">
-                        <div className="flex justify-between">
-                          <span
-                            className="text-pink-600 material-icons mr-2"
-                          >&#xe0c6;
+                        href="#">
+                        <div className="p-5">
+                          <div className="flex justify-between">
+                            <span
+                              className="text-pink-600 material-icons mr-2"
+                            >&#xe0c6;
                           </span>
-                          <div
-                            className="bg-pink-600 rounded-full h-6 px-2 flex justify-items-center text-white font-semibold text-sm">
-                            <span className="flex items-center">Total</span>
+                            <div
+                              className="bg-pink-600 rounded-full h-6 px-2 flex justify-items-center text-white font-semibold text-sm">
+                              <span className="flex items-center">Total</span>
+                            </div>
                           </div>
-                        </div>
-                        <div className="w-full flex-1">
-                          <div>
-                            <div className="mt-3 text-3xl font-bold leading-8">{countGeneraciones.preguntas_count}</div>
+                          <div className="w-full flex-1">
+                            <div>
+                              <div className="mt-3 text-3xl font-bold leading-8">{countGeneraciones.preguntas_count}</div>
 
-                            <div className="mt-1 text-base text-gray-600 dark:text-gray-200">Preguntas</div>
+                              <div className="mt-1 text-base text-gray-600 dark:text-gray-200">Preguntas</div>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </span>
+                      </span>
+                    </div>
                   </div>
-                </div>
-                <div className="col-span-12 mt-5">
-                  <div className="grid gap-2 grid-cols-1 lg:grid-cols-2">
-                    <div className="bg-white text-black dark:bg-darkGrayColor2 border border-transparent dark:border-gray-700 shadow-lg p-4" id="chartpie"></div>
-                    <div className="bg-white text-black dark:bg-darkGrayColor2 border border-transparent dark:border-gray-700 shadow-lg p-4" id="splineArea"></div>
+                  <div className="col-span-12 mt-5">
+                    <div className="grid gap-2 grid-cols-1 lg:grid-cols-2">
+                      <div className="bg-white text-black dark:bg-darkGrayColor2 border border-transparent dark:border-gray-700 shadow-lg p-4" id="chartpie"></div>
+                      <div className="bg-white text-black dark:bg-darkGrayColor2 border border-transparent dark:border-gray-700 shadow-lg p-4" id="splineArea"></div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-
+          }{isLoading &&
+            <div>
+              <LoadingPage />
+            </div>
+            }
         </div>
       </CustomScrollbars>
       <DropdownUser />

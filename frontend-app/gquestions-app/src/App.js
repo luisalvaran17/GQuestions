@@ -13,11 +13,10 @@ import { Ajustes } from './components/teacher/Ajustes';
 import { ErrorNotServer } from './containers/ErrorNotServer';
 import { ExamenConfiguracion } from './components/teacher/ExamenConfiguracion';
 import { ExamenPublicado } from './components/teacher/ExamenPublicado';
-import { LoginExamen } from './components/student/LoginExamen';
 import { AjustesCuenta } from './components/user/AjustesCuenta';
 import { VisualizacionGeneracion } from './components/teacher/VisualizacionGeneracion';
 import { Calificaciones } from './components/teacher/Calificaciones';
-import { ChooseExamenes } from './components/student/ChooseExamenes';
+import { LoginExamen } from './components/student/LoginExamen';
 
 export const App = () => {
 
@@ -41,8 +40,7 @@ export const App = () => {
         
 
         {/* Rutas Estudiante */}
-        <PrivateRoute exact path='/student/login-examen' component={LoginExamen} />
-        <PrivateRoute exact path='/student/choose/examen/:id' component={ChooseExamenes} />
+        <PrivateRoute exact path='/student/login-examen/:id' component={LoginExamen} />
 
         {/* Rutas genericas */}
         <PrivateRoute exact path='/user/ajustes-cuenta' component={AjustesCuenta} />

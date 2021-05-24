@@ -20,7 +20,7 @@ export const AjustesCuenta = () => {
 
   useEffect(() => {
     AOS.init({
-      duration: 400,
+      duration: 800,
     })
 
     if (localStorage.theme === 'dark') {
@@ -81,7 +81,7 @@ export const AjustesCuenta = () => {
 
           <Navbar className="fixed" />
           
-        <div data-aos="" className="container 2xl:mx-auto md:mx-8 mx-4 mt-8 md:text-base text-sm">
+        <div data-aos="fade-in" className="container 2xl:mx-auto md:mx-8 mx-4 mt-8 md:text-base text-sm">
 
 
           <div className="grid grid-rows">

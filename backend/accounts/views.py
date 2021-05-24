@@ -127,6 +127,7 @@ class RegisterUsuarioInfoAdicionalAPI(generics.GenericAPIView):
 class Login(KnoxLoginView):
     permission_classes = (permissions.AllowAny,)
     def post(self, request, format=None):
+
         serializer = AuthTokenSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
