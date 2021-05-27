@@ -7,7 +7,7 @@ import backgroundGeneralYellowDark from "../assets/images/background-general-yel
 import backgroundGeneralYellowLight from "../assets/images/background-general-yellow_light.png";
 import imageStudent from "../assets/images/image-register.png";
 import { LoginAPI } from "../api/Usuario/LoginAPI";
-import { GetIDUser } from "../api/Usuario/GetIDUser";
+import { GetDataUser } from "../api/Usuario/GetDataUser";
 import { GetToken } from "../api/Usuario/GetToken";
 import ReactDOM from 'react-dom';
 import { LoadingPage } from "./LoadingPage";
@@ -38,16 +38,32 @@ export const Login = () => {
       // Obtiene el token y lo guarda en el estado
       // Redirecciona al home sí el usuario existe y es correcto
       if (_isMounted) {
-        setIsLoading(true);
         const response = await LoginAPI(credentials);
 
         if (response === true) {
+          setIsLoading(true);
           localStorage.setItem('token', await GetToken(credentials));
           localStorage.setItem('email', credentials.username);
-          localStorage.setItem('id_user', await GetIDUser(credentials.username));
+          const data_user = await GetDataUser(credentials.username);
+          localStorage.setItem('id_user', data_user.id);
+
+          // IDS unicos para roles
+          /* Docente    ->  72eea687168b8c450afdeefa69c9d478b9ca90bfdcda1efb0029c9352ae4c70d
+             Estudiante -> 	3d8388c45fc7f48e40800ff051117af34b204bb4a29098332f504774858e49db
+          */
+          if (data_user.rol === "Docente") {
+            localStorage.setItem('rol', '72eea687168b8c450afdeefa69c9d478b9ca90bfdcda1efb0029c9352ae4c70d');
+          } else if (data_user.rol === "Estudiante") {
+            localStorage.setItem('rol', '3d8388c45fc7f48e40800ff051117af34b204bb4a29098332f504774858e49db');
+          }
+
           setIsLoading(false);
-          if (isLoading === false) {
+
+          if (isLoading === false && data_user.rol === "Docente") {
             history.push("teacher/generacion");
+          }
+          else if (isLoading === false && data_user.rol === "Estudiante") {
+            history.push("student/home");
           }
         }
         else if (response === false) {

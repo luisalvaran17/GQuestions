@@ -6,10 +6,12 @@ import { RegisterWithGoogle } from './components/login/RegisterWithGoogle';
 import { ModalRegister } from './components/login/ModalRegister';
 import { Homepage } from './containers/Homepage';
 import { GenerateConfig } from './components/teacher/GenerateConfig';
-import { PrivateRoute } from './containers/PrivateRoute';
+import { PrivateRouteDocente } from './containers/PrivateRoutes/PrivateRouteDocente';
+import { PrivateRouteEstudiante } from './containers/PrivateRoutes/PrivateRouteEstudiante';
+import { PrivateRouteUser } from './containers/PrivateRoutes/PrivateRouteUser';
 import { Dashboard } from './components/teacher/Dashboard';
 import { Estadisticas } from './components/teacher/Estadisticas';
-import { Ajustes } from './components/teacher/Ajustes';
+import { AjustesTeacher } from './components/teacher/AjustesTeacher';
 import { ErrorNotServer } from './containers/ErrorNotServer';
 import { ExamenConfiguracion } from './components/teacher/ExamenConfiguracion';
 import { ExamenPublicado } from './components/teacher/ExamenPublicado';
@@ -17,6 +19,9 @@ import { AjustesCuenta } from './components/user/AjustesCuenta';
 import { VisualizacionGeneracion } from './components/teacher/VisualizacionGeneracion';
 import { Calificaciones } from './components/teacher/Calificaciones';
 import { LoginExamen } from './components/student/LoginExamen';
+import { AjustesStudent } from './components/student/AjustesStudent';
+import { HomeStudent } from './components/student/HomeStudent';
+import { Examen } from './components/student/Examen';
 
 export const App = () => {
 
@@ -29,21 +34,25 @@ export const App = () => {
         <Route exact path='/' component={Homepage} />
 
         {/* Rutas Docente */}
-        <PrivateRoute exact path='/teacher/generacion' component={GenerateConfig} />
-        <PrivateRoute exact path='/teacher/dashboard' component={Dashboard} />
-        <PrivateRoute exact path='/teacher/estadisticas' component={Estadisticas} />
-        <PrivateRoute exact path='/teacher/ajustes' component={Ajustes} />
-        <PrivateRoute exact path='/teacher/examen-configuracion' component={ExamenConfiguracion} />
-        <PrivateRoute exact path='/teacher/examen-publicado' component={ExamenPublicado} />
-        <PrivateRoute exact path='/teacher/visualizar-generacion' component={VisualizacionGeneracion} />
-        <PrivateRoute exact path='/teacher/calificaciones' component={Calificaciones} />
+        <PrivateRouteDocente exact path='/teacher/generacion' component={GenerateConfig} />
+        <PrivateRouteDocente exact path='/teacher/dashboard' component={Dashboard} />
+        <PrivateRouteDocente exact path='/teacher/estadisticas' component={Estadisticas} />
+        <PrivateRouteDocente exact path='/teacher/ajustes' component={AjustesTeacher} />
+        <PrivateRouteDocente exact path='/teacher/examen-configuracion' component={ExamenConfiguracion} />
+        <PrivateRouteDocente exact path='/teacher/examen-publicado' component={ExamenPublicado} />
+        <PrivateRouteDocente exact path='/teacher/visualizar-generacion' component={VisualizacionGeneracion} />
+        <PrivateRouteDocente exact path='/teacher/calificaciones' component={Calificaciones} />
         
 
         {/* Rutas Estudiante */}
-        <PrivateRoute exact path='/student/login-examen/:id' component={LoginExamen} />
+        <PrivateRouteEstudiante exact path='/student/home' component={HomeStudent} />
+        <PrivateRouteEstudiante exact path='/student/login-examen/:id' component={LoginExamen} />
+        <PrivateRouteEstudiante exact path='/student/ajustes' component={AjustesStudent} />
 
         {/* Rutas genericas */}
-        <PrivateRoute exact path='/user/ajustes-cuenta' component={AjustesCuenta} />
+        <PrivateRouteUser exact path='/user/ajustes-cuenta' component={AjustesCuenta} />
+        <PrivateRouteUser exact path='/user/examen' component={Examen} />
+        
         <Route exact path='/not-server' component={ErrorNotServer} />
       </BrowserRouter>
     );

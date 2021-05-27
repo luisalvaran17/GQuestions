@@ -18,6 +18,10 @@ export const RevisionGeneracion = (props) => {
   const { v4: uuidv4 } = require("uuid"); // id aleatorio (uuuidv4)
 
   const [isLoading, setIsLoading] = useState(false);
+  const [errorServer, setErrorServer] = useState({
+    boolError: false,
+  });
+  const errorServerRef = useRef();
 
   const divRefErrorMessage = React.createRef(); // const ref error messages (div DOM)
   const textAreaRef = useRef();
@@ -105,7 +109,14 @@ export const RevisionGeneracion = (props) => {
         })
       )
       texto.id = UUID_TEXTO
-      await CreateTextoAPI(TextoObjeto); // POST a la tabla GeneracionTexto
+      const response = await CreateTextoAPI(TextoObjeto); // POST a la tabla GeneracionTexto
+      if (response === false) {
+        setErrorServer(
+          Object.assign(errorServer, {
+            boolError: true,
+          })
+        );
+      }
       return true;
     })
   }
@@ -153,17 +164,20 @@ export const RevisionGeneracion = (props) => {
     setIsLoading(false);
   }
 
-
   // Función llamada al presionar el botón de "generar preguntas"
-  const handleClick = async() => {
+  const handleClick = async () => {
 
     if (checkFieldsValidations() === true) {
       await setTextosDatabase();  // Llamada a función que inserta los textos en la DB
       await setPreguntasDB();     // Llamada a función que inserta los preguntas en la DB
       //setPreguntasFromResposeAPIFunction(); // Setea las preguntas en el estado preguntasDB para ser enviado a la revision de preguntas
-      
-      if(isLoading === false){
+
+      if (errorServer.boolError === false && isLoading === false) {
         setIrConfiguracionExamen(true); // se cambia a true para redireccionar a la siguientes vista (revision preguntas)
+      }
+      else {
+        setIsLoading(true);
+        errorServerRef.current.classList.remove('hidden');
       }
     }
 
@@ -303,7 +317,7 @@ export const RevisionGeneracion = (props) => {
       >
         <Helmet>
           <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet"></link>
-          <link rel="stylesheet" href="https://pagecdn.io/lib/font-awesome/5.10.0-11/css/all.min.css" integrity="sha256-p9TTWD+813MlLaxMXMbTA7wN/ArzGyW/L7c5+KkjOkM=" crossorigin="anonymous"/>
+          <link rel="stylesheet" href="https://pagecdn.io/lib/font-awesome/5.10.0-11/css/all.min.css" integrity="sha256-p9TTWD+813MlLaxMXMbTA7wN/ArzGyW/L7c5+KkjOkM=" crossorigin="anonymous" />
         </Helmet>
 
         <Navbar className="fixed" />
@@ -337,22 +351,24 @@ export const RevisionGeneracion = (props) => {
 
                       {
                         Textos.map((texto, contador = 1) => (
-                          <div className="">
-                            <button key={texto.id}
+                          <div
+                            key={texto.id}
+                            className="">
+                            <button
+                              key={texto.id}
                               id={texto.id}
                               onClick={onClickTextoList}
                               className="hidden text-left sm:block transition duration-500 py-4 w-full justify-between items-center px-5 focus:outline-none font-bold">
                               Examen {contador = contador + 1}
                             </button>
-                            <button key={texto.id + contador}
+                            <button
+                              key={texto.id + contador}
                               id={texto.id}
                               onClick={onClickTextoList}
                               className="sm:hidden block text-left transition duration-500 py-4 w-full justify-between items-center px-5 focus:outline-none font-bold">
-                              {texto.id}
+                              {contador}
                             </button>
                           </div>
-
-
                         ))
                       }
                     </ul>
@@ -409,12 +425,13 @@ export const RevisionGeneracion = (props) => {
                     >
                       {
                         preguntas.map(pregunta => (
-                          <div className="">
+                          <div
+                            className=""
+                            key={pregunta.id_pregunta}>
                             <p>{pregunta.pregunta_cuerpo}</p>
                             <p>{pregunta.respuesta_correcta}</p>
                             <br></br>
                           </div>
-
                         ))
                       }
                     </div>
@@ -449,28 +466,31 @@ export const RevisionGeneracion = (props) => {
                   Editar textos
                 </button>
               </div>
-              <div className="">
-                {!isLoading && 
-                <button
-                  type="submit"
-                  className="transition duration-500 shadow-md md:text-base text-sm text-white text-center 
-                  z-10 mx-auto outline-none focus:outline-none w-52 block bg-yellowmain hover:bg-yellow-600 focus:bg-yellow-600 rounded-lg px-2 py-2 font-semibold"
-                  onClick={handleClick}
-                >
-                  Generar examénes
-                </button>
-              }{isLoading && 
+              <div className="grid grid-rows justify-end items-end ">
+                {!isLoading &&
                   <button
-                  type="submit"
-                  className="transition duration-500 shadow-md md:text-base text-sm text-white text-center 
+                    type="submit"
+                    className="transition duration-500 shadow-md md:text-base text-sm text-white text-center 
                   z-10 mx-auto outline-none focus:outline-none w-52 block bg-yellowmain hover:bg-yellow-600 focus:bg-yellow-600 rounded-lg px-2 py-2 font-semibold"
-                >
-                    <span class="text-white my-0 mr-4 w-0 h-0">
-                        <i class="fas fa-circle-notch fa-spin fa-x"></i>
+                    onClick={handleClick}
+                  >
+                    Generar examénes
+                </button>
+                }{isLoading &&
+                  <button
+                    type="submit"
+                    className="transition duration-500 shadow-md md:text-base text-sm text-white text-center 
+                  z-10 mx-auto outline-none focus:outline-none w-52 block bg-yellowmain hover:bg-yellow-600 focus:bg-yellow-600 rounded-lg px-2 py-2 font-semibold"
+                  >
+                    <span className="text-white my-0 mr-4 w-0 h-0">
+                      <i className="fas fa-circle-notch fa-spin fa-x"></i>
                     </span>
                   Creando ...
                 </button>}
               </div>
+                <p ref={errorServerRef} className="hidden place-self-center text-sm px-2 text-red-600 dark:text-red-200">
+                  Ha ocurrido un error de conexión 
+                </p>
             </div>
           </div>
 

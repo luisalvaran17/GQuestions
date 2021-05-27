@@ -17,6 +17,7 @@ import { Fragment } from 'react'
 import { GetUserAPI } from '../../api/Usuario/GetUserAPI';
 import { UpdateTerminosUserAPI } from "../../api/Usuario/UpdateTerminosUserAPI";
 import Scrollbars from "react-custom-scrollbars";
+import { ErrorModal } from "../../containers/ErrorModal";
 
 export const GenerateConfig = () => {
   const divRefErrorMessage = React.createRef();
@@ -41,6 +42,9 @@ export const GenerateConfig = () => {
   const [terminos, setTerminos] = useState({
     terminos_condiciones: false,
   })
+
+  // Hook error modal
+  const [isOpenError, setIsOpenError] = useState(false)
 
   // ********************** API de prueba *********************** //
   // https://run.mocky.io/v3/e8993735-eacf-4d85-b78d-9b0babb17c89//
@@ -110,9 +114,13 @@ export const GenerateConfig = () => {
 
   const getTerminos = async () => {
     const id_user = localStorage.getItem('id_user');
-    const user = await GetUserAPI(id_user)
-    const terminos_condiciones = user.users[0].terminos_condiciones
-    setIsOpen(!terminos_condiciones)
+    const user_response = await GetUserAPI(id_user)
+    if (user_response === false) {
+      // nothing
+    }else{
+      const terminos_condiciones = user_response.users[0].terminos_condiciones
+      setIsOpen(!terminos_condiciones)
+    }
   }
 
   // Función al presionar el botón "Generar textos", esta función hace los POST  a tres tablas
@@ -143,10 +151,7 @@ export const GenerateConfig = () => {
           setIrRevisionTexto(true);
         }
         else {
-          console.log("Ha occurido un error");
-          history.push("/teacher/generacion")
-          /* TODO
-          MOSTRAR MODAL CON MENSAJE DE QUE HA OCURRIDO UN ERROR Y SE RECARGA LA PÁGINA PARA QUE LO INTENTE DE NUEVO */
+          setIsOpenError(true);
         }
       }
     }
@@ -397,6 +402,9 @@ export const GenerateConfig = () => {
             </Dialog>
           </Transition>
 
+          {/* Modal case error */}
+          <ErrorModal isOpen={isOpenError}/>
+
           <div className="grid grid-rows xl:pl-32 px-8 py-8 md:px-8 lg:pl-16">
             <h1 className="font-black xl:text-5xl md:text-4xl sm:text-2xl md:text-left mb-12 lg:mb-20 text-2xl dark:text-white">
               Parámetros de generación
@@ -583,8 +591,8 @@ export const GenerateConfig = () => {
                   className="btn-primary"
                   onClick={handleClick}
                 >
-                  <span class="text-white my-0 mr-4 w-0 h-0">
-                    <i class="fas fa-circle-notch fa-spin fa-x"></i>
+                  <span className="text-white my-0 mr-4 w-0 h-0">
+                    <i className="fas fa-circle-notch fa-spin fa-x"></i>
                   </span>
                 Generando ...
               </button>}

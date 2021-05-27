@@ -27,27 +27,31 @@ export const InformacionPersonal = () => {
     useEffect(() => {
         getUser();// eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
+    
     const getUser = async () => {
         const id_user = localStorage.getItem('id_user');
         const users = await GetUserAPI(id_user);
         const user = users.users;
-
-        user.map(item => {
-            setFirstName(item.first_name);
-            setLastName(item.last_name);
-            setFechaNac(item.fecha_nac);
-            setEmail(item.email);
-
-            setInformacionPerfil(
-                Object.assign(informacionPerfil, {
-                    first_name: item.first_name,
-                    last_name: item.last_name,
-                    fecha_nac: item.fecha_nac,
-                })
-            )
-            return true;
-        })
+        
+        if (user === undefined) {
+            //nothing
+        }else{
+            user.map(item => {
+                setFirstName(item.first_name);
+                setLastName(item.last_name);
+                setFechaNac(item.fecha_nac);
+                setEmail(item.email);
+    
+                setInformacionPerfil(
+                    Object.assign(informacionPerfil, {
+                        first_name: item.first_name,
+                        last_name: item.last_name,
+                        fecha_nac: item.fecha_nac,
+                    })
+                )
+                return true;
+            })
+        }
     }
 
     const onChangeInfoPerfil = (e) => {

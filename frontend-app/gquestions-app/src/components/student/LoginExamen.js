@@ -6,6 +6,7 @@ import backgroundGeneralGreenLight from "../../assets/images/background-general-
 import { GetGeneracionExamen } from '../../api/Generacion/GetGeneracionExamen';
 import { GetExamenAPI } from '../../api/Examen/GetExamenAPI';
 import { UpdateExamenAPI } from '../../api/Examen/UpdateExamenAPI';
+import { NavbarStudent } from './NavBarStudent';
 
 export const LoginExamen = () => {
 
@@ -92,7 +93,7 @@ export const LoginExamen = () => {
     return (
         <div
             ref={darkModeRef}
-            className="flex container w-screen font-manrope"
+            className="container w-screen h-screen font-manrope"
             style={{
                 backgroundImage: `url(${darkModeBool ? backgroundGeneralGreenDark : backgroundGeneralGreenLight})`,
                 width: "100%",
@@ -102,16 +103,18 @@ export const LoginExamen = () => {
                 minHeight: "",
                 minWidth: "100%",
             }}
-        >
+            >
             <Helmet>
                 <title>Examen - GQuestions</title>
                 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
                     rel="stylesheet"></link>
             </Helmet>
-            <div className="container mx-auto flex justify-center items-center" style={{ height: "100vh" }}>
+            <NavbarStudent className="fixed"/>
+            <div className="container mx-auto flex justify-center items-center" style={{ height: "80vh" }}>
+
                 <div className="">
                     <div className="grid text-center cols-span-12 mx-4">
-                        <h1 className="font-bold xl:text-5xl  md:text-4xl sm:text-3xl text-xl mb-8 dark:text-gray-100">
+                        <h1 className="font-bold xl:text-4xl  md:text-3xl sm:text-3xl text-xl mb-8 dark:text-gray-100">
                             Contraseña del examen
                         </h1>
                     </div>
@@ -121,7 +124,7 @@ export const LoginExamen = () => {
                             type="password"
                             id="password"
                             className="text-center text-md text-gray-700 font-semibold sm:col-span-4 col-span-12 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2
-                                  focus:ring-green-300 w-96 px-4 py-2 border-green-300 outline-none focus:border-green-500 bg-white shadow"
+                                  focus:ring-green-300 lg:w-96 px-4 py-2 border-green-300 outline-none focus:border-green-500 bg-white shadow"
 
                             name="password"
                             onChange={handleChangePassword}

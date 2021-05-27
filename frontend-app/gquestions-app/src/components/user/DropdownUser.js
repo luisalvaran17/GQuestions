@@ -45,6 +45,7 @@ export const DropdownUser = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('uuid_generacion');
         localStorage.removeItem('id_user');
+        localStorage.removeItem('rol');
         setCloseSession(true);
       }
     }))
@@ -234,8 +235,7 @@ export const DropdownUser = () => {
                     <div className={
                       'block font-light px-4 py-2 text-sm text-gray-700 dark:text-gray-100 border-b'}>
                       <p className="font-bold" >Logueado como</p>
-                      <p
-                      >
+                      <p>
                         {localStorage.getItem('email')}
                       </p>
                     </div>

@@ -5,14 +5,17 @@ import { Helmet } from "react-helmet";
 import { useHistory } from 'react-router';
 import { LoginAPI } from '../../api/Usuario/LoginAPI';
 import { GetToken } from '../../api/Usuario/GetToken';
-import { GetIDUser } from '../../api/Usuario/GetIDUser';
+import { GetDataUser } from '../../api/Usuario/GetDataUser';
 import { RegisterUserAPI } from '../../api/Usuario/RegisterUserAPI';
+import { LoadingPage } from '../../containers/LoadingPage';
 
 export const RegisterWithGoogle = (response) => {
 
   const history = useHistory();
   const responseGoogle = response.response;
   const divRefErrorMessage = React.createRef();
+
+  const [isLoading, setIsLoading] = useState(true);
 
   // Hooks dark mode
   const darkModeRef = useRef();
@@ -41,10 +44,12 @@ export const RegisterWithGoogle = (response) => {
       setDarkModeBool(false);
       darkModeRef.current.classList.remove('dark')
     }
+    setIsLoading(false);
   }, []);
 
   const handleClickAccept = async () => {
     if (checkFieldsValidations() === true) {
+      setIsLoading(true);
       const profile = responseGoogle.profileObj;
       //console.log(profile)
       setusuario(
@@ -67,11 +72,12 @@ export const RegisterWithGoogle = (response) => {
         await LoginAPI(credentials);
         localStorage.setItem('token', await GetToken(credentials));
         localStorage.setItem('email', credentials.username);
-        localStorage.setItem('id_user', await GetIDUser(credentials.username));
-        history.push("teacher/generacion");
+        localStorage.setItem('id_user', await GetDataUser(credentials.username));
+        setIsLoading(false);
+        if (isLoading === false) history.push("teacher/generacion");
       }
       else {
-        // nothing
+        setIsLoading(true); // En caso de que el server no responda o no tenga conexión el usuario
       }
     }
   };
@@ -173,6 +179,8 @@ export const RegisterWithGoogle = (response) => {
             url('https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.min.css')
               </style>
         </Helmet>
+
+        {!isLoading &&
         <div className='text-sm md:text-md bg-gray-100 dark:bg-darkColor border border-gray-700 text-gray-500 rounded-3xl shadow-xl w-full md:w-1/2 overflow-hidden'>
           <div className='md:flex w-full'>
             <form
@@ -314,6 +322,11 @@ export const RegisterWithGoogle = (response) => {
             </form>
           </div>
         </div>
+        }{isLoading &&
+          <div>
+            <LoadingPage />
+          </div>
+        }
       </div>
     </div>
   );

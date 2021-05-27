@@ -36,11 +36,15 @@ export const InformacionAdicional = () => {
         const users = await GetUserAPI(id_user);
         const user = users.users;
 
-        user.map(item => {
-            setOrganizacionRender(item.organizacion);
-            setTipoCuenta(item.rol);
-            return true;
-        })
+        if (user === undefined) {
+            //nothing
+        }else{
+            user.map(item => {
+                setOrganizacionRender(item.organizacion);
+                setTipoCuenta(item.rol);
+                return true;
+            })
+        }
     }
 
     const handleClickUpdateInfoAdicional = async () => {

@@ -72,13 +72,19 @@ export const Dashboard = () => {
   const getGeneracionesFromDB = async () => {
     setIsLoading(true);
     const response = await GetGeneracionesUsuarioAPI(localStorage.getItem('id_user'));
-    setGeneraciones(response)
+    if (response === false) { //Verifica si hay un error en el server al obtener las generaciones
 
-    // Verificaca de que haya elementos generados, si no los hay, entonces, muestra mensaje de vacío
-    if (response.length === 0) setGeneracionesEmpty(true)
-    else setGeneracionesEmpty(false)
+      setIsLoading(true)
+    }
+    else{
+      setGeneraciones(response)
+      // Verificaca de que haya elementos generados, si no los hay, entonces, muestra mensaje de vacío
+      if (response.length === 0) setGeneracionesEmpty(true)
+      else setGeneracionesEmpty(false)
+  
+      setIsLoading(false);
+    }
 
-    setIsLoading(false);
   }
 
   const onClickVerGeneracion = (e) => {

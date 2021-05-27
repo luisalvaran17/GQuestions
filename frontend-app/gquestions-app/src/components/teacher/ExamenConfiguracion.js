@@ -17,7 +17,11 @@ export const ExamenConfiguracion = (props) => {
   const Textos = props.textos;
   const { v4: uuidv4 } = require("uuid"); // id aleatorio (uuuidv4)  
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);  
+  const [errorServer, setErrorServer] = useState({
+    boolError: false,
+  });
+  const errorServerRef = useRef();
 
   // Hooks dark mode
   const darkModeRef = useRef();
@@ -60,7 +64,11 @@ export const ExamenConfiguracion = (props) => {
   const handleClick = async () => {
     if (checkFieldsValidations() === true) {
       await setExamenesDB();
-      if (isLoading === false) setIrExamenPublicado(true);
+      if (errorServer.boolError === false && isLoading === false) setIrExamenPublicado(true);
+      else {
+        setIsLoading(true);
+        errorServerRef.current.classList.remove('hidden');
+      }
     }
   }
 
@@ -80,7 +88,14 @@ export const ExamenConfiguracion = (props) => {
     )
 
     setIsLoading(true);
-    await CreateConfiguracionExamenAPI(examenConfiguracion); // POST de examen al endpoint
+    let response = await CreateConfiguracionExamenAPI(examenConfiguracion); // POST de examen al endpoint
+    if (response === false) {
+      setErrorServer(
+        Object.assign(errorServer, {
+          boolError: true,
+        })
+      );
+    }
 
     for (let i = 0; i < Textos.length; i++) {
 
@@ -272,13 +287,17 @@ export const ExamenConfiguracion = (props) => {
                   type="submit"
                   className="btn-primary"
                 >
-                  <span class="text-white my-0 mr-4 w-0 h-0">
-                    <i class="fas fa-circle-notch fa-spin fa-x"></i>
+                  <span className="text-white my-0 mr-4 w-0 h-0">
+                    <i className="fas fa-circle-notch fa-spin fa-x"></i>
                   </span>
                   Publicando ...
                 </button>}
+                <p ref={errorServerRef} className="hidden place-self-center text-sm border-l border-r border-b border-red-300 dark:border-red-300 p-2 rounded-t  rounded-lg text-red-600 dark:text-red-200">
+                  Ha ocurrido un error de conexión
+                </p>
             </div>
           </div>
+
 
           {/* Stepper progress bar */}
           <StepsProgress active={4} />

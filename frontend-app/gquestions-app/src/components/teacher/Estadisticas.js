@@ -57,36 +57,40 @@ export const Estadisticas = () => {
     let date = new Date();
     let dates = [];
 
-    generaciones.map(generacion => {
-      if (generacion.generacion_examenes.length !== 0) {
-        total_examenes = generacion.generacion_examenes[0].examenes.length;
-      } else {
-        total_examenes = 0;
-      }
-      total_textos += generacion.generaciones_texto.length;
-      total_preguntas += generacion.n_preguntas * generacion.generaciones_texto.length;
-      date = new Date(generacion.fecha_generacion)
-      dates.push(date.getMonth())
-      return true;
-    })
-
-    arrayColumnsChart.push(counts.generaciones_count);
-    arrayColumnsChart.push(total_examenes);
-    arrayColumnsChart.push(total_textos);
-    arrayColumnsChart.push(total_preguntas);
-
-    setCountGeneraciones(
-      Object.assign({
-        "generaciones_count": counts.generaciones_count,
-        "examenes_count": total_examenes,
-        "textos_count": total_textos,
-        "preguntas_count": total_preguntas,
+    if (generaciones === undefined) {
+      console.log("error")
+    } else {
+      generaciones.map(generacion => {
+        if (generacion.generacion_examenes.length !== 0) {
+          total_examenes = generacion.generacion_examenes[0].examenes.length;
+        } else {
+          total_examenes = 0;
+        }
+        total_textos += generacion.generaciones_texto.length;
+        total_preguntas += generacion.n_preguntas * generacion.generaciones_texto.length;
+        date = new Date(generacion.fecha_generacion)
+        dates.push(date.getMonth())
+        return true;
       })
-    )
 
-    setIsLoading(false)
-    columnChart(arrayColumnsChart);
-    splineArea(contadorMesesGeneraciones(dates));
+      arrayColumnsChart.push(counts.generaciones_count);
+      arrayColumnsChart.push(total_examenes);
+      arrayColumnsChart.push(total_textos);
+      arrayColumnsChart.push(total_preguntas);
+
+      setCountGeneraciones(
+        Object.assign({
+          "generaciones_count": counts.generaciones_count,
+          "examenes_count": total_examenes,
+          "textos_count": total_textos,
+          "preguntas_count": total_preguntas,
+        })
+      )
+
+      setIsLoading(false)
+      columnChart(arrayColumnsChart);
+      splineArea(contadorMesesGeneraciones(dates));
+    }
   }
 
   const contadorMesesGeneraciones = (months) => {
@@ -372,7 +376,7 @@ export const Estadisticas = () => {
             <div>
               <LoadingPage />
             </div>
-            }
+          }
         </div>
       </CustomScrollbars>
       <DropdownUser />

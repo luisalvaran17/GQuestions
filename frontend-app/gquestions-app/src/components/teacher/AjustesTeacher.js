@@ -22,7 +22,7 @@ const modes = [
   },
 ]
 
-export const Ajustes = () => {
+export const AjustesTeacher = () => {
 
   // Hooks dark mode
   const darkModeRef = useRef();
