@@ -23,10 +23,10 @@ class AccountEmailSerializar(serializers.ModelSerializer):
         model = Account
         fields = ("email")
 
-class AccountIDSerializar(serializers.ModelSerializer):
+class AccountUserSerializar(serializers.ModelSerializer):
     class Meta:
         model = Account
-        fields = ("id",)
+        fields = ("id","rol")
 
 # Register Serializer
 class RegisterSerializer(serializers.ModelSerializer):

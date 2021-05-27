@@ -44,9 +44,9 @@ def exist_user(request, email):
         return JsonResponse({'error': boolUser}, safe=False, status=status.HTTP_404_NOT_FOUND)
 
 @api_view(["GET"])
-def get_id_user(request, email):
+def get_id_rol_user(request, email):
     user_id = Account.objects.filter(email=email)
-    serializer = AccountIDSerializar(user_id, many=True)
+    serializer = AccountUserSerializar(user_id, many=True)
     return JsonResponse(serializer.data, safe=False, status=status.HTTP_200_OK)
 
 """     try:
