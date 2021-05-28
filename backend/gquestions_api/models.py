@@ -17,7 +17,7 @@ class GeneracionModel(models.Model):
     longit_texto = models.IntegerField(default=200)
     n_preguntas = models.SmallIntegerField(null=False)
     inicio_oracion = models.CharField(choices=INICIO_ORACION, max_length=30, null=False)
-    fecha_generacion = models.DateField(auto_now_add=True, null=False)
+    fecha_generacion = models.DateTimeField(auto_now_add=True, null=False)
     account = models.ForeignKey(Account, related_name="account", on_delete=models.CASCADE)
 
     def _str_(self):

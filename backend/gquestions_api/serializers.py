@@ -109,7 +109,7 @@ class GeneracionSerializer(serializers.ModelSerializer):
 class GeneracionSimplificadoSerializer(serializers.ModelSerializer):
     class Meta:
         model = GeneracionModel
-        fields = ('id', 'n_examenes', 'longit_texto', 'n_preguntas', 'inicio_oracion', 'fecha_generacion', 'account')
+        fields = ('id', 'n_examenes', 'longit_texto', 'n_preguntas', 'generaciones_texto', 'generacion_examenes','inicio_oracion', 'fecha_generacion', 'account')
 
 ## CREATE
 class GeneracionCreateSerializer(serializers.ModelSerializer):

@@ -18,7 +18,7 @@ from .models import ExamenModel
 # **** model admin de generacion (Configuracion) **** #
 # *************************************************** #
 class GeneracionAdmin(admin.ModelAdmin):
-    list_display = ('id', 'n_examenes', 'longit_texto', 'n_preguntas', 'inicio_oracion','account')
+    list_display = ('id', 'n_examenes', 'longit_texto', 'n_preguntas', 'inicio_oracion', 'fecha_generacion', 'account')
 
 class TipoPreguntaAdmin(admin.ModelAdmin):
     list_display = ('generacion', 'pregunta_abierta', 'opcion_multiple', 'completacion')
