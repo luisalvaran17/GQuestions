@@ -3,7 +3,7 @@ import Navbar from "../../containers/Navbar";
 import "../../assets/styles/tailwind.css";
 import backgroundGeneralGreenDark from "../../assets/images/background-general-green_dark.png";
 import backgroundGeneralGreenLight from "../../assets/images/background-general-green_light.png";
-import { DropdownUser } from "../user/DropdownUser";
+import { DropdownUser } from "../teacher/user/DropdownUser";
 import { StepsProgress } from "./StepsProgress";
 import { CreateTextoAPI } from "../../api/Textos/CreateTextoAPI";
 import Scrollbars from "react-custom-scrollbars";
@@ -29,6 +29,8 @@ export const RevisionGeneracion = (props) => {
   const buttonTextRef = useRef();
   const buttonPreguntasRef = useRef();
   const [disabledTextArea, setDisabledTextArea] = useState(true)
+
+  const [textButtonEditar, setTextButtonEditar] = useState("Editar")
 
   const [eventsButton, setEventsButton] = useState([])
 
@@ -294,9 +296,16 @@ export const RevisionGeneracion = (props) => {
     divRefErrorMessage.current.classList.remove("hidden");
   };
 
-  const handleClickPrueba = () => {
-    if (disabledTextArea === false) setDisabledTextArea(true);
-    else if (disabledTextArea) setDisabledTextArea(false);
+  const handleClickEditar = () => {
+    if (disabledTextArea === false) {
+      setDisabledTextArea(true);
+      setTextButtonEditar("Editar");
+    }
+    else if (disabledTextArea) {
+      setDisabledTextArea(false);
+      setTextButtonEditar("Dejar de editar");
+    }
+
   }
 
   // Condicional para redireccionar con props en caso de que la generacion sea exitosa (Enviar al siguiente component funcional)
@@ -304,7 +313,7 @@ export const RevisionGeneracion = (props) => {
     return (
       <div
         ref={darkModeRef}
-        className="flex container w-screen h-screen font-manrope"
+        className="flex container h-screen w-screen font-manrope"
         style={{
           backgroundImage: `url(${darkModeBool ? backgroundGeneralGreenDark : backgroundGeneralGreenLight})`,
           width: "100%",
@@ -320,9 +329,15 @@ export const RevisionGeneracion = (props) => {
           <link rel="stylesheet" href="https://pagecdn.io/lib/font-awesome/5.10.0-11/css/all.min.css" integrity="sha256-p9TTWD+813MlLaxMXMbTA7wN/ArzGyW/L7c5+KkjOkM=" crossorigin="anonymous" />
         </Helmet>
 
-        <Navbar className="fixed" />
+        <Navbar className="" />
 
-        <div className="container xl:mx-32 mx-4 md:mx-8 lg:mx-16 mt-8 ">
+        <CustomScrollbars
+          autoHide
+          autoHideTimeout={900}
+          autoHideDuration={400}
+          style={{ height: "" }}
+          className="container xl:mx-32 mx-4 md:mx-8 lg:mx-16 mt-8">
+
           <div className="grid grid-rows space-y-8 mb-8">
             <h1 className="font-bold xl:text-5xl md:text-4xl sm:text-3xl text-xl dark:text-white">
               Revisión de Generación
@@ -408,8 +423,8 @@ export const RevisionGeneracion = (props) => {
                     autoHide
                     autoHideTimeout={900}
                     autoHideDuration={400}
-                    className="m-0 overflow-auto"
-                    style={{ height: "40vh" }}>
+                    className={disabledTextArea ? 'transition duration-500 m-0 overflow-auto bg-gray-200' : 'transition duration-500 m-0 overflow-auto bg-white'}
+                    style={{ height: "39vh" }}>
                     <textarea
                       ref={textAreaRef}
                       className="h-full pl-6 py-4 w-11/12 m-0 resize-none focus:border-gray-400  bg-transparent text-gray-600 text-sm md:text-base outline-none focus:outline-none"
@@ -437,13 +452,14 @@ export const RevisionGeneracion = (props) => {
                     </div>
                   </CustomScrollbars>
                   <hr></hr>
-                  <div className="grid grid-cols-12 mt-2 px-4 items-center">
+                  <div className="grid grid-cols-12  mt-2 px-4 items-center ">
                     <p className="col-span-7 hidden md:block text-gray-500 text-sm md:text-sm">Cite: GPT2 Algorithm from Hugging Face</p>
 
                     <div className="md:col-span-5 col-span-12 place-self-end">
                       <button
-                        //className="md:text-base text-sm z-10 pl-1 sm:w-52 w-44 block focus:outline-none bg-green-400 hover:bg-green-500 focus:bg-green-500 text-black rounded-lg px-2 py-2 font-semibold"
-                        className="md:text-base text-sm z-10 pl-1 sm:w-52 w-40 block focus:outline-none bg-gray-200 text-gray-400 rounded-lg px-2 py-1 font-normal"
+                        className="transition duration-500 md:text-base text-sm z-10 pl-1 sm:w-52 w-40 block focus:outline-none outline-none 
+                        bg-white border border-green-400 text-green-700 hover:bg-green-500 focus:bg-green-500 hover:text-white
+                         rounded-lg px-2 sm:py-2 py-1 font-semibold"
                       >
                         Volver a generar
                       </button>
@@ -454,16 +470,16 @@ export const RevisionGeneracion = (props) => {
             </div>
           </div>
 
-          <div className="grid grid-rows justify-end items-end mt-4">
+          <div className="grid grid-rows justify-end items-end mt-4 sm:mr-0 mr-2">
             <div className="flex md:flex-row flex-col gap-x-8 gap-y-2 box__title bg-grey-lighter px-3  py-2 items-center self-center">
               <div className="">
                 <button
                   type="submit"
-                  className="transition duration-500 shadow-md md:text-base text-sm text-darkGrayColor text-center 
+                  className="transition duration-500 shadow-md md:text-base text-sm text-darkGrayColor text-center focus:outline-none
                   z-10 mx-auto w-52 bg-yellowlight focus:bg-yellowlightdark hover:bg-yellowlightdark rounded-lg px-2 py-2 font-semibold outline-none focus:outline-none;"
-                  onClick={handleClickPrueba}
+                  onClick={handleClickEditar}
                 >
-                  Editar textos
+                  {textButtonEditar}
                 </button>
               </div>
               <div className="grid grid-rows justify-end items-end ">
@@ -523,7 +539,7 @@ export const RevisionGeneracion = (props) => {
               </svg>
             </span>
           </div>
-        </div>
+        </CustomScrollbars>
         <DropdownUser />  {/* Elemento menú del usuario */}
       </div>
     );

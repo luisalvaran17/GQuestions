@@ -15,13 +15,14 @@ import { AjustesTeacher } from './components/teacher/AjustesTeacher';
 import { ErrorNotServer } from './containers/ErrorNotServer';
 import { ExamenConfiguracion } from './components/teacher/ExamenConfiguracion';
 import { ExamenPublicado } from './components/teacher/ExamenPublicado';
-import { AjustesCuenta } from './components/user/AjustesCuenta';
 import { VisualizacionGeneracion } from './components/teacher/VisualizacionGeneracion';
 import { Calificaciones } from './components/teacher/Calificaciones';
 import { LoginExamen } from './components/student/LoginExamen';
 import { AjustesStudent } from './components/student/AjustesStudent';
 import { HomeStudent } from './components/student/HomeStudent';
 import { Examen } from './components/student/Examen';
+import { AjustesCuentaStudent } from './components/student/user/AjustesCuentaStudent';
+import { AjustesCuentaTeacher } from './components/teacher/user/AjustesCuentaTeacher';
 
 export const App = () => {
 
@@ -42,16 +43,16 @@ export const App = () => {
         <PrivateRouteDocente exact path='/teacher/examen-publicado' component={ExamenPublicado} />
         <PrivateRouteDocente exact path='/teacher/visualizar-generacion' component={VisualizacionGeneracion} />
         <PrivateRouteDocente exact path='/teacher/calificaciones' component={Calificaciones} />
+        <PrivateRouteDocente exact path='/teacher/ajustes-cuenta' component={AjustesCuentaTeacher} />
         
-
         {/* Rutas Estudiante */}
         <PrivateRouteEstudiante exact path='/student/home' component={HomeStudent} />
         <PrivateRouteEstudiante exact path='/student/login-examen/:id' component={LoginExamen} />
         <PrivateRouteEstudiante exact path='/student/ajustes' component={AjustesStudent} />
+        <PrivateRouteEstudiante exact path='/student/ajustes-cuenta' component={AjustesCuentaStudent} />
 
         {/* Rutas genericas */}
-        <PrivateRouteUser exact path='/user/ajustes-cuenta' component={AjustesCuenta} />
-        <PrivateRouteUser exact path='/user/examen' component={Examen} />
+        <PrivateRouteUser exact path='/user/examen' component={Examen} /> {/* todo: corregir private */}
         
         <Route exact path='/not-server' component={ErrorNotServer} />
       </BrowserRouter>

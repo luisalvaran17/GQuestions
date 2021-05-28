@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useRef, useState } from 'react';
 import { Dialog, Menu, Transition } from '@headlessui/react';
 import { Redirect } from 'react-router';
-import { UpdateTerminosUserAPI } from '../../api/Usuario/UpdateTerminosUserAPI';
+import { UpdateTerminosUserAPI } from '../../../api/Usuario/UpdateTerminosUserAPI';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -171,19 +171,19 @@ export const DropdownUser = () => {
                   <div className="flex mt-4 pr-6 justify-end space-x-4">
                     <button
                       type="button"
-                      className="transition duration-500 inline-flex justify-center px-12 py-2 text-sm font-medium text-red-900 bg-red-100 border border-transparent 
+                      className="transition duration-500 sm:w-auto w-28 inline-flex justify-center px-12 py-2 text-sm font-medium text-red-900 bg-red-100 border border-transparent 
                         rounded-md hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                       onClick={closeModalNoAccept}
                     >
-                      No acepto
+                      Rechazar
                       </button>
                     <button
                       type="button"
-                      className="transition duration-500 inline-flex justify-center px-12 py-2 text-sm font-medium text-green-900 bg-green-100 border border-transparent 
+                      className="transition duration-500 sm:w-auto w-28 inline-flex justify-center px-12 py-2 text-sm font-medium text-green-900 bg-green-100 border border-transparent 
                         rounded-md hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                       onClick={closeModalAccept}
                     >
-                      Acepto
+                      Aceptar
                       </button>
                   </div>
                 </div>
@@ -294,7 +294,7 @@ export const DropdownUser = () => {
   } else if (ajustesCuenta) {
     return (
       <Redirect to={{
-        pathname: '/user/ajustes-cuenta',
+        pathname: '/teacher/ajustes-cuenta',
       }}
       />
     );

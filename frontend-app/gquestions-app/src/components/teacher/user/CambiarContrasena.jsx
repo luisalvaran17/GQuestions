@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { UpdatePasswordUserAPI } from '../../api/Usuario/UpdatePasswordUserAPI';
+import { UpdatePasswordUserAPI } from '../../../api/Usuario/UpdatePasswordUserAPI';
 import ReactDOM from 'react-dom';
 
 export const CambiarContrasena = () => {
@@ -178,7 +178,7 @@ export const CambiarContrasena = () => {
                       </label>
                         <div className="flex">
                             <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
-                                <i className="mdi mdi-lock-outline text-gray-400 text-lg"></i>
+                                <i className="hidden sm:block mdi mdi-lock-outline text-gray-400 text-lg"></i>
                             </div>
                             <input
                                 type={showPasswords ? "text" : "password"}
@@ -204,7 +204,7 @@ export const CambiarContrasena = () => {
                       </label>
                         <div className="flex">
                             <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
-                                <i className="mdi mdi-lock-outline text-gray-400 text-lg"></i>
+                                <i className="hidden sm:block mdi mdi-lock-outline text-gray-400 text-lg"></i>
                             </div>
                             <input
                                 type={showPasswords ? "text" : "password"}
@@ -235,7 +235,7 @@ export const CambiarContrasena = () => {
                       </label>
                 <div className="flex">
                     <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
-                        <i className="mdi mdi-lock-outline text-gray-400 text-lg"></i>
+                        <i className="hidden sm:block mdi mdi-lock-outline text-gray-400 text-lg"></i>
                     </div>
                     <input
                         type={showPasswords ? "text" : "password"}
@@ -312,7 +312,7 @@ export const CambiarContrasena = () => {
 
 
             {/* Button guardar */}
-            <div className="grid grid-cols-12 sm:ml-6 ml-2 mt-8">
+            <div className="grid grid-cols-12 md:ml-6 sm:ml-4 mt-8">
                 <button
                     type="submit"
                     disabled={disableEditInfo}

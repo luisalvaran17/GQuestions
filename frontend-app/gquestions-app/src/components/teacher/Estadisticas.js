@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import Navbar from '../../containers/Navbar';
 import '../../assets/styles/tailwind.css';
 import { Helmet } from 'react-helmet';
-import { DropdownUser } from '../user/DropdownUser';
+import { DropdownUser } from '../teacher/user/DropdownUser';
 import AOS from "aos";
 import Scrollbars from "react-custom-scrollbars";
 import backgroundGeneralYellowDark from "../../assets/images/background-general-yellow_dark.png";
@@ -64,7 +64,7 @@ export const Estadisticas = () => {
         if (generacion.generacion_examenes.length !== 0) {
           total_examenes = generacion.generacion_examenes[0].examenes.length;
         } else {
-          total_examenes = 0;
+          /* total_examenes = 0; */
         }
         total_textos += generacion.generaciones_texto.length;
         total_preguntas += generacion.n_preguntas * generacion.generaciones_texto.length;
@@ -174,7 +174,8 @@ export const Estadisticas = () => {
     };
 
     var chart = new ApexCharts(document.querySelector("#splineArea"), options);
-    chart.render();
+
+    if (isLoading) chart.render();
   }
 
   const columnChart = (array_columns_chart) => {
@@ -222,7 +223,7 @@ export const Estadisticas = () => {
     };
 
     var chart = new ApexCharts(document.querySelector("#chartpie"), options);
-    chart.render();
+    if (isLoading) chart.render();
   }
 
   return (
@@ -255,11 +256,11 @@ export const Estadisticas = () => {
         className='container lg:text-base text-sm dark:text-white'>
 
         <div className="grid grid-rows xl:pl-32 px-1 sm:px-8 py-8 md:px-8 lg:pl-16">
-          <h1 className='font-black xl:text-5xl md:text-4xl text-2xl md:text-left md:mb-10 '>
+          <h1 className='mx-2 font-black xl:text-5xl md:text-4xl text-2xl md:text-left md:mb-10 '>
             Estadísticas
           </h1>
-          <p className="text-gray-500 font-semibold text-sm md:text-base dark:text-gray-200 sm:mb-10 mb-0">
-            Aquí puedes visualizar datos de tus generaciones
+          <p className="mx-2 text-gray-500 font-semibold text-sm md:text-base dark:text-gray-200 sm:mb-10 mb-0">
+            Aquí puedes visualizar información de tus generaciones.
           </p>
 
           {!isLoading &&

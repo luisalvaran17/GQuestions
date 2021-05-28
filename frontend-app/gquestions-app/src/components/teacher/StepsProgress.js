@@ -67,7 +67,7 @@ export const StepsProgress = (active) => {
     }, []);
 
     return (
-        <div ref={darkModeRef} className="sm:py-5 px-0">
+        <div ref={darkModeRef} className="sm:py-5 px-0 sm:mr-0 mr-4">
             <div className="sm:mx-4 mx-0 px-0 py-4 sm:py-4">
                 <div className="flex items-center">
                     <div className="flex items-center text-gray-700 dark:text-gray-100 relative">

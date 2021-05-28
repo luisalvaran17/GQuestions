@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import ReactDOM from 'react-dom';
-import { GetUserAPI } from '../../api/Usuario/GetUserAPI';
-import { UpdateInfoPerfilUserAPI } from '../../api/Usuario/UpdateInfoPerfilUserAPI';
+import { GetUserAPI } from '../../../api/Usuario/GetUserAPI';
+import { UpdateInfoPerfilUserAPI } from '../../../api/Usuario/UpdateInfoPerfilUserAPI';
 
 export const InformacionPersonal = () => {
 
@@ -147,20 +147,18 @@ export const InformacionPersonal = () => {
                             Nombres
                         </label>
                         <div className="flex">
-                            <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
-                                <i className="hidden sm:block mdi mdi-account-outline text-gray-400 text-lg"></i>
-                            </div>
                             <input
                                 type="text"
+                                id="first_name"
                                 className={
                                     disableEditInfo
-                                        ? "bg-gray-200 text-gray-500 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2 focus:ring-yellowlight w-full -ml-10 sm:pl-10 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 shadow"
-                                        : "bg-white text-gray-900 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2 focus:ring-yellowlight w-full -ml-10 sm:pl-10 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 shadow"}
-                                defaultValue={firstName}
+                                        ? "bg-gray-200 text-gray-500 text-sm md:text-base sm:col-span-4 col-span-12 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2 focus:ring-yellowlight w-full 2xl:w-96 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 shadow"
+                                        : "bg-white text-gray-900 text-sm md:text-base sm:col-span-4 col-span-12 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2 focus:ring-yellowlight w-full 2xl:w-96 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 shadow"
+                                }
+                                disabled={disableEditInfo}
                                 onChange={onChangeInfoPerfil}
                                 name="first_name"
-                                id="first_name"
-                                disabled={disableEditInfo}
+                                defaultValue={firstName}
                             />
                         </div>
                     </div>
@@ -196,15 +194,12 @@ export const InformacionPersonal = () => {
                             Fecha nacimiento
                         </label>
                         <div className="flex">
-                            <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
-                                <i className="hidden sm:block mdi mdi-account-outline text-gray-400 text-lg"></i>
-                            </div>
                             <input
                                 type="date"
                                 className={
                                     disableEditInfo
-                                        ? "bg-gray-200 text-gray-500 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2 focus:ring-yellowlight w-full -ml-10 sm:pl-10 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 shadow"
-                                        : "bg-white text-gray-900 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2 focus:ring-yellowlight w-full -ml-10 sm:pl-10 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 shadow"
+                                        ? "bg-gray-200 text-gray-500 text-sm md:text-base sm:col-span-4 col-span-12 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2 focus:ring-yellowlight w-full 2xl:w-96 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 shadow"
+                                        : "bg-white text-gray-900 text-sm md:text-base sm:col-span-4 col-span-12 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2 focus:ring-yellowlight w-full 2xl:w-96 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 shadow"
                                 }
                                 defaultValue={fechaNac}
                                 onChange={onChangeInfoPerfil}
@@ -290,7 +285,7 @@ export const InformacionPersonal = () => {
             </div>
 
             {/* Button guardar */}
-            <div className="grid grid-cols-12 sm:ml-6 ml-2 mt-8">
+            <div className="grid grid-cols-12 md:ml-6 sm:ml-4 mt-8">
                 <button
                     type="submit"
                     onClick={handleClickUpdatePerfil}

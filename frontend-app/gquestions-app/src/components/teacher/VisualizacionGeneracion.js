@@ -94,7 +94,12 @@ export const VisualizacionGeneracion = () => {
                 minWidth: "100%",
             }}>
 
-            <div className="container grid grid-rows md:mx-auto sm:px-16 px-8 my-10">
+            <CustomScrollbars
+                autoHide
+                autoHideTimeout={900}
+                autoHideDuration={400}
+                style={{ height: "90vh" }}
+                className="container grid grid-rows md:mx-auto sm:px-16 px-8 my-10">
                 <Helmet>
                     <title>Ver Generaciones - GQuestions</title>
                     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
@@ -104,7 +109,7 @@ export const VisualizacionGeneracion = () => {
                         rel="stylesheet" type='text/css'></link>
                 </Helmet>
 
-                <div className="justify-self-end">
+                <div className="justify-self-end w-44 px-8">
                     <button
                         type="submit"
                         className="btn-back"
@@ -115,7 +120,7 @@ export const VisualizacionGeneracion = () => {
 
                 </div>
 
-                <div className="w-full flex justify-center mb-16 py-6">
+                <div className="w-full flex justify-center mb-16 py-6 px-8">
                     <div className="w-full">
                         <div className="w-full flex flex-col md:flex-row rounded-lg overflow-hidden shadow-lg border dark:border-gray-700">
                             <div className="w-full md:w-1/4 ">
@@ -213,8 +218,7 @@ export const VisualizacionGeneracion = () => {
                     </div>
                 ))
             } */}
-            </div>
-
+            </CustomScrollbars>
         </div>
     )
 }

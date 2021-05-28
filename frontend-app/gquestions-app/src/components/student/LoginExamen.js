@@ -10,6 +10,13 @@ import { NavbarStudent } from './NavBarStudent';
 
 export const LoginExamen = () => {
 
+    const navigation = [
+        { name: 'Inicio', href: '#', current: true, id: 0 },
+        { name: 'Mis calificaciones', href: '#', current: false, id: 1 },
+        /* { name: 'Projects', href: '#', current: false }, */
+        { name: 'Ajustes', href: '#', current: false, id: 2 },
+    ];
+    
     // Hooks Generacion 
     const [generacionExamen, setGeneracionExamen] = useState([])
     const [passwordExamen, setPasswordExamen] = useState("")
@@ -41,7 +48,6 @@ export const LoginExamen = () => {
 
     const getExamenes = async (cod_generacion) => {
         const generacion_response = await GetGeneracionExamen(cod_generacion);
-
         generacion_response.map(objeto => {
             let configuracion_examen = objeto.generacion_examenes[0]
             setPasswordExamen(configuracion_examen.contrasena_exam)
@@ -109,7 +115,7 @@ export const LoginExamen = () => {
                 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
                     rel="stylesheet"></link>
             </Helmet>
-            <NavbarStudent className="fixed"/>
+            <NavbarStudent className="fixed" navigation={navigation}/>
             <div className="container mx-auto flex justify-center items-center" style={{ height: "80vh" }}>
 
                 <div className="">

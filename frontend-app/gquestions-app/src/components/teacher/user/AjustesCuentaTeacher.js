@@ -1,16 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
-import Navbar from "../../containers/Navbar";
-import "../../assets/styles/tailwind.css";
-import backgroundGeneralCyanDark from "../../assets/images/background-general-cyan_dark.png";
-import backgroundGeneralCyanLight from "../../assets/images/background-general-cyan_light.png"
+import Navbar from "../../../containers/Navbar";
+import "../../../assets/styles/tailwind.css";
+import backgroundGeneralCyanDark from "../../../assets/images/background-general-cyan_dark.png";
+import backgroundGeneralCyanLight from "../../../assets/images/background-general-cyan_light.png"
 import { Helmet } from "react-helmet";
 import AOS from "aos";
 import { DropdownUser } from "./DropdownUser";
 import { CambiarContrasena } from "./CambiarContrasena";
 import { InformacionAdicional } from "./InformacionAdicional";
 import { InformacionPersonal } from "./InformacionPersonal";
+import Scrollbars from "react-custom-scrollbars";
 
-export const AjustesCuenta = () => {
+export const AjustesCuentaTeacher = () => {
 
   const [pestaña, setpestaña] = useState("tab_perfil");
 
@@ -33,7 +34,7 @@ export const AjustesCuenta = () => {
   }, []);
 
 
-  // nabigation tabs
+  // navigation tabs
   const clickOnContrasena = () => {
     setpestaña("tab_contrasena");
   }
@@ -48,7 +49,7 @@ export const AjustesCuenta = () => {
     return (
       <div
         ref={darkModeRef}
-        className="flex container w-screen h-screen font-manrope"
+        className="flex container w-screen font-manrope"
         style={{
           backgroundImage: `url(${darkModeBool ? backgroundGeneralCyanDark : backgroundGeneralCyanLight})`,
           width: "100%",
@@ -79,12 +80,16 @@ export const AjustesCuenta = () => {
             rel="stylesheet"></link>
         </Helmet>
 
-          <Navbar className="fixed" />
-          
-        <div data-aos="fade-in" className="container 2xl:mx-auto md:mx-8 mx-4 mt-8 md:text-base text-sm">
+          <Navbar className="" />
+          <CustomScrollbars
+            autoHide
+            autoHideTimeout={900}
+            autoHideDuration={400}
+            style={{ height: "100vh" }}
+            data-aos="fade-in" 
+            className="container 2xl:mx-auto md:mx-8 mx-4 mt-8 md:text-base text-sm">
 
-
-          <div className="grid grid-rows">
+          <div className="grid grid-rows pb-16">
 
             <h1 className="font-black xl:text-5xl md:text-4xl sm:text-2xl md:text-left mb-12 lg:mb-10 text-2xl dark:text-white">
               Ajustes de cuenta
@@ -115,7 +120,7 @@ export const AjustesCuenta = () => {
               </div>
             </div>
           </div>
-        </div>
+        </CustomScrollbars>
         <DropdownUser />
       </div>
     );
@@ -130,7 +135,7 @@ export const AjustesCuenta = () => {
     return (
       <div
         ref={darkModeRef}
-        className="flex container w-screen h-screen font-manrope"
+        className="flex container w-screen font-manrope"
         style={{
           backgroundImage: `url(${darkModeBool ? backgroundGeneralCyanDark : backgroundGeneralCyanLight})`,
           width: "100%",
@@ -159,9 +164,15 @@ export const AjustesCuenta = () => {
             rel="stylesheet"></link>
         </Helmet>
 
-        <Navbar className="fixed" />
+        <Navbar className="" />
 
-        <div data-aos="fade-right" className="container 2xl:mx-auto md:mx-8 mx-4 mt-8 md:text-base text-sm">
+        <CustomScrollbars
+            autoHide
+            autoHideTimeout={900}
+            autoHideDuration={400}
+            style={{ height: "100vh" }}
+            data-aos="fade-in" 
+            className="container 2xl:mx-auto md:mx-8 mx-4 mt-8 md:text-base text-sm">
           <div className="grid grid-rows">
 
             <h1 className="font-black xl:text-5xl md:text-4xl sm:text-2xl md:text-left mb-12 lg:mb-10 text-2xl dark:text-white">
@@ -193,7 +204,7 @@ export const AjustesCuenta = () => {
             </div>
 
           </div>
-        </div>
+        </CustomScrollbars>
         <DropdownUser />
       </div>
     );
@@ -208,7 +219,7 @@ export const AjustesCuenta = () => {
     return (
       <div
         ref={darkModeRef}
-        className="flex container w-screen h-screen font-manrope"
+        className="flex container w-screen font-manrope"
         style={{
           backgroundImage: `url(${darkModeBool ? backgroundGeneralCyanDark : backgroundGeneralCyanLight})`,
           width: "100%",
@@ -238,9 +249,15 @@ export const AjustesCuenta = () => {
             rel="stylesheet"></link>
         </Helmet>
 
-        <Navbar className="fixed" />
+        <Navbar className="" />
         
-        <div data-aos="fade-right" className="container 2xl:mx-auto md:mx-8 mx-4 mt-8 md:text-base text-sm">
+        <CustomScrollbars
+            autoHide
+            autoHideTimeout={900}
+            autoHideDuration={400}
+            style={{ height: "100vh"}}
+            data-aos="fade-in"
+            className="container 2xl:mx-auto md:mx-8 mx-4 mt-8 md:text-base text-sm">
           <div className="grid grid-rows">
 
             <h1 className="font-black xl:text-5xl md:text-4xl sm:text-2xl md:text-left mb-12 lg:mb-10 text-2xl dark:text-white">
@@ -275,9 +292,26 @@ export const AjustesCuenta = () => {
             </div>
 
           </div>
-        </div>
+        </CustomScrollbars>
         <DropdownUser />
       </div>
     );
   }
 }
+
+// Funciones que cambian el estilo del scroll y otras props de una librería
+const renderThumb = ({ style, ...props }) => {
+  const thumbStyle = {
+    borderRadius: 6,
+    backgroundColor: 'rgba(35, 49, 86, 0.8)'
+  };
+  return <div style={{ ...style, ...thumbStyle }} {...props} />;
+};
+
+const CustomScrollbars = props => (
+  <Scrollbars
+    renderThumbHorizontal={renderThumb}
+    renderThumbVertical={renderThumb}
+    {...props}
+  />
+);

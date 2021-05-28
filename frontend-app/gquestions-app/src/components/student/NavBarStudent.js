@@ -59,6 +59,10 @@ export const NavbarStudent = (props) => {
       .catch(err => err)
   }
 
+  const onClickAjustes = () => {
+    history.push('/student/ajustes-cuenta')
+  }
+
   return (
     <div ref={darkModeRef}>
 
@@ -178,7 +182,7 @@ export const NavbarStudent = (props) => {
                             <Menu.Item>
                               {({ active }) => (
                                 <button
-                                  onClick=""
+                                  onClick={onClickAjustes}
                                   className={classNames(
                                     active ? 'bg-gray-100' : '',
                                     'transition duration-500 w-full outline-none focus:outline-none text-left font-bold px-4 py-2 text-sm text-gray-700 dark:text-gray-100 dark:hover:bg-yellowlight dark:hover:text-black'
@@ -225,17 +229,18 @@ export const NavbarStudent = (props) => {
             <Disclosure.Panel className="sm:hidden">
               <div className="px-2 pt-2 pb-3 space-y-1">
                 {navigation.map((item) => (
-                  <a
+                  <button
                     key={item.name}
-                    href={item.href}
+                    id={item.id}
+                    onClick={onClickNavbar}
                     className={classNames(
-                      item.current ? 'bg-yellowlight text-yellow-800 outline-none focus:outline-none' : 'text-darkColor dark:text-gray-200 outline-none focus:outline-none',
+                      item.current ? 'w-full text-left bg-yellowlight text-yellow-800 outline-none focus:outline-none' : 'text-darkColor dark:text-gray-200 outline-none focus:outline-none',
                       'block px-3 py-2 rounded-md text-base font-medium transition duration-500 hover:bg-yellowlight hover:text-yellow-800 dark:hover:text-yellow-800'
                     )}
                     aria-current={item.current ? 'page' : undefined}
                   >
                     {item.name}
-                  </a>
+                  </button>
                 ))}
               </div>
             </Disclosure.Panel>

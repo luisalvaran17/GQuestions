@@ -13,7 +13,7 @@ import proposito3 from '../assets/images/proposito3.png';
 import proposito4 from '../assets/images/proposito4.png';
 import screnshootMobiles from '../assets/images/mobiles-screenshots.png';
 import LogoGQuestions from '../assets/images/logo.png';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { CarouselEjemplo } from '../components/home/CarouselEjemplos';
 import { Footer } from '../components/home/Footer';
@@ -24,6 +24,8 @@ export const Homepage = () => {
   const divRefMenu = React.createRef();
   const darkMode = useRef();
   const [darkModeBool, setDarkModeBool] = useState(localStorage.getItem('bool-dark'));
+
+  const history = useHistory();
 
   const { logged } = useHome();
   const [navbar, setNavbar] = useState(false)
@@ -101,6 +103,19 @@ export const Homepage = () => {
       localStorage.removeItem('bool-dark');
       darkMode.current.classList.remove("dark");
       setDarkModeBool(false);
+    }
+  }
+
+  const onClickIrCuenta = () => {
+    const rol_id_docente = "72eea687168b8c450afdeefa69c9d478b9ca90bfdcda1efb0029c9352ae4c70d";
+    const rol_id_estudiante = "3d8388c45fc7f48e40800ff051117af34b204bb4a29098332f504774858e49db";
+
+    let rol = localStorage.getItem('rol');
+    if (rol_id_docente === rol) {
+      history.push('/teacher/generacion')
+    }
+    else if (rol_id_estudiante === rol) {
+      history.push('/student/home')
     }
   }
 
@@ -684,14 +699,14 @@ export const Homepage = () => {
               </div>
 
               <div className="ml-3 mr-2 sm:mr-16">
-                <Link
-                  to='teacher/generacion'
+                <button
+                  onClick={onClickIrCuenta}
                   className='transition duration-500 inline-block shadow-md text-sm lg:mr-3 lg:ml-0 text-darkGrayColor text-center  
                   z-10 w-full mx-auto bg-yellowlight focus:bg-yellowlightdark hover:bg-yellowlightdark 
                   rounded-lg px-2 py-2 font-semibold lg:mb-0 mb-2'
                 >
                   Ir a tu cuenta
-              </Link>
+              </button>
 
                 <div className=''>
                   <p

@@ -98,7 +98,7 @@ export const AjustesStudent = () => {
           minHeight: "",
           minWidth: "100%",
         }}>
-        <NavbarStudent navigation={navigation} />
+        <NavbarStudent navigation={navigation}/>
 
         <Helmet>
           <title>Ajustes - GQuestions</title>
@@ -107,7 +107,8 @@ export const AjustesStudent = () => {
         </Helmet>
 
 
-        <div className='container mx-auto xl:pl-32 px-1 sm:px-8 py-8 md:px-8 lg:pl-16 sm:mr-32 dark:text-white' style={{ height: "80vh"}}>
+        <div className='container mx-auto xl:pl-32 px-1 sm:px-8 py-8 md:px-8 lg:pl-16 sm:mr-32 dark:text-white' 
+        style={{ height: "80vh"}}>
           <h1 className='font-black xl:text-5xl md:text-4xl text-2xl md:text-left mb-4'>
             Ajustes
           </h1>

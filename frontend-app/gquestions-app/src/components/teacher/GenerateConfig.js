@@ -6,7 +6,7 @@ import backgroundGeneralYellowDark from "../../assets/images/background-general-
 import backgroundGeneralYellowLight from "../../assets/images/background-general-yellow_light.png";
 import AOS from "aos";
 import { Helmet } from 'react-helmet'
-import { DropdownUser } from "../user/DropdownUser";
+import { DropdownUser } from "../teacher/user/DropdownUser";
 import { CreateGeneracionConfiguracionAPI } from "../../api/Generacion/CreateGeneracionConfiguracionAPI";
 import { CreateGeneracionTipoPreguntaAPI } from "../../api/Generacion/CreateGeneracionTipoPreguntaAPI";
 import { StepsProgress } from "./StepsProgress";
@@ -20,7 +20,7 @@ import Scrollbars from "react-custom-scrollbars";
 import { ErrorModal } from "../../containers/ErrorModal";
 
 export const GenerateConfig = () => {
-  const divRefErrorMessage = React.createRef();
+  const divRefErrorMessage = useRef();
   const { v4: uuidv4 } = require("uuid");
   const UUID_GENERATE = uuidv4(); // uuid autogenerado para id de Generacion
 
@@ -117,7 +117,7 @@ export const GenerateConfig = () => {
     const user_response = await GetUserAPI(id_user)
     if (user_response === false) {
       // nothing
-    }else{
+    } else {
       const terminos_condiciones = user_response.users[0].terminos_condiciones
       setIsOpen(!terminos_condiciones)
     }
@@ -197,7 +197,6 @@ export const GenerateConfig = () => {
     let boolCantidadPreguntas = false;
     let boolTipoPregunta = false;
     let p_zero;
-    let p_textosMenor;
     let p_longTexto;
     let p_cantidadPreguntas;
     let p_tiposPreguntas;
@@ -209,10 +208,6 @@ export const GenerateConfig = () => {
     ) {
       boolZero = true;
       p_zero = React.createElement('p', {}, '●  Hay campos con valores en cero');
-    }
-    if (generacionConfiguracion.cantidad_textos < generacionConfiguracion.n_examenes) {
-      boolTextosMenor = true;
-      p_textosMenor = React.createElement('p', {}, '●  La cantidad de textos debe ser mayor o igual a la cantidad de exámenes');
     }
     if (generacionConfiguracion.longit_texto < 300) {
       boolLongTexto = true;
@@ -230,7 +225,7 @@ export const GenerateConfig = () => {
     }
     if (boolZero || boolCantidadPreguntas || boolLongTexto || boolTextosMenor || boolTipoPregunta) {
       removeClassdivRefErrorMessage();
-      const X = React.createElement('div', {}, [p_zero, p_textosMenor, p_longTexto, p_cantidadPreguntas, p_tiposPreguntas]);
+      const X = React.createElement('div', {}, [p_zero, p_longTexto, p_cantidadPreguntas, p_tiposPreguntas]);
       ReactDOM.render(X, document.getElementById('error_messages'));
       return false;
     }
@@ -289,7 +284,7 @@ export const GenerateConfig = () => {
       >
         <Helmet>
           <title>Generación - GQuestions</title>
-          <link rel="stylesheet" href="https://pagecdn.io/lib/font-awesome/5.10.0-11/css/all.min.css" integrity="sha256-p9TTWD+813MlLaxMXMbTA7wN/ArzGyW/L7c5+KkjOkM=" crossorigin="anonymous"/>
+          <link rel="stylesheet" href="https://pagecdn.io/lib/font-awesome/5.10.0-11/css/all.min.css" integrity="sha256-p9TTWD+813MlLaxMXMbTA7wN/ArzGyW/L7c5+KkjOkM=" crossorigin="anonymous" />
         </Helmet>
 
         <Navbar className="" />
@@ -299,7 +294,8 @@ export const GenerateConfig = () => {
           autoHideTimeout={900}
           autoHideDuration={400}
           style={{ height: "100vh" }}
-          data-aos="fade-right" className="container">
+          data-aos="fade-right" 
+          className="container">
 
           {/* Términos y condiciones Modal */}
           <Transition appear show={isOpen} as={Fragment}>
@@ -345,7 +341,7 @@ export const GenerateConfig = () => {
                       className="text-xl font-medium leading-6 text-gray-900"
                     >
                       Términos y condiciones
-                </Dialog.Title>
+                    </Dialog.Title>
                     <div className="mt-2">
                       <ul className="px-6 list-disc space-y-2 md:text-justify">
                         <li>
@@ -381,19 +377,19 @@ export const GenerateConfig = () => {
                     <div className="flex mt-4 pr-6 justify-end space-x-4">
                       <button
                         type="button"
-                        className="transition duration-500 inline-flex justify-center px-12 py-2 text-sm font-medium text-red-900 bg-red-100 border border-transparent 
+                        className="transition duration-500 sm:w-auto w-28 inline-flex justify-center px-12 py-2 text-sm font-medium text-red-900 bg-red-100 border border-transparent 
                         rounded-md hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                         onClick={closeModalNoAccept}
                       >
-                        No acepto
+                        Rechazar
                       </button>
                       <button
                         type="button"
-                        className="transition duration-500 inline-flex justify-center px-12 py-2 text-sm font-medium text-green-900 bg-green-100 border border-transparent 
+                        className="transition duration-500  sm:w-auto w-28 inline-flex justify-center px-12 py-2 text-sm font-medium text-green-900 bg-green-100 border border-transparent 
                         rounded-md hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                         onClick={closeModalAccept}
                       >
-                        Acepto
+                        Aceptar
                       </button>
                     </div>
                   </div>
@@ -403,12 +399,15 @@ export const GenerateConfig = () => {
           </Transition>
 
           {/* Modal case error */}
-          <ErrorModal isOpen={isOpenError}/>
+          <ErrorModal isOpen={isOpenError} />
 
           <div className="grid grid-rows xl:pl-32 px-8 py-8 md:px-8 lg:pl-16">
-            <h1 className="font-black xl:text-5xl md:text-4xl sm:text-2xl md:text-left mb-12 lg:mb-20 text-2xl dark:text-white">
+            <h1 className="font-black xl:text-5xl md:text-4xl sm:text-2xl md:text-left text-2xl mb-4 dark:text-white">
               Parámetros de generación
             </h1>
+            <p className="text-gray-500 font-semibold text-sm md:text-base dark:text-gray-200 mb-6 lg:mb-8">
+              Aquí puedes configurar los parámetros de la generación.
+            </p>
             <div className="grid grid-cols-12 sm:mb-44 mb-0">
               <div className="grid sm:col-span-4 col-span-12 sm:mr-8 mr-0 mb-2">
                 <label className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
@@ -567,7 +566,7 @@ export const GenerateConfig = () => {
 
             <div className="py-3 mt-4 w-full">
               <p className="text-sm text-gray-600 dark:text-gray-300 my-1">
-                Tiempo de generación apróximado: 120s
+                Tiempo de generación aproximado: 120s
               </p>
               <div className="bg-gray-300 w-full mb-4 h-1">
                 <div className="bg-yellowmain w-4/5 h-full text-right">
@@ -600,37 +599,36 @@ export const GenerateConfig = () => {
 
             {/* StepProgress */}
             <StepsProgress active={1} />
-          </div>
 
-          {/* Error messages */}
-          <div>
+            {/* Error messages */}
+            <div className="mb-8">
 
-          </div>
-          <div
-
-            ref={divRefErrorMessage}
-            className="hidden animate-pulse mt-2 relative py-1 pl-4 pr-10 leading-normal text-red-700 bg-red-100 rounded-lg"
-            role="alert"
-          >
-            <div id="error_messages" className="text-sm md:text-base">
-            </div>
-
-            <span
-              className="absolute inset-y-0 right-0 flex items-center mr-4"
-              onClick={addClassdivRefErrorMessage}
-            >
-              <svg
-                className="w-4 h-4 fill-current"
-                role="button"
-                viewBox="0 0 20 20"
+              <div
+                ref={divRefErrorMessage}
+                className="hidden animate-pulse mt-2 relative py-1 pl-4 pr-10 leading-normal text-red-700 bg-red-100 rounded-lg"
+                role="alert"
               >
-                <path
-                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                  clipRule="evenodd"
-                  fillRule="evenodd"
-                ></path>
-              </svg>
-            </span>
+                <div id="error_messages" className="text-sm md:text-base">
+                </div>
+
+                <span
+                  className="absolute inset-y-0 right-0 flex items-center mr-4"
+                  onClick={addClassdivRefErrorMessage}
+                >
+                  <svg
+                    className="w-4 h-4 fill-current"
+                    role="button"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                      clipRule="evenodd"
+                      fillRule="evenodd"
+                    ></path>
+                  </svg>
+                </span>
+              </div>
+            </div>
           </div>
         </CustomScrollbars>
         <DropdownUser />

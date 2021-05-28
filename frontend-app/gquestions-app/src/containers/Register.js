@@ -37,7 +37,7 @@ export const Register = () => {
     email: "",
     password: "",
     rol: "Docente", // por defecto
-    fecha_nac: "",
+    fecha_nac: null,
     edad: null,
   });
   const [confirmation_pass, setconfirmation_pass] = useState({
@@ -204,8 +204,8 @@ export const Register = () => {
       usuario.last_name === "" ||
       usuario.email === "" ||
       usuario.password === "" ||
-      usuario.rol === "" ||
-      usuario.fecha_nac === ""
+      usuario.rol === "" 
+      /* usuario.fecha_nac === "" */
       //usuario.edad: null,
 
     ) {
@@ -463,13 +463,13 @@ export const Register = () => {
                           htmlFor=""
                           className="hidden sm:block text-xs font-semibold px-1"
                         >
-                          Fecha de nacimiento
+                          Fecha nac. (opcional)
                       </label>
                         <label
                           htmlFor=""
                           className="sm:hidden block text-xs font-semibold px-1"
                         >
-                          Cumpleaños
+                          Cumpleaños (opc.)
                       </label>
                         <div className="flex">
                           <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>

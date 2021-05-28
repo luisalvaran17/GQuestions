@@ -3,13 +3,14 @@ import Navbar from "../../containers/Navbar";
 import "../../assets/styles/tailwind.css";
 import backgroundGeneralGreenDark from "../../assets/images/background-general-green_dark.png";
 import backgroundGeneralGreenLight from "../../assets/images/background-general-green_light.png";
-import { DropdownUser } from "../user/DropdownUser";
+import { DropdownUser } from "../teacher/user/DropdownUser";
 import { StepsProgress } from "./StepsProgress";
 import { CreateConfiguracionExamenAPI } from "../../api/Examen/CreateConfiguracionExamenAPI";
 import { CreateExamenAPI } from "../../api/Examen/CreateExamenAPI";
 import ReactDOM from 'react-dom'
 import { ExamenPublicado } from "./ExamenPublicado";
 import { Helmet } from "react-helmet";
+import Scrollbars from "react-custom-scrollbars";
 
 export const ExamenConfiguracion = (props) => {
 
@@ -168,7 +169,7 @@ export const ExamenConfiguracion = (props) => {
     return (
       <div
         ref={darkModeRef}
-        className="flex container w-screen h-screen font-manrope"
+        className="flex container w-screen font-manrope"
         style={{
           backgroundImage: `url(${darkModeBool ? backgroundGeneralGreenDark : backgroundGeneralGreenLight})`,
           width: "100%",
@@ -184,13 +185,21 @@ export const ExamenConfiguracion = (props) => {
         </Helmet>
 
         <Navbar className="fixed" />
-        <div className="container xl:mx-32 mx-4 md:mx-8 lg:mx-16 mt-8 dark:text-white">
+
+        <CustomScrollbars
+          autoHide
+          autoHideTimeout={900}
+          autoHideDuration={400}
+          style={{ height: "100vh" }}
+          data-aos="fade-right" 
+          className="container xl:mx-32 mx-4 md:mx-8 lg:mx-16 mt-8 dark:text-white">
+
           <div className="grid grid-rows">
             <h1 className="font-black xl:text-5xl md:text-4xl sm:text-2xl md:text-left mb-12 lg:mb-20 text-2xl">
               Configuración examen
             </h1>
             <div className="grid grid-cols-12 sm:mb-44 mb-0">
-              <div className="grid sm:col-span-4 col-span-12 mr-8 mb-2">
+              <div className="grid sm:col-span-4 col-span-12 sm:mr-8 mr-6 mb-2">
                 <label className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
                   Fecha y hora de inicio
                 </label>
@@ -205,9 +214,9 @@ export const ExamenConfiguracion = (props) => {
                 />
               </div>
 
-              <div className="grid sm:col-span-4 col-span-12 mr-8 mb-2">
+              <div className="grid sm:col-span-4 col-span-12 sm:mr-8 mr-6 mb-2">
                 <label className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
-                  Fecha y hora de finalización
+                  Fecha y hora de fin
                 </label>
                 <input
                   type="datetime-local"
@@ -220,7 +229,7 @@ export const ExamenConfiguracion = (props) => {
                 />
               </div>
 
-              <div className="grid sm:col-span-4 col-span-12 mr-8 mb-2">
+              <div className="grid sm:col-span-4 col-span-12 sm:mr-8 mr-6 mb-2">
                 <label className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
                   Contraseña del examen
                 </label>
@@ -237,8 +246,8 @@ export const ExamenConfiguracion = (props) => {
               </div>
             </div>
 
-            <div className="grid grid-cols-12 sm:mb-44 mb-32 ">
-              <div className="grid sm:col-span-4 col-span-12 mr-8 mb-2">
+            <div className="grid grid-cols-12 sm:mb-44 mb-16 ">
+              <div className="grid sm:col-span-4 col-span-12 sm:mr-8 mr-6 mb-2">
                 <label className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
                   Nombre del examen
                 </label>
@@ -253,7 +262,7 @@ export const ExamenConfiguracion = (props) => {
                 />
               </div>
 
-              <div className="grid sm:col-span-4 col-span-12 mr-8 mb-2">
+              <div className="grid sm:col-span-4 col-span-12 sm:mr-8 mr-6 mb-2">
                 <label className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
                   Número de intentos
                 </label>
@@ -273,14 +282,14 @@ export const ExamenConfiguracion = (props) => {
               <hr></hr>
             </div>
 
-            <div className="grid grid-rows justify-end items-end">
+            <div className="grid grid-rows justify-end items-end mr-6">
               {!isLoading &&
                 <button
                   type="submit"
                   className="btn-primary"
                   onClick={handleClick}
                 >
-                  Terminar y públicar
+                  Terminar
               </button>
               }{isLoading &&
                 <button
@@ -329,7 +338,7 @@ export const ExamenConfiguracion = (props) => {
               </svg>
             </span>
           </div>
-        </div>
+        </CustomScrollbars>
         <DropdownUser />
       </div>
     );
@@ -339,3 +348,20 @@ export const ExamenConfiguracion = (props) => {
     );
   }
 }
+
+// Funciones que cambian el estilo del scroll y otras props de una librería
+const renderThumb = ({ style, ...props }) => {
+  const thumbStyle = {
+    borderRadius: 6,
+    backgroundColor: 'rgba(35, 49, 86, 0.8)',
+  };
+  return <div style={{ ...style, ...thumbStyle }} {...props} />;
+};
+
+const CustomScrollbars = props => (
+  <Scrollbars
+    renderThumbHorizontal={renderThumb}
+    renderThumbVertical={renderThumb}
+    {...props}
+  />
+);

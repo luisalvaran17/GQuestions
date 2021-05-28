@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { GetUserAPI } from '../../api/Usuario/GetUserAPI';
-import { UpdateOrganizacionUserAPI } from '../../api/Usuario/UpdateOrganizacionUserAPI';
+import { GetUserAPI } from '../../../api/Usuario/GetUserAPI';
+import { UpdateOrganizacionUserAPI } from '../../../api/Usuario/UpdateOrganizacionUserAPI';
 
 export const InformacionAdicional = () => {
 
@@ -91,7 +91,7 @@ export const InformacionAdicional = () => {
                     </div>
                 </div>
 
-                <div className="grid grid-rows-2 grid-cols-1 md:flex -mx-3 mt-4">
+                <div className="grid grid-cols-1 md:flex -mx-3 mt-4">
                     <div className="w-full px-3 mb-3">
                         <label
 
@@ -171,7 +171,7 @@ export const InformacionAdicional = () => {
             </div>
 
             {/* Button guardar */}
-            <div className="grid grid-cols-12 sm:ml-6 ml-2 mt-8">
+            <div className="grid grid-cols-12 md:ml-6 sm:ml-4 mt-8">
                 <button
                     type="submit"
                     onClick={handleClickUpdateInfoAdicional}

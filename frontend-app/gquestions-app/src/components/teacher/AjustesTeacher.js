@@ -3,7 +3,7 @@ import Navbar from '../../containers/Navbar';
 import '../../assets/styles/tailwind.css';
 import backgroundGeneralYellowDark from "../../assets/images/background-general-yellow_dark.png";
 import backgroundGeneralYellowLight from "../../assets/images/background-general-yellow_light.png";
-import { DropdownUser } from '../user/DropdownUser';
+import { DropdownUser } from '../teacher/user/DropdownUser';
 import { Helmet } from 'react-helmet';
 import { RadioGroup } from '@headlessui/react';
 

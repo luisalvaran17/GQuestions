@@ -3,7 +3,7 @@ import Navbar from "../../containers/Navbar";
 import "../../assets/styles/tailwind.css";
 import backgroundGeneralGreenDark from "../../assets/images/background-general-green_dark.png";
 import backgroundGeneralGreenLight from "../../assets/images/background-general-green_light.png";
-import { DropdownUser } from "../user/DropdownUser";
+import { DropdownUser } from "../teacher/user/DropdownUser";
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 

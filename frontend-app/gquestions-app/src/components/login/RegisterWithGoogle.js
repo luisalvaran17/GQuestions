@@ -27,7 +27,7 @@ export const RegisterWithGoogle = (response) => {
     email: '',
     password: '',
     rol: 'Estudiante', // por defecto
-    fecha_nac: '',
+    fecha_nac: null,
   });
 
   const [confirmation_pass, setconfirmation_pass] = useState({
@@ -72,9 +72,28 @@ export const RegisterWithGoogle = (response) => {
         await LoginAPI(credentials);
         localStorage.setItem('token', await GetToken(credentials));
         localStorage.setItem('email', credentials.username);
-        localStorage.setItem('id_user', await GetDataUser(credentials.username));
+
+        const data_user = await GetDataUser(credentials.username);
+        localStorage.setItem('id_user', data_user.id);
+
+        // IDS unicos para roles
+        /* Docente    ->  72eea687168b8c450afdeefa69c9d478b9ca90bfdcda1efb0029c9352ae4c70d
+           Estudiante -> 	3d8388c45fc7f48e40800ff051117af34b204bb4a29098332f504774858e49db
+        */
+        if (data_user.rol === "Docente") {
+          localStorage.setItem('rol', '72eea687168b8c450afdeefa69c9d478b9ca90bfdcda1efb0029c9352ae4c70d');
+        } else if (data_user.rol === "Estudiante") {
+          localStorage.setItem('rol', '3d8388c45fc7f48e40800ff051117af34b204bb4a29098332f504774858e49db');
+        }
+
         setIsLoading(false);
-        if (isLoading === false) history.push("teacher/generacion");
+
+        if (isLoading === false && data_user.rol === "Docente") {
+          history.push("teacher/generacion");
+        }
+        else if (isLoading === false && data_user.rol === "Estudiante") {
+          history.push("student/home");
+        }
       }
       else {
         setIsLoading(true); // En caso de que el server no responda o no tenga conexión el usuario
@@ -108,8 +127,7 @@ export const RegisterWithGoogle = (response) => {
 
     if (
       usuario.password === "" ||
-      usuario.rol === "" ||
-      usuario.fecha_nac === ""
+      usuario.rol === "" 
       //usuario.edad: null,
 
     ) {
@@ -263,7 +281,7 @@ export const RegisterWithGoogle = (response) => {
                   </div>
                   <div className='w-full px-3 mb-3'>
                     <label htmlFor='' className='text-xs font-semibold px-1 text-gray-500 dark:text-gray-300'>
-                      Fecha de nacimiento
+                      Fecha de nacimiento (opcional)
                       </label>
                     <div className='flex'>
                       <div className='w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center'></div>

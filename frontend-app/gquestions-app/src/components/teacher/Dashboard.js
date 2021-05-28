@@ -6,7 +6,7 @@ import AOS from "aos";
 import backgroundGeneralYellowDark from "../../assets/images/background-general-yellow_dark.png";
 import backgroundGeneralYellowLight from "../../assets/images/background-general-yellow_light.png";
 import link_examen from "../../assets/images/link_examen.png";
-import { DropdownUser } from '../user/DropdownUser';
+import { DropdownUser } from '../teacher/user/DropdownUser';
 import { GetGeneracionesUsuarioAPI } from '../../api/Dashboard/GetGeneracionesUsuarioAPI';
 import { useHistory } from 'react-router';
 import { PrintGeneracion } from './PrintGeneracion';
@@ -72,19 +72,28 @@ export const Dashboard = () => {
   const getGeneracionesFromDB = async () => {
     setIsLoading(true);
     const response = await GetGeneracionesUsuarioAPI(localStorage.getItem('id_user'));
+    const arrayTempGeneraciones = []
+
+
+
     if (response === false) { //Verifica si hay un error en el server al obtener las generaciones
 
       setIsLoading(true)
     }
-    else{
-      setGeneraciones(response)
+    else {
+      response.map(generacion => {
+        if (generacion.generaciones_texto.length !== 0) { //Verifica que las generaciones tengan el texto generado, si no lo tiene no lo agrega al renderizado
+          arrayTempGeneraciones.push(generacion)
+        }
+        return true;
+      })
+      setGeneraciones(arrayTempGeneraciones)
       // Verificaca de que haya elementos generados, si no los hay, entonces, muestra mensaje de vacío
       if (response.length === 0) setGeneracionesEmpty(true)
       else setGeneracionesEmpty(false)
-  
+
       setIsLoading(false);
     }
-
   }
 
   const onClickVerGeneracion = (e) => {
@@ -95,13 +104,20 @@ export const Dashboard = () => {
     })
   }
 
+  /*   const onClickGeneracion = (e) => {
+      history.push({
+        pathname: '/teacher/visualizar-generacion',
+        //search: '?query=abc',
+        state: { id_generacion: e.target.id }
+      })
+    } */
+
   const onClickDownload = async (e) => {
     let id_generacion = e.target.id;
     let generacion = await getGeneracionFromDB(id_generacion);
-    console.log(generacion[0].generaciones_texto)
+
     setDownloadGeneracion(generacion[0].generaciones_texto)
     setIrDownload(true)
-    console.log(downloadGeneracion.ir)
   }
 
   function openModal(e) {
@@ -117,6 +133,14 @@ export const Dashboard = () => {
   const copyTextFunction = () => {
     navigator.clipboard.writeText(linkExamenes);
     setCopyText("Enlace copiado");
+  }
+
+  function FormatDateFunction(date) {
+    var dateFormat = require('dateformat');
+    var now = date;
+    var date_custom = dateFormat(now);
+
+    return date_custom;
   }
 
   if (irDownload === false) {
@@ -175,52 +199,73 @@ export const Dashboard = () => {
               autoHideTimeout={900}
               autoHideDuration={400}
               style={{ height: "70vh" }}>
-              
+
               {!isLoading &&
-              <ul>
-                {
-                  generaciones.map((generacion, contador = 1) => (
-                    <li
-                      key={contador}
-                      className="transition duration-500 py-4 rounded-xl hover:bg-gray-300 px-4 hover:bg-opacity-40 cursor-pointer font-bold border-b border-gray-300 dark:border-gray-700">
-                      <div className="grid grid-rows-">
-                        <p className="hidden sm:block">Generación número: {contador = contador + 1}</p>
-                        <div className="grid grid-cols-12">
-                          <p className="col-span-12 mb-4 sm:col-span-8 text-gray-500 text-sm dark:text-gray-400">Públicado - {generacion.fecha_generacion} | Número de examenes: {generacion.n_examenes} | Número de preguntas: {generacion.n_preguntas * generacion.n_examenes}</p>
-                          <div className="col-span-12 sm:col-span-4 place-self-center sm:place-self-end">
+                <ul>
+                  {
+                    generaciones.map((generacion, contador = 1) => (
+                      <li
+                        key={contador}
+                        id={generacion.id}
+                        className="">
+                        <div className="grid grid-rows- transition duration-500 py-4 rounded-xl hover:bg-gray-200 px-4 hover:bg-opacity-40 
+                        cursor-pointer font-bold border-b border-gray-300 dark:border-gray-700 dark:hover:bg-opacity-10" >
+                          <p className="hidden sm:block">Generación número: {contador = contador + 1}</p>
+                          <div className="grid grid-cols-12">
+                            <p className="col-span-12 mb-4 sm:col-span-8 text-gray-500 text-sm dark:text-gray-400">Generado: {FormatDateFunction(generacion.fecha_generacion)} | Cantidad de examenes: {generacion.n_examenes} | Cantidad de preguntas: {generacion.n_preguntas * generacion.n_examenes}</p>
+                            <div className="col-span-12 sm:col-span-4 place-self-center sm:place-self-end mr-2 pointer-events-auto">
 
-                            <span
-                              className="transition duration-500 hover:text-yellowmain text-gray-900 dark:text-gray-50 dark:hover:text-yellowmain material-icons mr-2"
-                              id={generacion.id}
-                              onClick={openModal}
-                            >&#xe157;
-                            </span>
+                              {generacion.generacion_examenes.length === 0 &&
+                                <div className="tooltip select-none ">
+                                  <span
+                                    className="ml-2 transition duration-500 hover:text-yellowmain text-gray-900 dark:text-gray-50 dark:hover:text-yellowmain material-icons mr-2"
+                                    id={generacion.id}  
+                                  >&#xe16f;
+                                </span>
+                                  <span className="tooltiptext text-sm">No examen</span>
+                                </div>
+                              }{generacion.generacion_examenes.length !== 0 &&
+                                <div className="tooltip select-none ">
+                                  <span
+                                    className="ml-2 transition duration-500 hover:text-yellowmain text-gray-900 dark:text-gray-50 dark:hover:text-yellowmain material-icons mr-2"
+                                    id={generacion.id}
+                                    onClick={openModal}
+                                  >&#xe157;
+                              </span>
+                                  <span className="tooltiptext text-sm">Enlace examen</span>
+                                </div>
+                              }
 
-                            <span
-                              className="transition duration-500 hover:text-yellowmain text-gray-900 dark:text-gray-50 dark:hover:text-yellowmain material-icons mr-2"
-                              onClick={onClickVerGeneracion}
-                              id={generacion.id}
-                            >&#xe8f4;
+                              <div className="tooltip place-self-center select-none">
+                                <span
+                                  className="ml-2 transition duration-500 hover:text-yellowmain text-gray-900 dark:text-gray-50 dark:hover:text-yellowmain material-icons mr-2"
+                                  onClick={onClickVerGeneracion}
+                                  id={generacion.id}
+                                >&#xe8f4;
+                                </span>
+                                <span className="tooltiptext text-sm">Visualizar</span>
+                              </div>
+                              <div className="tooltip place-self-center select-none">
+                                <span
+                                  className="ml-2 transition duration-500 hover:text-yellowmain text-gray-900 dark:text-gray-50 dark:hover:text-yellowmain material-icons mr-2"
+                                  onClick={onClickDownload}
+                                  id={generacion.id}
+                                >&#xf090;
                             </span>
-
-                            <span
-                              className="transition duration-500 hover:text-yellowmain text-gray-900 dark:text-gray-50 dark:hover:text-yellowmain material-icons mr-2"
-                              onClick={onClickDownload}
-                              id={generacion.id}
-                            >&#xf090;
-                            </span>
+                                <span className="tooltiptext text-sm">Descargar</span>
+                              </div>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </li>)
-                  )
-                }
+                      </li>)
+                    )
+                  }
 
-              </ul>
-            }{isLoading && 
-              <div>
-                <LoadingPage />
-              </div>}
+                </ul>
+              }{isLoading &&
+                <div>
+                  <LoadingPage />
+                </div>}
             </CustomScrollbars>
 
             {/* Link exámenes Modal */}
