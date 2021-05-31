@@ -144,7 +144,40 @@ input:checked ~ span:last-child {
     opacity: 1;
   }
 
+/* Tooltip Examen*/
+/* Tooltip container */
+.tooltip-examen {
+  position: relative;
+  display: inline-block; /* If you want dots under the hoverable text */
+}
 
+/* Tooltip text */
+.tooltip-examen .tooltiptext-examen {
+  visibility: hidden;
+  width: 120px;
+  background-color: #FFE3C1;
+  color: #000;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 10px;
+
+  /* Position the tooltip text */
+  position: absolute;
+  z-index: 1;
+  bottom: 110%;
+  left: 50%;
+  margin-left: -60px;
+
+  /* Fade in tooltip */
+  opacity: 0;
+  transition: ease-in 0.1s;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip-examen:hover .tooltiptext-examen {
+  visibility: visible;
+  opacity: 1;
+}
 
 /* Loading shape */
 .sk-folding-cube {

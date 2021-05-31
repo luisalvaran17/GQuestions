@@ -7,6 +7,7 @@ import { GetGeneracionExamen } from '../../api/Generacion/GetGeneracionExamen';
 import { GetExamenAPI } from '../../api/Examen/GetExamenAPI';
 import { UpdateExamenAPI } from '../../api/Examen/UpdateExamenAPI';
 import { NavbarStudent } from './NavBarStudent';
+import { useHistory } from'react-router';
 
 export const LoginExamen = () => {
 
@@ -21,6 +22,8 @@ export const LoginExamen = () => {
     const [generacionExamen, setGeneracionExamen] = useState([])
     const [passwordExamen, setPasswordExamen] = useState("")
     const [passwordInput, setPasswordInput] = useState("")
+
+    const history = useHistory();
 
     // Hooks dark mode
     const darkModeRef = useRef();
@@ -85,6 +88,7 @@ export const LoginExamen = () => {
                     // todo: update assigned value on db
                 }
             }
+            history.push('/user/examen')
         }
         else{
             console.log("Contraseña incorrecta")
@@ -112,8 +116,6 @@ export const LoginExamen = () => {
             >
             <Helmet>
                 <title>Examen - GQuestions</title>
-                <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-                    rel="stylesheet"></link>
             </Helmet>
             <NavbarStudent className="fixed" navigation={navigation}/>
             <div className="container mx-auto flex justify-center items-center" style={{ height: "80vh" }}>

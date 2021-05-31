@@ -34,6 +34,7 @@ export const Dashboard = () => {
 
   const [copyText, setCopyText] = useState("Copiar");
   const [linkExamenes, setLinkExamenes] = useState("");
+  const [passwordExamen, setPasswordExamen] = useState("");
 
   useEffect(() => {
     if (localStorage.theme === 'dark') {
@@ -73,8 +74,6 @@ export const Dashboard = () => {
     setIsLoading(true);
     const response = await GetGeneracionesUsuarioAPI(localStorage.getItem('id_user'));
     const arrayTempGeneraciones = []
-
-
 
     if (response === false) { //Verifica si hay un error en el server al obtener las generaciones
 
@@ -120,8 +119,13 @@ export const Dashboard = () => {
     setIrDownload(true)
   }
 
-  function openModal(e) {
+  async function openModal(e) {
+
+    let id_generacion = e.target.id;
     setLinkExamenes("localhost:3000/student/login-examen/" + e.target.id)
+
+    let generacion = await getGeneracionFromDB(id_generacion);
+    setPasswordExamen(generacion[0].generacion_examenes[0].contrasena_exam);
     setIsOpen(true)
   }
 
@@ -251,7 +255,7 @@ export const Dashboard = () => {
                                   onClick={onClickDownload}
                                   id={generacion.id}
                                 >&#xf090;
-                            </span>
+                                </span>
                                 <span className="tooltiptext text-sm">Descargar</span>
                               </div>
                             </div>
@@ -311,7 +315,7 @@ export const Dashboard = () => {
                         as="h3"
                         className="text-2xl font-bold leading-6 text-gray-900 select-none"
                       >
-                        Enlace de examen para tus estudiantes
+                        Enlace del examen para tus estudiantes
                       </Dialog.Title>
                       <div className="mt-2">
 
@@ -328,7 +332,7 @@ export const Dashboard = () => {
                             <img src={link_examen} alt="linked" className="w-52"></img>
                           </div>
                           <li className="list-none">
-                            <div className="grid grid-cols-12 text-sm text-gray-500 p-4 bg-gray-100 rounded-xl text-left border border-gray-200">
+                            <div className="grid grid-cols-12 text-sm text-gray-500 p-4 bg-gray-100 rounded-t-xl text-left border border-gray-200">
                               <p className="col-span-11 p-1 font-semibold text-blue-600 underline outline-none focus:outline-none">
                                 {linkExamenes}
                               </p>
@@ -343,6 +347,11 @@ export const Dashboard = () => {
                               </button>
                                 <span className="tooltiptext">{copyText}</span>
                               </div>
+                            </div>
+                            <div className="text-center px-4 bg-gray-100 rounded-b-xl border border-gray-200">
+                              <p className="p-1 text-xl font-semibold text-gray-400 outline-none focus:outline-none">
+                                Contraseña: {passwordExamen}
+                              </p>
                             </div>
 
                           </li>

@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useRef } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { useHistory } from 'react-router';
 import Logo from '../../assets/images/logo.png';
+import { Helmet } from "react-helmet";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -25,8 +26,56 @@ export const Examen = () => {
         history.push('/student/home')
     }
 
+    const scrollAnimation = () => {
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth',
+                });
+            });
+        });
+    };
+
+
+    /* functions for dropdown user */
+    const onClickLogout = async () => {
+        await fetch(
+            "http://localhost:8000/api/logout/",
+            {
+                method: "POST",
+                headers: {
+                    Authorization: 'Token ' + localStorage.getItem('token'),
+                    "Content-Type": "application/json"
+                },
+            }
+        ).then((data => {
+            if (data.ok) {
+                localStorage.removeItem('email');
+                localStorage.removeItem('token');
+                localStorage.removeItem('uuid_generacion');
+                localStorage.removeItem('id_user');
+                localStorage.removeItem('rol');
+                history.push('/');
+            }
+        }))
+            .catch(err => err)
+    }
+
+    const onClickAjustes = () => {
+        history.push('/student/ajustes-cuenta')
+    }
+
     return (
         <div ref={darkModeRef} className="font-manrope">
+
+            <Helmet>
+                <title>Examen - GQuestions</title>
+                <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+                    rel="stylesheet"></link>
+            </Helmet>
+
 
             {/* Toolbar */}
             <div className="flex justify-center items-center bg-gray-200 dark:bg-darkGrayColor2 text-white py-3 px-4 text-center fixed left-0 bottom-0 right-0 z-40">
@@ -42,6 +91,48 @@ export const Examen = () => {
                         <p className="font-black text-gray-600 dark:text-gray-200 md:text-3xl text-xl">Examen Nombre Examen</p>
                         <p>Tiempo para el examen: 2h</p>
                         <p>Intentos: 1</p>
+                    </div>
+
+                    {/* Navigation questions */}
+                    <div className="hidden md:block">
+                        <div className="fixed xl:right-64 lg:right-20 md:right-16 grid grid-rows text-darkColor" style={{ top: "45vh" }}>
+                            <div className="tooltip place-self-center select-none">
+                                <a
+                                    className="ml-2 transition duration-500 hover:text-green-500 text-green-300 material-icons mr-2"
+                                    href="#texto"
+                                    onClick={scrollAnimation}
+                                >&#xe061;
+                            </a>
+                                <span className="tooltiptext text-sm">Text</span>
+                            </div>
+                            <div className="tooltip-examen place-self-center select-none">
+                                <a
+                                    className="ml-2 transition duration-500 hover:text-yellowmain text-gray-400 dark:text-gray-600 dark:hover:text-yellowmain material-icons mr-2"
+                                    href="#pregunta1"
+                                    onClick={scrollAnimation}
+                                >&#xe061;
+                            </a>
+                                <span className="tooltiptext-examen text-sm">Question 1</span>
+                            </div>
+                            <div className="tooltip-examen place-self-center select-none">
+                                <a
+                                    className="ml-2 transition duration-500 hover:text-yellowmain text-gray-400 dark:text-gray-600 dark:hover:text-yellowmain material-icons mr-2"
+                                    href="#pregunta2"
+                                    onClick={scrollAnimation}
+                                >&#xe061;
+                            </a>
+                                <span className="tooltiptext-examen text-sm">Question 2</span>
+                            </div>
+                            <div className="tooltip-examen place-self-center select-none">
+                                <a
+                                    className="ml-2 transition duration-500 hover:text-yellowmain text-gray-400 dark:text-gray-600 dark:hover:text-yellowmain material-icons mr-2"
+                                    href="#pregunta3"
+                                    onClick={scrollAnimation}
+                                >&#xe061;
+                            </a>
+                                <span className="tooltiptext-examen text-sm">Question 3</span>
+                            </div>
+                        </div>
                     </div>
 
                     {/* Profile dropdown */}
@@ -95,7 +186,7 @@ export const Examen = () => {
                                         <Menu.Item>
                                             {({ active }) => (
                                                 <button
-                                                    onClick=""
+                                                    onClick={onClickAjustes}
                                                     className={classNames(
                                                         active ? 'bg-gray-100' : '',
                                                         'transition duration-500 w-full outline-none focus:outline-none text-left font-bold px-4 py-2 text-sm text-gray-700 dark:text-gray-100 dark:hover:bg-yellowlight dark:hover:text-black'
@@ -120,7 +211,7 @@ export const Examen = () => {
                                         <Menu.Item>
                                             {({ active }) => (
                                                 <button
-                                                    /* onClick={onClickLogout} */
+                                                    onClick={onClickLogout}
                                                     className={classNames(
                                                         active ? 'bg-gray-100' : '',
                                                         'transition duration-500 w-full outline-none focus:outline-none text-left font-bold px-4 py-2 text-sm text-gray-700 dark:text-gray-100 dark:hover:bg-yellowlight dark:hover:text-black'
@@ -146,11 +237,11 @@ export const Examen = () => {
                         <div className="w-full py-2 mx-auto dark:bg-darkColor rounded-lg">
                             <Disclosure>
                                 {({ open }) => (
-                                    <>
+                                    <div id='texto'>
                                         <Disclosure.Button className="flex justify-between w-full px-4 py-2 text-base font-medium text-left 
                                             text-yellow-900 bg-yellowlight bg-opacity-50 dark:bg-opacity-100 rounded-t-xl focus:outline-none 
                                             focus-visible:ring focus-visible:ring-yellow-500 focus-visible:ring-opacity-75">
-                                            <span>Texto para responder las preguntas</span>
+                                            <span>Text to answer the questions</span>
                                             <svg
                                                 className={`${open ? 'transform rotate-180' : ''} w-5 h-5 text-yellow-500`}
                                                 xmlns="http://www.w3.org/2000/svg"
@@ -173,8 +264,9 @@ export const Examen = () => {
                                                 Cuando tenía 25 años trabajó en el motor de cohete F-1 que sirvió para propulsar el cohete Saturno V que viajó a la luna, y a principios de los años 70 comenzó a desarrollar con Robert Kahn un conjunto de protocolos de comunicaciones para la red militar, financiado por la agencia gubernamental DARPA. El objetivo era crear una "red de redes" que permitiera interconectar las distintas redes del Departamento de Defensa de los Estados Unidos, todas ellas de diferentes tipos y que funcionaban con diversos sistemas operativos, con independencia del tipo de conexión: radioenlaces, satélites y líneas telefónicas.
 
                                                 Las investigaciones, lideradas por Vinton Cerf, primero desde la Universidad de California (1967-1972) y posteriormente desde la Universidad de Stanford (1972-1976), llevaron al diseño del conjunto de protocolos que hoy son conocidos como TCP/IP (Transmission Control Protocol/Internet Protocol), que fue presentado por Vinton Cerf y Robert Kahn en 1972((Creadores de Internet)).
-                                    </Disclosure.Panel></Transition>
-                                    </>
+                                            </Disclosure.Panel>
+                                        </Transition>
+                                    </div>
                                 )}
 
                             </Disclosure>
@@ -183,6 +275,96 @@ export const Examen = () => {
 
                     {/* Questions */}
                     <ul className="space-y-6">
+                        {/* Multiple choice question */}
+                        <li id='pregunta1'>
+                            <div className="rounded-lg shadow pt-8 bg-white">
+                                <div className="px-8 pb-4">
+                                    <p className="uppercase font-light text-gray-700">Pregunta 1</p>
+                                    <p className="font-semibold text-lg">¿Quién está considerado como uno de los padres de internet?</p>
+                                </div>
+                                <ul>
+                                    <button className="w-full">
+                                        <li className="transition duration-200 flex items-center bg-gray-100 hover:bg-gray-100 focus:bg-yellowlight py-4 px-8 border-b border-t">
+                                            <span className="font-semibold text-white mr-4 px-3 p-1 rounded-full border bg-yellowmain border-yellowmain">A</span>
+                                            <p>Tim Berners Lee</p>
+                                        </li>
+                                    </button>
+                                    <button className="w-full">
+                                        <li className="transition duration-200 flex items-center hover:bg-gray-100 focus:bg-yellowlight py-4 px-8 border-b border-t">
+                                            <span className="font-semibold mr-4 px-3 p-1 rounded-full border border-yellowmain">B</span>
+                                            <p>Tim Berners Lee</p>
+                                        </li>
+                                    </button>
+                                    <button className="w-full">
+                                        <li className="transition duration-200 flex items-center hover:bg-gray-100 focus:bg-yellowlight py-4 px-8 border-b border-t">
+                                            <span className="font-semibold mr-4 px-3 p-1 rounded-full border border-yellowmain">C</span>
+                                            <p>Tim Berners Lee</p>
+                                        </li>
+                                    </button>
+                                    <button className="w-full">
+                                        <li className="transition duration-200 flex items-center hover:bg-gray-100 focus:bg-yellowlight py-4 px-8 border-t">
+                                            <span className="font-semibold mr-4 px-3 p-1 rounded-full border border-yellowmain">D</span>
+                                            <p>Tim Berners Lee</p>
+                                        </li>
+                                    </button>
+                                </ul>
+                            </div>
+                        </li>
+
+                        {/* Open question */}
+                        <li id='pregunta2'>
+                            <div className="border rounded-lg shadow pt-8 bg-white">
+                                <div className="px-8 pb-4">
+                                    <p className="uppercase font-light text-gray-700">Pregunta 2</p>
+                                    <p className="font-semibold text-lg">¿Quién está considerado como uno de los padres de internet?</p>
+                                </div>
+                                <ul>
+                                    <div className="px-8 pb-4">
+                                        <textarea
+                                            className="w-full p-2 border rounded-lg resize-none focus:border-gray-400  bg-white text-gray-600 text-sm md:text-base outline-none focus:outline-none"
+                                        >
+                                        </textarea>
+                                    </div>
+                                </ul>
+                            </div>
+                        </li>
+
+                        {/* Multiple choice question */}
+                        <li id='pregunta3'>
+                            <div className="rounded-lg shadow pt-8 bg-white">
+                                <div className="px-8 pb-4">
+                                    <p className="uppercase font-light text-gray-700">Pregunta 1</p>
+                                    <p className="font-semibold text-lg">¿Quién está considerado como uno de los padres de internet?</p>
+                                </div>
+                                <ul>
+                                    <button className="w-full">
+                                        <li className="transition duration-200 flex items-center bg-gray-100 hover:bg-gray-100 focus:bg-yellowlight py-4 px-8 border-b border-t">
+                                            <span className="font-semibold text-white mr-4 px-3 p-1 rounded-full border bg-yellowmain border-yellowmain">A</span>
+                                            <p>Tim Berners Lee</p>
+                                        </li>
+                                    </button>
+                                    <button className="w-full">
+                                        <li className="transition duration-200 flex items-center hover:bg-gray-100 focus:bg-yellowlight py-4 px-8 border-b border-t">
+                                            <span className="font-semibold mr-4 px-3 p-1 rounded-full border border-yellowmain">B</span>
+                                            <p>Tim Berners Lee</p>
+                                        </li>
+                                    </button>
+                                    <button className="w-full">
+                                        <li className="transition duration-200 flex items-center hover:bg-gray-100 focus:bg-yellowlight py-4 px-8 border-b border-t">
+                                            <span className="font-semibold mr-4 px-3 p-1 rounded-full border border-yellowmain">C</span>
+                                            <p>Tim Berners Lee</p>
+                                        </li>
+                                    </button>
+                                    <button className="w-full">
+                                        <li className="transition duration-200 flex items-center hover:bg-gray-100 focus:bg-yellowlight py-4 px-8 border-t">
+                                            <span className="font-semibold mr-4 px-3 p-1 rounded-full border border-yellowmain">D</span>
+                                            <p>Tim Berners Lee</p>
+                                        </li>
+                                    </button>
+                                </ul>
+                            </div>
+                        </li>
+
                         {/* Multiple choice question */}
                         <li>
                             <div className="rounded-lg shadow pt-8 bg-white">
@@ -219,20 +401,75 @@ export const Examen = () => {
                             </div>
                         </li>
 
-                        {/* Open question */}
+
+                        {/* Multiple choice question */}
                         <li>
-                            <div className="border rounded-lg shadow pt-8 bg-white">
+                            <div className="rounded-lg shadow pt-8 bg-white">
                                 <div className="px-8 pb-4">
-                                    <p className="uppercase font-light text-gray-700">Pregunta 2</p>
+                                    <p className="uppercase font-light text-gray-700">Pregunta 1</p>
                                     <p className="font-semibold text-lg">¿Quién está considerado como uno de los padres de internet?</p>
                                 </div>
                                 <ul>
-                                    <div className="px-8 pb-4">
-                                        <textarea
-                                            className="w-full p-2 border rounded-lg resize-none focus:border-gray-400  bg-white text-gray-600 text-sm md:text-base outline-none focus:outline-none"
-                                        >
-                                        </textarea>
-                                    </div>
+                                    <button className="w-full">
+                                        <li className="transition duration-200 flex items-center bg-gray-100 hover:bg-gray-100 focus:bg-yellowlight py-4 px-8 border-b border-t">
+                                            <span className="font-semibold text-white mr-4 px-3 p-1 rounded-full border bg-yellowmain border-yellowmain">A</span>
+                                            <p>Tim Berners Lee</p>
+                                        </li>
+                                    </button>
+                                    <button className="w-full">
+                                        <li className="transition duration-200 flex items-center hover:bg-gray-100 focus:bg-yellowlight py-4 px-8 border-b border-t">
+                                            <span className="font-semibold mr-4 px-3 p-1 rounded-full border border-yellowmain">B</span>
+                                            <p>Tim Berners Lee</p>
+                                        </li>
+                                    </button>
+                                    <button className="w-full">
+                                        <li className="transition duration-200 flex items-center hover:bg-gray-100 focus:bg-yellowlight py-4 px-8 border-b border-t">
+                                            <span className="font-semibold mr-4 px-3 p-1 rounded-full border border-yellowmain">C</span>
+                                            <p>Tim Berners Lee</p>
+                                        </li>
+                                    </button>
+                                    <button className="w-full">
+                                        <li className="transition duration-200 flex items-center hover:bg-gray-100 focus:bg-yellowlight py-4 px-8 border-t">
+                                            <span className="font-semibold mr-4 px-3 p-1 rounded-full border border-yellowmain">D</span>
+                                            <p>Tim Berners Lee</p>
+                                        </li>
+                                    </button>
+                                </ul>
+                            </div>
+                        </li>
+
+                        {/* Multiple choice question */}
+                        <li>
+                            <div className="rounded-lg shadow pt-8 bg-white">
+                                <div className="px-8 pb-4">
+                                    <p className="uppercase font-light text-gray-700">Pregunta 1</p>
+                                    <p className="font-semibold text-lg">¿Quién está considerado como uno de los padres de internet?</p>
+                                </div>
+                                <ul>
+                                    <button className="w-full">
+                                        <li className="transition duration-200 flex items-center bg-gray-100 hover:bg-gray-100 focus:bg-yellowlight py-4 px-8 border-b border-t">
+                                            <span className="font-semibold text-white mr-4 px-3 p-1 rounded-full border bg-yellowmain border-yellowmain">A</span>
+                                            <p>Tim Berners Lee</p>
+                                        </li>
+                                    </button>
+                                    <button className="w-full">
+                                        <li className="transition duration-200 flex items-center hover:bg-gray-100 focus:bg-yellowlight py-4 px-8 border-b border-t">
+                                            <span className="font-semibold mr-4 px-3 p-1 rounded-full border border-yellowmain">B</span>
+                                            <p>Tim Berners Lee</p>
+                                        </li>
+                                    </button>
+                                    <button className="w-full">
+                                        <li className="transition duration-200 flex items-center hover:bg-gray-100 focus:bg-yellowlight py-4 px-8 border-b border-t">
+                                            <span className="font-semibold mr-4 px-3 p-1 rounded-full border border-yellowmain">C</span>
+                                            <p>Tim Berners Lee</p>
+                                        </li>
+                                    </button>
+                                    <button className="w-full">
+                                        <li className="transition duration-200 flex items-center hover:bg-gray-100 focus:bg-yellowlight py-4 px-8 border-t">
+                                            <span className="font-semibold mr-4 px-3 p-1 rounded-full border border-yellowmain">D</span>
+                                            <p>Tim Berners Lee</p>
+                                        </li>
+                                    </button>
                                 </ul>
                             </div>
                         </li>
@@ -279,7 +516,7 @@ export const Examen = () => {
                         <button
                             className='btn-secondary'
                             onClick={onClickTerminarIntento}
-                            >
+                        >
                             Terminar intento
                         </button>
                     </div>

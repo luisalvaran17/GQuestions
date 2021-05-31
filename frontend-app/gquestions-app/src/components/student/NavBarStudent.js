@@ -3,6 +3,7 @@ import { Fragment, useEffect, useRef } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import Logo from '../../assets/images/logo.png';
 import { useHistory } from 'react-router';
+import { Link } from 'react-router-dom';
 
 
 
@@ -93,23 +94,26 @@ export const NavbarStudent = (props) => {
                   </Disclosure.Button>
                 </div>
                 <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
-                  <div className="flex-shrink-0 flex items-center">
-                    <img
-                      className="block lg:hidden h-16 w-auto"
-                      src={Logo}
-                      alt="GQuestions"
-                    />
-                    <img
-                      className="hidden lg:block"
-                      src={Logo}
-                      alt='GQuestions'
-                      height='40px'
-                      width='90px'
-                    />
-                    <span className='hidden lg:block font-black font-asap xl:text-xl text-lg tracking-tight lg:mr-0 dark:text-white'>
-                      GQuestions
+
+                  <Link to="/">
+                    <div className="flex-shrink-0 flex items-center">
+                      <img
+                        className="block lg:hidden h-16 w-auto"
+                        src={Logo}
+                        alt="GQuestions"
+                      />
+                      <img
+                        className="hidden lg:block"
+                        src={Logo}
+                        alt='GQuestions'
+                        height='40px'
+                        width='90px'
+                      />
+                      <span className='hidden lg:block font-black font-asap xl:text-xl text-lg tracking-tight lg:mr-0 dark:text-white'>
+                        GQuestions
                     </span>
-                  </div>
+                    </div>
+                  </Link>
                   <div className="hidden sm:block sm:ml-6 place-self-center">
                     <div className="flex space-x-4 ">
                       {navigation.map((item) => (
