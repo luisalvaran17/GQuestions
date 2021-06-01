@@ -15,8 +15,9 @@ from .views import GetGeneracionUsuarioView
 from .views import GetAllCountsGeneracionesView
 from .views import ExamenesListView
 from .views import ExamenCreateView
-from .views import GetExamenView
+from .views import GetExamenAssignedView
 from .views import UpdateExamenView
+from .views import GetExamenView
 
 from django.urls import include, path
 
@@ -48,6 +49,7 @@ urlpatterns = [ # todo: acomodar las rutas (ej. create or list or delete etc)
     path('api/generacion/list/examenes', ExamenesListView.as_view()),
     path('api/generacion/create/examen', ExamenCreateView.as_view()),
     path('api/generacion/get/examen/<slug:id_examen>', GetExamenView),
+    path('api/generacion/get/examen/assigned/<slug:id_examen>', GetExamenAssignedView),
 
     path('api/generacion/update/examen/<slug:id_examen>', UpdateExamenView)
 

@@ -4,10 +4,10 @@ import { Helmet } from "react-helmet";
 import backgroundGeneralGreenDark from "../../assets/images/background-general-green_dark.png";
 import backgroundGeneralGreenLight from "../../assets/images/background-general-green_light.png";
 import { GetGeneracionExamen } from '../../api/Generacion/GetGeneracionExamen';
-import { GetExamenAPI } from '../../api/Examen/GetExamenAPI';
+import { GetExamenAssignedAPI } from '../../api/Examen/GetExamenAssignedAPI';
 import { UpdateExamenAPI } from '../../api/Examen/UpdateExamenAPI';
 import { NavbarStudent } from './NavBarStudent';
-import { useHistory } from'react-router';
+import { useHistory } from 'react-router';
 
 export const LoginExamen = () => {
 
@@ -17,7 +17,7 @@ export const LoginExamen = () => {
         /* { name: 'Projects', href: '#', current: false }, */
         { name: 'Ajustes', href: '#', current: false, id: 2 },
     ];
-    
+
     // Hooks Generacion 
     const [generacionExamen, setGeneracionExamen] = useState([])
     const [passwordExamen, setPasswordExamen] = useState("")
@@ -72,11 +72,22 @@ export const LoginExamen = () => {
                 examen = generacionExamen[i];
 
                 if (examen.assigned_to === null) {
-                    const response_assigned = await GetExamenAPI(examen.id_examen);
+                    const response_assigned = await GetExamenAssignedAPI(examen.id_examen);
                     if (response_assigned) {
                         assigned_to = { assigned_to: localStorage.getItem('id_user') }
                         const response = UpdateExamenAPI(examen.id_examen, assigned_to)
                         if (response) {
+                            console.log(examen)
+                            localStorage.setItem('id_examen', examen.id_examen);
+
+/*                             // Put the object into storage
+                            localStorage.setItem('examen', JSON.stringify(examen));
+
+                            // Retrieve the object from storage
+                            var retrievedObject = localStorage.getItem('examen');
+
+                            console.log('retrievedObject: ', JSON.parse(retrievedObject)); */
+                            history.push('/user/examen')
                             break;
                         }
                         // todo: update assigned value on db
@@ -88,9 +99,8 @@ export const LoginExamen = () => {
                     // todo: update assigned value on db
                 }
             }
-            history.push('/user/examen')
         }
-        else{
+        else {
             console.log("Contraseña incorrecta")
         }
     }
@@ -113,11 +123,11 @@ export const LoginExamen = () => {
                 minHeight: "",
                 minWidth: "100%",
             }}
-            >
+        >
             <Helmet>
                 <title>Examen - GQuestions</title>
             </Helmet>
-            <NavbarStudent className="fixed" navigation={navigation}/>
+            <NavbarStudent className="fixed" navigation={navigation} />
             <div className="container mx-auto flex justify-center items-center" style={{ height: "80vh" }}>
 
                 <div className="">

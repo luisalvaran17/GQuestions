@@ -158,10 +158,10 @@ class ExamenCreateView(generics.CreateAPIView):
     queryset = ExamenModel.objects.all()
     serializer_class = ExamenSerializer
 
-# Get examen
+# Get examen value assigned
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
-def GetExamenView(request, id_examen):
+def GetExamenAssignedView(request, id_examen):
     examen = ExamenModel.objects.filter(id_examen=id_examen)
     serializer = ExamenSerializer(examen, many=True)
     assigned_to = serializer.data[0].get('assigned_to')
@@ -173,6 +173,15 @@ def GetExamenView(request, id_examen):
         response['assigned'] = True
 
     return JsonResponse(response, safe=False, status=status.HTTP_200_OK)
+
+# Get examen
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def GetExamenView(request, id_examen):
+    examen = ExamenModel.objects.filter(id_examen=id_examen)
+    serializer = ExamenSerializer(examen, many=True)
+
+    return JsonResponse(serializer.data, safe=False, status=status.HTTP_200_OK)
 
 # Update Examen
 @api_view(["PUT"])

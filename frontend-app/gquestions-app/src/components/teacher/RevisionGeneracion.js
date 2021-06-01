@@ -30,7 +30,7 @@ export const RevisionGeneracion = (props) => {
   const buttonPreguntasRef = useRef();
   const [disabledTextArea, setDisabledTextArea] = useState(true)
 
-  const [textButtonEditar, setTextButtonEditar] = useState("Editar")
+  const [textButtonEditar, setTextButtonEditar] = useState("Editar texto")
 
   const [eventsButton, setEventsButton] = useState([])
 
@@ -299,7 +299,7 @@ export const RevisionGeneracion = (props) => {
   const handleClickEditar = () => {
     if (disabledTextArea === false) {
       setDisabledTextArea(true);
-      setTextButtonEditar("Editar");
+      setTextButtonEditar("Editar texto");
     }
     else if (disabledTextArea) {
       setDisabledTextArea(false);
@@ -356,7 +356,7 @@ export const RevisionGeneracion = (props) => {
                     autoHideTimeout={900}
                     autoHideDuration={400}
                     style={{ height: "50vh" }}
-                    className="m-0 overflow-auto bg-white border shadow-md border-gray-500 sm:rounded-md 
+                    className="m-0 overflow-auto bg-white border shadow-md border-gray-300 sm:rounded-md 
                     rounded-r-none w-full lg:mr-16 md:mr-8 mr-0 md:text-base text-sm">
                     <ul className="divide-y divide-gray-300">
                       <li className="p-4 font-bold text-gray-500">

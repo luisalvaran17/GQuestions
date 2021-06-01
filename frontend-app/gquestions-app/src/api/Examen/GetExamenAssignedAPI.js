@@ -1,5 +1,5 @@
-export const GetTextoAPI = async(id_texto) => {
-    const response = await fetch("http://127.0.0.1:8000/api/generacion/get/texto/" + id_texto, {
+export const GetExamenAssignedAPI = async(id_examen) => {
+    const response = await fetch("http://127.0.0.1:8000/api/generacion/get/examen/assigned/" + id_examen, {
         method: "GET",
         headers: {
             Authorization: "Token " + localStorage.getItem("token"),
