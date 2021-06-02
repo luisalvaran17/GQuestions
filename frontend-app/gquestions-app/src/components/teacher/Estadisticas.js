@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import Navbar from '../../containers/Navbar';
+import Navbar from './Navbar';
 import '../../assets/styles/tailwind.css';
 import { Helmet } from 'react-helmet';
 import { DropdownUser } from '../teacher/user/DropdownUser';
@@ -374,7 +374,7 @@ export const Estadisticas = () => {
               </div>
             </div>
           }{isLoading &&
-            <div>
+            <div className="pt-52">
               <LoadingPage />
             </div>
           }

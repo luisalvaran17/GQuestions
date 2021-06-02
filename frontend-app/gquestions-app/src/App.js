@@ -8,7 +8,7 @@ import { Homepage } from './containers/Homepage';
 import { GenerateConfig } from './components/teacher/GenerateConfig';
 import { PrivateRouteDocente } from './containers/PrivateRoutes/PrivateRouteDocente';
 import { PrivateRouteEstudiante } from './containers/PrivateRoutes/PrivateRouteEstudiante';
-import { PrivateRouteUser } from './containers/PrivateRoutes/PrivateRouteUser';
+/* import { PrivateRouteUser } from './containers/PrivateRoutes/PrivateRouteUser'; */ //todo: quitar
 import { Dashboard } from './components/teacher/Dashboard';
 import { Estadisticas } from './components/teacher/Estadisticas';
 import { AjustesTeacher } from './components/teacher/AjustesTeacher';
@@ -21,6 +21,7 @@ import { LoginExamen } from './components/student/LoginExamen';
 import { AjustesStudent } from './components/student/AjustesStudent';
 import { HomeStudent } from './components/student/HomeStudent';
 import { Examen } from './components/student/Examen';
+import { MisCalificaciones } from './components/student/MisCalificaciones';
 import { AjustesCuentaStudent } from './components/student/user/AjustesCuentaStudent';
 import { AjustesCuentaTeacher } from './components/teacher/user/AjustesCuentaTeacher';
 
@@ -50,9 +51,10 @@ export const App = () => {
         <PrivateRouteEstudiante exact path='/student/login-examen/:id' component={LoginExamen} />
         <PrivateRouteEstudiante exact path='/student/ajustes' component={AjustesStudent} />
         <PrivateRouteEstudiante exact path='/student/ajustes-cuenta' component={AjustesCuentaStudent} />
+        <PrivateRouteEstudiante exact path='/student/examen' component={Examen} />
+        <PrivateRouteEstudiante exact path='/student/calificaciones' component={MisCalificaciones} />
 
         {/* Rutas genericas */}
-        <PrivateRouteUser exact path='/user/examen' component={Examen} /> {/* todo: corregir private */}
         
         <Route exact path='/not-server' component={ErrorNotServer} />
       </BrowserRouter>

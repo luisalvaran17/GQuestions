@@ -33,7 +33,7 @@ export const NavbarStudent = (props) => {
     let id_ajustes = 2;
 
     if (id_home === parseInt(e.target.id)) history.push('/student/home')
-    if (id_calificaciones === parseInt(e.target.id)) history.push('/user/examen')
+    if (id_calificaciones === parseInt(e.target.id)) history.push('/student/calificaciones')
     if (id_ajustes === parseInt(e.target.id)) history.push('/student/ajustes')
   }
 

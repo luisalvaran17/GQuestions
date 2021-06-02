@@ -67,7 +67,6 @@ export const AjustesStudent = () => {
   const handleDarkMode = (e) => {
     setSelected(modes[e.id])
     const key = e.key;
-    console.log(key)
 
     if (key === 'dark_mode') {
       localStorage.setItem("theme", "dark");

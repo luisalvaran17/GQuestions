@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import Navbar from "../../containers/Navbar";
+import Navbar from "./Navbar";
 import "../../assets/styles/tailwind.css";
 import backgroundGeneralGreenDark from "../../assets/images/background-general-green_dark.png";
 import backgroundGeneralGreenLight from "../../assets/images/background-general-green_light.png";
@@ -11,6 +11,8 @@ import ReactDOM from 'react-dom'
 import { ExamenPublicado } from "./ExamenPublicado";
 import { Helmet } from "react-helmet";
 import Scrollbars from "react-custom-scrollbars";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export const ExamenConfiguracion = (props) => {
 
@@ -18,11 +20,14 @@ export const ExamenConfiguracion = (props) => {
   const Textos = props.textos;
   const { v4: uuidv4 } = require("uuid"); // id aleatorio (uuuidv4)  
 
-  const [isLoading, setIsLoading] = useState(false);  
+  const [isLoading, setIsLoading] = useState(false);
   const [errorServer, setErrorServer] = useState({
     boolError: false,
   });
   const errorServerRef = useRef();
+
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
 
   // Hooks dark mode
   const darkModeRef = useRef();
@@ -33,7 +38,7 @@ export const ExamenConfiguracion = (props) => {
     title_exam: "Sin título",
     contrasena_exam: '',
     n_intentos: 1,
-    fecha_hora_ini: '',
+    fecha_hora_ini: new Date(),
     fecha_hora_fin: '',
     generacion: '',
   });
@@ -165,6 +170,24 @@ export const ExamenConfiguracion = (props) => {
     divRefErrorMessage.current.classList.remove("hidden");
   };
 
+  const handleChangeDateInicio = (date) => {
+    setStartDate(date);
+    setExamenConfiguracion(
+      Object.assign(examenConfiguracion, {
+        fecha_hora_ini: date
+      })
+    )
+  }
+
+  const handleChangeDateFin = (date) => {
+    setEndDate(date);
+    setExamenConfiguracion(
+      Object.assign(examenConfiguracion, {
+        fecha_hora_fin: date
+      })
+    )
+  }
+
   if (!irExamenPublicado) {
     return (
       <div
@@ -191,7 +214,7 @@ export const ExamenConfiguracion = (props) => {
           autoHideTimeout={900}
           autoHideDuration={400}
           style={{ height: "100vh" }}
-          data-aos="fade-right" 
+          data-aos="fade-right"
           className="container xl:mx-32 mx-4 md:mx-8 lg:mx-16 mt-8 dark:text-white">
 
           <div className="grid grid-rows">
@@ -200,32 +223,36 @@ export const ExamenConfiguracion = (props) => {
             </h1>
             <div className="grid grid-cols-12 sm:mb-44 mb-0">
               <div className="grid sm:col-span-4 col-span-12 sm:mr-8 mr-6 mb-2">
-                <label className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
+                <label className="grid  text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
                   Fecha y hora de inicio
                 </label>
-                <input
-                  type="datetime-local"
-                  id="fecha_hora_ini"
+                <DatePicker
                   className="text-sm text-gray-800 md:text-base sm:col-span-4 col-span-12 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2
-                                  focus:ring-yellowlight w-full 2xl:w-96 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
-                  placeholder="dd/mm/aaaa"
+                  focus:ring-yellowlight w-full 2xl:w-96 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
+                  selected={startDate}
+                  id="fecha_hora_ini"
                   name="fecha_hora_ini"
-                  onChange={handleChange}
+                  timeInputLabel="Time:"
+                  dateFormat="MM/dd/yyyy h:mm aa"
+                  showTimeInput
+                  onChange={handleChangeDateInicio}
                 />
               </div>
 
               <div className="grid sm:col-span-4 col-span-12 sm:mr-8 mr-6 mb-2">
-                <label className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
+                <label className="grid text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
                   Fecha y hora de fin
                 </label>
-                <input
-                  type="datetime-local"
-                  id="fecha_hora_fin"
+                <DatePicker
                   className="text-sm text-gray-800 md:text-base sm:col-span-4 col-span-12 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2
-                                  focus:ring-yellowlight w-full 2xl:w-96 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
-                  placeholder="dd/mm/aaaa"
+                  focus:ring-yellowlight w-full 2xl:w-96 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
+                  selected={endDate}
+                  id="fecha_hora_fin"
                   name="fecha_hora_fin"
-                  onChange={handleChange}
+                  timeInputLabel="Time:"
+                  dateFormat="MM/dd/yyyy h:mm aa"
+                  showTimeInput
+                  onChange={handleChangeDateFin}
                 />
               </div>
 
@@ -301,8 +328,8 @@ export const ExamenConfiguracion = (props) => {
                   </span>
                   Publicando ...
                 </button>}
-                <p ref={errorServerRef} className="hidden place-self-center text-sm border-l border-r border-b border-red-300 dark:border-red-300 p-2 rounded-t  rounded-lg text-red-600 dark:text-red-200">
-                  Ha ocurrido un error de conexión
+              <p ref={errorServerRef} className="hidden place-self-center text-sm border-l border-r border-b border-red-300 dark:border-red-300 p-2 rounded-t  rounded-lg text-red-600 dark:text-red-200">
+                Ha ocurrido un error de conexión
                 </p>
             </div>
           </div>

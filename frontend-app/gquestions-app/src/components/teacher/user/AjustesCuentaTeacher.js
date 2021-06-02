@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import Navbar from "../../../containers/Navbar";
+import Navbar from "../Navbar";
 import "../../../assets/styles/tailwind.css";
 import backgroundGeneralCyanDark from "../../../assets/images/background-general-cyan_dark.png";
 import backgroundGeneralCyanLight from "../../../assets/images/background-general-cyan_light.png"

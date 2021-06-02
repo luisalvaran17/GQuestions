@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import Navbar from "../../containers/Navbar";
+import Navbar from "./Navbar";
 import "../../assets/styles/tailwind.css";
 import backgroundGeneralGreenDark from "../../assets/images/background-general-green_dark.png";
 import backgroundGeneralGreenLight from "../../assets/images/background-general-green_light.png";

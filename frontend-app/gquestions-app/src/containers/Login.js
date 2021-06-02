@@ -342,7 +342,7 @@ export const Login = () => {
             </div>
           </div>}
         {isLoading &&
-          <div>
+          <div className="pt-52">
             <LoadingPage />
           </div>
         }

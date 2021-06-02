@@ -579,7 +579,7 @@ export const Register = () => {
               </div>
             </div>
           }{isLoading &&
-            <div>
+            <div className="pt-52">
               <LoadingPage />
             </div>
           }

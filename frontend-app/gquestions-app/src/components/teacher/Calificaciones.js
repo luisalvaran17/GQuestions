@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import Navbar from '../../containers/Navbar';
+import Navbar from './Navbar';
 import '../../assets/styles/tailwind.css';
 import Scrollbars from "react-custom-scrollbars";
 import { Helmet } from 'react-helmet';

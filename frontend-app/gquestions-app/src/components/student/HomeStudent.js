@@ -27,7 +27,7 @@ export const HomeStudent = () => {
             <Helmet>
                 <title>Inicio - GQuestions</title>
             </Helmet>
-            <div ref={darkModeRef} className="h-screen bg-white dark:bg-darkColor">
+            <div className="h-screen bg-white dark:bg-darkColor">
                 <div className="font-manrope">
                     <NavbarStudent navigation={navigation} />
 

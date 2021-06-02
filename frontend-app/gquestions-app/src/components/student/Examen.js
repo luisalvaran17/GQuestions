@@ -1,11 +1,12 @@
 import React, { Fragment, useEffect, useRef, useState } from 'react';
-import { Disclosure, Menu, Transition } from '@headlessui/react';
+import { Disclosure, Menu, Transition, Dialog } from '@headlessui/react';
 import { useHistory } from 'react-router';
 import Logo from '../../assets/images/logo.png';
 import { Helmet } from "react-helmet";
 import { GetExamenAPI } from "../../api/Examen/GetExamenAPI";
 import { GetTextoAPI } from "../../api/Textos/GetTextoAPI";
-import  stringSimilarity  from "string-similarity";
+import stringSimilarity from "string-similarity";
+import { LoadingPage } from '../../containers/LoadingPage';
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -21,6 +22,11 @@ export const Examen = () => {
     const [preguntas, setPreguntas] = useState([]);
     const [respuestasUsuario, setRespuestasUsuario] = useState([])
 
+    const [isLoading, setIsLoading] = useState(true);
+
+    // Hook advertencia preguntas sin responder
+    const [isOpen, setIsOpen] = useState(false)
+
     // Hook Texto
     const [textoExamen, setTextoExamen] = useState("");
 
@@ -30,19 +36,29 @@ export const Examen = () => {
         } else {
             darkModeRef.current.classList.remove('dark')
         }
+        setIsLoading(false);
         getExamen();// eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const getExamen = async () => {
+        setIsLoading(true);
+
         let id_examen = localStorage.getItem('id_examen');
         const response_examen = await GetExamenAPI(id_examen);
 
-        let id_texto = response_examen[0].texto;
+        if (response_examen !== false) {
+            let id_texto = response_examen[0].texto;
 
-        const response_texto = await GetTextoAPI(id_texto);
+            const response_texto = await GetTextoAPI(id_texto);
 
-        AddTipoPregunta(response_texto[0].preguntas)
-        setTextoExamen(response_texto[0].cuerpo_texto)
+            AddTipoPregunta(response_texto[0].preguntas)
+            setTextoExamen(response_texto[0].cuerpo_texto)
+
+            setIsLoading(false);
+        }
+        else {
+            setIsLoading(true);
+        }
     }
 
     const AddTipoPregunta = (preguntas) => {
@@ -131,7 +147,6 @@ export const Examen = () => {
         });
     };
 
-
     /* functions for dropdown user */
     const onClickLogout = async () => {
         await fetch(
@@ -162,10 +177,11 @@ export const Examen = () => {
 
     const onClickTerminarIntento = () => {
         //history.push('/student/home')
-        getCalificacion();
         if (CheckValidationsRespuestas() === false) {
             console.log(respuestasUsuario);
             console.log(preguntas)
+            getCalificacion();
+            localStorage.removeItem('id_examen')
         }
     }
 
@@ -184,10 +200,10 @@ export const Examen = () => {
         for (let i = 0; i < respuestasUsuario.length; i++) {
             if (respuestasUsuario[i].respuesta === "") {
                 bool_empty = true;
-                console.log("Hay preguntas sin contestar, ¿desea continuar?")
+                setIsOpen(bool_empty);
                 break;
             }
-            else{
+            else {
                 bool_empty = false;
             }
         }
@@ -228,12 +244,12 @@ export const Examen = () => {
             let compare = stringSimilarity.compareTwoStrings(
                 respuestasUsuario[i].respuesta,
                 preguntas[i].respuesta_correcta
-              );
-            console.log("Question " + (i+1) + ": " + compare)
+            );
+            console.log("Question " + (i + 1) + ": " + compare)
             if (compare <= 0.9) {
-                
+
                 calificacion = calificacion + (compare + 0.1);
-            }else{
+            } else {
                 calificacion = calificacion + compare;
             }
 
@@ -241,14 +257,14 @@ export const Examen = () => {
                 calificacion = calificacion + 1.0;    
             } */
         }
-        console.log((calificacion/5) * 5);
+        console.log((calificacion / 5) * 5);
 
         /* Example */
         /* let compare = stringSimilarity.compareTwoStrings(
             "Olive-green table for sale, in extremely good condition.",
             "For sale: table in very good  condition, olive green in colour."
           ); */
-        
+
     }
 
     const getLetter = (letter) => {
@@ -257,6 +273,16 @@ export const Examen = () => {
         if (letter === 2) return "C"
         if (letter === 3) return "D"
         if (letter === 4) return "E"
+    }
+
+    function closeModalContinue() {
+        setIsOpen(false);
+        getCalificacion();
+        localStorage.removeItem('id_examen')
+    }
+
+    function closeModal() {
+        setIsOpen(false);
     }
 
     return (
@@ -278,15 +304,15 @@ export const Examen = () => {
             {/* TopBar */}
             <div className="border-b shadow-sm dark:bg-darkColor dark:border-gray-700">
                 <nav className="container py-4 mx-auto h-36">
-                    <div className="sm:pr-0 pr-20 text-sm sm:text-base dark:text-gray-200">
-                        <p className="uppercase font-light text-gray-600 dark:text-gray-100">Curso de Inglés IV - Universidad del Valle</p>
+                    <div className="sm:pr-0 pr-20 2xl:ml-16 xl:ml-28 lg:ml-16 md:ml-16 sm:ml-12 ml-8 text-sm sm:text-base dark:text-gray-200">
+                        <p className="uppercase font-light text-gray-600 dark:text-gray-100">Inglés - Universidad del Valle</p>
                         <p className="font-black text-gray-600 dark:text-gray-200 md:text-3xl text-xl">Examen Nombre Examen</p>
                         <p>Tiempo para el examen: 2h</p>
                         <p>Intentos: 1</p>
                     </div>
 
                     {/* Profile dropdown */}
-                    <Menu as="div" className="absolute top-12 xl:right-64 lg:right-50 md:right-20 sm:right-12 right-8">
+                    <Menu as="div" className="absolute top-12 2xl:right-64 xl:right-44 lg:right-50 md:right-20 sm:right-12 right-8">
                         {({ open }) => (
                             <>
                                 <div>
@@ -381,138 +407,222 @@ export const Examen = () => {
             </div>
 
             <div className="dark:bg-darkColor">
-                <div className="container mx-auto xl:px-96 md:px-32 sm:px-16 px-8 pt-8 pb-32 ">
-                    {/* Texto disclosure */}
-                    <div className="w-full">
-                        <div className="w-full py-2 mx-auto dark:bg-darkColor rounded-lg">
-                            <Disclosure >
-                                {({ open }) => (
-                                    <div id='texto'>
-                                        <Disclosure.Button className="flex justify-between w-full px-4 py-2 text-base font-medium text-left 
+                {!isLoading &&
+                    <div className="container mx-auto 2xl:px-96 xl:px-80 lg:px-40 md:px-32 sm:px-16 px-8 pt-8 pb-32 ">
+                        {/* Texto disclosure */}
+                        <div className="w-full">
+                            <div className="w-full py-2 mx-auto dark:bg-darkColor rounded-lg">
+                                <Disclosure >
+                                    {({ open }) => (
+                                        <div id='texto'>
+                                            <Disclosure.Button className="flex justify-between w-full px-4 py-2 text-base font-medium text-left 
                                             text-yellow-900 bg-yellowlight bg-opacity-50 dark:bg-opacity-100 rounded-t-xl focus:outline-none 
                                             focus-visible:ring focus-visible:ring-yellow-500 focus-visible:ring-opacity-75">
-                                            <span>Text to answer the questions</span>
-                                            <svg
-                                                className={`${open ? 'transform rotate-180' : 'animate-pulse'} w-5 h-5 text-yellow-500`}
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 24 24"
+                                                <span>Text to answer the questions</span>
+                                                <svg
+                                                    className={`${open ? 'transform rotate-180' : 'animate-pulse'} w-5 h-5 text-yellow-500`}
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 24 24"
+                                                >
+                                                    <path d="M24 24H0V0h24v24z" fill="none" opacity=".87" />
+                                                    <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z" />
+                                                </svg>
+
+                                            </Disclosure.Button>
+                                            <Transition
+                                                enter="transition duration-100 ease-out"
+                                                enterFrom="transform scale-95 opacity-0"
+                                                enterTo="transform scale-100 opacity-100"
+                                                leave="transition duration-75 ease-out"
+                                                leaveFrom="transform scale-100 opacity-100"
+                                                leaveTo="transform scale-95 opacity-0"
                                             >
-                                                <path d="M24 24H0V0h24v24z" fill="none" opacity=".87" />
-                                                <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z" />
-                                            </svg>
-
-                                        </Disclosure.Button>
-                                        <Transition
-                                            enter="transition duration-100 ease-out"
-                                            enterFrom="transform scale-95 opacity-0"
-                                            enterTo="transform scale-100 opacity-100"
-                                            leave="transition duration-75 ease-out"
-                                            leaveFrom="transform scale-100 opacity-100"
-                                            leaveTo="transform scale-95 opacity-0"
-                                        >
-                                            <Disclosure.Panel className="px-4 py-4 text-base bg-white text-gray-500 border rounded-b-xl">
-                                                {textoExamen}
-                                            </Disclosure.Panel>
-                                        </Transition>
-                                    </div>
-                                )}
-
-                            </Disclosure>
-                        </div>
-                    </div>
-
-                    {/* Navigation questions */}
-                    <div id="navigate" className="hidden md:block">
-                        <div className="fixed xl:right-64 lg:right-20 md:right-16 grid grid-rows text-darkColor" style={{ top: "45vh" }}>
-                            <div className="tooltip place-self-center select-none">
-                                <a
-                                    className="ml-2 transition duration-500 hover:text-green-500 text-green-300 material-icons mr-2"
-                                    href="#texto"
-                                    onClick={scrollAnimation}
-                                >&#xe061;
-                            </a>
-                                <span className="tooltiptext text-sm">Text</span>
-                            </div>
-                            {
-                                [...Array(preguntas.length)].map((x, i) =>
-                                    <div key={i + 1000} className="tooltip-examen place-self-center select-none">
-                                        <a
-                                            className="ml-2 transition duration-500 hover:text-yellowmain text-gray-400 dark:text-gray-600 dark:hover:text-yellowmain material-icons mr-2"
-                                            href={"examen#" + i}
-                                            onClick={scrollAnimation}
-                                        >&#xe061;
-                                        </a>
-                                        <span className="tooltiptext-examen text-sm">Question {i + 1}</span>
-                                    </div>
-                                )
-                            }
-                        </div>
-                    </div>
-
-
-
-                    {/* Questions */}
-                    <ul className="space-y-6">
-                        {/* Multiple choice question */}
-                        {
-                            preguntas.map((pregunta, contador = 1) => (
-                                pregunta.respuestas_cuerpo.tipo_pregunta === "opcion_multiple" ?
-                                    <li key={pregunta.id_pregunta} id={contador}>
-                                        <div className="border rounded-lg shadow pt-8 bg-white">
-                                            <div className="px-8 pb-4">
-                                                <p className="uppercase font-light text-gray-700">Question {contador = contador + 1}</p>
-                                                <p className="font-semibold text-lg">{pregunta.pregunta_cuerpo}</p>
-                                            </div>
-                                            <ul>
-                                                {
-                                                    pregunta.respuestas_cuerpo.opcion_multiple.map((opcion, letter = "A") => (
-                                                        <button key={opcion} id={pregunta.id_pregunta} className="w-full outline-none focus:outline-none" onClick={getOptionAnswer}>
-                                                            <li id={pregunta.id_pregunta + " " + letter} className="transition duration-200 flex items-center hover:bg-yellowlight py-4 px-8 border-t">
-                                                                <span className="font-semibold mr-4 px-3 p-1 rounded-full border border-yellowmain">{getLetter(letter)}</span>
-                                                                <p>{opcion}</p>
-                                                            </li>
-                                                        </button>
-                                                    ))
-                                                }
-                                            </ul>
+                                                <Disclosure.Panel className="px-4 py-4 text-base bg-white text-gray-500 border rounded-b-xl select-none">
+                                                    {textoExamen}
+                                                </Disclosure.Panel>
+                                            </Transition>
                                         </div>
-                                    </li>
+                                    )}
 
-                                    : pregunta.respuestas_cuerpo.tipo_pregunta === "pregunta_abierta" ?
-                                        <li key={pregunta.id_pregunta} id={contador}>
+                                </Disclosure>
+                            </div>
+                        </div>
+
+                        {/* Navigation questions */}
+                        <div id="navigate" className="hidden md:block">
+                            <div className="fixed xl:right-64 lg:right-20 md:right-16 grid grid-rows text-darkColor" style={{ top: "45vh" }}>
+                                <div className="tooltip place-self-center select-none">
+                                    <a
+                                        className="ml-2 transition duration-500 hover:text-green-500 text-green-300 material-icons mr-2"
+                                        href="#texto"
+                                        onClick={scrollAnimation}
+                                    >&#xe061;
+                            </a>
+                                    <span className="tooltiptext text-sm">Text</span>
+                                </div>
+                                {
+                                    [...Array(preguntas.length)].map((x, i) =>
+                                        <div key={i + 1000} className="tooltip-examen place-self-center select-none">
+                                            <a
+                                                className="ml-2 transition duration-500 hover:text-yellowmain text-gray-400 dark:text-gray-600 dark:hover:text-yellowmain material-icons mr-2"
+                                                href={"examen#" + (i = i + 1)}
+                                                onClick={scrollAnimation}
+                                            >&#xe061;
+                                        </a>
+                                            <span className="tooltiptext-examen text-sm">Question {i}</span>
+                                        </div>
+                                    )
+                                }
+                            </div>
+                        </div>
+
+
+
+                        {/* Questions */}
+                        <ul className="space-y-6">
+                            {/* Multiple choice question */}
+                            {
+                                preguntas.map((pregunta, contador = 1) => (
+                                    pregunta.respuestas_cuerpo.tipo_pregunta === "opcion_multiple" ?
+                                        <li key={pregunta.id_pregunta} id={contador = contador + 1}>
                                             <div className="border rounded-lg shadow pt-8 bg-white">
                                                 <div className="px-8 pb-4">
-                                                    <p className="uppercase font-light text-gray-700">Question {contador = contador + 1}</p>
-                                                    <p className="font-semibold text-lg">{pregunta.pregunta_cuerpo}</p>
+                                                    <p className="uppercase font-light text-gray-700">Question {contador}</p>
+                                                    <p className="font-semibold text-lg select-none">{pregunta.pregunta_cuerpo}</p>
                                                 </div>
                                                 <ul>
-                                                    <div className="px-8 pb-4">
-                                                        <textarea
-                                                            name={pregunta.id_pregunta}
-                                                            onChange={handleChangePreguntaAbierta}
-                                                            className="w-full resize-y p-2 border rounded-lg focus:border-gray-400  bg-white text-gray-600 text-sm md:text-base outline-none focus:outline-none"
-                                                        >
-                                                        </textarea>
-                                                    </div>
+                                                    {
+                                                        pregunta.respuestas_cuerpo.opcion_multiple.map((opcion, letter = "A") => (
+                                                            <button key={opcion} id={pregunta.id_pregunta} className="w-full outline-none focus:outline-none" onClick={getOptionAnswer}>
+                                                                <li id={pregunta.id_pregunta + " " + letter} className="transition duration-200 flex items-center hover:bg-yellowlight py-4 px-8 border-t">
+                                                                    <span className="font-semibold mr-4 px-3 p-1 rounded-full border border-yellowmain">{getLetter(letter)}</span>
+                                                                    <p>{opcion}</p>
+                                                                </li>
+                                                            </button>
+                                                        ))
+                                                    }
                                                 </ul>
                                             </div>
                                         </li>
-                                        : <div>otra</div>
-                            ))
-                        }
 
-                    </ul>
+                                        : pregunta.respuestas_cuerpo.tipo_pregunta === "pregunta_abierta" ?
+                                            <li key={pregunta.id_pregunta} id={contador = contador + 1}>
+                                                <div className="border rounded-lg shadow pt-8 bg-white">
+                                                    <div className="px-8 pb-4">
+                                                        <p className="uppercase font-light text-gray-700">Question {contador}</p>
+                                                        <p className="font-semibold text-lg select-none">{pregunta.pregunta_cuerpo}</p>
+                                                    </div>
+                                                    <ul>
+                                                        <div className="px-8 pb-4">
+                                                            <textarea
+                                                                name={pregunta.id_pregunta}
+                                                                onChange={handleChangePreguntaAbierta}
+                                                                className="w-full resize-y p-2 border rounded-lg focus:border-gray-400  bg-white text-gray-600 text-sm md:text-base outline-none focus:outline-none"
+                                                            >
+                                                            </textarea>
+                                                        </div>
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                            : <div>otra</div>
+                                ))
+                            }
 
-                    <div className="mt-4">
+                        </ul>
 
-                        <button
-                            className='btn-secondary'
-                            onClick={onClickTerminarIntento}
-                        >
-                            Terminar intento
+                        <div className="mt-4">
+
+                            <button
+                                className='btn-secondary'
+                                onClick={onClickTerminarIntento}
+                            >
+                                Terminar intento
                         </button>
+                        </div>
+
+                        {/* Preguntas sin responder Modal (mensaje de advertencia) */}
+                        <Transition appear show={isOpen} as={Fragment}>
+                            <Dialog
+                                as="div"
+                                className="fixed inset-0 z-10 overflow-y-auto"
+                                onClose={closeModal}
+                            >
+                                {/* Use the overlay to style a dim backdrop for your dialog */}
+                                <Dialog.Overlay className="fixed inset-0 bg-black opacity-60" />
+                                <div className="min-h-screen px-4 text-center">
+                                    <Transition.Child
+                                        as={Fragment}
+                                        enter="ease-out duration-300"
+                                        enterFrom="opacity-0"
+                                        enterTo="opacity-100"
+                                        leave="ease-in duration-200"
+                                        leaveFrom="opacity-100"
+                                        leaveTo="opacity-0"
+                                    >
+                                        <Dialog.Overlay className="fixed inset-0" />
+                                    </Transition.Child>
+
+                                    {/* This element is to trick the browser into centering the modal contents. */}
+                                    <span
+                                        className="inline-block h-screen align-middle"
+                                        aria-hidden="true"
+                                    >
+                                        &#8203;
+                                    </span>
+                                    <Transition.Child
+                                        as={Fragment}
+                                        enter="ease-out duration-300"
+                                        enterFrom="opacity-0 scale-95"
+                                        enterTo="opacity-100 scale-100"
+                                        leave="ease-in duration-200"
+                                        leaveFrom="opacity-100 scale-100"
+                                        leaveTo="opacity-0 scale-95"
+                                    >
+                                        <div className="inline-block w-full max-w-xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl font-manrope">
+                                            <Dialog.Title
+                                                as="h3"
+                                                className="text-xl font-semibold leading-6 text-gray-900"
+                                            >
+                                                Hay preguntas sin contestar
+                                            </Dialog.Title>
+                                            <div className="mt-2">
+                                                <ul className="list-none space-y-2 md:text-justify">
+                                                    <li>
+                                                        <p className="text-base text-gray-500">
+                                                            Quedarán preguntas sin contestar, ¿Desea Continuar?
+                                                        </p>
+                                                    </li>
+                                                </ul>
+                                            </div>
+
+                                            <div className="flex mt-4 justify-end space-x-4">
+                                                <button
+                                                    type="button"
+                                                    className="transition duration-500 sm:w-auto w-28 inline-flex justify-center px-12 py-2 text-sm font-medium text-red-900 bg-red-100 border border-transparent 
+                                                    rounded-md hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                                                    onClick={closeModal}
+                                                >
+                                                    No
+                                                    </button>
+                                                <button
+                                                    type="button"
+                                                    className="transition duration-500 sm:w-auto w-28 inline-flex justify-center px-12 py-2 text-sm font-medium text-green-900 bg-green-100 border border-transparent 
+                                                    rounded-md hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                                                    onClick={closeModalContinue}
+                                                >
+                                                    Sí
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </Transition.Child>
+                                </div>
+                            </Dialog>
+                        </Transition>
                     </div>
-                </div>
+                }{isLoading &&
+                    <div className="pt-52">
+                        <LoadingPage />
+                    </div>}
             </div>
         </div>
     )

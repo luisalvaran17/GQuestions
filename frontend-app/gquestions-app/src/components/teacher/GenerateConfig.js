@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import ReactDOM from 'react-dom'
-import Navbar from "../../containers/Navbar";
+import Navbar from "./Navbar";
 import "../../assets/styles/tailwind.css";
 import backgroundGeneralYellowDark from "../../assets/images/background-general-yellow_dark.png";
 import backgroundGeneralYellowLight from "../../assets/images/background-general-yellow_light.png";

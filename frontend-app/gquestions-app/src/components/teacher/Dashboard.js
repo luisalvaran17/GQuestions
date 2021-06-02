@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, Fragment } from 'react';
-import Navbar from '../../containers/Navbar';
+import Navbar from './Navbar';
 import '../../assets/styles/tailwind.css';
 import { Helmet } from "react-helmet";
 import AOS from "aos";
@@ -267,7 +267,7 @@ export const Dashboard = () => {
 
                 </ul>
               }{isLoading &&
-                <div>
+                <div className="pt-52">
                   <LoadingPage />
                 </div>}
             </CustomScrollbars>

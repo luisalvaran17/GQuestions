@@ -166,10 +166,10 @@ export const VisualizacionGeneracion = () => {
                                 >
                                     <div className="w-full px-5 py-3 max-h-screen overflow-y-auto bg-white h-full">
 
-                                        <h1 className="uppercase font-semibold">Texto</h1>
+                                        <h1 className="uppercase font-semibold">Text</h1>
                                         <p>{texto}</p>
                                         <br></br>
-                                        <h1 ref={questionsTitle} className="uppercase font-semibold">Preguntas</h1>
+                                        <h1 ref={questionsTitle} className="uppercase font-semibold">Questions</h1>
                                         <ul>
                                             {
                                                 preguntas.map(pregunta => (
