@@ -48,8 +48,8 @@ export const ExamenPublicado = () => {
     >
       <Helmet>
         <title>Examen publicado - GQuestions</title>
-          <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-            rel="stylesheet"></link>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet"></link>
       </Helmet>
 
       <Navbar className="fixed" />
@@ -71,7 +71,7 @@ export const ExamenPublicado = () => {
               <input
                 type="text"
                 id="cod_generado"
-                className="text-base text-gray-400 text-center font-bold sm:col-span-4 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2
+                className="text-base text-gray-400 text-center font-bold sm:col-span-4 transition duration-500 border rounded-l-lg focus:border-transparent focus:outline-none focus:ring-2
                       focus:ring-yellowlight w-full pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
 
                 name="cod_generado"
@@ -81,8 +81,8 @@ export const ExamenPublicado = () => {
             </div>
             <div className="tooltip place-self-center select-none justify-items-end place-content-end justify-self-end">
               <button
-                className="border border-gray-200 transition duration-500 col-span-1 p-2 mx-1 text-green-800 bg-green-200 
-                          hover:bg-green-300 hover:border-gray-400 rounded-lg material-icons mr-2 outline-none focus:outline-none"
+                className="border border-gray-200 transition duration-500 col-span-1 p-2 text-green-800 bg-green-200 
+                          hover:bg-green-300 hover:border-gray-400 rounded-r-lg material-icons outline-none focus:outline-none"
                 onClick={copyTextFunction}
               >&#xe14d;
               </button>
@@ -90,13 +90,12 @@ export const ExamenPublicado = () => {
             </div>
           </div>
 
-
           <div className="py-4 px-12 md:px-20 col-span-12 my-0">
             <Link to="/teacher/dashboard">
               <button
                 type="submit"
                 className="transition duration-500 text-base z-10 pl-1 block w-full mx-auto focus:outline-none 
-                bg-green-400 hover:bg-green-500 focus:bg-green-500 text-black rounded-lg px-2 py-2 font-semibold"
+                bg-green-400 hover:bg-green-500 focus:bg-green-500 hover:text-green-900 text-green-900 rounded-lg px-2 py-2 font-semibold"
               >
                 Aceptar
                 </button>

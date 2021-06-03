@@ -37,14 +37,26 @@ export const Examen = () => {
             darkModeRef.current.classList.remove('dark')
         }
         setIsLoading(false);
-        getExamen();// eslint-disable-next-line react-hooks/exhaustive-deps
+
+        // Alert Reload page
+        window.onbeforeunload = function() {
+            return true;
+        };
+        return () => {
+            window.onbeforeunload = null;
+        };
     }, []);
+
+    useEffect(() => {
+        getExamen();// eslint-disable-next-line react-hooks/exhaustive-deps
+    },[])
 
     const getExamen = async () => {
         setIsLoading(true);
 
         let id_examen = localStorage.getItem('id_examen');
         const response_examen = await GetExamenAPI(id_examen);
+        console.log(response_examen)
 
         if (response_examen !== false) {
             let id_texto = response_examen[0].texto;
@@ -62,8 +74,8 @@ export const Examen = () => {
     }
 
     const AddTipoPregunta = (preguntas) => {
-        const preguntasTemporal = []
-        const respuestasTemporal = []
+        let preguntasTemporal = []
+        let respuestasTemporal = []
 
         preguntas.map(pregunta => {
             let completacion = pregunta.respuestas_cuerpo.completacion
@@ -86,7 +98,8 @@ export const Examen = () => {
                 })
                 respuestasTemporal.push({
                     id_pregunta: pregunta.id_pregunta,
-                    respuesta: ""
+                    respuesta: "",
+                    tipo_pregunta: "pregunta_abierta"
                 })
             }
             else if (completacion === "null" && pregunta_abierta === "null") {
@@ -108,7 +121,8 @@ export const Examen = () => {
                 })
                 respuestasTemporal.push({
                     id_pregunta: pregunta.id_pregunta,
-                    respuesta: ""
+                    respuesta: "",
+                    tipo_pregunta: "opcion_multiple"
                 })
             } else {
                 preguntasTemporal.push({
@@ -126,13 +140,20 @@ export const Examen = () => {
                 })
                 respuestasTemporal.push({
                     id_pregunta: pregunta.id_pregunta,
-                    respuesta: ""
+                    respuesta: "",
+                    tipo_pregunta: "completacion"
                 })
             }
             return true;
         })
         setPreguntas(preguntasTemporal)
-        setRespuestasUsuario(respuestasTemporal)
+
+        if (localStorage.getItem('respuestas_usuario') !== null) {
+            respuestasTemporal = JSON.parse(localStorage.getItem('respuestas_usuario'))
+            setRespuestasUsuario(respuestasTemporal)
+        } else {
+            setRespuestasUsuario(respuestasTemporal)
+        }
     }
 
     const scrollAnimation = () => {
@@ -176,12 +197,13 @@ export const Examen = () => {
     }
 
     const onClickTerminarIntento = () => {
-        //history.push('/student/home')
         if (CheckValidationsRespuestas() === false) {
+            history.push('/student/home')
             console.log(respuestasUsuario);
             console.log(preguntas)
             getCalificacion();
             localStorage.removeItem('id_examen')
+            localStorage.removeItem('respuestas_usuario')
         }
     }
 
@@ -192,6 +214,9 @@ export const Examen = () => {
             }
             return true;
         })
+
+        // Put the object into storage
+        localStorage.setItem('respuestas_usuario', JSON.stringify(respuestasUsuario));
     }
 
     const CheckValidationsRespuestas = () => {
@@ -230,27 +255,50 @@ export const Examen = () => {
         })
 
         // background color option selected
-        for (let i = 0; i < length_opciones; i++) {
+        for (let i = 0; i < length_opciones - 1; i++) {
             let element = document.getElementById(id_pregunta + " " + i);
             element.classList.remove('bg-yellowlight');
         }
         let element = document.getElementById(str);
         element.classList.add('bg-yellowlight');
+
+
+        // Salva las respuestas en caso de que recargue la página, cierre de pestaña, falla de internet, demás
+
+        // Put the object into storage
+        /*         localStorage.setItem('respuestas_usuario', JSON.stringify(respuestasUsuario));
+        
+                // Retrieve the object from storage
+                var retrievedObject = localStorage.getItem('respuestas_usuario');
+        
+                console.log('retrievedObject: ', JSON.parse(retrievedObject)); */
+
     }
 
     const getCalificacion = async () => {
         let calificacion = 0.0;
         for (let i = 0; i < respuestasUsuario.length; i++) {
-            let compare = stringSimilarity.compareTwoStrings(
-                respuestasUsuario[i].respuesta,
-                preguntas[i].respuesta_correcta
-            );
-            console.log("Question " + (i + 1) + ": " + compare)
-            if (compare <= 0.9) {
+            if (respuestasUsuario[i].tipo_pregunta === "pregunta_abierta") {
 
-                calificacion = calificacion + (compare + 0.1);
-            } else {
-                calificacion = calificacion + compare;
+                let compare = stringSimilarity.compareTwoStrings(
+                    respuestasUsuario[i].respuesta,
+                    preguntas[i].respuesta_correcta
+                );
+                console.log("Question " + (i + 1) + ": " + compare)
+                if (compare <= 0.9) {
+
+                    calificacion = calificacion + (compare + 0.1);
+                } else {
+                    calificacion = calificacion + compare;
+                }
+            } else if (respuestasUsuario[i].tipo_pregunta === "opcion_multiple") {
+                if (respuestasUsuario[i].respuesta === preguntas[i].respuesta_correcta) {
+                    calificacion = calificacion + 1;
+                    console.log("Question " + (i + 1) + ": " + 1.0)
+                } else {
+                    calificacion = calificacion + 0;
+                    console.log("Question " + (i + 1) + ": " + 0.0)
+                }
             }
 
             /* if (respuestasUsuario[i].respuesta === preguntas[i].respuesta_correcta) {
@@ -517,6 +565,7 @@ export const Examen = () => {
                                                             <textarea
                                                                 name={pregunta.id_pregunta}
                                                                 onChange={handleChangePreguntaAbierta}
+                                                                defaultValue={respuestasUsuario[contador - 1].respuesta}
                                                                 className="w-full resize-y p-2 border rounded-lg focus:border-gray-400  bg-white text-gray-600 text-sm md:text-base outline-none focus:outline-none"
                                                             >
                                                             </textarea>

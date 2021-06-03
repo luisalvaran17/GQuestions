@@ -1033,7 +1033,7 @@ export const Homepage = () => {
           {/* Uso móvil */}
           <div className='mx-auto my-auto w-full sm:pt-8 md:pb-0 py-0 md:pt-0 bg-cyanmain'>
             <div className='container mx-auto flex'>
-              <div className='grid grid-cols-12 md:mx-8 mx-8 sm:mt-8 mt-16'>
+              <div className='grid grid-cols-12 md:mx-8 mx-8 sm:mt-8 md:mt-0'>
                 <div className='grid grid-rows-3 md:col-span-6 col-span-12 items-center text-sm md:text-base'>
                   <h1 className='font-black xl:text-4xl md:text-3xl text-xl text-justify md:text-left self-end'>
                     Genera, aplica y resuelve tus exámenes desde el móvil
