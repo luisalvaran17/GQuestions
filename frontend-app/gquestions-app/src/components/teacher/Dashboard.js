@@ -214,7 +214,7 @@ export const Dashboard = () => {
                         className="">
                         <div className="grid grid-rows- transition duration-500 py-4 rounded-xl hover:bg-gray-200 px-4 hover:bg-opacity-40 
                         cursor-pointer font-bold border-b border-gray-300 dark:border-gray-700 dark:hover:bg-opacity-10" >
-                          <p className="hidden sm:block">Generación número: {contador = contador + 1}</p>
+                          <p className="hidden sm:block">Generación { contador + 1}</p>
                           <div className="grid grid-cols-12">
                             <p className="col-span-12 mb-4 sm:col-span-8 text-gray-500 text-sm dark:text-gray-400">Generado: {FormatDateFunction(generacion.fecha_generacion)} | Cantidad de examenes: {generacion.n_examenes} | Cantidad de preguntas: {generacion.n_preguntas * generacion.n_examenes}</p>
                             <div className="col-span-12 sm:col-span-4 place-self-center sm:place-self-end mr-2 pointer-events-auto">

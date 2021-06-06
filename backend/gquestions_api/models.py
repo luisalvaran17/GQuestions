@@ -80,7 +80,8 @@ class ExamenConfiguracionModel(models.Model):
     contrasena_exam = models.CharField(max_length=200, null=False)
     n_intentos = models.SmallIntegerField(default=1)
     fecha_hora_ini = models.DateTimeField(null=False)
-    fecha_hora_fin = models.DateTimeField(null=False)    
+    fecha_hora_fin = models.DateTimeField(null=False)
+    #duracion = models.SmallIntegerField(null=False)
     generacion = models.ForeignKey(
         GeneracionModel, related_name="generacion_examenes", on_delete=models.CASCADE)
 

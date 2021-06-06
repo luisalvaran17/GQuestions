@@ -61,7 +61,7 @@ def GetAllCountsGeneracionesView(request, account):
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def GetGeneracionesUsuarioView(request, account):
-    generacion = GeneracionModel.objects.filter(account=account)
+    generacion = GeneracionModel.objects.filter(account=account).order_by('fecha_generacion').reverse()
     serializer = GeneracionSimplificadoSerializer(generacion, many=True)
 
     return JsonResponse(serializer.data, safe=False, status=status.HTTP_200_OK)

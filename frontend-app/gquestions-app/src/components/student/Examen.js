@@ -21,11 +21,15 @@ export const Examen = () => {
     // Hook preguntas
     const [preguntas, setPreguntas] = useState([]);
     const [respuestasUsuario, setRespuestasUsuario] = useState([])
+    const configuracionExamen = []
 
     const [isLoading, setIsLoading] = useState(true);
 
     // Hook advertencia preguntas sin responder
     const [isOpen, setIsOpen] = useState(false)
+
+    // Hook exito examen resuelto
+    const [isOpenSuccess, setIsOpenSuccess] = useState(false)
 
     // Hook Texto
     const [textoExamen, setTextoExamen] = useState("");
@@ -39,7 +43,7 @@ export const Examen = () => {
         setIsLoading(false);
 
         // Alert Reload page
-        window.onbeforeunload = function() {
+        window.onbeforeunload = function () {
             return true;
         };
         return () => {
@@ -49,16 +53,17 @@ export const Examen = () => {
 
     useEffect(() => {
         getExamen();// eslint-disable-next-line react-hooks/exhaustive-deps
-    },[])
+    }, [])
 
     const getExamen = async () => {
         setIsLoading(true);
 
         let id_examen = localStorage.getItem('id_examen');
         const response_examen = await GetExamenAPI(id_examen);
-        console.log(response_examen)
 
-        if (response_examen !== false) {
+        if (response_examen.length === 0) {
+            history.push('/student/home')
+        } else if (response_examen !== false) {
             let id_texto = response_examen[0].texto;
 
             const response_texto = await GetTextoAPI(id_texto);
@@ -198,12 +203,13 @@ export const Examen = () => {
 
     const onClickTerminarIntento = () => {
         if (CheckValidationsRespuestas() === false) {
-            history.push('/student/home')
             console.log(respuestasUsuario);
             console.log(preguntas)
             getCalificacion();
-            localStorage.removeItem('id_examen')
-            localStorage.removeItem('respuestas_usuario')
+            localStorage.removeItem('id_examen');
+            localStorage.removeItem('respuestas_usuario');
+            localStorage.removeItem('conf_examen');
+            setIsOpenSuccess(true);
         }
     }
 
@@ -324,13 +330,28 @@ export const Examen = () => {
     }
 
     function closeModalContinue() {
-        setIsOpen(false);
+        console.log(respuestasUsuario);
+        console.log(preguntas)
         getCalificacion();
-        localStorage.removeItem('id_examen')
+        localStorage.removeItem('id_examen');
+        localStorage.removeItem('respuestas_usuario');
+        localStorage.removeItem('conf_examen');
+        /* setIsOpenSuccess(true); */
+        setIsOpen(false);
+        history.push('/student/calificaciones')
     }
 
     function closeModal() {
         setIsOpen(false);
+        setIsOpenSuccess(false);
+    }
+
+    function closeModalSuccess() {
+        history.push('/student/calificaciones');
+    }
+
+    function closeModalHome() {
+        history.push('/student/home');
     }
 
     return (
@@ -354,9 +375,9 @@ export const Examen = () => {
                 <nav className="container py-4 mx-auto h-36">
                     <div className="sm:pr-0 pr-20 2xl:ml-16 xl:ml-28 lg:ml-16 md:ml-16 sm:ml-12 ml-8 text-sm sm:text-base dark:text-gray-200">
                         <p className="uppercase font-light text-gray-600 dark:text-gray-100">Inglés - Universidad del Valle</p>
-                        <p className="font-black text-gray-600 dark:text-gray-200 md:text-3xl text-xl">Examen Nombre Examen</p>
-                        <p>Tiempo para el examen: 2h</p>
-                        <p>Intentos: 1</p>
+                        <p className="font-black text-gray-600 dark:text-gray-200 md:text-3xl text-2xl">Examen {configuracionExamen.title_exam}</p>
+                        <p className="font-black text-gray-600 dark:text-gray-200 md:text-xl text-xl">Tiempo para el examen: 2h</p> {/* to do: traer atributo duracion cuando lo agregue*/}
+                        <p>Intentos: {configuracionExamen.n_intentos}</p>
                     </div>
 
                     {/* Profile dropdown */}
@@ -458,6 +479,16 @@ export const Examen = () => {
                 {!isLoading &&
                     <div className="container mx-auto 2xl:px-96 xl:px-80 lg:px-40 md:px-32 sm:px-16 px-8 pt-8 pb-32 ">
                         {/* Texto disclosure */}
+
+                        <div className="relative py-3 sm:max-w-xl sm:mx-auto">
+                            <div className="group cursor-pointer relative inline-block border-b border-gray-400 w-32 text-center">Hover over me
+                                <div className="transition duration-500 opacity-0 w-32 h-9 bg-black text-white text-center text-sm rounded-lg py-2 absolute z-10 group-hover:opacity-100 bottom-full -left-32 -top-1 px-4 pointer-events-none">
+                                    Tooltip center
+                                    <svg className="absolute text-black h-2 w-full left-16 top-3 transform -rotate-90" x="0px" y="0px" viewBox="0 0 255 255" ><polygon className="fill-current" points="0,0 127.5,127.5 255,0" /></svg>
+                                </div>
+                            </div>
+                        </div>
+
                         <div className="w-full">
                             <div className="w-full py-2 mx-auto dark:bg-darkColor rounded-lg">
                                 <Disclosure >
@@ -660,6 +691,85 @@ export const Examen = () => {
                                                     onClick={closeModalContinue}
                                                 >
                                                     Sí
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </Transition.Child>
+                                </div>
+                            </Dialog>
+                        </Transition>
+
+                        {/* Preguntas respondidas Modal (mensaje de éxito) */}
+                        <Transition appear show={isOpenSuccess} as={Fragment}>
+                            <Dialog
+                                as="div"
+                                className="fixed inset-0 z-10 overflow-y-auto"
+                                onClose={closeModal}
+                            >
+                                {/* Use the overlay to style a dim backdrop for your dialog */}
+                                <Dialog.Overlay className="fixed inset-0 bg-black opacity-60" />
+                                <div className="min-h-screen px-4 text-center">
+                                    <Transition.Child
+                                        as={Fragment}
+                                        enter="ease-out duration-300"
+                                        enterFrom="opacity-0"
+                                        enterTo="opacity-100"
+                                        leave="ease-in duration-200"
+                                        leaveFrom="opacity-100"
+                                        leaveTo="opacity-0"
+                                    >
+                                        <Dialog.Overlay className="fixed inset-0" />
+                                    </Transition.Child>
+
+                                    {/* This element is to trick the browser into centering the modal contents. */}
+                                    <span
+                                        className="inline-block h-screen align-middle"
+                                        aria-hidden="true"
+                                    >
+                                        &#8203;
+                                    </span>
+                                    <Transition.Child
+                                        as={Fragment}
+                                        enter="ease-out duration-300"
+                                        enterFrom="opacity-0 scale-95"
+                                        enterTo="opacity-100 scale-100"
+                                        leave="ease-in duration-200"
+                                        leaveFrom="opacity-100 scale-100"
+                                        leaveTo="opacity-0 scale-95"
+                                    >
+                                        <div className="inline-block w-full max-w-xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl font-manrope">
+                                            <Dialog.Title
+                                                as="h3"
+                                                className="text-xl font-semibold leading-6 text-gray-900"
+                                            >
+                                                Respuestas guardadas con éxito
+                                            </Dialog.Title>
+                                            <div className="mt-2">
+                                                <ul className="list-none space-y-2 md:text-justify">
+                                                    <li>
+                                                        <p className="text-base text-gray-500">
+                                                            Puede ir ahora mismo a calificaciones para ver la nota de su examen
+                                                        </p>
+                                                    </li>
+                                                </ul>
+                                            </div>
+
+                                            <div className="flex mt-4 justify-end space-x-4">
+                                                <button
+                                                    type="button"
+                                                    className="transition duration-500 sm:w-auto w-28 inline-flex justify-center px-12 py-2 text-sm font-medium text-red-900 bg-red-100 border border-transparent 
+                                                    rounded-md hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                                                    onClick={closeModalHome}
+                                                >
+                                                    Después
+                                                    </button>
+                                                <button
+                                                    type="button"
+                                                    className="transition duration-500 sm:w-auto w-28 inline-flex justify-center px-12 py-2 text-sm font-medium text-green-900 bg-green-100 border border-transparent 
+                                                    rounded-md hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                                                    onClick={closeModalSuccess}
+                                                >
+                                                    Ir ahora
                                                 </button>
                                             </div>
                                         </div>

@@ -14,7 +14,7 @@ import { LoadingPage } from '../../containers/LoadingPage';
 export const LoginExamen = () => {
 
     const navigation = [
-        { name: 'Inicio', href: '#', current: true, id: 0 },
+        { name: 'Inicio', href: '#', current: false, id: 0 },
         { name: 'Mis calificaciones', href: '#', current: false, id: 1 },
         /* { name: 'Projects', href: '#', current: false }, */
         { name: 'Ajustes', href: '#', current: false, id: 2 },
@@ -31,6 +31,7 @@ export const LoginExamen = () => {
     const [isLoading, setIsLoading] = useState(true);
 
     const [examenDisponible, setExamenDisponible] = useState(true);
+    const [messageExamenDisponible, setMessageExamenDisponible] = useState("")
 
     // Hooks dark mode
     const darkModeRef = useRef();
@@ -61,25 +62,33 @@ export const LoginExamen = () => {
     const getExamenes = async (cod_generacion) => {
         setIsLoading(true);
         let generacion_response = await GetGeneracionExamen(cod_generacion);
-        if (generacion_response !== false) {
+        if (generacion_response.length === 0) {
+            setIsLoading(false);
+            setMessageExamenDisponible("Este enlace no corresponde a ningún examen, por favor verifica el enlace")
+            setExamenDisponible(false);
+        }
+        else if (generacion_response !== false) {
             generacion_response.map(objeto => {
                 let configuracion_examen = objeto.generacion_examenes[0]
                 setPasswordExamen(configuracion_examen.contrasena_exam)
                 setGeneracionExamen(configuracion_examen.examenes);
-                
+                localStorage.setItem('conf_examen', JSON.stringify(configuracion_examen));
 
                 // Comprueba que el examen aun esté disponible
                 let dateNow = new Date();
                 let dateInicio = new Date(configuracion_examen.fecha_hora_ini);
                 let dateFin = new Date(configuracion_examen.fecha_hora_fin);
-                let duracion = dateFin.getHours() - dateInicio.getHours()
-                console.log(duracion)
+                let duracion = dateFin.getHours() - dateInicio.getHours();
+
                 if (dateNow >= dateInicio && dateNow <= dateFin) {
                     setExamenDisponible(true);
                 } else if (dateNow < dateInicio) {
 
+                    setMessageExamenDisponible("Demasiado pronto... este estará disponible el: " + dateInicio.toDateString() + " a las " + dateInicio.getHours() + ":" + dateInicio.getMinutes());
+                    setExamenDisponible(false);
                 }
                 else if (dateNow >= dateFin) {
+                    setMessageExamenDisponible("Oops, llegaste tarde... este examen ya no se encuentra disponible")
                     setExamenDisponible(false);
                 }
                 setInformacionExamen(
@@ -105,32 +114,61 @@ export const LoginExamen = () => {
         //console.log(generacionExamen);
         let examen = {}
         let assigned_to = { assigned_to: null }
+        let examen_ya_asignado = false;
 
         if (passwordExamen === passwordInput) {
 
-            for (let i = 0; i < generacionExamen.length; i++) {
-                examen = generacionExamen[i];
+            if (localStorage.getItem('id_examen') !== null) {
+                for (let i = 0; i < generacionExamen.length; i++) {
+                    if (generacionExamen[i].id_examen === localStorage.getItem('id_examen')) {
+                        examen = generacionExamen[i];
+                        examen_ya_asignado = true; // Utilizado para evitar entrar en el for de abajo en caso de que el examen ya 
+                        // haya sido asignado a este estudiante y evitar asignarle otro examen, cabiendo 
+                        // la posibilidad de dejar a otro estudiante sin examen
+                        localStorage.setItem('id_examen', examen.id_examen);
+                        history.push('/student/examen')
+                        break;
+                    }
+                }
+            }
+            if (examen_ya_asignado === false) {
+                let id_user = localStorage.getItem('id_user');
+                let ya_resuelto = false;
+                for (let i = 0; i < generacionExamen.length; i++) {
+                    examen = generacionExamen[i];
+                    console.log(examen.assigned_to)
+                    if (examen.assigned_to === parseInt(id_user)) {
+                        setMessageAlert("Ya has respondido este examen con anterioridad")
+                        removeClassdivRefErrorMessage();
+                        // ya_resuelto = true; // to do: descomentar cuando esté terminado
+                    }
+                }
+                if (ya_resuelto === false) {
+                    for (let i = 0; i < generacionExamen.length; i++) {
+                        examen = generacionExamen[i];
 
-                if (examen.assigned_to === null) {
-                    setIsLoading(true);
-                    const response_assigned = await GetExamenAssignedAPI(examen.id_examen);
-                    if (response_assigned) {
-                        assigned_to = { assigned_to: localStorage.getItem('id_user') }
-                        const response = UpdateExamenAPI(examen.id_examen, assigned_to)
-                        if (response) {
-                            localStorage.setItem('id_examen', examen.id_examen);
-                            history.push('/student/examen')
-                            break;
+                        if (examen.assigned_to === null) {
+                            setIsLoading(true);
+                            const response_assigned = await GetExamenAssignedAPI(examen.id_examen);
+                            if (response_assigned) {
+                                assigned_to = { assigned_to: localStorage.getItem('id_user') }
+                                const response = UpdateExamenAPI(examen.id_examen, assigned_to)
+                                if (response) {
+                                    localStorage.setItem('id_examen', examen.id_examen);
+                                    history.push('/student/examen')
+                                    break;
+                                }
+                                setIsLoading(false);
+                            }
+
+                            else {
+                                i = 0;
+                            }
+                        } else {
+                            setMessageAlert("Ya todos los exámenes fueron asignados")
+                            removeClassdivRefErrorMessage();
                         }
-                        setIsLoading(false);
                     }
-
-                    else {
-                        i = 0;
-                    }
-                } else {
-                    setMessageAlert("Ya todos los exámenes fueron asignados")
-                    removeClassdivRefErrorMessage();
                 }
             }
         }
@@ -263,8 +301,8 @@ export const LoginExamen = () => {
                             </div>
 
                         }{examenDisponible === false &&
-                            <div className='py-40 px-6 select-none'>
-                                <p className="dark:text-gray-200 text-gray-800 text-center">Oops, llegaste tarde... este examen ya no se encuentra disponible</p>
+                            <div className='py-10 px-6 select-none'>
+                                <p className="dark:text-gray-200 text-gray-800 text-center">{messageExamenDisponible}</p>
                                 <img src={emptyImage} alt="empty" className="md:w-96 py-8 sm:w-64 w-64" style={{ display: "block", margin: "auto" }}></img>
                             </div>
                         }
