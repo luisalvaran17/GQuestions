@@ -296,8 +296,9 @@ export const ExamenConfiguracion = (props) => {
                 <input
                   type="number"
                   id="numero_intentos"
+                  disabled={true}
                   className="grid text-sm text-gray-800 md:text-base sm:col-span-4 col-span-12 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2
-                                  focus:ring-yellowlight w-full 2xl:w-96 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
+                                  focus:ring-yellowlight w-full 2xl:w-96 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-gray-300 shadow"
                   name="numero_intentos"
                   placeholder="Por defecto 1"
                   onChange={handleChange}

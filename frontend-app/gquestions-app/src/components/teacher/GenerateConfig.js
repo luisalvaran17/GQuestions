@@ -295,7 +295,7 @@ export const GenerateConfig = () => {
           autoHideDuration={400}
           style={{ height: "100vh" }}
           data-aos="fade-right" 
-          className="container">
+          className="">
 
           {/* Términos y condiciones Modal */}
           <Transition appear show={isOpen} as={Fragment}>
@@ -408,7 +408,7 @@ export const GenerateConfig = () => {
             <p className="text-gray-500 font-semibold text-sm md:text-base dark:text-gray-200 mb-6 lg:mb-8">
               Aquí puedes configurar los parámetros de la generación.
             </p>
-            <div className="grid grid-cols-12 sm:mb-44 mb-0">
+            <div className="grid grid-cols-12 md:mb-32 sm:mb-44 mb-0">
               <div className="grid sm:col-span-4 col-span-12 sm:mr-8 mr-0 mb-2">
                 <label className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
                   Cantidad de exámenes
@@ -564,7 +564,7 @@ export const GenerateConfig = () => {
               </div>
             </form>
 
-            <div className="py-3 mt-4 w-full">
+            <div className="container py-3 mt-4 w-full sm:pr-8">
               <p className="text-sm text-gray-600 dark:text-gray-300 my-1">
                 Tiempo de generación aproximado: 120s
               </p>
@@ -575,7 +575,7 @@ export const GenerateConfig = () => {
               </div>
             </div>
 
-            <div className="grid justify-end items-end">
+            <div className="container grid justify-end items-end sm:pr-8">
               {!isLoading &&
                 <button
                   type="submit"
@@ -598,10 +598,12 @@ export const GenerateConfig = () => {
             </div>
 
             {/* StepProgress */}
-            <StepsProgress active={1} />
+            <div className="container sm:pr-4">
+              <StepsProgress active={1}/>
+            </div>
 
             {/* Error messages */}
-            <div className="mb-8">
+            <div className="container mb-8 sm:pr-4">
 
               <div
                 ref={divRefErrorMessage}

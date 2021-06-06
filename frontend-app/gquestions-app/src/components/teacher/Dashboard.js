@@ -174,9 +174,9 @@ export const Dashboard = () => {
           autoHide
           autoHideTimeout={900}
           autoHideDuration={400}
-          style={{ height: "100vh" }}
+          style={{ height: "100vh"}}
           data-aos="fade-right"
-          className='container lg:text-base text-sm dark:text-white'>
+          className='lg:text-base text-sm dark:text-white'>
 
 
           <div className="grid grid-rows xl:pl-32 px-8 py-8 md:px-8 lg:pl-16">
@@ -198,7 +198,7 @@ export const Dashboard = () => {
             </div>
 
             <CustomScrollbars
-              className={generacionesEmpty ? 'hidden' : ''}
+              className={generacionesEmpty ? 'hidden' : 'container'}
               autoHide
               autoHideTimeout={900}
               autoHideDuration={400}
@@ -212,7 +212,7 @@ export const Dashboard = () => {
                         key={contador}
                         id={generacion.id}
                         className="">
-                        <div className="grid grid-rows- transition duration-500 py-4 rounded-xl hover:bg-gray-200 px-4 hover:bg-opacity-40 
+                        <div className="grid grid-rows- transition duration-500 py-4 rounded-xl hover:bg-gray-200 pl-4 pr-8 hover:bg-opacity-40 
                         cursor-pointer font-bold border-b border-gray-300 dark:border-gray-700 dark:hover:bg-opacity-10" >
                           <p className="hidden sm:block">Generación { contador + 1}</p>
                           <div className="grid grid-cols-12">

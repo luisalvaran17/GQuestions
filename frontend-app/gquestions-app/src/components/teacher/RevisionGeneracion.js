@@ -272,7 +272,7 @@ export const RevisionGeneracion = (props) => {
     Textos.map(texto => {
       if (texto.cuerpo === "") {
         boolEmpty = true;
-        p_empty = React.createElement('p', {}, '●  Hay textos vacíos, por favor verifique que todos los textos no estén vacíos antes de continuar.');
+        p_empty = React.createElement('p', {}, '●  Hay textos vacíos, por favor verifique que no haya textos vacíos');
       }
       return true; // return map prototype
     })
@@ -338,206 +338,210 @@ export const RevisionGeneracion = (props) => {
           style={{ height: "" }}
           className="container xl:mx-32 mx-4 md:mx-8 lg:mx-16 mt-8">
 
-          <div className="grid grid-rows space-y-8 mb-8">
-            <h1 className="font-bold xl:text-5xl md:text-4xl sm:text-3xl text-xl dark:text-white">
-              Revisión de Generación
+          <div className="pr-4">
+            <div className="grid grid-rows space-y-8 mb-8">
+              <h1 className="font-bold xl:text-5xl md:text-4xl sm:text-3xl text-xl dark:text-white">
+                Revisión de Generación
             </h1>
-            <p className="text-gray-500 font-semibold text-sm md:text-base dark:text-white">
-              Estos son los textos y preguntas generadas por el algoritmo, puede visualizar cada uno navegando a través de la lista de la izquierda. <br></br>
-            </p>
-          </div>
+              <p className="text-gray-500 font-semibold text-sm md:text-base dark:text-white">
+                Estos son los textos y preguntas generadas por el algoritmo, puede visualizar cada uno navegando a través de la lista de la izquierda. <br></br>
+              </p>
+            </div>
 
-          <div className="container">
-            <div className="grid grid-cols-12">
-              <div className="col-span-2 sm:col-span-3">
-                <div className="flex ">
-                  <CustomScrollbars
-                    autoHide
-                    autoHideTimeout={900}
-                    autoHideDuration={400}
-                    style={{ height: "50vh" }}
-                    className="m-0 overflow-auto bg-white border shadow-md border-gray-300 sm:rounded-md 
-                    rounded-r-none w-full lg:mr-16 md:mr-8 mr-0 md:text-base text-sm">
-                    <ul className="divide-y divide-gray-300">
-                      <li className="p-4 font-bold text-gray-500">
-                        <p className="hidden sm:block">PAQUETES DE GENERACIONES</p>
-                        <p className="sm:hidden block">T</p>
-                      </li>
+            <div className="container">
+              <div className="grid grid-cols-12">
+                <div className="col-span-2 sm:col-span-3">
+                  <div className="flex">
+                    <CustomScrollbars
+                      autoHide
+                      autoHideTimeout={900}
+                      autoHideDuration={400}
+                      style={{ height: "45vh" }}
+                      className="m-0 overflow-auto bg-white border shadow-md border-gray-300 md:rounded-lg 
+                    rounded-r-none rounded-lg w-full xl:mr-16 lg:mr-8 md:mr-8 mr-0 md:text-base text-sm">
+                      <ul className="divide-y divide-gray-300">
+                        <li className="p-4 font-bold text-gray-500">
+                          <p className="hidden sm:block">PAQUETES DE GENERACIONES</p>
+                          <p className="sm:hidden block">T</p>
+                        </li>
 
-                      {
-                        Textos.map((texto, contador = 1) => (
-                          <div
-                            key={texto.id}
-                            className="">
-                            <button
+                        {
+                          Textos.map((texto, contador = 1) => (
+                            <div
                               key={texto.id}
-                              id={texto.id}
-                              onClick={onClickTextoList}
-                              className="hidden text-left sm:block transition duration-500 py-4 w-full justify-between items-center px-5 focus:outline-none font-bold">
-                              Examen {contador = contador + 1}
-                            </button>
-                            <button
-                              key={texto.id + contador}
-                              id={texto.id}
-                              onClick={onClickTextoList}
-                              className="sm:hidden block text-left transition duration-500 py-4 w-full justify-between items-center px-5 focus:outline-none font-bold">
-                              {contador}
-                            </button>
-                          </div>
-                        ))
-                      }
-                    </ul>
-                  </CustomScrollbars>
-                </div>
-              </div>
-
-              <div className="grid col-span-9">
-                <div className="box border rounded flex flex-col shadow bg-white">
-                  <div className="grid grid-cols-12 items-center border-b">
-                    <div className="sm:block col-span-6 font-bold text-base text-black">
-                      <button
-                        ref={buttonTextRef}
-                        className="transition duration-500 md:text-base text-sm z-10 pl-1 w-full block focus:outline-none
-                         bg-yellowlight text-yellow-800 border-yellowmain hover:bg-yellowlight focus:bg-yellowlight 
-                         rounded-sm border focus:border-yellowmain px-2 py-2 font-bold"
-                        onClick={handleClickTexto}
-                      >
-                        Texto
-                      </button>
-                    </div>
-
-                    <div className="sm:block col-span-6 font-bold text-base text-black">
-                      <button
-                        ref={buttonPreguntasRef}
-                        className="transition duration-500 md:text-base text-sm z-10 pl-1 w-full block focus:outline-none
-                         bg-gray-100 text-gray-800 hover:bg-yellowlight hover focus:bg-yellowlight 
-                         rounded-sm border focus:border-yellowmain px-2 py-2 font-bold"
-                        onClick={handleClickPreguntas}
-                      >
-                        Preguntas
-                      </button>
-                    </div>
+                              className="">
+                              <button
+                                key={texto.id}
+                                id={texto.id}
+                                onClick={onClickTextoList}
+                                className="hidden text-left sm:block transition duration-500 py-4 w-full justify-between items-center px-5 focus:outline-none font-bold">
+                                Examen {contador = contador + 1}
+                              </button>
+                              <button
+                                key={texto.id + contador}
+                                id={texto.id}
+                                onClick={onClickTextoList}
+                                className="sm:hidden block text-left transition duration-500 py-4 w-full justify-between items-center px-5 focus:outline-none font-bold">
+                                {contador}
+                              </button>
+                            </div>
+                          ))
+                        }
+                      </ul>
+                    </CustomScrollbars>
                   </div>
+                </div>
 
-                  <CustomScrollbars
-                    autoHide
-                    autoHideTimeout={900}
-                    autoHideDuration={400}
-                    className={disabledTextArea ? 'transition duration-500 m-0 overflow-auto bg-gray-200' : 'transition duration-500 m-0 overflow-auto bg-white'}
-                    style={{ height: "39vh" }}>
-                    <textarea
-                      ref={textAreaRef}
-                      className="h-full pl-6 py-4 w-11/12 m-0 resize-none focus:border-gray-400  bg-transparent text-gray-600 text-sm md:text-base outline-none focus:outline-none"
-                      value={TextArea}
-                      disabled={disabledTextArea}
-                      onChange={handleTextArea}
-                    >
-
-                    </textarea>
-                    <div
-                      ref={preguntasAreaRef}
-                      className="hidden h-full w-full resize-none focus:border-gray-400 p-2 m-1 bg-transparent text-gray-600 text-sm md:text-base outline-none focus:outline-none"
-                    >
-                      {
-                        preguntas.map(pregunta => (
-                          <div
-                            className=""
-                            key={pregunta.id_pregunta}>
-                            <p>{pregunta.pregunta_cuerpo}</p>
-                            <p>{pregunta.respuesta_correcta}</p>
-                            <br></br>
-                          </div>
-                        ))
-                      }
-                    </div>
-                  </CustomScrollbars>
-                  <hr></hr>
-                  <div className="grid grid-cols-12  mt-2 px-4 items-center ">
-                    <p className="col-span-7 hidden md:block text-gray-500 text-sm md:text-sm">Cite: GPT2 Algorithm from Hugging Face</p>
-
-                    <div className="md:col-span-5 col-span-12 place-self-end">
-                      <button
-                        className="transition duration-500 md:text-base text-sm z-10 pl-1 sm:w-52 w-40 block focus:outline-none outline-none 
-                        bg-white border border-green-400 text-green-700 hover:bg-green-500 focus:bg-green-500 hover:text-white
-                         rounded-lg px-2 sm:py-2 py-1 font-semibold"
-                      >
-                        Volver a generar
+                <div className="grid col-span-10 sm:col-span-9">
+                  <div className="box border md:rounded-lg rounded-l-none rounded-lg flex flex-col shadow bg-white">
+                    <div className="grid grid-cols-12 items-center border-b">
+                      <div className="sm:block col-span-6 font-bold text-base text-black">
+                        <button
+                          ref={buttonTextRef}
+                          className="transition duration-500 md:text-base text-sm z-10 pl-1 w-full block focus:outline-none
+                         bg-yellowlight text-yellow-800 border-yellowmain hover:bg-yellowlight focus:bg-yellowlight 
+                         rounded-t-lg border focus:border-yellowmain px-2 py-2 font-bold"
+                          onClick={handleClickTexto}
+                        >
+                          Texto
                       </button>
+                      </div>
+
+                      <div className="sm:block col-span-6 font-bold text-base text-black">
+                        <button
+                          ref={buttonPreguntasRef}
+                          className="transition duration-500 md:text-base text-sm z-10 pl-1 w-full block focus:outline-none
+                         bg-gray-100 text-gray-800 hover:bg-yellowlight hover focus:bg-yellowlight 
+                         rounded-t-lg border focus:border-yellowmain px-2 py-2 font-bold"
+                          onClick={handleClickPreguntas}
+                        >
+                          Preguntas
+                      </button>
+                      </div>
+                    </div>
+
+                    <CustomScrollbars
+                      autoHide
+                      autoHideTimeout={900}
+                      autoHideDuration={400}
+                      className={disabledTextArea ? 'transition duration-500 m-0 overflow-auto bg-gray-200' : 'transition duration-500 m-0 overflow-auto bg-white'}
+                      style={{ height: "34vh" }}>
+                      <textarea
+                        ref={textAreaRef}
+                        className="h-full pl-6 py-4 w-11/12 m-0 resize-none focus:border-gray-400  bg-transparent text-gray-600 text-sm md:text-base outline-none focus:outline-none"
+                        value={TextArea}
+                        disabled={disabledTextArea}
+                        onChange={handleTextArea}
+                      >
+
+                      </textarea>
+                      <div
+                        ref={preguntasAreaRef}
+                        className="hidden h-full w-full resize-none focus:border-gray-400 p-2 m-1 bg-transparent text-gray-600 text-sm md:text-base outline-none focus:outline-none"
+                      >
+                        {
+                          preguntas.map(pregunta => (
+                            <div
+                              className=""
+                              key={pregunta.id_pregunta}>
+                              <p>{pregunta.pregunta_cuerpo}</p>
+                              <p>{pregunta.respuesta_correcta}</p>
+                              <br></br>
+                            </div>
+                          ))
+                        }
+                      </div>
+                    </CustomScrollbars>
+                    <hr></hr>
+                    <div className="grid grid-cols-12 mt-2 px-4 items-center">
+                      <p className="col-span-7 hidden md:block text-gray-500 text-xs md:text-sm">Cite: GPT2 Algorithm from Hugging Face</p>
+
+                      <div className="md:col-span-5 col-span-12 place-self-end">
+                        <button
+                          className="transition duration-500 md:text-base text-sm z-10 pl-1 sm:w-52 w-40 block focus:outline-none outline-none 
+                        bg-white border border-green-400 text-green-700 hover:bg-green-500 focus:bg-green-500 hover:text-white
+                         rounded-lg px-2 py-2 font-semibold"
+                        >
+                          Volver a generar
+                      </button>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <div className="grid grid-rows justify-end items-end mt-4 sm:mr-0 mr-2">
-            <div className="flex md:flex-row flex-col gap-x-8 gap-y-2 box__title bg-grey-lighter px-3  py-2 items-center self-center">
-              <div className="">
-                <button
-                  type="submit"
-                  className="transition duration-500 shadow-md md:text-base text-sm text-darkGrayColor text-center focus:outline-none
+            <div className="grid grid-rows justify-end items-end mt-4">
+              <div className="flex md:flex-row flex-col gap-x-8 gap-y-2 box__title bg-grey-lighter py-2 items-center self-center">
+                <div className="">
+                  <button
+                    type="submit"
+                    className="transition duration-500 shadow-md md:text-base text-sm text-darkGrayColor text-center focus:outline-none
                   z-10 mx-auto w-52 bg-yellowlight focus:bg-yellowlightdark hover:bg-yellowlightdark rounded-lg px-2 py-2 font-semibold outline-none focus:outline-none;"
-                  onClick={handleClickEditar}
-                >
-                  {textButtonEditar}
-                </button>
-              </div>
-              <div className="grid grid-rows justify-end items-end ">
-                {!isLoading &&
-                  <button
-                    type="submit"
-                    className="transition duration-500 shadow-md md:text-base text-sm text-white text-center 
-                  z-10 mx-auto outline-none focus:outline-none w-52 block bg-yellowmain hover:bg-yellow-600 focus:bg-yellow-600 rounded-lg px-2 py-2 font-semibold"
-                    onClick={handleClick}
+                    onClick={handleClickEditar}
                   >
-                    Generar examénes
-                </button>
-                }{isLoading &&
-                  <button
-                    type="submit"
-                    className="transition duration-500 shadow-md md:text-base text-sm text-white text-center 
+                    {textButtonEditar}
+                  </button>
+                </div>
+                <div className="grid grid-rows justify-end items-end">
+                  {!isLoading &&
+                    <button
+                      type="submit"
+                      className="transition duration-500 shadow-md md:text-base text-sm text-white text-center 
                   z-10 mx-auto outline-none focus:outline-none w-52 block bg-yellowmain hover:bg-yellow-600 focus:bg-yellow-600 rounded-lg px-2 py-2 font-semibold"
-                  >
-                    <span className="text-white my-0 mr-4 w-0 h-0">
-                      <i className="fas fa-circle-notch fa-spin fa-x"></i>
-                    </span>
+                      onClick={handleClick}
+                    >
+                      Generar examénes
+                </button>
+                  }{isLoading &&
+                    <button
+                      type="submit"
+                      className="transition duration-500 shadow-md md:text-base text-sm text-white text-center 
+                  z-10 mx-auto outline-none focus:outline-none w-52 block bg-yellowmain hover:bg-yellow-600 focus:bg-yellow-600 rounded-lg px-2 py-2 font-semibold"
+                    >
+                      <span className="text-white my-0 mr-4 w-0 h-0">
+                        <i className="fas fa-circle-notch fa-spin fa-x"></i>
+                      </span>
                   Creando ...
                 </button>}
-              </div>
+                </div>
                 <p ref={errorServerRef} className="hidden place-self-center text-sm px-2 text-red-600 dark:text-red-200">
-                  Ha ocurrido un error de conexión 
+                  Ha ocurrido un error de conexión
                 </p>
-            </div>
-          </div>
-
-          {/* Stepper progress bar */}
-          <StepsProgress active={2} />
-
-          {/* Error messages */}
-          <div
-            ref={divRefErrorMessage}
-            className="hidden animate-pulse mt-1 relative py-1 pl-4 pr-10 leading-normal text-red-700 bg-red-100 rounded-lg"
-            role="alert"
-          >
-            <div id="error_messages" className="text-sm md:text-base">
+              </div>
             </div>
 
-            <span
-              className="absolute inset-y-0 right-0 flex items-center mr-4"
-              onClick={addClassdivRefErrorMessage}
+            {/* Stepper progress bar */}
+            <div className="pr-4 sm:pr-0">
+              <StepsProgress active={2} />
+            </div>
+
+            {/* Error messages */}
+            <div
+              ref={divRefErrorMessage}
+              className="hidden animate-pulse mt-1 relative py-1 pl-4 pr-10 leading-normal text-red-700 bg-red-100 rounded-lg mb-12"
+              role="alert"
             >
-              <svg
-                className="w-4 h-4 fill-current"
-                role="button"
-                viewBox="0 0 20 20"
+              <div id="error_messages" className="text-sm md:text-base">
+              </div>
+
+              <span
+                className="absolute inset-y-0 right-0 flex items-center mr-4"
+                onClick={addClassdivRefErrorMessage}
               >
-                <path
-                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                  clipRule="evenodd"
-                  fillRule="evenodd"
-                ></path>
-              </svg>
-            </span>
+                <svg
+                  className="w-4 h-4 fill-current"
+                  role="button"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                    clipRule="evenodd"
+                    fillRule="evenodd"
+                  ></path>
+                </svg>
+              </span>
+            </div>
           </div>
         </CustomScrollbars>
         <DropdownUser />  {/* Elemento menú del usuario */}
