@@ -81,7 +81,8 @@ class ExamenConfiguracionModel(models.Model):
     n_intentos = models.SmallIntegerField(default=1)
     fecha_hora_ini = models.DateTimeField(null=False)
     fecha_hora_fin = models.DateTimeField(null=False)
-    #duracion = models.SmallIntegerField(null=False)
+    duracion = models.SmallIntegerField(null=False)
+
     generacion = models.ForeignKey(
         GeneracionModel, related_name="generacion_examenes", on_delete=models.CASCADE)
 
@@ -91,6 +92,7 @@ class ExamenConfiguracionModel(models.Model):
 class ExamenModel(models.Model):
     id_examen = models.CharField(primary_key=True, null=False, max_length=255)
     assigned_to = models.ForeignKey(Account, on_delete=models.CASCADE, null=True)
+    contestado = models.BooleanField(null=True, default=False)
     texto = models.ForeignKey(
         GeneracionTextoModel, related_name="texto_examen", on_delete=models.CASCADE)
     examen_configuracion = models.ForeignKey(

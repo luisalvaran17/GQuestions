@@ -7,6 +7,7 @@ import { GetExamenAPI } from "../../api/Examen/GetExamenAPI";
 import { GetTextoAPI } from "../../api/Textos/GetTextoAPI";
 import stringSimilarity from "string-similarity";
 import { LoadingPage } from '../../containers/LoadingPage';
+import ImageExceededTime from "../../assets/images/exceeded_time.png";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -20,16 +21,20 @@ export const Examen = () => {
 
     // Hook preguntas
     const [preguntas, setPreguntas] = useState([]);
-    const [respuestasUsuario, setRespuestasUsuario] = useState([])
-    const configuracionExamen = []
+    const [respuestasUsuario, setRespuestasUsuario] = useState([]);
+    const [configuracionExamen, setConfiguracionExamen] = useState({});
 
     const [isLoading, setIsLoading] = useState(true);
 
+    /* Hooks Modals */
     // Hook advertencia preguntas sin responder
-    const [isOpen, setIsOpen] = useState(false)
+    const [isOpen, setIsOpen] = useState(false);
 
     // Hook exito examen resuelto
-    const [isOpenSuccess, setIsOpenSuccess] = useState(false)
+    const [isOpenSuccess, setIsOpenSuccess] = useState(false);
+
+    // Hook tiempo excedido al terminar entrega examen resuelto
+    const [isOpenExceeded, setIsOpenExceeded] = useState(false);
 
     // Hook Texto
     const [textoExamen, setTextoExamen] = useState("");
@@ -64,6 +69,7 @@ export const Examen = () => {
         if (response_examen.length === 0) {
             history.push('/student/home')
         } else if (response_examen !== false) {
+            getConfiguracionExamen(); // obtiene la configuracion del examen
             let id_texto = response_examen[0].texto;
 
             const response_texto = await GetTextoAPI(id_texto);
@@ -76,6 +82,32 @@ export const Examen = () => {
         else {
             setIsLoading(true);
         }
+
+    }
+
+    const getConfiguracionExamen = () => {
+
+        let conf_examen_temp = JSON.parse(localStorage.getItem('conf_examen'))
+        let duracion_convertida = conf_examen_temp.duracion / 3600
+        let dateNow = new Date(localStorage.getItem('h_inicio'));
+        let hour = dateNow.getHours() + parseInt(duracion_convertida);
+        let minutes = dateNow.getMinutes() + (duracion_convertida % 1) * 60;
+
+        // validacion para cuando la suma supere los 60 minutos (asi se le suma 1 a la hora)
+        if (minutes >= 60) {
+            minutes = minutes - 60
+            hour = hour + 1
+        }
+
+        setConfiguracionExamen({
+            id_examen: conf_examen_temp.id_examen,
+            title_exam: conf_examen_temp.title_exam,
+            duracion: duracion_convertida,
+            n_intentos: conf_examen_temp.n_intentos,
+            fecha_hora_ini: conf_examen_temp.fecha_hora_ini,
+            fecha_hora_fin: conf_examen_temp.fecha_hora_fin,
+            finalizacion: hour.toString() + ":" + minutes.toString(),
+        })
     }
 
     const AddTipoPregunta = (preguntas) => {
@@ -202,14 +234,21 @@ export const Examen = () => {
     }
 
     const onClickTerminarIntento = () => {
-        if (CheckValidationsRespuestas() === false) {
-            console.log(respuestasUsuario);
-            console.log(preguntas)
-            getCalificacion();
-            localStorage.removeItem('id_examen');
-            localStorage.removeItem('respuestas_usuario');
-            localStorage.removeItem('conf_examen');
-            setIsOpenSuccess(true);
+        if (validationTimeEndExam() === true) {
+            if (CheckValidationsRespuestas() === false) {
+                console.log(respuestasUsuario);
+                console.log(preguntas)
+                getCalificacion();
+                localStorage.removeItem('id_examen');
+                localStorage.removeItem('respuestas_usuario');
+                localStorage.removeItem('conf_examen');
+                localStorage.removeItem('h_inicio');
+                setIsOpenSuccess(true);
+            }
+        }
+        else {
+            setIsOpenExceeded(true);
+            console.log("Se pasó del tiempo limite de entrega")
         }
     }
 
@@ -239,6 +278,37 @@ export const Examen = () => {
             }
         }
         return bool_empty;
+    }
+
+    const validationTimeEndExam = () => {
+        let hora_finalizacion = configuracionExamen.finalizacion
+        let dateNow = new Date();
+        let hora_actual = dateNow.getHours() + ':' + dateNow.getMinutes();
+
+        let str_finalizacion = hora_finalizacion.split(':');
+        let str_hora_actual = hora_actual.split(':');
+
+
+        console.log('fin: ', str_finalizacion)
+        console.log('hora actual: ', str_hora_actual)
+
+        if (str_finalizacion[0] > str_hora_actual[0]) {  // horas
+            console.log("Oops, te pasaste de la hora límite de entrega");
+            return false;
+        }
+        else if (str_finalizacion[0] === str_hora_actual[0]) {  // horas
+            if (str_finalizacion[1] > str_hora_actual[1]) { // minutos
+                console.log("Dentro del tiempo minutos")
+                return true;
+            } else if (str_finalizacion[1] === str_hora_actual[1]) {
+                console.log("Dentro del tiempo minutos")
+                return true;
+            }
+        }
+        else {
+            console.log("Dentro del tiempo")
+            return true;
+        }
     }
 
     const getOptionAnswer = (e) => {
@@ -330,23 +400,30 @@ export const Examen = () => {
     }
 
     function closeModalContinue() {
-        console.log(respuestasUsuario);
-        console.log(preguntas)
-        getCalificacion();
-        localStorage.removeItem('id_examen');
-        localStorage.removeItem('respuestas_usuario');
-        localStorage.removeItem('conf_examen');
-        /* setIsOpenSuccess(true); */
-        setIsOpen(false);
-        history.push('/student/calificaciones')
+        if (validationTimeEndExam() === true) {
+            console.log(respuestasUsuario);
+            console.log(preguntas)
+            getCalificacion();
+            localStorage.removeItem('id_examen');
+            localStorage.removeItem('respuestas_usuario');
+            localStorage.removeItem('conf_examen');
+            localStorage.removeItem('h_inicio');
+            /* setIsOpenSuccess(true); */
+            setIsOpen(false);
+            history.push('/student/calificaciones')
+        } else {
+            setIsOpenExceeded(true);
+            console.log("Se pasó del tiempo de entrega");
+        }
     }
 
     function closeModal() {
         setIsOpen(false);
         setIsOpenSuccess(false);
+        setIsOpenExceeded(false);
     }
 
-    function closeModalSuccess() {
+    function closeModalCalificaciones() {
         history.push('/student/calificaciones');
     }
 
@@ -367,7 +444,7 @@ export const Examen = () => {
             {/* Toolbar */}
             <div className="flex justify-center items-center bg-gray-200 dark:bg-darkGrayColor2 text-white py-3 px-4 text-center fixed left-0 bottom-0 right-0 z-40">
                 <img className="h-12 self-center " src={Logo} alt="GQuestions" />
-                <p className="font- text-black dark:text-gray-200">Tiempo restante: 36:55 s</p>
+                <p className="text-black text-lg dark:text-gray-200">Tu examen finaliza a las: <b>{configuracionExamen.finalizacion}</b></p>
             </div>
 
             {/* TopBar */}
@@ -376,7 +453,7 @@ export const Examen = () => {
                     <div className="sm:pr-0 pr-20 2xl:ml-16 xl:ml-28 lg:ml-16 md:ml-16 sm:ml-12 ml-8 text-sm sm:text-base dark:text-gray-200">
                         <p className="uppercase font-light text-gray-600 dark:text-gray-100">Inglés - Universidad del Valle</p>
                         <p className="font-black text-gray-600 dark:text-gray-200 md:text-3xl text-2xl">Examen {configuracionExamen.title_exam}</p>
-                        <p className="font-black text-gray-600 dark:text-gray-200 md:text-xl text-xl">Tiempo para el examen: 2h</p> {/* to do: traer atributo duracion cuando lo agregue*/}
+                        <p className="font-black text-gray-600 dark:text-gray-200 md:text-xl text-xl">Tiempo para el examen: {configuracionExamen.duracion} h</p> {/* to do: traer atributo duracion cuando lo agregue*/}
                         <p>Intentos: {configuracionExamen.n_intentos}</p>
                     </div>
 
@@ -480,15 +557,6 @@ export const Examen = () => {
                     <div className="container mx-auto 2xl:px-96 xl:px-80 lg:px-40 md:px-32 sm:px-16 px-8 pt-8 pb-32 ">
                         {/* Texto disclosure */}
 
-                        <div className="relative py-3 sm:max-w-xl sm:mx-auto">
-                            <div className="group cursor-pointer relative inline-block border-b border-gray-400 w-32 text-center">Hover over me
-                                <div className="transition duration-500 opacity-0 w-32 h-9 bg-black text-white text-center text-sm rounded-lg py-2 absolute z-10 group-hover:opacity-100 bottom-full -left-32 -top-1 px-4 pointer-events-none">
-                                    Tooltip center
-                                    <svg className="absolute text-black h-2 w-full left-16 top-3 transform -rotate-90" x="0px" y="0px" viewBox="0 0 255 255" ><polygon className="fill-current" points="0,0 127.5,127.5 255,0" /></svg>
-                                </div>
-                            </div>
-                        </div>
-
                         <div className="w-full">
                             <div className="w-full py-2 mx-auto dark:bg-darkColor rounded-lg">
                                 <Disclosure >
@@ -541,21 +609,24 @@ export const Examen = () => {
                                 </div>
                                 {
                                     [...Array(preguntas.length)].map((x, i) =>
-                                        <div key={i + 1000} className="tooltip-examen place-self-center select-none">
-                                            <a
-                                                className="ml-2 transition duration-500 hover:text-yellowmain text-gray-400 dark:text-gray-600 dark:hover:text-yellowmain material-icons mr-2"
-                                                href={"examen#" + (i = i + 1)}
-                                                onClick={scrollAnimation}
-                                            >&#xe061;
+
+                                        <div key={i + 1000} className="relative py-1 sm:mx-auto">
+                                            <div className="group cursor-pointer relative inline-block border-gray-400 w-12 text-center">
+                                                <a className="ml-2 transition duration-500 hover:text-yellowmain text-gray-400 dark:text-gray-600 dark:hover:text-yellowmain material-icons mr-2"
+                                                    href={"examen#" + (i = i + 1)}
+                                                    onClick={scrollAnimation}
+                                                >&#xe061;
                                         </a>
-                                            <span className="tooltiptext-examen text-sm">Question {i}</span>
+                                                <div className="transition duration-500 opacity-0 w-32 h-9 bg-black text-white text-center text-sm rounded-lg py-2 absolute z-10 group-hover:opacity-100 bottom-full -left-32 -top-1 px-4 pointer-events-none">
+                                                    Question {i}
+                                                    <svg className="absolute text-black h-2 w-full left-16 top-3 transform -rotate-90" x="0px" y="0px" viewBox="0 0 255 255" ><polygon className="fill-current" points="0,0 127.5,127.5 255,0" /></svg>
+                                                </div>
+                                            </div>
                                         </div>
                                     )
                                 }
                             </div>
                         </div>
-
-
 
                         {/* Questions */}
                         <ul className="space-y-6">
@@ -611,7 +682,6 @@ export const Examen = () => {
                         </ul>
 
                         <div className="mt-4">
-
                             <button
                                 className='btn-secondary'
                                 onClick={onClickTerminarIntento}
@@ -704,7 +774,7 @@ export const Examen = () => {
                             <Dialog
                                 as="div"
                                 className="fixed inset-0 z-10 overflow-y-auto"
-                                onClose={closeModal}
+                                onClose={closeModalCalificaciones}
                             >
                                 {/* Use the overlay to style a dim backdrop for your dialog */}
                                 <Dialog.Overlay className="fixed inset-0 bg-black opacity-60" />
@@ -767,10 +837,84 @@ export const Examen = () => {
                                                     type="button"
                                                     className="transition duration-500 sm:w-auto w-28 inline-flex justify-center px-12 py-2 text-sm font-medium text-green-900 bg-green-100 border border-transparent 
                                                     rounded-md hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                                                    onClick={closeModalSuccess}
+                                                    onClick={closeModalCalificaciones}
                                                 >
                                                     Ir ahora
                                                 </button>
+                                            </div>
+                                        </div>
+                                    </Transition.Child>
+                                </div>
+                            </Dialog>
+                        </Transition>
+
+                        {/* Tiempo excedido al terminar intento Modal (mensaje informativo) */}
+                        <Transition appear show={isOpenExceeded} as={Fragment}>
+                            <Dialog
+                                as="div"
+                                className="fixed inset-0 z-10 overflow-y-auto"
+                                onClose={closeModalCalificaciones}
+                            >
+                                {/* Use the overlay to style a dim backdrop for your dialog */}
+                                <Dialog.Overlay className="fixed inset-0 bg-black opacity-60" />
+                                <div className="min-h-screen px-4 text-center">
+                                    <Transition.Child
+                                        as={Fragment}
+                                        enter="ease-out duration-300"
+                                        enterFrom="opacity-0"
+                                        enterTo="opacity-100"
+                                        leave="ease-in duration-200"
+                                        leaveFrom="opacity-100"
+                                        leaveTo="opacity-0"
+                                    >
+                                        <Dialog.Overlay className="fixed inset-0" />
+                                    </Transition.Child>
+
+                                    {/* This element is to trick the browser into centering the modal contents. */}
+                                    <span
+                                        className="inline-block h-screen align-middle"
+                                        aria-hidden="true"
+                                    >
+                                        &#8203;
+                                    </span>
+                                    <Transition.Child
+                                        as={Fragment}
+                                        enter="ease-out duration-300"
+                                        enterFrom="opacity-0 scale-95"
+                                        enterTo="opacity-100 scale-100"
+                                        leave="ease-in duration-200"
+                                        leaveFrom="opacity-100 scale-100"
+                                        leaveTo="opacity-0 scale-95"
+                                    >
+                                        <div className="inline-block w-full max-w-xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl font-manrope">
+                                            <Dialog.Title
+                                                as="h3"
+                                                className="text-xl font-semibold leading-6 text-gray-900"
+                                            >
+                                                Tiempo excedido
+                                            </Dialog.Title>
+                                            <div className="mt-2">
+                                                <ul className="list-none space-y-2 md:text-justify">
+                                                    <li>
+                                                        <p className="text-base text-gray-500">
+                                                            Has excedido el tiempo máximo que tenías para responder el examen
+                                                        </p>
+                                                    </li>
+                                                    <div className="flex place-content-center select-none">
+                                                        <img src={ImageExceededTime} alt="exceeded" className="w-72"></img>
+                                                    </div>
+                                                </ul>
+                                            </div>
+
+                                            <div className="mt-4 w-full space-x-4">
+                                                <button
+                                                    type="button"
+                                                    className="transition duration-500 w-full inline-flex justify-center px-12 py-2 text-sm font-medium text-red-900 bg-red-100 border border-transparent 
+                                                    rounded-md hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                                                    onClick={closeModalCalificaciones}
+                                                >
+                                                    Cerrar
+                                                    </button>
                                             </div>
                                         </div>
                                     </Transition.Child>

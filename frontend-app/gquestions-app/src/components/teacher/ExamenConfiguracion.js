@@ -29,6 +29,8 @@ export const ExamenConfiguracion = (props) => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
 
+  const [duration, setDuration] = useState({ hours: 0, minutes: 0 })
+
   // Hooks dark mode
   const darkModeRef = useRef();
   const [darkModeBool, setDarkModeBool] = useState(localStorage.getItem('bool-dark'));
@@ -38,6 +40,7 @@ export const ExamenConfiguracion = (props) => {
     title_exam: "Sin título",
     contrasena_exam: '',
     n_intentos: 1,
+    duracion: '',
     fecha_hora_ini: new Date(),
     fecha_hora_fin: '',
     generacion: '',
@@ -46,6 +49,7 @@ export const ExamenConfiguracion = (props) => {
   const [examen, setExamen] = useState({
     id_examen: '',
     assigned_to: '',
+    contestado: '',
     texto: '',
     examen_configuracion: ''
   })
@@ -188,6 +192,28 @@ export const ExamenConfiguracion = (props) => {
     )
   }
 
+  const handleChangeDuracion = (e) => {
+    let name = e.target.name;
+    let value = e.target.value
+    let duracion_convertida = 0
+
+    setDuration(
+      Object.assign(duration, {
+        [name]: value,
+      })
+    )
+
+    duracion_convertida = duration.hours * 3600
+    duracion_convertida = duracion_convertida + (duration.minutes * 60)
+
+    setExamenConfiguracion(
+      Object.assign(examenConfiguracion, {
+        duracion: duracion_convertida
+      })
+    )
+    console.log(examenConfiguracion)
+  }
+
   if (!irExamenPublicado) {
     return (
       <div
@@ -287,6 +313,44 @@ export const ExamenConfiguracion = (props) => {
                   placeholder="Ingresa el nombre del examen"
                   onChange={handleChange}
                 />
+              </div>
+
+              <div className="grid sm:col-span-4 col-span-12 2xl:mr-28 sm:mr-8 mr-6 mb-2">
+                <div className="grid grid-cols-12">
+                  <div className="col-span-5">
+                    <label className="text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
+                      Horas
+                    </label>
+                    <div>
+                      <input
+                        type="number"
+                        id="hours"
+                        name="hours"
+                        className="text-sm text-gray-800 md:text-base transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2
+                                  focus:ring-yellowlight w-full pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
+                        placeholder="01"
+                        onChange={handleChangeDuracion}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-span-2 text-right place-self-center">
+                    <p className="text-lg font-bold mt-6">:</p>
+                  </div>
+                  <div className="col-span-5">
+                    <label className="text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
+                      Minutos
+                    </label>
+                    <input
+                      type="number"
+                      id="minutes"
+                      name="minutes"
+                      className="text-sm text-gray-800 md:text-base transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2
+                                  focus:ring-yellowlight w-full pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
+                      placeholder="00"
+                      onChange={handleChangeDuracion}
+                    />
+                  </div>
+                </div>
               </div>
 
               <div className="grid sm:col-span-4 col-span-12 sm:mr-8 mr-6 mb-2">

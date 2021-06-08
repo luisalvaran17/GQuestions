@@ -226,7 +226,7 @@ export const Dashboard = () => {
                                     id={generacion.id}  
                                   >&#xe16f;
                                 </span>
-                                  <span className="tooltiptext text-sm">No examen</span>
+                                  <span className="tooltiptext text-sm">Sin examen</span>
                                 </div>
                               }{generacion.generacion_examenes.length !== 0 &&
                                 <div className="tooltip select-none ">
@@ -329,7 +329,7 @@ export const Dashboard = () => {
                             </p>
                           </li>
                           <div className="flex place-content-center select-none">
-                            <img src={link_examen} alt="linked" className="w-52"></img>
+                            <img src={link_examen} alt="linked" className="md:w-64 w-52"></img>
                           </div>
                           <li className="list-none">
                             <div className="grid grid-cols-12 text-sm text-gray-500 p-4 bg-gray-100 rounded-t-xl text-left border border-gray-200">
@@ -362,10 +362,8 @@ export const Dashboard = () => {
                       <div className="flex mt-4 justify-end space-x-4 select-none">
                         <button
                           type="button"
-                          className="btn-secondary  transition duration-500 inline-flex justify-center px-12 py-2 text-sm font-medium text-yellow-900 bg-yellow-100 border border-transparent 
-                        rounded-md hover:bg-yellow-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                          onClick={closeModal}
-                        >
+                          className="btn-secondary"
+                          onClick={closeModal}>
                           Cerrar
                       </button>
                       </div>

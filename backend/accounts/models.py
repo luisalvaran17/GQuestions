@@ -53,7 +53,7 @@ class Account(AbstractUser):
     objects = MyAccountManger()
 
     USERNAME_FIELD  = 'email'
-    REQUIRED_FIELDS = ['first_name', 'last_name', 'rol']
+    REQUIRED_FIELDS = ['first_name', 'last_name', 'rol', 'fecha_nac']
 
     def __str__(self):
         return str(self.id)

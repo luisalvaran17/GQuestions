@@ -562,7 +562,7 @@ export const Homepage = () => {
           {/* Uso móvil */}
           <div className='mx-auto my-auto w-full sm:pt-8 md:pb-0 py-0 md:pt-0 bg-cyanmain'>
             <div className='container mx-auto flex'>
-              <div className='grid grid-cols-12 md:mx-8 mx-8 sm:mt-8 mt-16'>
+              <div className='grid grid-cols-12 md:mx-8 mx-8 sm:mt-8 md:mt-0'>
                 <div className='grid grid-rows-3 md:col-span-6 col-span-12 items-center text-sm md:text-base'>
                   <h1 className='font-black xl:text-4xl md:text-3xl text-xl text-justify md:text-left self-end'>
                     Genera, aplica y resuelve tus exámenes desde el móvil
@@ -701,7 +701,7 @@ export const Homepage = () => {
               <div className="ml-3 mr-2 sm:mr-16">
                 <button
                   onClick={onClickIrCuenta}
-                  className='transition duration-500 inline-block shadow-md text-sm lg:mr-3 lg:ml-0 text-darkGrayColor text-center  
+                  className='transition duration-500 inline-block shadow-md text-sm lg:mr-3 lg:ml-0 text-yellow-900 text-center  
                   z-10 w-full mx-auto bg-yellowlight focus:bg-yellowlightdark hover:bg-yellowlightdark 
                   rounded-lg px-2 py-2 font-semibold lg:mb-0 mb-2'
                 >

@@ -45,7 +45,7 @@ class RespuestaCuerpoAdmin(admin.ModelAdmin):
 # ************ model admin de Examen **************** #
 # *************************************************** #
 class ExamenConfiguracionAdmin(admin.ModelAdmin):
-    list_display = ('id_configuracion_examen', 'title_exam', 'contrasena_exam', 'n_intentos', 'fecha_hora_ini','fecha_hora_fin', 'generacion')
+    list_display = ('id_configuracion_examen', 'title_exam', 'contrasena_exam', 'n_intentos', 'fecha_hora_ini','fecha_hora_fin', 'duracion', 'generacion')
 
 class ExamenAdmin(admin.ModelAdmin):
     list_display = ('id_examen', 'assigned_to', 'texto', 'examen_configuracion')

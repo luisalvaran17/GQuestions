@@ -92,9 +92,9 @@ input:checked ~ span:last-child {
 }
 
 .btn-secondary{
-    @apply transition duration-500 inline-block shadow-md md:text-base text-sm text-darkGrayColor text-center w-full
+    @apply transition duration-500 inline-block shadow-md md:text-base text-sm text-yellow-900 text-center w-full
     z-10 mx-auto bg-yellowlight focus:bg-yellowlightdark hover:bg-yellowlightdark rounded-lg px-12 py-2 font-semibold outline-none focus:outline-none;
-}
+  }
 
 
 /* Tooltip */

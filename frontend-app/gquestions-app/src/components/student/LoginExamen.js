@@ -78,13 +78,15 @@ export const LoginExamen = () => {
                 let dateNow = new Date();
                 let dateInicio = new Date(configuracion_examen.fecha_hora_ini);
                 let dateFin = new Date(configuracion_examen.fecha_hora_fin);
-                let duracion = dateFin.getHours() - dateInicio.getHours();
+
+                // convierte de segundos a horas
+                let duracion = configuracion_examen.duracion/3600;
 
                 if (dateNow >= dateInicio && dateNow <= dateFin) {
                     setExamenDisponible(true);
                 } else if (dateNow < dateInicio) {
 
-                    setMessageExamenDisponible("Demasiado pronto... este estará disponible el: " + dateInicio.toDateString() + " a las " + dateInicio.getHours() + ":" + dateInicio.getMinutes());
+                    setMessageExamenDisponible("Demasiado pronto... el examen estará disponible el: " + dateInicio.toDateString() + " a las " + dateInicio.getHours() + ":" + dateInicio.getMinutes());
                     setExamenDisponible(false);
                 }
                 else if (dateNow >= dateFin) {
@@ -94,7 +96,9 @@ export const LoginExamen = () => {
                 setInformacionExamen(
 
                     Object.assign(informacionExamen, {
-                        fecha: dateNow.toDateString(),
+                        nombre_examen: configuracion_examen.title_exam,
+                        fecha_inicio: dateInicio.toDateString(),
+                        fecha_fin: dateFin.toDateString(),
                         fecha_hora_ini: dateInicio.getHours() + ":" + dateInicio.getMinutes(),
                         fecha_hora_fin: dateFin.getHours() + ":" + dateFin.getMinutes(),
                         duracion: duracion,
@@ -136,11 +140,10 @@ export const LoginExamen = () => {
                 let ya_resuelto = false;
                 for (let i = 0; i < generacionExamen.length; i++) {
                     examen = generacionExamen[i];
-                    console.log(examen.assigned_to)
                     if (examen.assigned_to === parseInt(id_user)) {
                         setMessageAlert("Ya has respondido este examen con anterioridad")
                         removeClassdivRefErrorMessage();
-                        // ya_resuelto = true; // to do: descomentar cuando esté terminado
+                        //ya_resuelto = true; // to do: descomentar cuando esté terminado
                     }
                 }
                 if (ya_resuelto === false) {
@@ -155,6 +158,7 @@ export const LoginExamen = () => {
                                 const response = UpdateExamenAPI(examen.id_examen, assigned_to)
                                 if (response) {
                                     localStorage.setItem('id_examen', examen.id_examen);
+                                    localStorage.setItem('h_inicio', new Date());
                                     history.push('/student/examen')
                                     break;
                                 }
@@ -289,10 +293,10 @@ export const LoginExamen = () => {
                                     </h1>
                                         <ul>
                                             <li className="text-left dark:text-black">
-                                                <p>Fecha: {informacionExamen.fecha}</p>
-                                                <p>Hora de inicio: {informacionExamen.fecha_hora_ini}</p>
-                                                <p>Hora de finalización: {informacionExamen.fecha_hora_fin}</p>
-                                                <p>Duración: {informacionExamen.duracion}</p>
+                                                <p>Nombre: {informacionExamen.nombre_examen}</p>
+                                                <p>Inicio: {informacionExamen.fecha_inicio} {informacionExamen.fecha_hora_ini}</p>
+                                                <p>Fin: {informacionExamen.fecha_fin} {informacionExamen.fecha_hora_fin}</p>
+                                                <p>Duración: {informacionExamen.duracion} hr</p>
                                             </li>
                                         </ul>
                                     </div>
