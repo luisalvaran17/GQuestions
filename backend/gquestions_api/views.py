@@ -8,6 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 from .serializers import GeneracionSerializer, TipoPreguntaSerializer, GeneracionTextoSerializer, GeneracionPreguntaSerializer, GeneracionCreateSerializer
 from .serializers import CalificacionSerializer, RespuestaCuerpoSerializer, GeneracionTextoCreateSerializer, ExamenConfiguracionSerializer
 from .serializers import GeneracionPreguntaCreateSerializer, GeneracionSimplificadoSerializer, ExamenSerializer, ExamenUpdateSerializer
+from .serializers import RespuestaPreguntaExamenSerializer
 
 from .models import GeneracionModel
 from .models import TipoPreguntaModel
@@ -18,6 +19,7 @@ from .models import CalificacionModel
 from .models import Account
 from .models import RespuestaCuerpoModel
 from .models import ExamenModel
+from .models import RespuestaPreguntaExamenModel
 
 from rest_framework import generics
 from django.http import JsonResponse
@@ -198,10 +200,15 @@ def UpdateExamenView(request, id_examen):
 # ************************************************ #
 # ******* Register and list Calificaciones ******* #
 # ************************************************ # 
-class CalificacionView(viewsets.ModelViewSet):
-    serializer_class = CalificacionSerializer
+@permission_classes([IsAuthenticated])
+class CalificacionCreateView(generics.CreateAPIView):
     queryset = CalificacionModel.objects.all()
+    serializer_class = CalificacionSerializer
 
+@permission_classes([IsAuthenticated])
+class RespuestaPreguntaExamenCreateView(generics.CreateAPIView):
+    queryset = RespuestaPreguntaExamenModel.objects.all()
+    serializer_class = RespuestaPreguntaExamenSerializer
 
 # Query GeneracionUsuario
 """ @api_view(["GET"])

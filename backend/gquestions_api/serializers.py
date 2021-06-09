@@ -8,6 +8,7 @@ from .models import ExamenModel
 from .models import CalificacionModel
 from .models import Account
 from .models import RespuestaCuerpoModel
+from .models import RespuestaPreguntaExamenModel
 from accounts.serializers import AccountSerializerForNested
 
 # pylint: disable=maybe-no-member
@@ -80,14 +81,12 @@ class ExamenConfiguracionSerializer(serializers.ModelSerializer):
 class CalificacionSerializer(serializers.ModelSerializer):
     class Meta:
         model = CalificacionModel
-        fields = ('id_calificacion', 'nota', 'retroalim')
+        fields = "__all__"
 
-""" 
-class CalificacionUsuarioSerializer(serializers.ModelSerializer):
+class RespuestaPreguntaExamenSerializer(serializers.ModelSerializer):
     class Meta:
-        model = CalificacionUsuarioModel
-        fields = ('id_calificacion', 'id_examen')  
-"""
+        model = RespuestaPreguntaExamenModel
+        fields = "__all__" 
 
 
 # ******************************************** #

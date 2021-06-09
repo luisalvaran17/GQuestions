@@ -8,6 +8,8 @@ import { GetTextoAPI } from "../../api/Textos/GetTextoAPI";
 import stringSimilarity from "string-similarity";
 import { LoadingPage } from '../../containers/LoadingPage';
 import ImageExceededTime from "../../assets/images/exceeded_time.png";
+import { CreateCalificacionAPI } from "../../api/Calificacion/CreateCalificacionAPI";
+import { CreateRespuestaPreguntaAPI } from "../../api/Calificacion/CreateRespuestaPreguntaAPI";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -38,6 +40,21 @@ export const Examen = () => {
 
     // Hook Texto
     const [textoExamen, setTextoExamen] = useState("");
+
+    // Hook object calificacion REGISTER API
+    const [calificacion, setCalificacion] = useState({
+        examen: '',
+        nota: '',
+        retroalim: '',
+    })
+
+    // Hook object respuesta pregunta calificacion REGISTER API
+    const [respuestaPreguntaUsuario, setRespuestaPreguntaUsuario] = useState({
+        examen: '',
+        generacion_pregunta: '',
+        respuesta_usuario: '',
+        calificacion_pregunta: '',
+    })
 
     useEffect(() => {
         if (localStorage.theme === 'dark') {
@@ -82,7 +99,6 @@ export const Examen = () => {
         else {
             setIsLoading(true);
         }
-
     }
 
     const getConfiguracionExamen = () => {
@@ -178,6 +194,7 @@ export const Examen = () => {
                 respuestasTemporal.push({
                     id_pregunta: pregunta.id_pregunta,
                     respuesta: "",
+                    nota: 0,
                     tipo_pregunta: "completacion"
                 })
             }
@@ -233,17 +250,21 @@ export const Examen = () => {
         history.push('/student/ajustes-cuenta')
     }
 
-    const onClickTerminarIntento = () => {
+    const onClickTerminarIntento = async () => {
         if (validationTimeEndExam() === true) {
             if (CheckValidationsRespuestas() === false) {
-                console.log(respuestasUsuario);
-                console.log(preguntas)
-                getCalificacion();
-                localStorage.removeItem('id_examen');
-                localStorage.removeItem('respuestas_usuario');
-                localStorage.removeItem('conf_examen');
-                localStorage.removeItem('h_inicio');
-                setIsOpenSuccess(true);
+                if (await setCalificacionDB() === true) { // si se registra exitosamente en la db
+                    console.log(respuestasUsuario);
+                    console.log(preguntas)
+                    localStorage.removeItem('id_examen');
+                    localStorage.removeItem('respuestas_usuario');
+                    localStorage.removeItem('conf_examen');
+                    localStorage.removeItem('h_inicio');
+                    setIsOpenSuccess(true);
+                }
+                else{
+                    console.log("Ha ocurrido un error con la calificación, intentalo de nuevo")
+                }
             }
         }
         else {
@@ -317,8 +338,15 @@ export const Examen = () => {
         let array_str = str.split(" ");
         let id_pregunta = array_str[0]; //todo: revisar si es necesario usar un tokenizer
         let option_position = array_str[1];
-        let length_opciones = preguntas[0].respuestas_cuerpo.opcion_multiple.length
-        console.log(length_opciones)
+        let length_opciones = 0
+
+        preguntas.map(pregunta => {
+            if (pregunta.id_pregunta === id_pregunta) {
+                console.log(pregunta.respuestas_cuerpo.opcion_multiple.length);
+                length_opciones = pregunta.respuestas_cuerpo.opcion_multiple.length
+            }
+            return true;
+        })
 
         // assign answer option selected
         respuestasUsuario.map(respuesta => {
@@ -353,7 +381,7 @@ export const Examen = () => {
     }
 
     const getCalificacion = async () => {
-        let calificacion = 0.0;
+        let nota = 0.0;
         for (let i = 0; i < respuestasUsuario.length; i++) {
             if (respuestasUsuario[i].tipo_pregunta === "pregunta_abierta") {
 
@@ -361,19 +389,22 @@ export const Examen = () => {
                     respuestasUsuario[i].respuesta,
                     preguntas[i].respuesta_correcta
                 );
-                console.log("Question " + (i + 1) + ": " + compare)
+                console.log("Question " + (i + 1) + ": " + compare);    // asignacón de nota de la pregunta en el objeto
+                respuestasUsuario[i].nota = compare.toFixed(2)
                 if (compare <= 0.9) {
-
-                    calificacion = calificacion + (compare + 0.1);
+                    nota = nota + (compare + 0.1);
                 } else {
-                    calificacion = calificacion + compare;
+                    nota = nota + compare;
                 }
+                
             } else if (respuestasUsuario[i].tipo_pregunta === "opcion_multiple") {
                 if (respuestasUsuario[i].respuesta === preguntas[i].respuesta_correcta) {
-                    calificacion = calificacion + 1;
+                    nota = nota + 1;
+                    respuestasUsuario[i].nota = 1.0
                     console.log("Question " + (i + 1) + ": " + 1.0)
                 } else {
-                    calificacion = calificacion + 0;
+                    nota = nota + 0;
+                    respuestasUsuario[i].nota = 0.0
                     console.log("Question " + (i + 1) + ": " + 0.0)
                 }
             }
@@ -382,8 +413,8 @@ export const Examen = () => {
                 calificacion = calificacion + 1.0;    
             } */
         }
-        console.log((calificacion / respuestasUsuario.length) * 5);
-
+        nota = (nota / respuestasUsuario.length) * 5;
+        return nota;
         /* Example */
         /* let compare = stringSimilarity.compareTwoStrings(
             "Olive-green table for sale, in extremely good condition.",
@@ -400,7 +431,7 @@ export const Examen = () => {
         if (letter === 4) return "E"
     }
 
-    function closeModalContinue() {
+    function closeModalContinue() { // to to: acomodar igual a terminar intento, seria bueno unificar las dos funciones
         if (validationTimeEndExam() === true) {
             console.log(respuestasUsuario);
             console.log(preguntas)
@@ -430,6 +461,47 @@ export const Examen = () => {
 
     function closeModalHome() {
         history.push('/student/home');
+    }
+
+    const setCalificacionDB = async () => {
+        let nota_examen = await getCalificacion();
+        let id_examen = localStorage.getItem('id_examen');
+        let response_ok = true;
+
+        setCalificacion(
+            Object.assign(calificacion, {
+                examen: id_examen,
+                nota: nota_examen.toFixed(2),
+                retroalim: 'Sin descripción',
+            })
+        )
+        const response_calificacion = await CreateCalificacionAPI(calificacion);
+        
+        respuestasUsuario.map(async (respuesta_usuario) => {
+            console.log(respuesta_usuario)
+            setRespuestaPreguntaUsuario(
+                Object.assign(respuestaPreguntaUsuario,{
+                    examen: id_examen,
+                    generacion_pregunta: respuesta_usuario.id_pregunta,
+                    respuesta_usuario: respuesta_usuario.respuesta,
+                    calificacion_pregunta: respuesta_usuario.nota,
+                })
+            )
+            const response_respuesta_pregunta = await CreateRespuestaPreguntaAPI(respuestaPreguntaUsuario);
+            if (response_respuesta_pregunta === false) {
+                response_ok = false;
+            }
+            return true;
+        })
+
+        if (response_calificacion === true && response_ok === true) {
+            console.log(response_ok)
+            response_ok = true;
+        }else{
+            console.log(response_ok)
+            response_ok = false;
+        }
+        return response_ok;
     }
 
     return (

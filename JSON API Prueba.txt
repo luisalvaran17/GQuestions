@@ -49,15 +49,6 @@
 					"opcion_multiple": "null",
 					"completacion": "null"
 				}
-			}, {
-				"id_pregunta": "6",
-				"pregunta_cuerpo": "What are the main elements of music?",
-				"respuesta_correcta": "Different styles or types of music may emphasize, de-emphasize or omit some of these elements.",
-				"respuestas_cuerpo": {
-					"resp_unica": "Different styles or types of music may emphasize, de-emphasize or omit some of these elements.",
-					"opcion_multiple": "null",
-					"completacion": "null"
-				}
 			}]
 		}, {
 			"id": "2",

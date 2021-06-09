@@ -47,9 +47,9 @@ export const GenerateConfig = () => {
   const [isOpenError, setIsOpenError] = useState(false)
 
   // ********************** API de prueba *********************** //
-  // https://972329e3-3eb4-4324-a044-b0df0031c2ce.mock.pstmn.io   //
+  // https://085ccb55-b52c-46cf-963e-8a0c5ee42562.mock.pstmn.io   //
   //  ************************************************************//
-  const url = "https://972329e3-3eb4-4324-a044-b0df0031c2ce.mock.pstmn.io"; // Endpoint TEXTOS Y PREGUNTAS fake
+  const url = "https://085ccb55-b52c-46cf-963e-8a0c5ee42562.mock.pstmn.io"; // Endpoint TEXTOS Y PREGUNTAS fake
 
   // Estado utilizado para campos de configuración de Generación de textos
   const [generacionConfiguracion, setGeneracionConfiguracion] = useState({
