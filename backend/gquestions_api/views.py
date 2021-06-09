@@ -6,7 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.permissions import IsAuthenticated
 
 from .serializers import GeneracionSerializer, TipoPreguntaSerializer, GeneracionTextoSerializer, GeneracionPreguntaSerializer, GeneracionCreateSerializer
-from .serializers import CalificacionSerializer, CalificacionUsuarioSerializer, RespuestaCuerpoSerializer, GeneracionTextoCreateSerializer, ExamenConfiguracionSerializer
+from .serializers import CalificacionSerializer, RespuestaCuerpoSerializer, GeneracionTextoCreateSerializer, ExamenConfiguracionSerializer
 from .serializers import GeneracionPreguntaCreateSerializer, GeneracionSimplificadoSerializer, ExamenSerializer, ExamenUpdateSerializer
 
 from .models import GeneracionModel
@@ -15,7 +15,6 @@ from .models import GeneracionTextoModel
 from .models import GeneracionPreguntaModel
 from .models import ExamenConfiguracionModel
 from .models import CalificacionModel
-from .models import CalificacionUsuarioModel
 from .models import Account
 from .models import RespuestaCuerpoModel
 from .models import ExamenModel
@@ -202,10 +201,6 @@ def UpdateExamenView(request, id_examen):
 class CalificacionView(viewsets.ModelViewSet):
     serializer_class = CalificacionSerializer
     queryset = CalificacionModel.objects.all()
-
-class CalificacionUsuarioView(viewsets.ModelViewSet):
-    serializer_class = CalificacionUsuarioSerializer
-    queryset = CalificacionUsuarioModel.objects.all()
 
 
 # Query GeneracionUsuario

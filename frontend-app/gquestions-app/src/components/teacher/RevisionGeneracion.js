@@ -143,6 +143,7 @@ export const RevisionGeneracion = (props) => {
         UUID_PREGUNTA = splitUUID[0] //+ "-" + splitUUID[1]; // Acorta el  UUID GENERADO POR LA FUNCION uuidv4()  
 
         preguntaDB = Textos[i].preguntas[j]   // Obtiene el elemento pregunta (individual)
+        console.log(preguntaDB)
 
         // Preparacion de data para insertar en la DB los campos requeridos
         setPreguntaObjeto(Object.assign(preguntaObjeto, {

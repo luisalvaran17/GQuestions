@@ -93,6 +93,7 @@ class ExamenModel(models.Model):
     id_examen = models.CharField(primary_key=True, null=False, max_length=255)
     assigned_to = models.ForeignKey(Account, on_delete=models.CASCADE, null=True)
     contestado = models.BooleanField(null=True, default=False)
+    fecha_contestado = models.DateTimeField(auto_now_add=False, null=True)
     texto = models.ForeignKey(
         GeneracionTextoModel, related_name="texto_examen", on_delete=models.CASCADE)
     examen_configuracion = models.ForeignKey(
@@ -108,11 +109,15 @@ class CalificacionModel(models.Model):
     id_calificacion = models.AutoField(primary_key=True)
     nota = models.DecimalField(decimal_places=3, max_digits=10)
     retroalim = models.CharField(max_length=3000, default='Sin descripción')
+    examen = models.ForeignKey(
+        ExamenModel, related_name='calificacion_examen',on_delete=models.CASCADE)
 
     def _str_(self):
         return self.id_calificacion
 
+class RespuestaPreguntaExamenModel(models.Model):
+    examen = models.ForeignKey(ExamenModel, on_delete=models.CASCADE)
+    generacoin_pregunta = models.ForeignKey(GeneracionPreguntaModel, on_delete=models.CASCADE)
+    respuesta_usuario = models.CharField(max_length=1000, null=True, default='')
+    calificacion_pregunta = models.DecimalField(decimal_places=3, max_digits=10, default=0)
 
-class CalificacionUsuarioModel(models.Model):  # Corregir CalificacionExamen
-    id_calificacion = models.ForeignKey(CalificacionModel, on_delete=models.CASCADE)
-    id_examen = models.ForeignKey(ExamenModel, on_delete=models.CASCADE)

@@ -292,7 +292,7 @@ export const Examen = () => {
         console.log('fin: ', str_finalizacion)
         console.log('hora actual: ', str_hora_actual)
 
-        if (str_finalizacion[0] > str_hora_actual[0]) {  // horas
+        if (str_finalizacion[0] < str_hora_actual[0]) {  // horas
             console.log("Oops, te pasaste de la hora límite de entrega");
             return false;
         }
@@ -318,6 +318,7 @@ export const Examen = () => {
         let id_pregunta = array_str[0]; //todo: revisar si es necesario usar un tokenizer
         let option_position = array_str[1];
         let length_opciones = preguntas[0].respuestas_cuerpo.opcion_multiple.length
+        console.log(length_opciones)
 
         // assign answer option selected
         respuestasUsuario.map(respuesta => {
@@ -331,7 +332,7 @@ export const Examen = () => {
         })
 
         // background color option selected
-        for (let i = 0; i < length_opciones - 1; i++) {
+        for (let i = 0; i < length_opciones; i++) {
             let element = document.getElementById(id_pregunta + " " + i);
             element.classList.remove('bg-yellowlight');
         }
@@ -381,7 +382,7 @@ export const Examen = () => {
                 calificacion = calificacion + 1.0;    
             } */
         }
-        console.log((calificacion / 5) * 5);
+        console.log((calificacion / respuestasUsuario.length) * 5);
 
         /* Example */
         /* let compare = stringSimilarity.compareTwoStrings(

@@ -1,0 +1,434 @@
+{
+	"data": [{
+			"id": "1",
+			"cuerpo": "Music is the art of arranging sounds in time to produce a composition through the elements of melody, harmony, rhythm, and timbre. It is one of the universal cultural aspects of all human societies. General definitions of music include common elements such as pitch (which governs melody and harmony), rhythm (and its associated concepts tempo, meter, and articulation), dynamics (loudness and softness), and the sonic qualities of timbre and texture (which are sometimes termed the 'color' of a musical sound). Different styles or types of music may emphasize, de-emphasize or omit some of these elements. Music is performed with a vast range of instruments and vocal techniques ranging from singing to rapping; there are solely instrumental pieces, solely vocal pieces (such as songs without instrumental accompaniment) and pieces that combine singing and instruments. The word derives from Greek μουσική (mousike; '(art) of the Muses'). In its most general form, the activities describing music as an art form or cultural activity include the creation of works of music (songs, tunes, symphonies, and so on), the criticism of music, the study of the history of music, and the aesthetic examination of music. Ancient Greek and Indian philosophers defined music in two parts: melodies, as tones ordered horizontally, and harmonies as tones ordered vertically. Common sayings such as 'the harmony of the spheres' and 'it is music to my ears' point to the notion that music is often ordered and pleasant to listen to. However, 20th-century composer John Cage thought that any sound can be music, saying, for example, 'There is no noise, only sound'.",
+			"es_editado": "false",
+			"es_regenerado": "false",
+			"preguntas": [{
+				"id_pregunta": "1",
+				"pregunta_cuerpo": "What are the activities describing music as an art form or cultural activity?",
+				"respuesta_correcta": "In its most general form, the activities describing music as an art form or cultural activity include the creation of works of music (songs, tunes, symphonies, and so on), the criticism of music, the study of the history of music, and the aesthetic examination of music.",
+				"respuestas_cuerpo": {
+					"resp_unica": "In its most general form, the activities describing music as an art form or cultural activity include the creation of works of music (songs, tunes, symphonies, and so on), the criticism of music, the study of the history of music, and the aesthetic examination of music.",
+					"opcion_multiple": "null",
+					"completacion": "null"
+				}
+			}, {
+				"id_pregunta": "2",
+				"pregunta_cuerpo": "What era did John Cage think music could be?",
+				"respuesta_correcta": "20th-century",
+				"respuestas_cuerpo": {
+					"resp_unica": "null",
+					"opcion_multiple": "Greek, two, Indian, 20th-century",
+					"completacion": "null"
+				}
+			}, {
+				"id_pregunta": "3",
+				"pregunta_cuerpo": "Who thought that any sound can be music?",
+				"respuesta_correcta": "John Cage",
+				"respuestas_cuerpo": {
+					"resp_unica": "null",
+					"opcion_multiple": "Muses, Indian, Greek, John Cage",
+					"completacion": "null"
+				}
+			}, {
+				"id_pregunta": "4",
+				"pregunta_cuerpo": "What are the basic definitions of music?",
+				"respuesta_correcta": "General definitions of music include common elements such as pitch (which governs melody and harmony), rhythm (and its associated concepts tempo, meter, and articulation), dynamics (loudness and softness), and the sonic qualities of timbre and texture (which are sometimes termed the 'color' of a musical sound).",
+				"respuestas_cuerpo": {
+					"resp_unica": "General definitions of music include common elements such as pitch (which governs melody and harmony), rhythm (and its associated concepts tempo, meter, and articulation), dynamics (loudness and softness), and the sonic qualities of timbre and texture (which are sometimes termed the 'color' of a musical sound).",
+					"opcion_multiple": "null",
+					"completacion": "null"
+				}
+			}, {
+				"id_pregunta": "5",
+				"pregunta_cuerpo": "What are the activities describing music as an art form or cultural activity?",
+				"respuesta_correcta": " Music is the art of arranging sounds in time to produce a composition through the elements of melody, harmony, rhythm, and timbre.",
+				"respuestas_cuerpo": {
+					"resp_unica": " Music is the art of arranging sounds in time to produce a composition through the elements of melody, harmony, rhythm, and timbre.",
+					"opcion_multiple": "null",
+					"completacion": "null"
+				}
+			}, {
+				"id_pregunta": "6",
+				"pregunta_cuerpo": "What are the main elements of music?",
+				"respuesta_correcta": "Different styles or types of music may emphasize, de-emphasize or omit some of these elements.",
+				"respuestas_cuerpo": {
+					"resp_unica": "Different styles or types of music may emphasize, de-emphasize or omit some of these elements.",
+					"opcion_multiple": "null",
+					"completacion": "null"
+				}
+			}]
+		}, {
+			"id": "2",
+			"cuerpo": "Computer science is the study of algorithmic processes, vernacular verbs. From ancient Roman Rome, classical mathematics was the study of the laws of physics, applied to all fields of human psychology and human behavior, since it is the research of those sciences to study the natural world. The classical philosophers and theologians were all familiar with the development of mathematical sciences over a period of centuries, as has been mentioned by Bocci, G.G.D., S.B. and others. All these economists understood that each of their mathematical sciences had an associated goal: to develop and test ideas in the natural sciences, in nature, in philosophy and psychology, or in theory. The problem of making general progress in mathematics is then solved. According to modern mathematical theories, natural numbers and mathematical formulas are not simply words or rules but rather represent the human and machine experience.",
+			"es_editado": "false",
+			"es_regenerado": "false",
+			"preguntas": [{
+				"id_pregunta": "1",
+				"pregunta_cuerpo": "Who were the classical philosophers and theologians?",
+				"respuesta_correcta": "The classical philosophers and theologians were all familiar with the development of mathematical sciences over a period of centuries, as has been mentioned by Bocci, G.",
+				"respuestas_cuerpo": {
+					"resp_unica": "The classical philosophers and theologians were all familiar with the development of mathematical sciences over a period of centuries, as has been mentioned by Bocci, G.",
+					"opcion_multiple": "null",
+					"completacion": "null"
+				}
+			}, {
+				"id_pregunta": "2",
+				"pregunta_cuerpo": "What is the definition of computer science?",
+				"respuesta_correcta": "Computer science is the study of algorithmic processes, vernacular verbs.",
+				"respuestas_cuerpo": {
+					"resp_unica": "Computer science is the study of algorithmic processes, vernacular verbs.",
+					"opcion_multiple": "null",
+					"completacion": "null"
+				}
+			}, {
+				"id_pregunta": "3",
+				"pregunta_cuerpo": "What is the meaning of the word 'natural'?",
+				"respuesta_correcta": "According to modern mathematical theories, natural numbers and mathematical formulas are not simply words or rules but rather represent the human and machine experience.",
+				"respuestas_cuerpo": {
+					"resp_unica": "According to modern mathematical theories, natural numbers and mathematical formulas are not simply words or rules but rather represent the human and machine experience.",
+					"opcion_multiple": "null",
+					"completacion": "null"
+				}
+			}, {
+				"id_pregunta": "4",
+				"pregunta_cuerpo": "How long did Bocci's work last?",
+				"respuesta_correcta": "centuries.",
+				"respuestas_cuerpo": {
+					"resp_unica": "null",
+					"opcion_multiple": "Bocci, centuries, Roman Rome, D.",
+					"completacion": "null"
+				}
+			}, {
+				"id_pregunta": "5",
+				"pregunta_cuerpo": "What is the purpose of the study of mathematics?",
+				"respuesta_correcta": "All these economists understood that each of their mathematical sciences had an associated goal: to develop and test ideas in the natural sciences, in nature, in philosophy and psychology, or in theory.",
+				"respuestas_cuerpo": {
+					"resp_unica": "All these economists understood that each of their mathematical sciences had an associated goal: to develop and test ideas in the natural sciences, in nature, in philosophy and psychology, or in theory.",
+					"opcion_multiple": "null",
+					"completacion": "null"
+				}
+			}]
+		}, {
+			"id": "3",
+			"cuerpo": "A computer program is a  program that runs on or has been used by more than one person. It is a computer program which is used on a computer for the purpose 'to compile data on another computer, to obtain new data or to alter existing data. For example, you have a Computer running Java, which runs a program called ' Java Studio .' A Computer is a computer program which contains its own instructions, such as executing Java code, and which interprets that instruction. These instructions are made available to other programmers using that computer for copying to or from other computers, so that there are no modifications necessary. For example, two computers, one running Java and another running Java Studio, can do more than one thing, and some can do more than one thing. When you take each of the computer programs, you also define what kind of programs that Computer is supposed to run.",
+			"es_editado": "false",
+			"es_regenerado": "false",
+			"preguntas": [{
+				"id_pregunta": "1",
+				"pregunta_cuerpo": "how many people use a computer program?",
+				"respuesta_correcta": "more than one",
+				"respuestas_cuerpo": {
+					"resp_unica": "null",
+					"opcion_multiple": "more than one, A computer, one, two",
+					"completacion": "null"
+				}
+			}, {
+				"id_pregunta": "2",
+				"pregunta_cuerpo": "What is the definition of a computer program?",
+				"respuesta_correcta": "When you take each of the computer programs, you also define what kind of programs that Computer is supposed to run.",
+				"respuestas_cuerpo": {
+					"resp_unica": "When you take each of the computer programs, you also define what kind of programs that Computer is supposed to run.",
+					"opcion_multiple": "null",
+					"completacion": "null"
+				}
+			}, {
+				"id_pregunta": "3",
+				"pregunta_cuerpo": "how many computers can run Java on?",
+				"respuesta_correcta": "one",
+				"respuestas_cuerpo": {
+					"resp_unica": "null",
+					"opcion_multiple": "Java, two, one, more than one",
+					"completacion": "null"
+				}
+			}, {
+				"id_pregunta": "4",
+				"pregunta_cuerpo": "What is a computer program?",
+				"respuesta_correcta": "For example, you have a Computer running Java, which runs a program called'Java Studio.",
+				"respuestas_cuerpo": {
+					"resp_unica": "For example, you have a Computer running Java, which runs a program called'Java Studio.",
+					"opcion_multiple": "null",
+					"completacion": "null"
+				}
+			}, {
+				"id_pregunta": "5",
+				"pregunta_cuerpo": "What is a computer program?",
+				"respuesta_correcta": " A computer program is a program that runs on or has been used by more than one person.",
+				"respuestas_cuerpo": {
+					"resp_unica": " A computer program is a program that runs on or has been used by more than one person.",
+					"opcion_multiple": "null",
+					"completacion": "null"
+				}
+			}]
+		}, {
+			"id": "4",
+			"cuerpo": "English is the largest language vernacular in existence and is the official language of the Indian subcontinent. Most of these languages use a syllable prefix, sometimes with a vowel. Borrowing a non-English language can also result in a learning problem due to having a lower pronunciatory pitch during the lesson, which may prevent students from properly pronouncing the word for themselves. Students who try to learn a non-English language can lose confidence and the ability to understand the phonetic structure and pronunciation of the word, which can cause problems for the student or the students in other school-based classes. When students are placed into classes which are outside the common language, most students will not begin the discussion of their own language without some form of clarification, such as a statement from the teacher who has been able to clarify the word and provide some examples.",
+			"es_editado": "false",
+			"es_regenerado": "false",
+			"preguntas": [{
+					"id_pregunta": "1",
+					"pregunta_cuerpo": "What can be the most common reason for students to learn a non-English language?",
+					"respuesta_correcta": "Borrowing a non-English language can also result in a learning problem due to having a lower pronunciatory pitch during the lesson, which may prevent students from properly pronouncing the word for themselves.",
+					"respuestas_cuerpo": {
+						"resp_unica": "Borrowing a non-English language can also result in a learning problem due to having a lower pronunciatory pitch during the lesson, which may prevent students from properly pronouncing the word for themselves.",
+						"opcion_multiple": "null",
+						"completacion": "null"
+					}
+
+				},
+				{
+					"id_pregunta": "2",
+					"pregunta_cuerpo": "What can be the most common problem in English?",
+					"respuesta_correcta": "Students who try to learn a non-English language can lose confidence and the ability to understand the phonetic structure and pronunciation of the word, which can cause problems for the student or the students in other school-based classes.",
+					"respuestas_cuerpo": {
+						"resp_unica": "Students who try to learn a non-English language can lose confidence and the ability to understand the phonetic structure and pronunciation of the word, which can cause problems for the student or the students in other school-based classes.",
+						"opcion_multiple": "null",
+						"completacion": "null"
+					}
+				},
+				{
+					"id_pregunta": "3",
+					"pregunta_cuerpo": "What language can cause problems for students who try to learn?",
+					"respuesta_correcta": "non-english",
+					"respuestas_cuerpo": {
+						"resp_unica": "null",
+						"opcion_multiple": "Indian, non-english, English",
+						"completacion": "null"
+					}
+				},
+				{
+					"id_pregunta": "4",
+					"pregunta_cuerpo": "What language can be a learning problem?",
+					"respuesta_correcta": "non-english",
+					"respuestas_cuerpo": {
+						"resp_unica": "null",
+						"opcion_multiple": "Indian, non-english, English",
+						"completacion": "null"
+					}
+				},
+				{
+					"id_pregunta": "5",
+					"pregunta_cuerpo": "What is the largest language in existence?",
+					"respuesta_correcta": "English",
+					"respuestas_cuerpo": {
+						"resp_unica": "null",
+						"opcion_multiple": "English, non-english, Indian",
+						"completacion": "null"
+					}
+				}
+			]
+		},
+		{
+			"id": "5",
+			"cuerpo": "A computer program is a  program that runs on or has been used by more than one person. It is a computer program which is used on a computer for the purpose 'to compile data on another computer, to obtain new data or to alter existing data. For example, you have a Computer running Java, which runs a program called ' Java Studio .' A Computer is a computer program which contains its own instructions, such as executing Java code, and which interprets that instruction. These instructions are made available to other programmers using that computer for copying to or from other computers, so that there are no modifications necessary. For example, two computers, one running Java and another running Java Studio, can do more than one thing, and some can do more than one thing. When you take each of the computer programs, you also define what kind of programs that Computer is supposed to run.",
+			"es_editado": "false",
+			"es_regenerado": "false",
+			"preguntas": [{
+					"id_pregunta": "1",
+					"pregunta_cuerpo": "how many people use a computer program?",
+					"respuesta_correcta": "more than one",
+					"respuestas_cuerpo": {
+						"resp_unica": "null",
+						"opcion_multiple": "more than one, A computer, one, two",
+						"completacion": "null"
+					}
+				},
+				{
+					"id_pregunta": "2",
+					"pregunta_cuerpo": "What is the definition of a computer program?",
+					"respuesta_correcta": "When you take each of the computer programs, you also define what kind of programs that Computer is supposed to run.",
+					"respuestas_cuerpo": {
+						"resp_unica": "When you take each of the computer programs, you also define what kind of programs that Computer is supposed to run.",
+						"opcion_multiple": "null",
+						"completacion": "null"
+					}
+				},
+				{
+					"id_pregunta": "3",
+					"pregunta_cuerpo": "how many computers can run Java on?",
+					"respuesta_correcta": "one",
+					"respuestas_cuerpo": {
+						"resp_unica": "null",
+						"opcion_multiple": "Java, two, one, more than one",
+						"completacion": "null"
+					}
+				},
+				{
+					"id_pregunta": "4",
+					"pregunta_cuerpo": "What is a computer program?",
+					"respuesta_correcta": "For example, you have a Computer running Java, which runs a program called'Java Studio.",
+					"respuestas_cuerpo": {
+						"resp_unica": "For example, you have a Computer running Java, which runs a program called'Java Studio.",
+						"opcion_multiple": "null",
+						"completacion": "null"
+					}
+				},
+				{
+					"id_pregunta": "5",
+					"pregunta_cuerpo": "What is a computer program?",
+					"respuesta_correcta": " A computer program is a program that runs on or has been used by more than one person.",
+					"respuestas_cuerpo": {
+						"resp_unica": " A computer program is a program that runs on or has been used by more than one person.",
+						"opcion_multiple": "null",
+						"completacion": "null"
+					}
+				}
+			]
+		},
+		{
+			"id": "6",
+			"cuerpo": "A computer program is a  program that runs on or has been used by more than one person. It is a computer program which is used on a computer for the purpose 'to compile data on another computer, to obtain new data or to alter existing data. For example, you have a Computer running Java, which runs a program called ' Java Studio .' A Computer is a computer program which contains its own instructions, such as executing Java code, and which interprets that instruction. These instructions are made available to other programmers using that computer for copying to or from other computers, so that there are no modifications necessary. For example, two computers, one running Java and another running Java Studio, can do more than one thing, and some can do more than one thing. When you take each of the computer programs, you also define what kind of programs that Computer is supposed to run.",
+			"es_editado": "false",
+			"es_regenerado": "false",
+			"preguntas": [{
+				"id_pregunta": "1",
+				"pregunta_cuerpo": "how many people use a computer program?",
+				"respuesta_correcta": "more than one",
+				"respuestas_cuerpo": {
+					"resp_unica": "null",
+					"opcion_multiple": "more than one, A computer, one, two",
+					"completacion": "null"
+				}
+			}, {
+				"id_pregunta": "2",
+				"pregunta_cuerpo": "What is the definition of a computer program?",
+				"respuesta_correcta": "When you take each of the computer programs, you also define what kind of programs that Computer is supposed to run.",
+				"respuestas_cuerpo": {
+					"resp_unica": "When you take each of the computer programs, you also define what kind of programs that Computer is supposed to run.",
+					"opcion_multiple": "null",
+					"completacion": "null"
+				}
+			}, {
+				"id_pregunta": "3",
+				"pregunta_cuerpo": "how many computers can run Java on?",
+				"respuesta_correcta": "one",
+				"respuestas_cuerpo": {
+					"resp_unica": "null",
+					"opcion_multiple": "Java, two, one, more than one",
+					"completacion": "null"
+				}
+			}, {
+				"id_pregunta": "4",
+				"pregunta_cuerpo": "What is a computer program?",
+				"respuesta_correcta": "For example, you have a Computer running Java, which runs a program called'Java Studio.",
+				"respuestas_cuerpo": {
+					"resp_unica": "For example, you have a Computer running Java, which runs a program called'Java Studio.",
+					"opcion_multiple": "null",
+					"completacion": "null"
+				}
+			}, {
+				"id_pregunta": "5",
+				"pregunta_cuerpo": "What is a computer program?",
+				"respuesta_correcta": " A computer program is a program that runs on or has been used by more than one person.",
+				"respuestas_cuerpo": {
+					"resp_unica": " A computer program is a program that runs on or has been used by more than one person.",
+					"opcion_multiple": "null",
+					"completacion": "null"
+				}
+			}]
+		}, {
+			"id": "7",
+			"cuerpo": "A computer program is a  program that runs on or has been used by more than one person. It is a computer program which is used on a computer for the purpose 'to compile data on another computer, to obtain new data or to alter existing data. For example, you have a Computer running Java, which runs a program called ' Java Studio .' A Computer is a computer program which contains its own instructions, such as executing Java code, and which interprets that instruction. These instructions are made available to other programmers using that computer for copying to or from other computers, so that there are no modifications necessary. For example, two computers, one running Java and another running Java Studio, can do more than one thing, and some can do more than one thing. When you take each of the computer programs, you also define what kind of programs that Computer is supposed to run.",
+			"es_editado": "false",
+			"es_regenerado": "false",
+			"preguntas": [{
+				"id_pregunta": "1",
+				"pregunta_cuerpo": "how many people use a computer program?",
+				"respuesta_correcta": "more than one",
+				"respuestas_cuerpo": {
+					"resp_unica": "null",
+					"opcion_multiple": "more than one, A computer, one, two",
+					"completacion": "null"
+				}
+			}, {
+				"id_pregunta": "2",
+				"pregunta_cuerpo": "What is the definition of a computer program?",
+				"respuesta_correcta": "When you take each of the computer programs, you also define what kind of programs that Computer is supposed to run.",
+				"respuestas_cuerpo": {
+					"resp_unica": "When you take each of the computer programs, you also define what kind of programs that Computer is supposed to run.",
+					"opcion_multiple": "null",
+					"completacion": "null"
+				}
+			}, {
+				"id_pregunta": "3",
+				"pregunta_cuerpo": "how many computers can run Java on?",
+				"respuesta_correcta": "one",
+				"respuestas_cuerpo": {
+					"resp_unica": "null",
+					"opcion_multiple": "Java, two, one, more than one",
+					"completacion": "null"
+				}
+			}, {
+				"id_pregunta": "4",
+				"pregunta_cuerpo": "What is a computer program?",
+				"respuesta_correcta": "For example, you have a Computer running Java, which runs a program called'Java Studio.",
+				"respuestas_cuerpo": {
+					"resp_unica": "For example, you have a Computer running Java, which runs a program called'Java Studio.",
+					"opcion_multiple": "null",
+					"completacion": "null"
+				}
+			}, {
+				"id_pregunta": "5",
+				"pregunta_cuerpo": "What is a computer program?",
+				"respuesta_correcta": " A computer program is a program that runs on or has been used by more than one person.",
+				"respuestas_cuerpo": {
+					"resp_unica": " A computer program is a program that runs on or has been used by more than one person.",
+					"opcion_multiple": "null",
+					"completacion": "null"
+				}
+			}]
+		}, {
+			"id": "8",
+			"cuerpo": "A computer program is a  program that runs on or has been used by more than one person. It is a computer program which is used on a computer for the purpose 'to compile data on another computer, to obtain new data or to alter existing data. For example, you have a Computer running Java, which runs a program called ' Java Studio .' A Computer is a computer program which contains its own instructions, such as executing Java code, and which interprets that instruction. These instructions are made available to other programmers using that computer for copying to or from other computers, so that there are no modifications necessary. For example, two computers, one running Java and another running Java Studio, can do more than one thing, and some can do more than one thing. When you take each of the computer programs, you also define what kind of programs that Computer is supposed to run.",
+			"es_editado": "false",
+			"es_regenerado": "false",
+			"preguntas": [{
+				"id_pregunta": "1",
+				"pregunta_cuerpo": "how many people use a computer program?",
+				"respuesta_correcta": "more than one",
+				"respuestas_cuerpo": {
+					"resp_unica": "null",
+					"opcion_multiple": "more than one, A computer, one, two",
+					"completacion": "null"
+				}
+			}, {
+				"id_pregunta": "2",
+				"pregunta_cuerpo": "What is the definition of a computer program?",
+				"respuesta_correcta": "When you take each of the computer programs, you also define what kind of programs that Computer is supposed to run.",
+				"respuestas_cuerpo": {
+					"resp_unica": "When you take each of the computer programs, you also define what kind of programs that Computer is supposed to run.",
+					"opcion_multiple": "null",
+					"completacion": "null"
+				}
+			}, {
+				"id_pregunta": "3",
+				"pregunta_cuerpo": "how many computers can run Java on?",
+				"respuesta_correcta": "one",
+				"respuestas_cuerpo": {
+					"resp_unica": "null",
+					"opcion_multiple": "Java, two, one, more than one",
+					"completacion": "null"
+				}
+			}, {
+				"id_pregunta": "4",
+				"pregunta_cuerpo": "What is a computer program?",
+				"respuesta_correcta": "For example, you have a Computer running Java, which runs a program called'Java Studio.",
+				"respuestas_cuerpo": {
+					"resp_unica": "For example, you have a Computer running Java, which runs a program called'Java Studio.",
+					"opcion_multiple": "null",
+					"completacion": "null"
+				}
+			}, {
+				"id_pregunta": "5",
+				"pregunta_cuerpo": "What is a computer program?",
+				"respuesta_correcta": " A computer program is a program that runs on or has been used by more than one person.",
+				"respuestas_cuerpo": {
+					"resp_unica": " A computer program is a program that runs on or has been used by more than one person.",
+					"opcion_multiple": "null",
+					"completacion": "null"
+				}
+			}]
+		}
+	]
+}

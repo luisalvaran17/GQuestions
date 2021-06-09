@@ -6,7 +6,6 @@ from .models import GeneracionPreguntaModel
 from .models import ExamenConfiguracionModel
 from .models import ExamenModel
 from .models import CalificacionModel
-from .models import CalificacionUsuarioModel
 from .models import Account
 from .models import RespuestaCuerpoModel
 from accounts.serializers import AccountSerializerForNested
@@ -83,10 +82,12 @@ class CalificacionSerializer(serializers.ModelSerializer):
         model = CalificacionModel
         fields = ('id_calificacion', 'nota', 'retroalim')
 
+""" 
 class CalificacionUsuarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = CalificacionUsuarioModel
-        fields = ('id_calificacion', 'id_examen') 
+        fields = ('id_calificacion', 'id_examen')  
+"""
 
 
 # ******************************************** #

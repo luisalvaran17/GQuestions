@@ -47,9 +47,9 @@ export const GenerateConfig = () => {
   const [isOpenError, setIsOpenError] = useState(false)
 
   // ********************** API de prueba *********************** //
-  // https://run.mocky.io/v3/e8993735-eacf-4d85-b78d-9b0babb17c89//
+  // https://972329e3-3eb4-4324-a044-b0df0031c2ce.mock.pstmn.io   //
   //  ************************************************************//
-  const url = "https://run.mocky.io/v3/e8993735-eacf-4d85-b78d-9b0babb17c89"; // Endpoint TEXTOS Y PREGUNTAS fake
+  const url = "https://972329e3-3eb4-4324-a044-b0df0031c2ce.mock.pstmn.io"; // Endpoint TEXTOS Y PREGUNTAS fake
 
   // Estado utilizado para campos de configuración de Generación de textos
   const [generacionConfiguracion, setGeneracionConfiguracion] = useState({
@@ -155,6 +155,20 @@ export const GenerateConfig = () => {
         }
       }
     }
+  }
+
+  const handleClickTest = async() => {
+    const response = await fetch(url)
+      .then((res) => res.json())
+      .then((json) => {
+        return json
+      })
+      .catch(err => {
+        console.log(err)
+        return false;
+      })
+    
+    console.log(response.data);
   }
 
   // Handles inputs
@@ -595,6 +609,13 @@ export const GenerateConfig = () => {
                   </span>
                 Generando ...
               </button>}
+              <button
+                  type="submit"
+                  className="btn-secondary mt-2"
+                  onClick={handleClickTest}
+                >
+                  Test
+              </button>
             </div>
 
             {/* StepProgress */}

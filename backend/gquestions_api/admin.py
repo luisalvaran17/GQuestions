@@ -6,7 +6,6 @@ from .models import GeneracionTextoModel
 from .models import GeneracionPreguntaModel
 from .models import ExamenModel
 from .models import CalificacionModel
-from .models import CalificacionUsuarioModel
 from .models import Account
 from .models import RespuestaCuerpoModel
 from .models import ExamenConfiguracionModel
@@ -69,4 +68,3 @@ admin.site.register(GeneracionPreguntaModel, GeneracionPreguntaAdmin)
 admin.site.register(GeneracionTextoModel, GeneracionTextoAdmin)
 admin.site.register(CalificacionModel, CalificacionAdmin)
 admin.site.register(RespuestaCuerpoModel, RespuestaCuerpoAdmin)
-admin.site.register(CalificacionUsuarioModel, CalificacionUsuarioAdmin)

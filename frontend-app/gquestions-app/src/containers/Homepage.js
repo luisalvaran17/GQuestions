@@ -702,7 +702,7 @@ export const Homepage = () => {
                 <button
                   onClick={onClickIrCuenta}
                   className='transition duration-500 inline-block shadow-md text-sm lg:mr-3 lg:ml-0 text-yellow-900 text-center  
-                  z-10 w-full mx-auto bg-yellowlight focus:bg-yellowlightdark hover:bg-yellowlightdark 
+                  z-10 w-full mx-auto bg-yellowlight focus:bg-yellowlightdark hover:bg-yellowlightdark outline-none focus:outline-none
                   rounded-lg px-2 py-2 font-semibold lg:mb-0 mb-2'
                 >
                   Ir a tu cuenta
