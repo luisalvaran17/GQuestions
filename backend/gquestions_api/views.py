@@ -8,7 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 from .serializers import GeneracionSerializer, TipoPreguntaSerializer, GeneracionTextoSerializer, GeneracionPreguntaSerializer, GeneracionCreateSerializer
 from .serializers import CalificacionSerializer, RespuestaCuerpoSerializer, GeneracionTextoCreateSerializer, ExamenConfiguracionSerializer
 from .serializers import GeneracionPreguntaCreateSerializer, GeneracionSimplificadoSerializer, ExamenSerializer, ExamenUpdateSerializer
-from .serializers import RespuestaPreguntaExamenSerializer
+from .serializers import RespuestaPreguntaExamenSerializer, ExamenConfiguracionSimplificadoSerializer
 
 from .models import GeneracionModel
 from .models import TipoPreguntaModel
@@ -147,6 +147,15 @@ class ExamenConfiguracionCreateView(generics.CreateAPIView):
     queryset = ExamenConfiguracionModel.objects.all()
     serializer_class = ExamenConfiguracionSerializer
 
+# Get configuracion examenes usuario
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def GetExamenConfiguracionView(request, id_configuracion_examen):
+    examen_configuracion = ExamenConfiguracionModel.objects.filter(id_configuracion_examen=id_configuracion_examen)
+    serializer = ExamenConfiguracionSimplificadoSerializer(examen_configuracion, many=True)
+
+    return JsonResponse(serializer.data, safe=False, status=status.HTTP_200_OK)
+
 # List examenes (All)
 @permission_classes([IsAuthenticated])
 class ExamenesListView(generics.ListAPIView):
@@ -184,6 +193,15 @@ def GetExamenView(request, id_examen):
 
     return JsonResponse(serializer.data, safe=False, status=status.HTTP_200_OK)
 
+# Get examenes usuario
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def GetExamenesUsuarioView(request, account):
+    examen = ExamenModel.objects.filter(assigned_to=account).order_by('fecha_contestado').reverse()
+    serializer = ExamenSerializer(examen, many=True)
+
+    return JsonResponse(serializer.data, safe=False, status=status.HTTP_200_OK)
+
 # Update Examen
 @api_view(["PUT"])
 @permission_classes([IsAuthenticated])
@@ -210,18 +228,32 @@ class RespuestaPreguntaExamenCreateView(generics.CreateAPIView):
     queryset = RespuestaPreguntaExamenModel.objects.all()
     serializer_class = RespuestaPreguntaExamenSerializer
 
-# Query GeneracionUsuario
-""" @api_view(["GET"])
+# Query Respuestas usuario examen
+@api_view(["GET"])
 @permission_classes([IsAuthenticated])
-def get_generacion(request, id_generacion):
-    generacion = GeneracionModel.objects.filter(id=id_generacion)
-    serializer = GeneracionSerializer(generacion, many=True)
+def GetRespuestasPreguntaExamenView(request, id_examen):
+    respuesta_usuario = RespuestaPreguntaExamenModel.objects.filter(examen=id_examen)
+    serializer = RespuestaPreguntaExamenSerializer(respuesta_usuario, many=True)
 
-    return JsonResponse(serializer.data, safe=False, status=status.HTTP_200_OK) """
+    return JsonResponse(serializer.data, safe=False, status=status.HTTP_200_OK)
 
+# Query Respuesta pregunta examen
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def GetRespuestaPreguntaExamenView(request, id_pregunta):
+    respuesta_usuario = RespuestaPreguntaExamenModel.objects.filter(generacion_pregunta=id_pregunta)
+    serializer = RespuestaPreguntaExamenSerializer(respuesta_usuario, many=True)
 
+    return JsonResponse(serializer.data, safe=False, status=status.HTTP_200_OK)
 
+# Query Calificaciones usuario
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def GetCalificacionesUsuarioView(request, id_examen):
+    calificacion = CalificacionModel.objects.filter(examen=id_examen)
+    serializer = CalificacionSerializer(calificacion, many=True)
 
+    return JsonResponse(serializer.data, safe=False, status=status.HTTP_200_OK)
 
 
 

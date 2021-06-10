@@ -10,6 +10,7 @@ import { LoadingPage } from '../../containers/LoadingPage';
 import ImageExceededTime from "../../assets/images/exceeded_time.png";
 import { CreateCalificacionAPI } from "../../api/Calificacion/CreateCalificacionAPI";
 import { CreateRespuestaPreguntaAPI } from "../../api/Calificacion/CreateRespuestaPreguntaAPI";
+import { UpdateExamenUsuarioAPI } from '../../api/Examen/UpdateExamenUsuarioAPI';
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -56,6 +57,12 @@ export const Examen = () => {
         calificacion_pregunta: '',
     })
 
+    // Utilizado para actualizar como contestado el examen en la DB
+    const [Resuelto, setResuelto] = useState({
+        contestado: '',
+        fecha_contestado: '',
+    }) 
+
     useEffect(() => {
         if (localStorage.theme === 'dark') {
             darkModeRef.current.classList.add('dark')
@@ -82,6 +89,8 @@ export const Examen = () => {
 
         let id_examen = localStorage.getItem('id_examen');
         const response_examen = await GetExamenAPI(id_examen);
+
+        console.log(response_examen)
 
         if (response_examen.length === 0) {
             history.push('/student/home')
@@ -251,11 +260,21 @@ export const Examen = () => {
     }
 
     const onClickTerminarIntento = async () => {
+        let id_examen = localStorage.getItem('id_examen');
         if (validationTimeEndExam() === true) {
             if (CheckValidationsRespuestas() === false) {
                 if (await setCalificacionDB() === true) { // si se registra exitosamente en la db
                     console.log(respuestasUsuario);
                     console.log(preguntas)
+
+                    setResuelto(
+                        Object.assign(Resuelto, {
+                            contestado: true,
+                            fecha_contestado: new Date(),
+                        })
+                    )
+                    await UpdateExamenUsuarioAPI(id_examen, Resuelto);
+
                     localStorage.removeItem('id_examen');
                     localStorage.removeItem('respuestas_usuario');
                     localStorage.removeItem('conf_examen');
@@ -900,7 +919,7 @@ export const Examen = () => {
                                             <div className="flex mt-4 justify-end space-x-4">
                                                 <button
                                                     type="button"
-                                                    className="transition duration-500 sm:w-auto w-28 inline-flex justify-center px-12 py-2 text-sm font-medium text-red-900 bg-red-100 border border-transparent 
+                                                    className="transition duration-500 sm:w-auto w-28 inline-flex justify-center px-12 py-2 text-sm font-medium text-yellow-900 bg-yellow-100 border border-transparent 
                                                     rounded-md hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                                                     onClick={closeModalHome}
                                                 >

@@ -107,7 +107,7 @@ class ExamenModel(models.Model):
 # ******************************************** #
 class CalificacionModel(models.Model):
     id_calificacion = models.AutoField(primary_key=True)
-    nota = models.DecimalField(decimal_places=3, max_digits=10)
+    nota = models.DecimalField(decimal_places=2, max_digits=10)
     retroalim = models.CharField(max_length=3000, default='Sin descripción')
     examen = models.ForeignKey(
         ExamenModel, related_name='calificacion_examen',on_delete=models.CASCADE)

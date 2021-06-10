@@ -75,13 +75,19 @@ class ExamenConfiguracionSerializer(serializers.ModelSerializer):
         model = ExamenConfiguracionModel
         fields = "__all__"
 
+class ExamenConfiguracionSimplificadoSerializer(serializers.ModelSerializer):
+    generacion = serializers.PrimaryKeyRelatedField(many=False, queryset=GeneracionModel.objects.all())
+    class Meta:
+        model = ExamenConfiguracionModel
+        fields = "__all__"
+
 # ******************************************** #
 # ******** Serializers Calificaciones ******** #
 # ******************************************** #
 class CalificacionSerializer(serializers.ModelSerializer):
     class Meta:
         model = CalificacionModel
-        fields = "__all__"
+        fields = '__all__'
 
 class RespuestaPreguntaExamenSerializer(serializers.ModelSerializer):
     class Meta:

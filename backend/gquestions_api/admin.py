@@ -48,7 +48,7 @@ class ExamenConfiguracionAdmin(admin.ModelAdmin):
     list_display = ('id_configuracion_examen', 'title_exam', 'contrasena_exam', 'n_intentos', 'fecha_hora_ini','fecha_hora_fin', 'duracion', 'generacion')
 
 class ExamenAdmin(admin.ModelAdmin):
-    list_display = ('id_examen', 'assigned_to', 'texto', 'examen_configuracion')
+    list_display = ('id_examen', 'assigned_to', 'texto', 'contestado', 'fecha_contestado', 'examen_configuracion')
 
 # *************************************************** #
 # ********** model admin de Calificacion ************ #

@@ -2,7 +2,8 @@ from .views import GeneracionTextoCreateView, GeneracionPreguntaCreateView, Resp
 from .views import GetTextoView, GetPreguntaView, GeneracionListView, GeneracionCreateView, GeneracionTipoPreguntaView, GeneracionTextoListView
 from .views import GeneracionPreguntaListView, ExamenConfiguracionListView, GetGeneracionesUsuarioView, GetGeneracionUsuarioView
 from .views import GetAllCountsGeneracionesView, ExamenesListView, ExamenCreateView, GetExamenAssignedView, UpdateExamenView
-from .views import GetExamenView, RespuestaPreguntaExamenCreateView, CalificacionCreateView
+from .views import GetExamenView, RespuestaPreguntaExamenCreateView, CalificacionCreateView, GetCalificacionesUsuarioView
+from .views import GetExamenesUsuarioView, GetExamenConfiguracionView, GetRespuestasPreguntaExamenView, GetRespuestaPreguntaExamenView
 
 from django.urls import include, path
 
@@ -30,17 +31,23 @@ urlpatterns = [ # todo: acomodar las rutas (ej. create or list or delete etc)
     # Generacion Examenes
     path('api/generacion/list/configuracion-examenes', ExamenConfiguracionListView.as_view()),
     path('api/generacion/create/configuracion-examen', ExamenConfiguracionCreateView.as_view()),
+    path('api/generacion/configuracion-examen/get/<slug:id_configuracion_examen>', GetExamenConfiguracionView),
 
     path('api/generacion/list/examenes', ExamenesListView.as_view()),
     path('api/generacion/create/examen', ExamenCreateView.as_view()),
     path('api/generacion/get/examen/<slug:id_examen>', GetExamenView),
     path('api/generacion/get/examen/assigned/<slug:id_examen>', GetExamenAssignedView),
+    path('api/generacion/get/examenes-usuario/<slug:account>', GetExamenesUsuarioView),
 
     path('api/generacion/update/examen/<slug:id_examen>', UpdateExamenView),
 
     # Calificaciones
     path('api/calificacion/create', CalificacionCreateView.as_view()),
-    path('api/calificacion/respuesta_usuario/create',  RespuestaPreguntaExamenCreateView.as_view())
+    path('api/calificacion/respuesta_usuario/create',  RespuestaPreguntaExamenCreateView.as_view()),
+    path('api/calificacion/get/<slug:id_examen>', GetCalificacionesUsuarioView),
+
+    path('api/calificacion/respuestas-usuario/get/<slug:id_examen>', GetRespuestasPreguntaExamenView),
+    path('api/generacion/respuesta-pregunta/get/<slug:id_pregunta>', GetRespuestaPreguntaExamenView),
 
     ## Queries con llaves
     #path('api/generacion/get/generacion-usuario/<int:account>', get_generaciones_usuario),
