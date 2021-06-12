@@ -1,0 +1,44 @@
+source env/bin/activate;cd backend;python manage.py runserver
+
+export BROWSER=/usr/bin/google-chrome-stable;
+cd frontend-app/gquestions-app/;npm start
+
+to do:
+REVISIÓN DE GENERACIÓN ✓
+- Agregar button de editar en revisión de la generación ✓
+- Mantener marcado donde esté posicionado en la lista (revisión generación) ✓
+- Editar descripción y título de revisión generación ✓
+- Cambiar los cuatro pasos del step progress ✓
+- Agregar button de volver a generar en la parte inferior ✓
+- Arreglar scrollcustom bar horizontal ✓
+
+NAVBAR ✓
+- Agregar a la navegación side bar un elemento de calificaciones por generación ✓
+
+DASHBOARD ✓
+- Quitar icono de imprimir ✓
+- Agregrar mensaje de vacío cuando no haya generacioes aún ✓
+
+AJUSTES DE CUENTA ✓
+- Hacer funcionalidad (PUT) ✓
+- Separar la información adicional en otra pestaña ✓
+
+LOGIN ✓
+- Agregrar botón de volver al homepage desde Login y Register ✓
+
+GENERAL ✓
+- Botones más uniformes ✓
+- Hacer endpoint fake con datos más acordes ✓
+- Extender la fecha de expiración del token ✓
+- Cambiar colores de los fondos (más uniformes) ✓
+- Arreglar los fondos blancos cuando el tamaño de screen es de móvil ✓
+- Agregar requerimiento de estadísticas en Jira ✓
+- Tab titles ✓
+
+
+GENERACIÓN CONFIGURACIÓN ✓
+- Quitar cantidad de textos ✓
+- Quitar inicio de oración ✓
+- Pensar que otros campos podrían estar en el formulario ✓
+
+
