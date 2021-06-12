@@ -428,7 +428,7 @@ export const RevisionGeneracion = (props) => {
                       style={{ height: "34vh" }}>
                       <textarea
                         ref={textAreaRef}
-                        className="h-full pl-6 py-4 w-11/12 m-0 resize-none focus:border-gray-400  bg-transparent text-gray-600 text-sm md:text-base outline-none focus:outline-none"
+                        className="h-full px-6 py-4 w-full m-0 resize-none focus:border-gray-400  bg-transparent text-gray-600 text-sm md:text-base outline-none focus:outline-none"
                         value={TextArea}
                         disabled={disabledTextArea}
                         onChange={handleTextArea}

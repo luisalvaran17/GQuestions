@@ -64,7 +64,7 @@ export const LoginExamen = () => {
         let generacion_response = await GetGeneracionExamen(cod_generacion);
         if (generacion_response.length === 0) {
             setIsLoading(false);
-            setMessageExamenDisponible("Este enlace no corresponde a ningún examen, por favor verifica el enlace")
+            setMessageExamenDisponible("Este enlace no corresponde a ningún examen, por favor verifica el enlace.")
             setExamenDisponible(false);
         }
         else if (generacion_response !== false) {
@@ -90,7 +90,7 @@ export const LoginExamen = () => {
                     setExamenDisponible(false);
                 }
                 else if (dateNow >= dateFin) {
-                    setMessageExamenDisponible("Oops, llegaste tarde... este examen ya no se encuentra disponible")
+                    setMessageExamenDisponible("Oops, llegaste tarde... este examen ya no se encuentra disponible.")
                     setExamenDisponible(false);
                 }
                 setInformacionExamen(

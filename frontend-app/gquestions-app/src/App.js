@@ -57,7 +57,7 @@ export const App = () => {
         <PrivateRouteEstudiante exact path='/student/calificaciones' component={MisCalificaciones} />
 
         {/* Rutas genericas */}
-        <PrivateRouteUser exact path='/user/revision-examen' component={RevisionExamen} />
+        <PrivateRouteUser exact path='/user/revision-examen/:id' component={RevisionExamen} />
         <Route exact path='/not-server' component={ErrorNotServer} />
       </BrowserRouter>
     );

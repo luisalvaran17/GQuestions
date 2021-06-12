@@ -46,17 +46,15 @@ export const MisCalificaciones = () => {
 
         let account = localStorage.getItem('id_user');
         let examenes = await GetExamenesEstudianteAPI(account);
-        console.log(examenes)
-        let examen_usuario = {}
+        for (let i = 0; i < examenes.length; i++) {
 
-        examenes.map(async examen => {
-            const response_configuracion_examen = await GetConfiguracionExamenAPI(examen.examen_configuracion);
-            const response_calificacion = await GetCalificacionExamenAPI(examen.id_examen);
+            const response_configuracion_examen = await GetConfiguracionExamenAPI(examenes[i].examen_configuracion);
+            const response_calificacion = await GetCalificacionExamenAPI(examenes[i].id_examen);
             if (response_calificacion.length !== 0) {
-                examen_usuario = {
-                    id_examen: examen.id_examen,
+                let examen_usuario = {
+                    id_examen: examenes[i].id_examen,
                     title_exam: response_configuracion_examen[0].title_exam,
-                    contestado: examen.fecha_contestado,
+                    contestado: examenes[i].fecha_contestado,
                     n_intentos: response_configuracion_examen[0].n_intentos,
                     duracion: response_configuracion_examen[0].duracion,
                     calificacion: response_calificacion[0].nota,
@@ -64,20 +62,12 @@ export const MisCalificaciones = () => {
 
                 setExamenesUsuario(response_configuracion_examen => [...response_configuracion_examen, examen_usuario]);
             }
-        })
+        }
 
-        ExamenesUsuario.sort(function(a,b){
-            // Turn your strings into dates, and then subtract them
-            // to get a value that is either negative, positive, or zero.
-            return new Date(a.fecha_hora_ini) - new Date(b.fecha_hora_ini);
-          });
-        
-        
-        console.log(ExamenesUsuario)
         setIsLoading(false);
         return examenes;
     }
-    
+
 
     function FormatDateFunction(date) {
         var dateFormat = require('dateformat');
@@ -90,11 +80,9 @@ export const MisCalificaciones = () => {
         console.log(ExamenesUsuario)
     }
 
-    const handleClickExamen  = e => {
+    const handleClickExamen = e => {
         let id_examen = e.target.id;
-        localStorage.setItem('id_examen', id_examen);
-        history.push('/user/revision-examen');
-        console.log(id_examen);
+        history.push('/user/revision-examen/' + id_examen);
     }
 
     return (
@@ -130,16 +118,14 @@ export const MisCalificaciones = () => {
                         <p className="text-gray-500 font-semibold text-sm md:text-base dark:text-gray-200 mb-4">
                             Aquí puedes visualizar tus calificaciones por examen.
                         </p>
-                        <div className="grid grid-cols-12 bg-yellowlight rounded-t-xl border-t">
 
-                            <div className="col-span-10 pl-4 bg-yellowlight rounded-t-xl py-2 text-yellow-900 font-semibold " onClick={handleTestClick}>Todos los exámenes</div>
-                            <div className="col-span-2 pl-4 bg-yellowlight rounded-tr-xl py-2 text-yellow-900 font-semibold text-center"></div>
-
+                        <div className="bg-yellowlight rounded-t-xl border-t">
+                            <div className="pl-4 bg-yellowlight rounded-t-xl py-2 text-yellow-900 font-semibold " onClick={handleTestClick}>Todos los exámenes</div>
                         </div>
 
                         <CustomScrollbars
                             /* className={generacionesEmpty ? 'hidden' : 'container'} */
-                            className="bg-white bg-opacity-50 dark:bg-darkColor dark:bg-opacity-100 border dark:border-gray-800 rounded-b-xl"
+                            className="bg-white bg-opacity-50 dark:bg-darkColor dark:bg-opacity-100 border dark:border-gray-800 rounded-b-xl shadow-b"
                             autoHide
                             autoHideTimeout={900}
                             autoHideDuration={400}
@@ -147,6 +133,8 @@ export const MisCalificaciones = () => {
 
 
                             {!isLoading &&
+
+                                
                                 <ul>
                                     {
                                         ExamenesUsuario.map((examen, contador = 1) => (
@@ -163,19 +151,19 @@ export const MisCalificaciones = () => {
                                                             <p className="col-span-12 mb-4 sm:col-span-8 text-gray-500 text-sm dark:text-gray-400">Contestado: {FormatDateFunction(examen.contestado)} | Intentos: {examen.n_intentos} | Duración: {examen.duracion / 3600} h</p>
                                                         </div>
 
-                                                        <div className="sm:col-span-2 col-span-12 sm:justify-self-end place-self-center ">
+                                                        <div className="sm:col-span-2 col-span-12 sm:justify-self-end place-self-center pointer-events-auto">
                                                             <div className="flex mr-2">
 
-                                                                <div className="tooltip select-none">
-                                                                    <p className="ml-2 transition duration-500 hover:text-yellow-800 font-semibold text-gray-900 dark:text-gray-50 dark:hover:text-yellowlight mr-2">
+                                                                <div className="tooltip select-none" id={examen.id_examen} onClick={handleClickExamen}>
+                                                                    <p className="ml-2 transition duration-500 hover:text-yellow-800 font-semibold text-gray-900 dark:text-gray-50 dark:hover:text-yellowlight mr-2 pointer-events-none">
                                                                         {examen.calificacion}
                                                                     </p>
                                                                     <span className="tooltiptext text-sm">Nota</span>
 
                                                                 </div>
-                                                                <div className="tooltip select-none">
+                                                                <div className="tooltip select-none" id={examen.id_examen} onClick={handleClickExamen}>
                                                                     <span
-                                                                        className="ml-2 transition duration-500 hover:text-yellowmain text-yellow-900 dark:text-gray-50 dark:hover:text-yellowmain material-icons mr-2"
+                                                                        className="ml-2 transition duration-500 hover:text-yellowmain text-yellow-900 dark:text-gray-50 dark:hover:text-yellowmain material-icons mr-2 pointer-events-none"
                                                                     >&#xe5cc;
                                                                  </span>
                                                                     <span className="tooltiptext text-sm">Visualizar</span>

@@ -61,7 +61,7 @@ export const Examen = () => {
     const [Resuelto, setResuelto] = useState({
         contestado: '',
         fecha_contestado: '',
-    }) 
+    })
 
     useEffect(() => {
         if (localStorage.theme === 'dark') {
@@ -249,6 +249,7 @@ export const Examen = () => {
                 localStorage.removeItem('uuid_generacion');
                 localStorage.removeItem('id_user');
                 localStorage.removeItem('rol');
+                localStorage.removeItem('conf_examen');
                 history.push('/');
             }
         }))
@@ -281,7 +282,7 @@ export const Examen = () => {
                     localStorage.removeItem('h_inicio');
                     setIsOpenSuccess(true);
                 }
-                else{
+                else {
                     console.log("Ha ocurrido un error con la calificación, intentalo de nuevo")
                 }
             }
@@ -382,9 +383,11 @@ export const Examen = () => {
         for (let i = 0; i < length_opciones; i++) {
             let element = document.getElementById(id_pregunta + " " + i);
             element.classList.remove('bg-yellowlight');
+            element.classList.remove('border-yellowmain');
         }
         let element = document.getElementById(str);
         element.classList.add('bg-yellowlight');
+        element.classList.add('border-yellowmain');
 
 
         // Salva las respuestas en caso de que recargue la página, cierre de pestaña, falla de internet, demás
@@ -408,14 +411,18 @@ export const Examen = () => {
                     respuestasUsuario[i].respuesta,
                     preguntas[i].respuesta_correcta
                 );
-                console.log("Question " + (i + 1) + ": " + compare);    // asignacón de nota de la pregunta en el objeto
-                respuestasUsuario[i].nota = compare.toFixed(2)
                 if (compare <= 0.9) {
-                    nota = nota + (compare + 0.1);
-                } else {
+                    compare = compare + 0.07
+                    respuestasUsuario[i].nota = compare.toFixed(2)
                     nota = nota + compare;
+                    console.log("Question " + (i + 1) + ": " + compare);    // asignación de nota de la pregunta en el objeto
+                } else {
+                    respuestasUsuario[i].nota = compare.toFixed(2)
+                    nota = nota + compare;
+                    console.log("Question " + (i + 1) + ": " + compare);    // asignación de nota de la pregunta en el objeto
+
                 }
-                
+
             } else if (respuestasUsuario[i].tipo_pregunta === "opcion_multiple") {
                 if (respuestasUsuario[i].respuesta === preguntas[i].respuesta_correcta) {
                     nota = nota + 1;
@@ -450,18 +457,35 @@ export const Examen = () => {
         if (letter === 4) return "E"
     }
 
-    function closeModalContinue() { // to to: acomodar igual a terminar intento, seria bueno unificar las dos funciones
+    async function closeModalContinue() { // to to: acomodar igual a terminar intento, seria bueno unificar las dos funciones
+        let id_examen = localStorage.getItem('id_examen');
         if (validationTimeEndExam() === true) {
-            console.log(respuestasUsuario);
-            console.log(preguntas)
-            getCalificacion();
-            localStorage.removeItem('id_examen');
-            localStorage.removeItem('respuestas_usuario');
-            localStorage.removeItem('conf_examen');
-            localStorage.removeItem('h_inicio');
-            /* setIsOpenSuccess(true); */
-            setIsOpen(false);
-            history.push('/student/calificaciones')
+            if (await setCalificacionDB() === true) { // si se registra exitosamente en la db
+                console.log(respuestasUsuario);
+                console.log(preguntas)
+
+                setResuelto(
+                    Object.assign(Resuelto, {
+                        contestado: true,
+                        fecha_contestado: new Date(),
+                    })
+                )
+                await UpdateExamenUsuarioAPI(id_examen, Resuelto);
+
+                console.log(respuestasUsuario);
+                console.log(preguntas)
+                getCalificacion();
+                localStorage.removeItem('id_examen');
+                localStorage.removeItem('respuestas_usuario');
+                localStorage.removeItem('conf_examen');
+                localStorage.removeItem('h_inicio');
+                localStorage.removeItem('conf_examen');
+                setIsOpen(false);
+                history.push('/student/calificaciones')
+            }
+            else {
+                console.log("Ha ocurrido un error con la calificación, intentalo de nuevo")
+            }
         } else {
             setIsOpenExceeded(true);
             console.log("Se pasó del tiempo de entrega");
@@ -476,6 +500,16 @@ export const Examen = () => {
 
     function closeModalCalificaciones() {
         history.push('/student/calificaciones');
+    }
+
+    function closeModalCalificacionesExceeded (){
+
+        history.push('/student/calificaciones');
+        localStorage.removeItem('id_examen');
+        localStorage.removeItem('respuestas_usuario');
+        localStorage.removeItem('conf_examen');
+        localStorage.removeItem('h_inicio');
+        localStorage.removeItem('conf_examen');
     }
 
     function closeModalHome() {
@@ -495,11 +529,11 @@ export const Examen = () => {
             })
         )
         const response_calificacion = await CreateCalificacionAPI(calificacion);
-        
+
         respuestasUsuario.map(async (respuesta_usuario) => {
             console.log(respuesta_usuario)
             setRespuestaPreguntaUsuario(
-                Object.assign(respuestaPreguntaUsuario,{
+                Object.assign(respuestaPreguntaUsuario, {
                     examen: id_examen,
                     generacion_pregunta: respuesta_usuario.id_pregunta,
                     respuesta_usuario: respuesta_usuario.respuesta,
@@ -516,13 +550,17 @@ export const Examen = () => {
         if (response_calificacion === true && response_ok === true) {
             console.log(response_ok)
             response_ok = true;
-        }else{
+        } else {
             console.log(response_ok)
             response_ok = false;
         }
         return response_ok;
     }
 
+/*     const handleClickTest = async () => {
+        console.log(await (await getCalificacion()).toFixed(2));
+    }
+ */
     return (
         <div ref={darkModeRef} className="font-manrope">
 
@@ -586,7 +624,7 @@ export const Examen = () => {
                                 >
                                     <Menu.Items
                                         static
-                                        className="origin-top-right absolute right-0 mt-2 w-72 rounded-md shadow-lg py-1 bg-white dark:bg-darkColor border dark:border dark:border-gray-700 ring-1 ring-black ring-opacity-5 focus:outline-none"
+                                        className="origin-top-right absolute right-0 mt-2 w-72 rounded-xl shadow-lg py-1 bg-white dark:bg-darkColor border dark:border dark:border-gray-700 ring-1 ring-black ring-opacity-5 focus:outline-none"
                                     >
                                         <Menu.Item>
                                             <div className={
@@ -650,13 +688,13 @@ export const Examen = () => {
                         {/* Texto disclosure */}
 
                         <div className="w-full">
-                            <div className="w-full py-2 mx-auto dark:bg-darkColor rounded-lg">
-                                <Disclosure >
+                            <div className="w-full py-2 mx-auto dark:bg-darkColor rounded-xl">
+                                <Disclosure defaultOpen={true} >
                                     {({ open }) => (
                                         <div id='texto'>
-                                            <Disclosure.Button className="flex justify-between w-full px-4 py-2 text-base font-medium text-left 
-                                            text-yellow-900 bg-yellowlight bg-opacity-50 dark:bg-opacity-100 rounded-t-xl focus:outline-none 
-                                            focus-visible:ring focus-visible:ring-yellow-500 focus-visible:ring-opacity-75">
+                                            <Disclosure.Button className={`${open ? "rounded-t-xl" : "rounded-xl" } flex justify-between w-full px-4 py-2 text-base font-medium text-left 
+                                            text-yellow-900 bg-yellowlight bg-opacity-50 dark:bg-opacity-100 focus:outline-none 
+                                            focus-visible:ring focus-visible:ring-yellow-500 focus-visible:ring-opacity-75`}>
                                                 <span>Text to answer the questions</span>
                                                 <svg
                                                     className={`${open ? 'transform rotate-180' : 'animate-pulse'} w-5 h-5 text-yellow-500`}
@@ -669,12 +707,12 @@ export const Examen = () => {
 
                                             </Disclosure.Button>
                                             <Transition
-                                                enter="transition duration-100 ease-out"
-                                                enterFrom="transform scale-95 opacity-0"
+                                                enter="transition duration-200 ease-in"
+                                                enterFrom="transform scale-100 opacity-0"
                                                 enterTo="transform scale-100 opacity-100"
-                                                leave="transition duration-75 ease-out"
+                                                leave="transition duration-200 ease-out"
                                                 leaveFrom="transform scale-100 opacity-100"
-                                                leaveTo="transform scale-95 opacity-0"
+                                                leaveTo="transform scale-100 opacity-0"
                                             >
                                                 <Disclosure.Panel className="px-4 py-4 text-base bg-white text-gray-500 border rounded-b-xl select-none">
                                                     {textoExamen}
@@ -708,8 +746,8 @@ export const Examen = () => {
                                                     href={"examen#" + (i = i + 1)}
                                                     onClick={scrollAnimation}
                                                 >&#xe061;
-                                        </a>
-                                                <div className="transition duration-500 opacity-0 w-32 h-9 bg-black text-white text-center text-sm rounded-lg py-2 absolute z-10 group-hover:opacity-100 bottom-full -left-32 -top-1 px-4 pointer-events-none">
+                                                </a>
+                                                <div className="transition duration-500 opacity-0 w-32 h-9 bg-darkColor font-semibold text-white text-center text-sm rounded-xl py-2 absolute z-10 group-hover:opacity-100 bottom-full -left-32 -top-1 px-4 pointer-events-none">
                                                     Question {i}
                                                     <svg className="absolute text-black h-2 w-full left-16 top-3 transform -rotate-90" x="0px" y="0px" viewBox="0 0 255 255" ><polygon className="fill-current" points="0,0 127.5,127.5 255,0" /></svg>
                                                 </div>
@@ -727,7 +765,7 @@ export const Examen = () => {
                                 preguntas.map((pregunta, contador = 1) => (
                                     pregunta.respuestas_cuerpo.tipo_pregunta === "opcion_multiple" ?
                                         <li key={pregunta.id_pregunta} id={contador = contador + 1}>
-                                            <div className="border rounded-lg shadow pt-8 bg-white">
+                                            <div className="border rounded-xl shadow pt-8 bg-white">
                                                 <div className="px-8 pb-4">
                                                     <p className="uppercase font-light text-gray-700">Question {contador}</p>
                                                     <p className="font-semibold text-lg select-none">{pregunta.pregunta_cuerpo}</p>
@@ -736,7 +774,7 @@ export const Examen = () => {
                                                     {
                                                         pregunta.respuestas_cuerpo.opcion_multiple.map((opcion, letter = "A") => (
                                                             <button key={opcion} id={pregunta.id_pregunta} className="w-full outline-none focus:outline-none" onClick={getOptionAnswer}>
-                                                                <li id={pregunta.id_pregunta + " " + letter} className="transition duration-200 flex items-center hover:bg-yellowlight py-4 px-8 border-t">
+                                                                <li id={pregunta.id_pregunta + " " + letter} className="transition duration-200 flex items-center hover:bg-yellowlight rounded-xl py-4 px-8 border border-gray-100">
                                                                     <span className="font-semibold mr-4 px-3 p-1 rounded-full border border-yellowmain">{getLetter(letter)}</span>
                                                                     <p>{opcion}</p>
                                                                 </li>
@@ -749,7 +787,7 @@ export const Examen = () => {
 
                                         : pregunta.respuestas_cuerpo.tipo_pregunta === "pregunta_abierta" ?
                                             <li key={pregunta.id_pregunta} id={contador = contador + 1}>
-                                                <div className="border rounded-lg shadow pt-8 bg-white">
+                                                <div className="border rounded-xl shadow pt-8 bg-white">
                                                     <div className="px-8 pb-4">
                                                         <p className="uppercase font-light text-gray-700">Question {contador}</p>
                                                         <p className="font-semibold text-lg select-none">{pregunta.pregunta_cuerpo}</p>
@@ -760,7 +798,7 @@ export const Examen = () => {
                                                                 name={pregunta.id_pregunta}
                                                                 onChange={handleChangePreguntaAbierta}
                                                                 defaultValue={respuestasUsuario[contador - 1].respuesta}
-                                                                className="w-full resize-y p-2 border rounded-lg focus:border-gray-400  bg-white text-gray-600 text-sm md:text-base outline-none focus:outline-none"
+                                                                className="transition duration-500 w-full resize-y p-2 h-32 border rounded-xl focus:border-yellowmain focus:border-opacity-50 bg-white text-gray-600 text-sm md:text-base outline-none focus:outline-none"
                                                             >
                                                             </textarea>
                                                         </div>
@@ -779,7 +817,13 @@ export const Examen = () => {
                                 onClick={onClickTerminarIntento}
                             >
                                 Terminar intento
-                        </button>
+                            </button>
+                            {/* <button
+                                className='btn-primary mt-2'
+                                onClick={handleClickTest}
+                            >
+                                Tests
+                            </button> */}
                         </div>
 
                         {/* Preguntas sin responder Modal (mensaje de advertencia) */}
@@ -919,7 +963,7 @@ export const Examen = () => {
                                             <div className="flex mt-4 justify-end space-x-4">
                                                 <button
                                                     type="button"
-                                                    className="transition duration-500 sm:w-auto w-28 inline-flex justify-center px-12 py-2 text-sm font-medium text-yellow-900 bg-yellow-100 border border-transparent 
+                                                    className="transition duration-500 sm:w-auto w-28 inline-flex justify-center px-12 py-2 text-sm font-medium text-yellow-900 bg-white border border-yellowmain 
                                                     rounded-md hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                                                     onClick={closeModalHome}
                                                 >
@@ -927,7 +971,7 @@ export const Examen = () => {
                                                     </button>
                                                 <button
                                                     type="button"
-                                                    className="transition duration-500 sm:w-auto w-28 inline-flex justify-center px-12 py-2 text-sm font-medium text-green-900 bg-green-100 border border-transparent 
+                                                    className="transition duration-500 sm:w-auto w-28 inline-flex justify-center px-12 py-2 text-sm font-medium text-green-900 bg-green-100 border border-green-500 
                                                     rounded-md hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                                                     onClick={closeModalCalificaciones}
                                                 >
@@ -945,7 +989,7 @@ export const Examen = () => {
                             <Dialog
                                 as="div"
                                 className="fixed inset-0 z-10 overflow-y-auto"
-                                onClose={closeModalCalificaciones}
+                                onClose={closeModalCalificacionesExceeded}
                             >
                                 {/* Use the overlay to style a dim backdrop for your dialog */}
                                 <Dialog.Overlay className="fixed inset-0 bg-black opacity-60" />
@@ -1003,7 +1047,7 @@ export const Examen = () => {
                                                     type="button"
                                                     className="transition duration-500 w-full inline-flex justify-center px-12 py-2 text-sm font-medium text-red-900 bg-red-100 border border-transparent 
                                                     rounded-md hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                                                    onClick={closeModalCalificaciones}
+                                                    onClick={closeModalCalificacionesExceeded}
                                                 >
                                                     Cerrar
                                                     </button>

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Disclosure, Transition } from '@headlessui/react';
-import { useHistory } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
 import { Helmet } from "react-helmet";
 import { LoadingPage } from './LoadingPage';
 import { GetExamenAPI } from '../api/Examen/GetExamenAPI';
@@ -23,6 +23,7 @@ export const RevisionExamen = () => {
 
     // Hooks dark mode
     const history = useHistory();
+    const location = useLocation();
 
     // Hooks Dark mode
     const darkModeRef = useRef();
@@ -59,7 +60,11 @@ export const RevisionExamen = () => {
     const getExamen = async () => {
         setIsLoading(true);
 
-        let id_examen = localStorage.getItem('id_examen');
+        let split_location = location.pathname.split("/");
+        let id_examen = split_location[split_location.length - 1];
+
+        console.log(id_examen);
+
         const response_examen = await GetExamenAPI(id_examen);
         const respuestas_usuario = await GetRespuestasUsuarioExamenAPI(id_examen);
 
@@ -81,7 +86,8 @@ export const RevisionExamen = () => {
     }
 
     const getCalificacionesExamen = async () => {
-        let id_examen = localStorage.getItem('id_examen');
+        let split_location = location.pathname.split("/");
+        let id_examen = split_location[split_location.length - 1];
         const response_calificacion = await GetCalificacionExamenAPI(id_examen);
 
         setCalifacionExamen(response_calificacion[0].nota);
@@ -104,13 +110,15 @@ export const RevisionExamen = () => {
     const AddTipoPregunta = (preguntas, respuestas_usuario) => {
         let preguntasTemporal = []
         let respuestasTemporal = []
-        
+
         preguntas.map((pregunta, i = 0) => {
             let element_respuesta = respuestas_usuario.find((element) => { return element.generacion_pregunta === pregunta.id_pregunta })
 
             let completacion = pregunta.respuestas_cuerpo.completacion
             let opcion_multiple = pregunta.respuestas_cuerpo.opcion_multiple
             let pregunta_abierta = pregunta.respuestas_cuerpo.resp_unica
+
+            let calificacion_format = parseFloat(element_respuesta.calificacion_pregunta).toFixed(2);
 
             if (completacion === "null" && opcion_multiple === "null") {
                 preguntasTemporal.push({
@@ -119,7 +127,7 @@ export const RevisionExamen = () => {
                     pregunta_cuerpo: pregunta.pregunta_cuerpo,
                     respuesta_correcta: pregunta.respuesta_correcta,
                     respuesta_usuario: element_respuesta.respuesta_usuario,
-                    calificacion_pregunta: element_respuesta.calificacion_pregunta,
+                    calificacion_pregunta: calificacion_format,
                     respuestas_cuerpo: {
                         completacion: pregunta.respuestas_cuerpo.completacion,
                         generacion_pregunta: pregunta.respuestas_cuerpo.generacion_pregunta,
@@ -144,7 +152,7 @@ export const RevisionExamen = () => {
                     pregunta_cuerpo: pregunta.pregunta_cuerpo,
                     respuesta_correcta: pregunta.respuesta_correcta,
                     respuesta_usuario: element_respuesta.respuesta_usuario,
-                    calificacion_pregunta: element_respuesta.calificacion_pregunta,
+                    calificacion_pregunta: calificacion_format,
                     respuestas_cuerpo: {
                         completacion: pregunta.respuestas_cuerpo.completacion,
                         generacion_pregunta: pregunta.respuestas_cuerpo.generacion_pregunta,
@@ -165,7 +173,7 @@ export const RevisionExamen = () => {
                     pregunta_cuerpo: pregunta.pregunta_cuerpo,
                     respuesta_correcta: pregunta.respuesta_correcta,
                     respuesta_usuario: element_respuesta.respuesta_usuario,
-                    calificacion_pregunta: element_respuesta.calificacion_pregunta,
+                    calificacion_pregunta: calificacion_format,
                     respuestas_cuerpo: {
                         completacion: pregunta.respuestas_cuerpo.completacion,
                         generacion_pregunta: pregunta.respuestas_cuerpo.generacion_pregunta,
@@ -199,9 +207,9 @@ export const RevisionExamen = () => {
         if (letter === 4) return "E"
     }
 
-/*     const handleClickTest = () => {
-        console.log(preguntas)
-    } */
+    /*     const handleClickTest = () => {
+            console.log(preguntas)
+        } */
 
     return (
         <div ref={darkModeRef} className={rolBool ? 'mx-auto font-manrope' : 'flex mx-auto font-manrope'}
@@ -227,7 +235,6 @@ export const RevisionExamen = () => {
                 </span>
             }
 
-
             {/* Validar si es docente o estudiante */}
             <CustomScrollbars
                 autoHide
@@ -250,13 +257,13 @@ export const RevisionExamen = () => {
 
                         {/* <button className="btn-secondary" onClick={handleClickTest}>press me</button> */}
                         <div className="w-full">
-                            <div className="w-full py-2 mx-auto dark:bg-darkColor rounded-lg">
+                            <div className="w-full py-2 mx-auto dark:bg-darkColor rounded-xl">
                                 <Disclosure >
                                     {({ open }) => (
                                         <div id='texto'>
-                                            <Disclosure.Button className="flex justify-between w-full px-4 py-2 text-base font-medium text-left 
-                                            text-yellow-900 bg-yellowlight rounded-t-xl focus:outline-none 
-                                            focus-visible:ring focus-visible:ring-yellow-500 focus-visible:ring-opacity-75">
+                                            <Disclosure.Button className={`${open ? "rounded-t-xl" : "rounded-xl"} flex justify-between w-full px-4 py-2 text-base font-medium text-left 
+                                            text-yellow-900 bg-yellowlight focus:outline-none 
+                                            focus-visible:ring focus-visible:ring-yellow-500 focus-visible:ring-opacity-75 `}>
                                                 <span>Text</span>
                                                 <svg
                                                     className={`${open ? 'transform rotate-180' : 'animate-pulse'} w-5 h-5 text-yellow-500`}
@@ -276,7 +283,7 @@ export const RevisionExamen = () => {
                                                 leaveFrom="transform scale-100 opacity-100"
                                                 leaveTo="transform scale-95 opacity-0"
                                             >
-                                                <Disclosure.Panel className="px-4 py-4 text-base bg-white text-gray-500 border rounded-b-xl select-none">
+                                                <Disclosure.Panel className="px-4 py-4 text-base bg-white text-gray-500 border rounded-b-xl">
                                                     {textoExamen}
                                                 </Disclosure.Panel>
                                             </Transition>
@@ -327,10 +334,10 @@ export const RevisionExamen = () => {
                                 preguntas.map((pregunta, contador = 1) => (
                                     pregunta.respuestas_cuerpo.tipo_pregunta === "opcion_multiple" ?
                                         <li key={pregunta.id_pregunta} id={contador = contador + 1} className="pointer-events-none ">
-                                            <div className="border rounded-lg shadow pt-8 bg-white">
+                                            <div className="border rounded-xl shadow pt-8 bg-white">
                                                 <div className="px-8 pb-4">
                                                     <p className="uppercase font-light text-gray-700">Question {contador}</p>
-                                                    <p className="font-semibold text-lg select-none">{pregunta.pregunta_cuerpo}</p>
+                                                    <p className="font-semibold text-lg">{pregunta.pregunta_cuerpo}</p>
                                                 </div>
                                                 <ul>
                                                     {
@@ -338,12 +345,12 @@ export const RevisionExamen = () => {
                                                             <button key={opcion} id={pregunta.id_pregunta} className="w-full outline-none focus:outline-none">
                                                                 {pregunta.respuesta_correcta === opcion && pregunta.respuesta_usuario === pregunta.respuesta_correcta &&
                                                                     <li id={pregunta.id_pregunta + " " + letter} className="transition duration-200 flex items-center py-4 px-8 border bg-green-100 border-green-300">
-                                                                        <span className="font-semibold mr-4 px-3 p-1 rounded-full border border-green-400 bg-green-400">{getLetter(letter)}</span>
+                                                                        <span className="font-semibold mr-4 px-3 p-1 rounded-full border border-green-400 bg-green-400 text-white">{getLetter(letter)}</span>
                                                                         <p>{opcion}</p>
                                                                     </li>
                                                                 }{pregunta.respuesta_correcta !== pregunta.respuesta_usuario && pregunta.respuesta_usuario === opcion &&
                                                                     <li id={pregunta.id_pregunta + " " + letter} className="transition duration-200 flex items-center py-4 px-8 border bg-red-100 border-red-300">
-                                                                        <span className="font-semibold mr-4 px-3 p-1 rounded-full border border-red-500 bg-red-500">{getLetter(letter)}</span>
+                                                                        <span className="font-semibold mr-4 px-3 p-1 rounded-full border border-red-500 bg-red-500 text-white">{getLetter(letter)}</span>
                                                                         <p>{opcion}</p>
                                                                     </li>
                                                                 }
@@ -365,12 +372,12 @@ export const RevisionExamen = () => {
                                                 </ul>
 
                                                 <div className="px-8 py-4 border-t">
+                                                    <p className="text-green-700 text-sm font-semibold md:text-sm py-1">Respuesta correcta</p>
                                                     <div className="bg-gray-50 rounded-t-xl p-4 border border-green-200">
-                                                        <p className="font-semibold text-base select-none">Respuesta correcta</p>
                                                         <p className="text-gray-600 text-sm md:text-base">{pregunta.respuesta_correcta}</p>
                                                     </div>
                                                     <div className="bg-gray-50 rounded-b-xl px-4 py-2 border border-gray-200">
-                                                        <p className="text-base select-none">Calificacion: <b>{pregunta.calificacion_pregunta}</b></p>
+                                                        <p className="text-base">Calificacion: <b>{pregunta.calificacion_pregunta}</b></p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -378,10 +385,10 @@ export const RevisionExamen = () => {
 
                                         : pregunta.respuestas_cuerpo.tipo_pregunta === "pregunta_abierta" ?
                                             <li key={pregunta.id_pregunta} id={contador = contador + 1}>
-                                                <div className="border rounded-lg shadow pt-8 bg-white">
+                                                <div className="border rounded-xl shadow pt-8 bg-white">
                                                     <div className="px-8 pb-4">
                                                         <p className="uppercase font-light text-gray-700">Question {contador}</p>
-                                                        <p className="font-semibold text-lg select-none">{pregunta.pregunta_cuerpo}</p>
+                                                        <p className="font-semibold text-lg">{pregunta.pregunta_cuerpo}</p>
                                                     </div>
                                                     <ul>
                                                         <div className="px-8 pb-4">
@@ -390,17 +397,17 @@ export const RevisionExamen = () => {
                                                                 name={pregunta.id_pregunta}
                                                                 disabled={true}
                                                                 value={pregunta.respuesta_usuario}
-                                                                className="w-full resize-y h-32 p-4 border rounded-lg focus:border-gray-400  bg-gray-100 text-gray-600 text-sm md:text-base outline-none focus:outline-none"
+                                                                className="w-full resize-y h-32 p-4 border rounded-xl focus:border-gray-400  bg-gray-100 text-gray-600 text-sm md:text-base outline-none focus:outline-none"
                                                             >
                                                             </textarea>
                                                         </div>
                                                         <div className="px-8 pb-4">
+                                                            <p className="text-green-700 text-sm font-semibold md:text-sm py-1">Respuesta correcta</p>
                                                             <div className="bg-gray-50 rounded-t-xl p-4 border border-green-200">
-                                                                <p className="font-semibold text-base select-none">Respuesta correcta</p>
                                                                 <p className="text-gray-600 text-sm md:text-base">{pregunta.respuesta_correcta}</p>
                                                             </div>
                                                             <div className="bg-gray-50 rounded-b-xl px-4 py-2 border border-gray-200">
-                                                                <p className="text-base select-none">Calificacion: <b>{pregunta.calificacion_pregunta}</b></p>
+                                                                <p className="text-base">Calificacion: <b>{pregunta.calificacion_pregunta}</b></p>
                                                             </div>
                                                         </div>
                                                     </ul>
@@ -411,9 +418,9 @@ export const RevisionExamen = () => {
                             }
                             <li>
                                 <div className="pb-1">
-                                    <div className="grid grid-cols-12 bg-white rounded-xl p-4 border border-yellow-900 border-opacity-20 shadow-sm">
-                                        <p className="col-span-11 font-semibold text-xl select-none text-yellow-900">Calificación total</p>
-                                        <p className="col-span-1 font-semibold text-yellow-900 text-sm md:text-lg">{califacionExamen}</p>
+                                    <div className="grid grid-cols-12 bg-white rounded-xl py-4 px-8 border border-yellow-900 border-opacity-20 shadow-sm">
+                                        <p className="sm:col-span-11 col-span-10 font-semibold text-xltext-yellow-900">Calificación total</p>
+                                        <p className="place-self-end mr-2 sm:col-span-1 col-span-2 font-semibold text-yellow-900 text-lg">{califacionExamen}</p>
                                     </div>
                                 </div>
                             </li>
@@ -421,7 +428,7 @@ export const RevisionExamen = () => {
 
                         <div className="mt-4">
                             <button
-                                className='btn-secondary'
+                                className='btn-primary'
                                 onClick={onClickVolver}
                             >
                                 Volver

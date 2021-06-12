@@ -42,7 +42,7 @@ export const ExamenConfiguracion = (props) => {
     n_intentos: 1,
     duracion: '',
     fecha_hora_ini: new Date(),
-    fecha_hora_fin: '',
+    fecha_hora_fin: new Date(),
     generacion: '',
   });
 
@@ -137,15 +137,18 @@ export const ExamenConfiguracion = (props) => {
   const checkFieldsValidations = () => {
     let boolEmpty = false;
     let boolContrasena = false;
+    let boolFechas = false;
 
     let p_empty = "";
     let p_contrasena = "";
+    let p_fechas = "";
 
     if (
       examenConfiguracion.contrasena_exam === "" ||
       examenConfiguracion.n_intentos === 0 ||
       examenConfiguracion.fecha_hora_ini === "" ||
-      examenConfiguracion.fecha_hora_fin === ""
+      examenConfiguracion.fecha_hora_fin === "" ||
+      examenConfiguracion.duracion === ""
     ) {
       boolEmpty = true;
       p_empty = React.createElement('p', {}, '●  Hay campos vacíos');
@@ -154,10 +157,14 @@ export const ExamenConfiguracion = (props) => {
       boolContrasena = true;
       p_contrasena = React.createElement('p', {}, '●  La contraseña debe tener al menos 4 carácteres');
     }
+    if (examenConfiguracion.fecha_hora_fin < examenConfiguracion.fecha_hora_ini) {
+      boolFechas = true;
+      p_fechas = React.createElement('p', {}, '●  Error en las fechas, revise cuando inicia y finaliza');
+    }
 
-    if (boolContrasena || boolEmpty) {
+    if (boolContrasena || boolEmpty || boolFechas) {
       removeClassdivRefErrorMessage();
-      const X = React.createElement('div', {}, [p_empty, p_contrasena]);
+      const X = React.createElement('div', {}, [p_empty, p_contrasena, p_fechas]);
       ReactDOM.render(X, document.getElementById('error_messages'));
       return false;
     }
@@ -211,7 +218,6 @@ export const ExamenConfiguracion = (props) => {
         duracion: duracion_convertida
       })
     )
-    console.log(examenConfiguracion)
   }
 
   if (!irExamenPublicado) {
@@ -250,7 +256,7 @@ export const ExamenConfiguracion = (props) => {
             <div className="grid grid-cols-12 sm:mb-44 mb-0">
               <div className="grid sm:col-span-4 col-span-12 sm:mr-8 mr-6 mb-2">
                 <label className="grid  text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
-                  Fecha y hora de inicio
+                  Fecha y hora de inicio *
                 </label>
                 <DatePicker
                   className="text-sm text-gray-800 md:text-base sm:col-span-4 col-span-12 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2
@@ -267,7 +273,7 @@ export const ExamenConfiguracion = (props) => {
 
               <div className="grid sm:col-span-4 col-span-12 sm:mr-8 mr-6 mb-2">
                 <label className="grid text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
-                  Fecha y hora de fin
+                  Fecha y hora de fin *
                 </label>
                 <DatePicker
                   className="text-sm text-gray-800 md:text-base sm:col-span-4 col-span-12 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2
@@ -284,7 +290,7 @@ export const ExamenConfiguracion = (props) => {
 
               <div className="grid sm:col-span-4 col-span-12 sm:mr-8 mr-6 mb-2">
                 <label className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
-                  Contraseña del examen
+                  Contraseña del examen *
                 </label>
                 <input
                   type="password"
@@ -319,7 +325,7 @@ export const ExamenConfiguracion = (props) => {
                 <div className="grid grid-cols-12">
                   <div className="col-span-5">
                     <label className="text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
-                      Horas
+                      Horas *
                     </label>
                     <div>
                       <input
@@ -328,7 +334,7 @@ export const ExamenConfiguracion = (props) => {
                         name="hours"
                         className="text-sm text-gray-800 md:text-base transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2
                                   focus:ring-yellowlight w-full pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
-                        placeholder="01"
+                        placeholder="00"
                         onChange={handleChangeDuracion}
                       />
                     </div>
@@ -401,16 +407,19 @@ export const ExamenConfiguracion = (props) => {
 
 
           {/* Stepper progress bar */}
-          <StepsProgress active={4} />
 
+          <div className="container pr-4">
+          <StepsProgress active={4} />
+          </div>
           {/* Error messages */}
+          <div className="container mb-8 pr-4">
           <div
 
             ref={divRefErrorMessage}
-            className="hidden animate-pulse mt-1 relative py-1 pl-4 pr-10 leading-normal text-red-700 bg-red-100 rounded-lg"
+            className="hidden animate-pulse mt-1 text-sm md:text-base relative py-1 pl-4 pr-10 leading-normal text-red-700 bg-red-100 rounded-lg"
             role="alert"
           >
-            <div id="error_messages" className="text-sm md:text-base">
+            <div id="error_messages" className="">
             </div>
 
             <span
@@ -429,6 +438,7 @@ export const ExamenConfiguracion = (props) => {
                 ></path>
               </svg>
             </span>
+          </div>
           </div>
         </CustomScrollbars>
         <DropdownUser />
