@@ -40,7 +40,7 @@ export const ExamenConfiguracion = (props) => {
     title_exam: "Sin título",
     contrasena_exam: '',
     n_intentos: 1,
-    duracion: '',
+    duracion: 0,
     fecha_hora_ini: new Date(),
     fecha_hora_fin: new Date(),
     generacion: '',
@@ -67,8 +67,13 @@ export const ExamenConfiguracion = (props) => {
     }
     setIsLoading(false);
     // componentwillunmount
+    // Alert Reload page
+    window.onbeforeunload = function () {
+      return true;
+    };
     return () => {
-    }
+      window.onbeforeunload = null;
+    };
   }, []);
 
   const handleClick = async () => {
@@ -148,7 +153,7 @@ export const ExamenConfiguracion = (props) => {
       examenConfiguracion.n_intentos === 0 ||
       examenConfiguracion.fecha_hora_ini === "" ||
       examenConfiguracion.fecha_hora_fin === "" ||
-      examenConfiguracion.duracion === ""
+      examenConfiguracion.duracion === 0
     ) {
       boolEmpty = true;
       p_empty = React.createElement('p', {}, '●  Hay campos vacíos');
@@ -247,9 +252,9 @@ export const ExamenConfiguracion = (props) => {
           autoHideDuration={400}
           style={{ height: "100vh" }}
           data-aos="fade-right"
-          className="container xl:mx-32 mx-4 md:mx-8 lg:mx-16 mt-8 dark:text-white">
+          className="container xl:mx-32 mx-4 md:mx-8 lg:mx-16 dark:text-white">
 
-          <div className="grid grid-rows">
+          <div className="grid grid-rows  mt-8">
             <h1 className="font-black xl:text-5xl md:text-4xl sm:text-2xl md:text-left mb-12 lg:mb-20 text-2xl">
               Configuración examen
             </h1>
@@ -305,7 +310,7 @@ export const ExamenConfiguracion = (props) => {
               </div>
             </div>
 
-            <div className="grid grid-cols-12 sm:mb-44 mb-16 ">
+            <div className="grid grid-cols-12 sm:mb-36 mb-16">
               <div className="grid sm:col-span-4 col-span-12 sm:mr-8 mr-6 mb-2">
                 <label className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
                   Nombre del examen
@@ -376,11 +381,11 @@ export const ExamenConfiguracion = (props) => {
               </div>
             </div>
 
-            <div className="py-3 mt-4 w-full">
+            <div className="py-3 mt-4 w-full 2xl:pr-28 sm:pr-8 pr-6">
               <hr></hr>
             </div>
 
-            <div className="grid grid-rows justify-end items-end mr-6">
+            <div className="grid grid-rows justify-end items-end  2xl:pr-28 sm:pr-8 pr-4">
               {!isLoading &&
                 <button
                   type="submit"
@@ -408,37 +413,37 @@ export const ExamenConfiguracion = (props) => {
 
           {/* Stepper progress bar */}
 
-          <div className="container pr-4">
-          <StepsProgress active={4} />
+          <div className="container 2xl:pr-28 sm:pr-8 pr-6">
+            <StepsProgress active={4} />
           </div>
           {/* Error messages */}
           <div className="container mb-8 pr-4">
-          <div
+            <div
 
-            ref={divRefErrorMessage}
-            className="hidden animate-pulse mt-1 text-sm md:text-base relative py-1 pl-4 pr-10 leading-normal text-red-700 bg-red-100 rounded-lg"
-            role="alert"
-          >
-            <div id="error_messages" className="">
-            </div>
-
-            <span
-              className="absolute inset-y-0 right-0 flex items-center mr-4"
-              onClick={addClassdivRefErrorMessage}
+              ref={divRefErrorMessage}
+              className="hidden animate-pulse mt-1 text-sm md:text-base relative py-1 pl-4 pr-10 leading-normal text-red-700 bg-red-100 rounded-lg"
+              role="alert"
             >
-              <svg
-                className="w-4 h-4 fill-current"
-                role="button"
-                viewBox="0 0 20 20"
+              <div id="error_messages" className="">
+              </div>
+
+              <span
+                className="absolute inset-y-0 right-0 flex items-center mr-4"
+                onClick={addClassdivRefErrorMessage}
               >
-                <path
-                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                  clipRule="evenodd"
-                  fillRule="evenodd"
-                ></path>
-              </svg>
-            </span>
-          </div>
+                <svg
+                  className="w-4 h-4 fill-current"
+                  role="button"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                    clipRule="evenodd"
+                    fillRule="evenodd"
+                  ></path>
+                </svg>
+              </span>
+            </div>
           </div>
         </CustomScrollbars>
         <DropdownUser />

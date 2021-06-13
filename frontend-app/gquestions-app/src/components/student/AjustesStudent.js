@@ -133,7 +133,7 @@ export const AjustesStudent = () => {
                       ? 'bg-yellowlight text-black'
                       : 'bg-white dark:bg-darkGrayColor2 border border-yellowlight dark:border-gray-700'
                     }
-                    text-whiterelative rounded-lg shadow-md px-5 py-4 cursor-pointer flex focus:outline-none`
+                    text-whiterelative rounded-xl shadow-md px-5 py-4 cursor-pointer flex focus:outline-none`
                   }
                 >
                   {({ active, checked }) => (

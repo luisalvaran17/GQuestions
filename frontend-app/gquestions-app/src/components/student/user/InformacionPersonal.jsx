@@ -123,7 +123,7 @@ export const InformacionPersonal = () => {
     };
 
     return (
-        <div className="sm:p-6 p-2 bg-white dark:bg-darkColor border dark:border-gray-500 rounded-lg shadow-md">
+        <div className="sm:p-6 p-2 bg-white dark:bg-darkColor border dark:border-gray-700 rounded-xl shadow-md">
             {/* Nombre y fecha de nacimiento */}
             <div className="sm:ml-6 ml-2 pt-1">
                 <div className="grid grid-cols-12">

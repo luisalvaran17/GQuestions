@@ -90,10 +90,8 @@ export const Examen = () => {
         let id_examen = localStorage.getItem('id_examen');
         const response_examen = await GetExamenAPI(id_examen);
 
-        console.log(response_examen)
-
         if (response_examen.length === 0) {
-            history.push('/student/home')
+            history.push('/student/home') // Si el examen no existe entonces redirige al usuario al home
         } else if (response_examen !== false) {
             getConfiguracionExamen(); // obtiene la configuracion del examen
             let id_texto = response_examen[0].texto;
@@ -112,11 +110,11 @@ export const Examen = () => {
 
     const getConfiguracionExamen = () => {
 
-        let conf_examen_temp = JSON.parse(localStorage.getItem('conf_examen'))
-        let duracion_convertida = conf_examen_temp.duracion / 3600
-        let dateNow = new Date(localStorage.getItem('h_inicio'));
+        let conf_examen_temp = JSON.parse(localStorage.getItem('conf_examen'));
+        let duracion_convertida = conf_examen_temp.duracion / 3600; // pasa de segundos a horas
+        let dateNow = new Date(localStorage.getItem('h_inicio')); 
         let hour = dateNow.getHours() + parseInt(duracion_convertida);
-        let minutes = dateNow.getMinutes() + (duracion_convertida % 1) * 60;
+        let minutes = dateNow.getMinutes() + (duracion_convertida % 1) * 60; // obtiene los decimales
 
         // validacion para cuando la suma supere los 60 minutos (asi se le suma 1 a la hora)
         if (minutes >= 60) {
@@ -140,11 +138,11 @@ export const Examen = () => {
         let respuestasTemporal = []
 
         preguntas.map(pregunta => {
-            let completacion = pregunta.respuestas_cuerpo.completacion
-            let opcion_multiple = pregunta.respuestas_cuerpo.opcion_multiple
-            let pregunta_abierta = pregunta.respuestas_cuerpo.resp_unica
+            let completacion = pregunta.respuestas_cuerpo.completacion;
+            let opcion_multiple = pregunta.respuestas_cuerpo.opcion_multiple;
+            let pregunta_abierta = pregunta.respuestas_cuerpo.resp_unica;
 
-            if (completacion === "null" && opcion_multiple === "null") {
+            if (completacion === "null" && opcion_multiple === "null") { // si ambos son null entonces el tipo de pregunta es abierta
                 preguntasTemporal.push({
                     generacion_texto: pregunta.generacion_texto,
                     id_pregunta: pregunta.id_pregunta,
@@ -164,7 +162,7 @@ export const Examen = () => {
                     tipo_pregunta: "pregunta_abierta"
                 })
             }
-            else if (completacion === "null" && pregunta_abierta === "null") {
+            else if (completacion === "null" && pregunta_abierta === "null") {  // si ambos son null entonces el tipo de pregunta es mcq
                 let str = pregunta.respuestas_cuerpo.opcion_multiple;
                 let options_question_mcm = str.split(", "); //todo: revisar si es necesario usar un tokenizer
 
@@ -211,11 +209,11 @@ export const Examen = () => {
         })
         setPreguntas(preguntasTemporal)
 
-        if (localStorage.getItem('respuestas_usuario') !== null) {
-            respuestasTemporal = JSON.parse(localStorage.getItem('respuestas_usuario'))
-            setRespuestasUsuario(respuestasTemporal)
+        if (localStorage.getItem('respuestas_usuario') !== null) {  // si ya existen respuestas de ese examen en el localstorage
+            respuestasTemporal = JSON.parse(localStorage.getItem('respuestas_usuario'));
+            setRespuestasUsuario(respuestasTemporal);
         } else {
-            setRespuestasUsuario(respuestasTemporal)
+            setRespuestasUsuario(respuestasTemporal);
         }
     }
 
@@ -252,45 +250,11 @@ export const Examen = () => {
                 localStorage.removeItem('conf_examen');
                 history.push('/');
             }
-        }))
-            .catch(err => err)
+        })).catch(err => err)
     }
 
     const onClickAjustes = () => {
-        history.push('/student/ajustes-cuenta')
-    }
-
-    const onClickTerminarIntento = async () => {
-        let id_examen = localStorage.getItem('id_examen');
-        if (validationTimeEndExam() === true) {
-            if (CheckValidationsRespuestas() === false) {
-                if (await setCalificacionDB() === true) { // si se registra exitosamente en la db
-                    console.log(respuestasUsuario);
-                    console.log(preguntas)
-
-                    setResuelto(
-                        Object.assign(Resuelto, {
-                            contestado: true,
-                            fecha_contestado: new Date(),
-                        })
-                    )
-                    await UpdateExamenUsuarioAPI(id_examen, Resuelto);
-
-                    localStorage.removeItem('id_examen');
-                    localStorage.removeItem('respuestas_usuario');
-                    localStorage.removeItem('conf_examen');
-                    localStorage.removeItem('h_inicio');
-                    setIsOpenSuccess(true);
-                }
-                else {
-                    console.log("Ha ocurrido un error con la calificación, intentalo de nuevo")
-                }
-            }
-        }
-        else {
-            setIsOpenExceeded(true);
-            console.log("Se pasó del tiempo limite de entrega")
-        }
+        history.push('/student/ajustes-cuenta');
     }
 
     const handleChangePreguntaAbierta = (e) => {
@@ -300,18 +264,18 @@ export const Examen = () => {
             }
             return true;
         })
-
+        console.log(respuestaPreguntaUsuario);
         // Put the object into storage
-        localStorage.setItem('respuestas_usuario', JSON.stringify(respuestasUsuario));
+        localStorage.setItem('respuestas_usuario', JSON.stringify(respuestasUsuario)); // guarda en el localStorage las respuestas
     }
 
     const CheckValidationsRespuestas = () => {
         let bool_empty = false;
 
-        for (let i = 0; i < respuestasUsuario.length; i++) {
+        for (let i = 0; i < respuestasUsuario.length; i++) {    // Verifica si hay preguntas sin responser
             if (respuestasUsuario[i].respuesta === "") {
                 bool_empty = true;
-                setIsOpen(bool_empty);
+                setIsOpen(bool_empty);  // si hay sin responder entonces muestra el modal de advertencia
                 break;
             }
             else {
@@ -322,32 +286,31 @@ export const Examen = () => {
     }
 
     const validationTimeEndExam = () => {
-        let hora_finalizacion = configuracionExamen.finalizacion
+        let hora_finalizacion = configuracionExamen.finalizacion;
         let dateNow = new Date();
         let hora_actual = dateNow.getHours() + ':' + dateNow.getMinutes();
 
         let str_finalizacion = hora_finalizacion.split(':');
         let str_hora_actual = hora_actual.split(':');
 
+        /* console.log('fin: ', str_finalizacion)
+        console.log('hora actual: ', str_hora_actual) */
 
-        console.log('fin: ', str_finalizacion)
-        console.log('hora actual: ', str_hora_actual)
-
-        if (str_finalizacion[0] < str_hora_actual[0]) {  // horas
-            console.log("Oops, te pasaste de la hora límite de entrega");
+        if (str_finalizacion[0] < str_hora_actual[0]) {  // si la hora de finalizacion es menor entonces se pasó de la hora límite
+            /* console.log("Oops, te pasaste de la hora límite de entrega"); */
             return false;
         }
-        else if (str_finalizacion[0] === str_hora_actual[0]) {  // horas
-            if (str_finalizacion[1] > str_hora_actual[1]) { // minutos
-                console.log("Dentro del tiempo minutos")
+        else if (str_finalizacion[0] === str_hora_actual[0]) {  // Si las horas son iguales entonces compara los minutos
+            if (str_finalizacion[1] > str_hora_actual[1]) { //
+                /* console.log("Dentro del tiempo minutos") */
                 return true;
             } else if (str_finalizacion[1] === str_hora_actual[1]) {
-                console.log("Dentro del tiempo minutos")
+                /* console.log("Dentro del tiempo minutos") */
                 return true;
             }
         }
         else {
-            console.log("Dentro del tiempo")
+            /* console.log("Dentro del tiempo") */
             return true;
         }
     }
@@ -362,7 +325,7 @@ export const Examen = () => {
 
         preguntas.map(pregunta => {
             if (pregunta.id_pregunta === id_pregunta) {
-                console.log(pregunta.respuestas_cuerpo.opcion_multiple.length);
+                /* console.log(pregunta.respuestas_cuerpo.opcion_multiple.length); */
                 length_opciones = pregunta.respuestas_cuerpo.opcion_multiple.length
             }
             return true;
@@ -395,10 +358,10 @@ export const Examen = () => {
         // Put the object into storage
         /*         localStorage.setItem('respuestas_usuario', JSON.stringify(respuestasUsuario));
         
-                // Retrieve the object from storage
-                var retrievedObject = localStorage.getItem('respuestas_usuario');
+        // Retrieve the object from storage
+        var retrievedObject = localStorage.getItem('respuestas_usuario');
         
-                console.log('retrievedObject: ', JSON.parse(retrievedObject)); */
+        console.log('retrievedObject: ', JSON.parse(retrievedObject)); */
 
     }
 
@@ -411,7 +374,7 @@ export const Examen = () => {
                     respuestasUsuario[i].respuesta,
                     preguntas[i].respuesta_correcta
                 );
-                if (compare <= 0.9) {
+                if (compare <= 0.9) { // No tiene bonificacion si la calificacion está por encima de 0.9
                     compare = compare + 0.07
                     respuestasUsuario[i].nota = compare.toFixed(2)
                     nota = nota + compare;
@@ -434,18 +397,18 @@ export const Examen = () => {
                     console.log("Question " + (i + 1) + ": " + 0.0)
                 }
             }
-
-            /* if (respuestasUsuario[i].respuesta === preguntas[i].respuesta_correcta) {
-                calificacion = calificacion + 1.0;    
-            } */
         }
         nota = (nota / respuestasUsuario.length) * 5;
         return nota;
-        /* Example */
+
+        // ******************* Example compare strings ************************ //
+        // ********************************** ********************************* //
         /* let compare = stringSimilarity.compareTwoStrings(
             "Olive-green table for sale, in extremely good condition.",
             "For sale: table in very good  condition, olive green in colour."
-          ); */
+            ); */
+        // ********************************** ********************************* //
+        // ********************************** ********************************* //
 
     }
 
@@ -455,6 +418,39 @@ export const Examen = () => {
         if (letter === 2) return "C"
         if (letter === 3) return "D"
         if (letter === 4) return "E"
+    }
+
+    const onClickTerminarIntento = async () => {
+        let id_examen = localStorage.getItem('id_examen');
+        if (validationTimeEndExam() === true) { // Valida que el examen esté dentro del tiempo válido al terminar el intento
+            if (CheckValidationsRespuestas() === false) {   // Valida que las respuestas no estén vacías
+                if (await setCalificacionDB() === true) {   // si se registra exitosamente en la db
+                    /* console.log(respuestasUsuario);
+                    console.log(preguntas) */
+
+                    setResuelto(
+                        Object.assign(Resuelto, {
+                            contestado: true,
+                            fecha_contestado: new Date(),
+                        })
+                    )
+                    await UpdateExamenUsuarioAPI(id_examen, Resuelto);
+
+                    localStorage.removeItem('id_examen');
+                    localStorage.removeItem('respuestas_usuario');
+                    localStorage.removeItem('conf_examen');
+                    localStorage.removeItem('h_inicio');
+                    setIsOpenSuccess(true);
+                }
+                else {
+                    console.log("Ha ocurrido un error con la calificación, intentalo de nuevo");
+                }
+            }
+        }
+        else {
+            setIsOpenExceeded(true);
+            console.log("Se pasó del tiempo limite de entrega");
+        }
     }
 
     async function closeModalContinue() { // to to: acomodar igual a terminar intento, seria bueno unificar las dos funciones
@@ -472,9 +468,6 @@ export const Examen = () => {
                 )
                 await UpdateExamenUsuarioAPI(id_examen, Resuelto);
 
-                console.log(respuestasUsuario);
-                console.log(preguntas)
-                getCalificacion();
                 localStorage.removeItem('id_examen');
                 localStorage.removeItem('respuestas_usuario');
                 localStorage.removeItem('conf_examen');
@@ -502,7 +495,7 @@ export const Examen = () => {
         history.push('/student/calificaciones');
     }
 
-    function closeModalCalificacionesExceeded (){
+    function closeModalCalificacionesExceeded() {
 
         history.push('/student/calificaciones');
         localStorage.removeItem('id_examen');
@@ -557,10 +550,10 @@ export const Examen = () => {
         return response_ok;
     }
 
-/*     const handleClickTest = async () => {
-        console.log(await (await getCalificacion()).toFixed(2));
-    }
- */
+    /*     const handleClickTest = async () => {
+            console.log(await (await getCalificacion()).toFixed(2));
+        }
+     */
     return (
         <div ref={darkModeRef} className="font-manrope">
 
@@ -692,7 +685,7 @@ export const Examen = () => {
                                 <Disclosure defaultOpen={true} >
                                     {({ open }) => (
                                         <div id='texto'>
-                                            <Disclosure.Button className={`${open ? "rounded-t-xl" : "rounded-xl" } flex justify-between w-full px-4 py-2 text-base font-medium text-left 
+                                            <Disclosure.Button className={`${open ? "rounded-t-xl" : "rounded-xl"} flex justify-between w-full px-4 py-2 text-base font-medium text-left 
                                             text-yellow-900 bg-yellowlight bg-opacity-50 dark:bg-opacity-100 focus:outline-none 
                                             focus-visible:ring focus-visible:ring-yellow-500 focus-visible:ring-opacity-75`}>
                                                 <span>Text to answer the questions</span>
@@ -964,7 +957,7 @@ export const Examen = () => {
                                                 <button
                                                     type="button"
                                                     className="transition duration-500 sm:w-auto w-28 inline-flex justify-center px-12 py-2 text-sm font-medium text-yellow-900 bg-white border border-yellowmain 
-                                                    rounded-md hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                                                    rounded-md hover:bg-yellowlight focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                                                     onClick={closeModalHome}
                                                 >
                                                     Después
@@ -975,7 +968,8 @@ export const Examen = () => {
                                                     rounded-md hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                                                     onClick={closeModalCalificaciones}
                                                 >
-                                                    Ir ahora
+                                                    <p className="hidden sm:block">Ir ahora</p>
+                                                    <p className="sm:hidden block">Ir</p>
                                                 </button>
                                             </div>
                                         </div>

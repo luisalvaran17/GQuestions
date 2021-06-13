@@ -127,7 +127,7 @@ export const CambiarContrasena = () => {
     };
 
     return (
-        <div className="sm:p-6 p-2 bg-white rounded-lg shadow-md dark:bg-darkColor border dark:border-gray-500">
+        <div className="sm:p-6 p-2 bg-white rounded-xl shadow-md dark:bg-darkColor border dark:border-gray-700">
 
             <div className="sm:ml-6 ml-2 pt-1">
                 <div className="grid grid-cols-12">

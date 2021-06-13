@@ -82,14 +82,13 @@ export const RevisionGeneracion = (props) => {
       darkModeRef.current.classList.remove('dark')
     }
     setIsLoading(false);
-    /* 
-        window.onbeforeunload = function() {
-          return "El progreso actual de la generación se perderá si recargas la página. ¿Deseas continuar?";
-        };
-     */
-    // componentwillunmount
+    // Alert Reload page
+    window.onbeforeunload = function () {
+      return true;
+    };
     return () => {
-    }
+      window.onbeforeunload = null;
+    };
   }, [props.textosFromGenerate.length]);
 
   // Llamada a la Api para insertar los datos en la base de datos
@@ -143,7 +142,7 @@ export const RevisionGeneracion = (props) => {
         UUID_PREGUNTA = splitUUID[0] //+ "-" + splitUUID[1]; // Acorta el  UUID GENERADO POR LA FUNCION uuidv4()  
 
         preguntaDB = Textos[i].preguntas[j]   // Obtiene el elemento pregunta (individual)
-        
+
         // Preparacion de data para insertar en la DB los campos requeridos
         setPreguntaObjeto(Object.assign(preguntaObjeto, {
           id_pregunta: UUID_PREGUNTA,
@@ -357,12 +356,12 @@ export const RevisionGeneracion = (props) => {
                       autoHideTimeout={900}
                       autoHideDuration={400}
                       style={{ height: "45vh" }}
-                      className="m-0 overflow-auto bg-white border shadow-md border-gray-300 md:rounded-lg 
-                    rounded-r-none rounded-lg w-full xl:mr-16 lg:mr-8 md:mr-8 mr-0 md:text-base text-sm">
+                      className="m-0 overflow-auto bg-white border shadow-md border-gray-300 md:rounded-xl 
+                    rounded-r-none rounded-xl w-full xl:mr-16 lg:mr-4 md:mr-4 mr-0 md:text-base text-sm">
                       <ul className="divide-y divide-gray-300">
                         <li className="p-4 font-bold text-gray-500">
                           <p className="hidden sm:block">PAQUETES DE GENERACIONES</p>
-                          <p className="sm:hidden block">T</p>
+                          <p className="sm:hidden block">G</p>
                         </li>
 
                         {
@@ -393,7 +392,7 @@ export const RevisionGeneracion = (props) => {
                 </div>
 
                 <div className="grid col-span-10 sm:col-span-9">
-                  <div className="box border md:rounded-lg rounded-l-none rounded-lg flex flex-col shadow bg-white">
+                  <div className="box border md:rounded-xl rounded-l-none rounded-xl flex flex-col shadow bg-white">
                     <div className="grid grid-cols-12 items-center border-b">
                       <div className="sm:block col-span-6 font-bold text-base text-black">
                         <button
@@ -440,12 +439,23 @@ export const RevisionGeneracion = (props) => {
                         className="hidden h-full w-full resize-none focus:border-gray-400 p-2 m-1 bg-transparent text-gray-600 text-sm md:text-base outline-none focus:outline-none"
                       >
                         {
-                          preguntas.map(pregunta => (
+                          preguntas.map((pregunta, contador = 1) => (
                             <div
                               className=""
                               key={pregunta.id_pregunta}>
-                              <p>{pregunta.pregunta_cuerpo}</p>
-                              <p>{pregunta.respuesta_correcta}</p>
+                              <p><b>{contador = contador + 1}. Question:</b> {pregunta.pregunta_cuerpo}</p>
+                              {pregunta.respuestas_cuerpo.opcion_multiple === 'null' &&
+                                <p><b>Answer:</b> {pregunta.respuesta_correcta}</p>
+                              }{pregunta.respuestas_cuerpo.opcion_multiple !== 'null' &&
+                                <div>
+                                  <span><b>Options: </b>
+                                  {pregunta.respuestas_cuerpo.opcion_multiple.split(',').map(option => (
+                                    <span className={disabledTextArea ? "bg-gray-300 border rounded-lg px-1 mx-1": "bg-gray-100 border rounded-lg px-1 mx-1"}>{option}</span>
+                                    ))}
+                                  </span>
+                                  <p><b>Answer:</b> {pregunta.respuesta_correcta}</p>
+                                </div>
+                              }
                               <br></br>
                             </div>
                           ))

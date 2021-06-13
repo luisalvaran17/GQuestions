@@ -450,6 +450,7 @@ export const Register = () => {
                             id="rol"
                             className="input-style"
                             name="rol"
+                            defaultValue="Docente"
                             placeholder="Ingresa tu nombre"
                             onChange={handleChange}
                           >

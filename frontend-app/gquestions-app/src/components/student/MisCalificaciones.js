@@ -23,6 +23,7 @@ export const MisCalificaciones = () => {
     const [darkModeBool, setDarkModeBool] = useState(localStorage.getItem('bool-dark'));
 
     const [ExamenesUsuario, setExamenesUsuario] = useState([])
+    const [calificacionesEmpty, setCalificacionesEmpty] = useState(false)
 
     const [isLoading, setIsLoading] = useState(true);
 
@@ -46,24 +47,29 @@ export const MisCalificaciones = () => {
 
         let account = localStorage.getItem('id_user');
         let examenes = await GetExamenesEstudianteAPI(account);
-        for (let i = 0; i < examenes.length; i++) {
 
-            const response_configuracion_examen = await GetConfiguracionExamenAPI(examenes[i].examen_configuracion);
-            const response_calificacion = await GetCalificacionExamenAPI(examenes[i].id_examen);
-            if (response_calificacion.length !== 0) {
-                let examen_usuario = {
-                    id_examen: examenes[i].id_examen,
-                    title_exam: response_configuracion_examen[0].title_exam,
-                    contestado: examenes[i].fecha_contestado,
-                    n_intentos: response_configuracion_examen[0].n_intentos,
-                    duracion: response_configuracion_examen[0].duracion,
-                    calificacion: response_calificacion[0].nota,
+        if (examenes.length === 0) {
+            setCalificacionesEmpty(true);
+        }
+        else {
+            for (let i = 0; i < examenes.length; i++) {
+
+                const response_configuracion_examen = await GetConfiguracionExamenAPI(examenes[i].examen_configuracion);
+                const response_calificacion = await GetCalificacionExamenAPI(examenes[i].id_examen);
+                if (response_calificacion.length !== 0) {
+                    let examen_usuario = {
+                        id_examen: examenes[i].id_examen,
+                        title_exam: response_configuracion_examen[0].title_exam,
+                        contestado: examenes[i].fecha_contestado,
+                        n_intentos: response_configuracion_examen[0].n_intentos,
+                        duracion: response_configuracion_examen[0].duracion,
+                        calificacion: response_calificacion[0].nota,
+                    }
+
+                    setExamenesUsuario(response_configuracion_examen => [...response_configuracion_examen, examen_usuario]);
                 }
-
-                setExamenesUsuario(response_configuracion_examen => [...response_configuracion_examen, examen_usuario]);
             }
         }
-
         setIsLoading(false);
         return examenes;
     }
@@ -125,16 +131,13 @@ export const MisCalificaciones = () => {
 
                         <CustomScrollbars
                             /* className={generacionesEmpty ? 'hidden' : 'container'} */
-                            className="bg-white bg-opacity-50 dark:bg-darkColor dark:bg-opacity-100 border dark:border-gray-800 rounded-b-xl shadow-b"
+                            className={calificacionesEmpty ? 'hidden' : 'bg-white bg-opacity-50 dark:bg-darkColor dark:bg-opacity-100 border dark:border-gray-800 rounded-b-xl shadow-b'}
                             autoHide
                             autoHideTimeout={900}
                             autoHideDuration={400}
                             style={{ height: '60vh' }}>
 
-
                             {!isLoading &&
-
-                                
                                 <ul>
                                     {
                                         ExamenesUsuario.map((examen, contador = 1) => (
@@ -182,6 +185,9 @@ export const MisCalificaciones = () => {
                                     <LoadingPage />
                                 </div>}
                         </CustomScrollbars>
+                        <div className={calificacionesEmpty ? 'py-40 px-6 select-none bg-white bg-opacity-50 dark:bg-darkColor dark:bg-opacity-100 border dark:border-gray-800 rounded-b-xl shadow-b' : 'hidden'}>
+                            <p className="dark:text-gray-200 text-gray-800 text-center">Todavía no tienes calificaciones</p>
+                          </div>
                     </div>
                 </div>
             </div>

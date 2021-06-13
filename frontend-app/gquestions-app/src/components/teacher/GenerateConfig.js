@@ -157,7 +157,7 @@ export const GenerateConfig = () => {
     }
   }
 
-  const handleClickTest = async() => {
+/*   const handleClickTest = async() => {
     const response = await fetch(url)
       .then((res) => res.json())
       .then((json) => {
@@ -169,7 +169,7 @@ export const GenerateConfig = () => {
       })
     
     console.log(response.data);
-  }
+  } */
 
   // Handles inputs
   const handleChangeConfiguracion = (e) => {
@@ -609,13 +609,13 @@ export const GenerateConfig = () => {
                   </span>
                 Generando ...
               </button>}
-              <button
+              {/* <button
                   type="submit"
                   className="btn-secondary mt-2"
                   onClick={handleClickTest}
                 >
                   Test
-              </button>
+              </button> */}
             </div>
 
             {/* StepProgress */}

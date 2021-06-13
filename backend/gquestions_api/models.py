@@ -118,6 +118,6 @@ class CalificacionModel(models.Model):
 class RespuestaPreguntaExamenModel(models.Model):
     examen = models.ForeignKey(ExamenModel, on_delete=models.CASCADE)
     generacion_pregunta = models.ForeignKey(GeneracionPreguntaModel, on_delete=models.CASCADE)
-    respuesta_usuario = models.CharField(max_length=1000, null=True, default='')
+    respuesta_usuario = models.CharField(max_length=1000, default='', blank=True)
     calificacion_pregunta = models.DecimalField(decimal_places=3, max_digits=10, default=0.0)
 
