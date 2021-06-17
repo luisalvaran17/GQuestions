@@ -8,7 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 from .serializers import GeneracionSerializer, TipoPreguntaSerializer, GeneracionTextoSerializer, GeneracionPreguntaSerializer, GeneracionCreateSerializer
 from .serializers import CalificacionSerializer, RespuestaCuerpoSerializer, GeneracionTextoCreateSerializer, ExamenConfiguracionSerializer
 from .serializers import GeneracionPreguntaCreateSerializer, GeneracionSimplificadoSerializer, ExamenSerializer, ExamenUpdateSerializer
-from .serializers import RespuestaPreguntaExamenSerializer, ExamenConfiguracionSimplificadoSerializer
+from .serializers import RespuestaPreguntaExamenSerializer, ExamenConfiguracionSimplificadoSerializer, CalificacionUpdateSerializer
 
 from .models import GeneracionModel
 from .models import TipoPreguntaModel
@@ -265,7 +265,18 @@ def GetCalificacionesUsuarioView(request, id_examen):
     return JsonResponse(serializer.data, safe=False, status=status.HTTP_200_OK)
 
 
+# Update Calificación
+@api_view(["PUT"])
+@permission_classes([IsAuthenticated])
+def UpdateCalificacionView(request, id_calificacion):
 
+    calificacion = CalificacionModel.objects.get(id_calificacion=id_calificacion)
+    serializer = CalificacionUpdateSerializer(calificacion, data=request.data)
+
+    if serializer.is_valid():   
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
  
 

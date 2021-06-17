@@ -54,14 +54,6 @@ export const VisualizacionGeneracion = () => {
         return generacion;
     }
 
-    /* const handleClickPrueba = () => {
-        textosPreguntas.map(item => {
-            item.preguntas.map(pregunta => {
-                console.log(pregunta.id_pregunta)    
-            })
-        })
-    } */
-
     const onClickExamen = e => {
         let id_texto = e.target.id;
         let contador = 0;

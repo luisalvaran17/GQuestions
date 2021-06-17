@@ -4,7 +4,7 @@ from .views import GeneracionPreguntaListView, ExamenConfiguracionListView, GetG
 from .views import GetAllCountsGeneracionesView, ExamenesListView, ExamenCreateView, GetExamenAssignedView, UpdateExamenView
 from .views import GetExamenView, RespuestaPreguntaExamenCreateView, CalificacionCreateView, GetCalificacionesUsuarioView
 from .views import GetExamenesUsuarioView, GetExamenConfiguracionView, GetRespuestasPreguntaExamenView, GetRespuestaPreguntaExamenView
-from .views import GetExamenesFromConfiguracionView
+from .views import GetExamenesFromConfiguracionView, UpdateCalificacionView
 
 from django.urls import include, path
 
@@ -50,6 +50,8 @@ urlpatterns = [ # todo: acomodar las rutas (ej. create or list or delete etc)
 
     path('api/calificacion/respuestas-usuario/get/<slug:id_examen>', GetRespuestasPreguntaExamenView),
     path('api/generacion/respuesta-pregunta/get/<slug:id_pregunta>', GetRespuestaPreguntaExamenView),
+
+    path('api/generacion/update/calificacion/<slug:id_calificacion>', UpdateCalificacionView),
 
     ## Queries con llaves
     #path('api/generacion/get/generacion-usuario/<int:account>', get_generaciones_usuario),

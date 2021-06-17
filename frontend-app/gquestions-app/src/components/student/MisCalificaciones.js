@@ -74,16 +74,11 @@ export const MisCalificaciones = () => {
         return examenes;
     }
 
-
     function FormatDateFunction(date) {
         var dateFormat = require('dateformat');
         var now = date;
         var date_custom = dateFormat(now);
         return date_custom;
-    }
-
-    const handleTestClick = () => {
-        console.log(ExamenesUsuario)
     }
 
     const handleClickExamen = e => {
@@ -126,7 +121,7 @@ export const MisCalificaciones = () => {
                         </p>
 
                         <div className="bg-yellowlight rounded-t-xl border-t">
-                            <div className="pl-4 bg-yellowlight rounded-t-xl py-2 text-yellow-900 font-semibold " onClick={handleTestClick}>Todos los exámenes</div>
+                            <div className="pl-4 bg-yellowlight rounded-t-xl py-2 text-yellow-900 font-semibold">Todos los exámenes</div>
                         </div>
 
                         <CustomScrollbars

@@ -90,6 +90,12 @@ class CalificacionSerializer(serializers.ModelSerializer):
         model = CalificacionModel
         fields = '__all__'
 
+class CalificacionUpdateSerializer(serializers.ModelSerializer):
+    examen = serializers.CharField(required=False)
+    class Meta:
+        model = CalificacionModel
+        fields = '__all__'
+
 class RespuestaPreguntaExamenSerializer(serializers.ModelSerializer):
     class Meta:
         model = RespuestaPreguntaExamenModel

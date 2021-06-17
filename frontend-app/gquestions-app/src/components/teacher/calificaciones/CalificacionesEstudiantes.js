@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, Fragment } from 'react';
 import Navbar from '../Navbar';
 import '../../../assets/styles/tailwind.css';
 import Scrollbars from "react-custom-scrollbars";
@@ -11,6 +11,8 @@ import { GetExamenesFromConfiguracionAPI } from '../../../api/Examen/GetExamenes
 import { GetCalificacionExamenAPI } from '../../../api/Calificacion/GetCalificacionExamenAPI';
 import { GetUserAPI } from '../../../api/Usuario/GetUserAPI';
 import { useHistory, useLocation } from 'react-router';
+import { Dialog, Transition } from '@headlessui/react';
+import { UpdateCalificacionAPI } from '../../../api/Calificacion/UpdateCalificacionAPI';
 
 export const CalificacionesEstudiantes = () => {
 
@@ -23,6 +25,20 @@ export const CalificacionesEstudiantes = () => {
 
     const location = useLocation();
     const history = useHistory();
+
+    // Hooks Link de acceso a exámenes
+    const [isOpen, setIsOpen] = useState(false);
+
+    // Hook update calificacion
+    const [calificacionObject, setCalificacionObject] = useState({
+        nota: '',
+        retroalim: 'sin descripción',
+    })
+
+    const [calificacion_id, setCalificacion_id] = useState('')
+
+    const divRefSuccessMessage = useRef();
+    const divRefErrorMessage = useRef();
 
     useEffect(() => {
         if (localStorage.theme === 'dark') {
@@ -50,19 +66,19 @@ export const CalificacionesEstudiantes = () => {
                 let correo_estudiante = '-';
                 let nota = '-';
                 let fecha_contestado = '-';
+                let id_calificacion = '';
 
                 if (examen.assigned_to !== null) {
                     let user = await GetUserAPI(examen.assigned_to);
                     nombre_estudiante = user.first_name + " " + user.last_name;
                     nombre_estudiante = capitalizeTheFirstLetterOfEachWord(nombre_estudiante);
                     correo_estudiante = user.email;
-                } else {
                 }
-
                 if (examen.contestado === true) {
-                    let examen_response = await GetCalificacionExamenAPI(examen.id_examen);
-                    if (examen_response.length !== 0) {    // to do: revisar
-                        nota = examen_response[0].nota;
+                    let calificacion_response = await GetCalificacionExamenAPI(examen.id_examen);
+                    if (calificacion_response.length !== 0) {    // to do: revisar
+                        nota = calificacion_response[0].nota;
+                        id_calificacion = calificacion_response[0].id_calificacion;
                     }
                 }
 
@@ -82,6 +98,7 @@ export const CalificacionesEstudiantes = () => {
                         nombre: nombre_estudiante,
                         correo: correo_estudiante,
                     },
+                    id_calificacion: id_calificacion,
                     nota: nota,
                 }
                 setCalificaciones(response_examen => [...response_examen, examen_usuario]);
@@ -90,10 +107,10 @@ export const CalificacionesEstudiantes = () => {
         }
     }
 
-    const handleClickTest = () => {
+    /* const handleClickTest = () => {
         console.log(examenes)
     }
-
+ */
     function capitalizeTheFirstLetterOfEachWord(words) {
         var separateWord = words.toLowerCase().split(' ');
         for (var i = 0; i < separateWord.length; i++) {
@@ -112,9 +129,60 @@ export const CalificacionesEstudiantes = () => {
 
     const handleClickExamen = e => {
         let id_examen = e.target.id;
-        console.log(id_examen);
         history.push('/user/revision-examen/' + id_examen);
     }
+
+    /* Update calificacion */
+    const updateCalificacion = async () => {
+
+        if (calificacionObject.nota !== '') {
+            const response = await UpdateCalificacionAPI(calificacion_id, calificacionObject);
+            if (response === true) {
+                removeClassdivRefSuccessMessage();
+            } else {
+                console.log("Ocurrió un error en la actualización"); // to do: Agregar mensaje de error en la actualización
+            }
+        } else {
+            removeClassdivRefErrorMessage();
+        }
+    }
+
+    const onChangeCalificacion = e => {
+        let value = e.target.value;
+        let name = e.target.name;
+
+        setCalificacionObject(
+            Object.assign(calificacionObject, {
+                [name]: value,
+            })
+        )
+    }
+
+    function openModal(e) {
+        let id_calificacion = e.target.id;
+        setCalificacion_id(id_calificacion);
+        setIsOpen(true);
+    }
+
+    function closeModal() {
+        setIsOpen(false);
+    }
+
+    const addClassdivRefSuccessMessage = () => {
+        divRefSuccessMessage.current.classList.add("hidden");
+    };
+
+    const removeClassdivRefSuccessMessage = () => {
+        divRefSuccessMessage.current.classList.remove("hidden");
+    };
+
+    const addClassdivRefErrorMessage = () => {
+        divRefErrorMessage.current.classList.add("hidden");
+    };
+
+    const removeClassdivRefErrorMessage = () => {
+        divRefErrorMessage.current.classList.remove("hidden");
+    };
 
     return (
         <div
@@ -153,7 +221,7 @@ export const CalificacionesEstudiantes = () => {
 
 
                     <CustomScrollbars
-                        className='container bg-white bg-opacity-50 dark:bg-darkColor dark:bg-opacity-50 border dark:border-gray-800 rounded-xl shadow-b'
+                        className='container shadow bg-white bg-opacity-50 dark:bg-darkColor dark:bg-opacity-50 border dark:border-gray-800 rounded-xl shadow-b'
                         autoHide
                         autoHideTimeout={900}
                         autoHideDuration={400}
@@ -163,7 +231,7 @@ export const CalificacionesEstudiantes = () => {
                         {!isLoading &&
 
                             <table className="min-w-max w-full table-auto">
-                                <thead onClick={handleClickTest}>
+                                <thead>
                                     <tr className="text-gray-600 uppercase text-sm leading-normal border-b border-gray-200 dark:border-gray-800 dark:bg-darkGrayColor dark:text-white dark:bg-opacity-40">
                                         <th className="py-4 px-6 text-left">#</th>
                                         <th className="py-4 px-6 text-left">Fecha</th>
@@ -220,7 +288,9 @@ export const CalificacionesEstudiantes = () => {
                                                     <div className="flex item-center justify-center">
                                                         {examen.contestado === true &&
                                                             <div className="flex">
-                                                                <div className="w-5 mr-2 transform hover:text-yellow-500 hover:scale-110 cursor-pointer" id={examen.id_examen}
+                                                                <div
+                                                                    className="w-5 mr-2 transform hover:text-yellow-500 hover:scale-110 cursor-pointer"
+                                                                    id={examen.id_examen}
                                                                     onClick={handleClickExamen}>
                                                                     <svg
                                                                         className="pointer-events-none"
@@ -231,16 +301,29 @@ export const CalificacionesEstudiantes = () => {
                                                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                                                     </svg>
                                                                 </div>
-                                                                <div className="w-5 mr-2 transform hover:text-yellow-500 hover:scale-110 cursor-pointer">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                <div
+                                                                    className="w-5 mr-2 transform hover:text-yellow-500 hover:scale-110 cursor-pointer"
+                                                                    id={examen.id_calificacion}
+                                                                    onClick={openModal}>
+                                                                    <svg
+                                                                        className="pointer-events-none"
+                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                        fill="none" viewBox="0 0 24 24"
+                                                                        stroke="currentColor">
                                                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                                                                     </svg>
                                                                 </div>
                                                             </div>
                                                         }
                                                         {examen.contestado === null && examen.assigned_to !== null &&
-                                                            <div className="w-5 mr-2 transform hover:text-yellow-500 hover:scale-110 cursor-pointer">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <div
+                                                                className="w-5 mr-2 transform hover:text-yellow-500 hover:scale-110 pointer-events-none"
+                                                                >
+                                                                <svg
+                                                                    className="text-gray-600"
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    fill="none" viewBox="0 0 24 24"
+                                                                    stroke="currentColor">
                                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                                                                 </svg>
                                                             </div>
@@ -260,6 +343,173 @@ export const CalificacionesEstudiantes = () => {
                     </CustomScrollbars>
                 </div>
             </CustomScrollbars>
+
+            {/* Update calificación Modal */}
+            <Transition appear show={isOpen} as={Fragment}>
+                <Dialog
+                    as="div"
+                    className="fixed inset-0 z-10 overflow-y-auto font-manrope"
+                    onClose={closeModal}
+                >
+                    {/* Use the overlay to style a dim backdrop for your dialog */}
+                    <Dialog.Overlay className="fixed inset-0 bg-black opacity-60" />
+                    <div className="min-h-screen px-4 text-center">
+                        <Transition.Child
+                            as={Fragment}
+                            enter="ease-out duration-300"
+                            enterFrom="opacity-0"
+                            enterTo="opacity-100"
+                            leave="ease-in duration-200"
+                            leaveFrom="opacity-100"
+                            leaveTo="opacity-0"
+                        >
+                            <Dialog.Overlay className="fixed inset-0" />
+                        </Transition.Child>
+
+                        {/* This element is to trick the browser into centering the modal contents. */}
+                        <span
+                            className="inline-block h-screen align-middle"
+                            aria-hidden="true"
+                        >
+                            &#8203;
+                        </span>
+                        <Transition.Child
+                            as={Fragment}
+                            enter="ease-out duration-300"
+                            enterFrom="opacity-0 scale-95"
+                            enterTo="opacity-100 scale-100"
+                            leave="ease-in duration-200"
+                            leaveFrom="opacity-100 scale-100"
+                            leaveTo="opacity-0 scale-95"
+                        >
+                            <div className="inline-block w-full max-w-2xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                                <Dialog.Title
+                                    as="h3"
+                                    className="text-2xl font-bold leading-6 text-gray-900 select-none"
+                                >
+                                    Actualizar calificación estudiante
+                                </Dialog.Title>
+                                <div className="mt-2">
+
+                                </div>
+
+                                <div className="grid grid-rows gap-y-4 mt-6">
+                                    <ul className="list-none space-y-4 md:text-justify">
+                                        <li>
+                                            <p className="text-gray-500 text-sm md:text-base dark:text-gray-200">
+                                            </p>
+                                        </li>
+                                    </ul>
+
+                                    <div>
+                                        <label className="text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
+                                            Nota
+                                        </label>
+                                        <input
+                                            type="number"
+                                            step="0.1"
+                                            min="0"
+                                            max="5"
+                                            id="nota"
+                                            className="text-sm md:text-base transition duration-500 border rounded-lg 
+                                            focus:border-transparent focus:outline-none focus:ring-2 focus:ring-yellowlight w-full pl-4 
+                                            pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
+                                            name="nota"
+                                            placeholder="Calificación"
+                                            onChange={onChangeCalificacion}
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label className="text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
+                                            Retroalimentación (Opcional)
+                                        </label>
+                                        <textarea
+                                            type="text"
+                                            id="retroalim"
+                                            className="h-32 text-sm md:text-base transition duration-500 border rounded-lg 
+                                            focus:border-transparent focus:outline-none focus:ring-2 focus:ring-yellowlight w-full pl-4 
+                                            pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
+                                            name="retroalim"
+                                            placeholder="Agrega una descripción para retroalimentación"
+                                            onChange={onChangeCalificacion}
+                                        />
+                                    </div>
+                                </div>
+
+
+                                <div className="flex mt-4 justify-end space-x-4 select-none">
+                                    <button
+                                        type="button"
+                                        className="btn-secondary"
+                                        onClick={closeModal}>
+                                        Cancelar
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className="btn-primary"
+                                        onClick={updateCalificacion}>
+                                        Actualizar
+                                    </button>
+                                </div>
+
+                                {/* Success message */}
+                                <div
+                                    ref={divRefSuccessMessage}
+                                    className="hidden animate-pulse px-4 mt-2 relative py-1 pl-4 pr-10 leading-normal text-green-700 bg-green-100 rounded-lg"
+                                    role="alert"
+                                >
+                                    <p>Calificación actualizada con éxito</p>
+                                    <span
+                                        className="absolute inset-y-0 right-0 flex items-center mr-4"
+                                        onClick={addClassdivRefSuccessMessage}
+                                    >
+                                        <svg
+                                            className="w-4 h-4 fill-current"
+                                            role="button"
+                                            viewBox="0 0 20 20"
+                                        >
+                                            <path
+                                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                clipRule="evenodd"
+                                                fillRule="evenodd"
+                                            ></path>
+                                        </svg>
+                                    </span>
+                                </div>
+
+                                {/* Error messages */}
+                                <div
+                                    ref={divRefErrorMessage}
+                                    className="hidden animate-pulse px-4 mt-2 relative py-1 pl-4 pr-10 leading-normal text-red-700 bg-red-100 rounded-lg"
+                                    role="alert"
+                                >
+                                    <p>El campo nota está vacío</p>
+                                    <span
+                                        className="absolute inset-y-0 right-0 flex items-center mr-4"
+                                        onClick={addClassdivRefErrorMessage}
+                                    >
+                                        <svg
+                                            className="w-4 h-4 fill-current"
+                                            role="button"
+                                            viewBox="0 0 20 20"
+                                        >
+                                            <path
+                                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                clipRule="evenodd"
+                                                fillRule="evenodd"
+                                            ></path>
+                                        </svg>
+                                    </span>
+                                </div>
+
+                            </div>
+                        </Transition.Child>
+                    </div>
+                </Dialog>
+            </Transition>
+
+
             <DropdownUser />
         </div >
     );

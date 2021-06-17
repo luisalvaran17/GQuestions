@@ -75,7 +75,6 @@ export const RevisionExamen = () => {
         let id_examen = split_location[split_location.length - 1];
 
         const response_examen = await GetExamenAPI(id_examen);
-        console.log(response_examen)
         const respuestas_usuario = await GetRespuestasUsuarioExamenAPI(id_examen);
 
         if (response_examen.length === 0) {
@@ -246,7 +245,6 @@ export const RevisionExamen = () => {
     /* Text to speech text examen */
     const handleClickPlayStop = () => {
         if (speaking === true) {
-            console.log("pausado")
             setSpeaking(false);
             speechSynthesis.pause();
         } else if (speaking === false) {

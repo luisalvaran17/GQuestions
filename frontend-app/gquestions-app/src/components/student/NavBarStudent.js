@@ -5,8 +5,6 @@ import Logo from '../../assets/images/logo.png';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 
-
-
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }

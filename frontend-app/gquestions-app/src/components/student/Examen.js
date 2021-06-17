@@ -270,7 +270,7 @@ export const Examen = () => {
             }
             return true;
         })
-        console.log(respuestaPreguntaUsuario);
+        /* console.log(respuestaPreguntaUsuario); */
         // Put the object into storage
         localStorage.setItem('respuestas_usuario', JSON.stringify(respuestasUsuario)); // guarda en el localStorage las respuestas
     }
@@ -384,11 +384,11 @@ export const Examen = () => {
                     compare = compare + 0.07
                     respuestasUsuario[i].nota = compare.toFixed(2)
                     nota = nota + compare;
-                    console.log("Question " + (i + 1) + ": " + compare);    // asignación de nota de la pregunta en el objeto
+                    /* console.log("Question " + (i + 1) + ": " + compare);  */   // asignación de nota de la pregunta en el objeto
                 } else {
                     respuestasUsuario[i].nota = compare.toFixed(2)
                     nota = nota + compare;
-                    console.log("Question " + (i + 1) + ": " + compare);    // asignación de nota de la pregunta en el objeto
+                    /* console.log("Question " + (i + 1) + ": " + compare); */    // asignación de nota de la pregunta en el objeto
 
                 }
 
@@ -396,11 +396,11 @@ export const Examen = () => {
                 if (respuestasUsuario[i].respuesta === preguntas[i].respuesta_correcta) {
                     nota = nota + 1;
                     respuestasUsuario[i].nota = 1.0
-                    console.log("Question " + (i + 1) + ": " + 1.0)
+                    /* console.log("Question " + (i + 1) + ": " + 1.0) */
                 } else {
                     nota = nota + 0;
                     respuestasUsuario[i].nota = 0.0
-                    console.log("Question " + (i + 1) + ": " + 0.0)
+                    /* console.log("Question " + (i + 1) + ": " + 0.0) */
                 }
             }
         }
@@ -449,13 +449,13 @@ export const Examen = () => {
                     setIsOpenSuccess(true);
                 }
                 else {
-                    console.log("Ha ocurrido un error con la calificación, intentalo de nuevo");
+                    /* console.log("Ha ocurrido un error con la calificación, intentalo de nuevo"); */
                 }
             }
         }
         else {
             setIsOpenExceeded(true);
-            console.log("Se pasó del tiempo limite de entrega");
+           /*  console.log("Se pasó del tiempo limite de entrega"); */
         }
     }
 
@@ -463,8 +463,6 @@ export const Examen = () => {
         let id_examen = localStorage.getItem('id_examen');
         if (validationTimeEndExam() === true) {
             if (await setCalificacionDB() === true) { // si se registra exitosamente en la db
-                console.log(respuestasUsuario);
-                console.log(preguntas)
 
                 setResuelto(
                     Object.assign(Resuelto, {
@@ -483,11 +481,11 @@ export const Examen = () => {
                 history.push('/student/calificaciones')
             }
             else {
-                console.log("Ha ocurrido un error con la calificación, intentalo de nuevo")
+                /* console.log("Ha ocurrido un error con la calificación, intentalo de nuevo") */
             }
         } else {
             setIsOpenExceeded(true);
-            console.log("Se pasó del tiempo de entrega");
+            /* console.log("Se pasó del tiempo de entrega"); */
         }
     }
 
@@ -530,7 +528,6 @@ export const Examen = () => {
         const response_calificacion = await CreateCalificacionAPI(calificacion);
 
         respuestasUsuario.map(async (respuesta_usuario) => {
-            console.log(respuesta_usuario)
             setRespuestaPreguntaUsuario(
                 Object.assign(respuestaPreguntaUsuario, {
                     examen: id_examen,
@@ -547,10 +544,8 @@ export const Examen = () => {
         })
 
         if (response_calificacion === true && response_ok === true) {
-            console.log(response_ok)
             response_ok = true;
         } else {
-            console.log(response_ok)
             response_ok = false;
         }
         return response_ok;
@@ -564,7 +559,6 @@ export const Examen = () => {
     /* Text to speech text examen */
     const handleClickPlayStop = () => {
         if (speaking === true) {
-            console.log("pausado")
             setSpeaking(false);
             synth.pause();
         } else if (speaking === false) {

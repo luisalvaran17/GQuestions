@@ -157,20 +157,6 @@ export const GenerateConfig = () => {
     }
   }
 
-/*   const handleClickTest = async() => {
-    const response = await fetch(url)
-      .then((res) => res.json())
-      .then((json) => {
-        return json
-      })
-      .catch(err => {
-        console.log(err)
-        return false;
-      })
-    
-    console.log(response.data);
-  } */
-
   // Handles inputs
   const handleChangeConfiguracion = (e) => {
     const generacion_configuracion = generacionConfiguracion;
