@@ -9,6 +9,7 @@ import Scrollbars from "react-custom-scrollbars";
 import { LoadingPage } from '../../containers/LoadingPage';
 import { GetCalificacionExamenAPI } from '../../api/Calificacion/GetCalificacionExamenAPI';
 import { useHistory } from 'react-router';
+import { Footer } from '../../components/home/Footer';
 
 export const MisCalificaciones = () => {
 
@@ -99,15 +100,15 @@ export const MisCalificaciones = () => {
                 minWidth: "100%",
             }}>
             <Helmet>
-                <title>Inicio - GQuestions</title>
+                <title>Calificaciones - GQuestions</title>
                 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
                     rel="stylesheet"></link>
             </Helmet>
             <div className="h-screen">
-                <div className="">
+                <div className="sticky top-0">
                     <NavbarStudent navigation={navigation} />
-
                 </div>
+                
                 <div
                     style={{ height: "80vh" }}
                     className='container max-w-7xl mx-auto sm:pl-12 sm:pr-8 px-6 py-8 dark:text-white'>
@@ -130,7 +131,7 @@ export const MisCalificaciones = () => {
                             autoHide
                             autoHideTimeout={900}
                             autoHideDuration={400}
-                            style={{ height: '60vh' }}>
+                            style={{ height: '55vh' }}>
 
                             {!isLoading &&
                                 <ul>
@@ -182,9 +183,10 @@ export const MisCalificaciones = () => {
                         </CustomScrollbars>
                         <div className={calificacionesEmpty ? 'py-40 px-6 select-none bg-white bg-opacity-50 dark:bg-darkColor dark:bg-opacity-100 border dark:border-gray-800 rounded-b-xl shadow-b' : 'hidden'}>
                             <p className="dark:text-gray-200 text-gray-800 text-center">Todavía no tienes calificaciones</p>
-                          </div>
+                        </div>
                     </div>
                 </div>
+                <Footer />
             </div>
         </div>
     )

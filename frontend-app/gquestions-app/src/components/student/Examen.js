@@ -769,7 +769,7 @@ export const Examen = () => {
                                                 </div>
                                                 <span >
                                                     <svg
-                                                        className={`${open ? 'transform rotate-180' : 'animate-pulse'} w-5 h-5 text-yellow-500`}
+                                                        className={`${open ? 'transform rotate-180' : 'animate-pulse'} transition duration-500 w-5 h-5 text-yellow-500`}
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         viewBox="0 0 24 24"
                                                     >

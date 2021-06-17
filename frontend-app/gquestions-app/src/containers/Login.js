@@ -46,6 +46,7 @@ export const Login = () => {
           localStorage.setItem('email', credentials.username);
           const data_user = await GetDataUser(credentials.username);
           localStorage.setItem('id_user', data_user.id);
+          localStorage.setItem('name', data_user.first_name);
 
           // IDS unicos para roles
           /* Docente    ->  72eea687168b8c450afdeefa69c9d478b9ca90bfdcda1efb0029c9352ae4c70d

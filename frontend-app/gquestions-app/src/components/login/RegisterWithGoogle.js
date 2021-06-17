@@ -74,6 +74,7 @@ export const RegisterWithGoogle = (response) => {
         localStorage.setItem('email', credentials.username);
 
         const data_user = await GetDataUser(credentials.username);
+        localStorage.setItem('name', data_user.first_name);
         localStorage.setItem('id_user', data_user.id);
 
         // IDS unicos para roles

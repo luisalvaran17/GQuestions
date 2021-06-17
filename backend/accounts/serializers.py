@@ -26,7 +26,7 @@ class AccountEmailSerializar(serializers.ModelSerializer):
 class AccountUserSerializar(serializers.ModelSerializer):
     class Meta:
         model = Account
-        fields = ("id","rol")
+        fields = ("id","rol","first_name", "last_name")
 
 # Register Serializer
 class RegisterSerializer(serializers.ModelSerializer):

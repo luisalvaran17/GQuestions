@@ -7,6 +7,7 @@ import { CambiarContrasena } from "./CambiarContrasena";
 import { InformacionAdicional } from "./InformacionAdicional";
 import { InformacionPersonal } from "./InformacionPersonal";
 import { NavbarStudent } from "../NavBarStudent";
+import { Footer } from '../../../components/home/Footer';
 
 export const AjustesCuentaStudent = () => {
 
@@ -61,9 +62,7 @@ export const AjustesCuentaStudent = () => {
           minWidth: "100%",
         }}
       >
-
         <Helmet>
-          <title>Ajustes de cuenta - GQuestions</title>
           <script
             src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.js"
             defer
@@ -76,21 +75,23 @@ export const AjustesCuentaStudent = () => {
           <style>
             @import
             url('https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.min.css')
-              </style>
+            </style>
           <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
             rel="stylesheet"></link>
         </Helmet>
 
-        <NavbarStudent navigation={navigation} />
-        <div
-          className="container mx-auto xl:pl-32 px-4 sm:px-8 py-8 md:px-8 lg:pl-16 sm:mr-32 md:text-base text-sm">
+        <div className="sticky top-0">
+          <NavbarStudent navigation={navigation} />
+        </div>
 
-          <div className="grid grid-rows ">
+        <div
+          style={{ height: "80vh" }}
+          className="container mx-auto xl:pl-32 px-4 sm:px-8 py-8 md:px-8 lg:pl-16 sm:mr-32 md:text-base text-sm">
+          <div className="grid grid-rows">
 
             <h1 className="font-black xl:text-5xl md:text-4xl sm:text-2xl md:text-left mb-12 lg:mb-10 text-2xl dark:text-white">
               Ajustes de cuenta
-            </h1>
-
+          </h1>
 
             {/* Nav bar Tab */}
             <ul className="flex border-b flex-col sm:flex-row">
@@ -117,6 +118,7 @@ export const AjustesCuentaStudent = () => {
             </div>
           </div>
         </div>
+        <Footer />
       </div>
     );
   }
@@ -196,6 +198,7 @@ export const AjustesCuentaStudent = () => {
 
           </div>
         </div>
+        <Footer />
       </div>
     );
   }
@@ -279,6 +282,7 @@ export const AjustesCuentaStudent = () => {
 
           </div>
         </div>
+        <Footer />
       </div>
     );
   }

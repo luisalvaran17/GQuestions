@@ -6,6 +6,7 @@ import { Helmet } from 'react-helmet';
 import { RadioGroup } from '@headlessui/react';
 import { NavbarStudent } from './NavBarStudent';
 import AOS from "aos";
+import { Footer } from '../../components/home/Footer';
 
 const modes = [
   {
@@ -97,7 +98,9 @@ export const AjustesStudent = () => {
           minHeight: "",
           minWidth: "100%",
         }}>
-        <NavbarStudent navigation={navigation}/>
+        <div className="sticky top-0">
+          <NavbarStudent navigation={navigation} />
+        </div>
 
         <Helmet>
           <title>Ajustes - GQuestions</title>
@@ -106,8 +109,8 @@ export const AjustesStudent = () => {
         </Helmet>
 
 
-        <div className='container max-w-7xl mx-auto sm:pl-12 sm:pr-8 px-6 py-8 dark:text-white' 
-        style={{ height: "80vh"}}>
+        <div className='container max-w-7xl mx-auto sm:pl-12 sm:pr-8 px-6 py-8 dark:text-white'
+          style={{ height: "80vh" }}>
           <h1 className='font-black xl:text-5xl md:text-4xl text-2xl md:text-left mb-4'>
             Ajustes
           </h1>
@@ -174,6 +177,7 @@ export const AjustesStudent = () => {
             </div>
           </RadioGroup>
         </div>
+        <Footer />
       </div>
     </div>
   );

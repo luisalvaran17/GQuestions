@@ -375,7 +375,7 @@ export const RevisionExamen = () => {
                                                 </div>
                                                 <span >
                                                     <svg
-                                                        className={`${open ? 'transform rotate-180' : 'animate-pulse'} w-5 h-5 text-yellow-500`}
+                                                        className={`${open ? 'transform rotate-180' : 'animate-pulse'} w-5 h-5 transition duration-500 text-yellow-500`}
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         viewBox="0 0 24 24"
                                                     >
