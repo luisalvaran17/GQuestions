@@ -27,11 +27,9 @@ class GoogleLogin(SocialLoginView):
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def get_user(request, user):
-    user_id = request.user.id
-    users = Account.objects.filter(id=user_id)
-    serializer = AccountSerializer(users, many=True)
-    return JsonResponse({'users': serializer.data}, safe=False, status=status.HTTP_200_OK)
-
+    user = Account.objects.get(id=user)
+    serializer = AccountSerializer(user, many=False)
+    return JsonResponse(serializer.data, safe=False, status=status.HTTP_200_OK)
 
 @api_view(["GET"])
 def exist_user(request, email):

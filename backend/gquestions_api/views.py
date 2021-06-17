@@ -202,6 +202,15 @@ def GetExamenesUsuarioView(request, account):
 
     return JsonResponse(serializer.data, safe=False, status=status.HTTP_200_OK)
 
+# Get examenes from Examen Configuracion
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def GetExamenesFromConfiguracionView(request, id_examen_configuracion):
+    examen = ExamenModel.objects.filter(examen_configuracion=id_examen_configuracion)
+    serializer = ExamenSerializer(examen, many=True)
+
+    return JsonResponse(serializer.data, safe=False, status=status.HTTP_200_OK)
+
 # Update Examen
 @api_view(["PUT"])
 @permission_classes([IsAuthenticated])

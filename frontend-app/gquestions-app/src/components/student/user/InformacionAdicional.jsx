@@ -33,17 +33,14 @@ export const InformacionAdicional = () => {
 
     const getUser = async () => {
         const id_user = localStorage.getItem('id_user');
-        const users = await GetUserAPI(id_user);
-        const user = users.users;
+        const user = await GetUserAPI(id_user);
 
         if (user === undefined) {
             //nothing
-        }else{
-            user.map(item => {
-                setOrganizacionRender(item.organizacion);
-                setTipoCuenta(item.rol);
-                return true;
-            })
+        } else {
+            setOrganizacionRender(user.organizacion);
+            setTipoCuenta(user.rol);
+            return true;
         }
     }
 

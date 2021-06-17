@@ -17,7 +17,8 @@ import { ErrorNotServer } from './containers/ErrorNotServer';
 import { ExamenConfiguracion } from './components/teacher/ExamenConfiguracion';
 import { ExamenPublicado } from './components/teacher/ExamenPublicado';
 import { VisualizacionGeneracion } from './components/teacher/VisualizacionGeneracion';
-import { Calificaciones } from './components/teacher/Calificaciones';
+import { Calificaciones } from './components/teacher/calificaciones/Calificaciones';
+import { CalificacionesEstudiantes } from './components/teacher/calificaciones/CalificacionesEstudiantes';
 import { LoginExamen } from './components/student/LoginExamen';
 import { AjustesStudent } from './components/student/AjustesStudent';
 import { HomeStudent } from './components/student/HomeStudent';
@@ -47,6 +48,7 @@ export const App = () => {
         <PrivateRouteDocente exact path='/teacher/visualizar-generacion' component={VisualizacionGeneracion} />
         <PrivateRouteDocente exact path='/teacher/calificaciones' component={Calificaciones} />
         <PrivateRouteDocente exact path='/teacher/ajustes-cuenta' component={AjustesCuentaTeacher} />
+        <PrivateRouteDocente exact path='/teacher/calificaciones/:id' component={CalificacionesEstudiantes} />
         
         {/* Rutas Estudiante */}
         <PrivateRouteEstudiante exact path='/student/home' component={HomeStudent} />

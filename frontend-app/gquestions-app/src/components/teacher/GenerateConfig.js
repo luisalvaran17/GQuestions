@@ -118,7 +118,7 @@ export const GenerateConfig = () => {
     if (user_response === false) {
       // nothing
     } else {
-      const terminos_condiciones = user_response.users[0].terminos_condiciones
+      const terminos_condiciones = user_response.terminos_condiciones
       setIsOpen(!terminos_condiciones)
     }
   }

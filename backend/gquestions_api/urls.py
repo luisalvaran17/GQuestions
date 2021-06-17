@@ -4,6 +4,7 @@ from .views import GeneracionPreguntaListView, ExamenConfiguracionListView, GetG
 from .views import GetAllCountsGeneracionesView, ExamenesListView, ExamenCreateView, GetExamenAssignedView, UpdateExamenView
 from .views import GetExamenView, RespuestaPreguntaExamenCreateView, CalificacionCreateView, GetCalificacionesUsuarioView
 from .views import GetExamenesUsuarioView, GetExamenConfiguracionView, GetRespuestasPreguntaExamenView, GetRespuestaPreguntaExamenView
+from .views import GetExamenesFromConfiguracionView
 
 from django.urls import include, path
 
@@ -38,6 +39,7 @@ urlpatterns = [ # todo: acomodar las rutas (ej. create or list or delete etc)
     path('api/generacion/get/examen/<slug:id_examen>', GetExamenView),
     path('api/generacion/get/examen/assigned/<slug:id_examen>', GetExamenAssignedView),
     path('api/generacion/get/examenes-usuario/<slug:account>', GetExamenesUsuarioView),
+    path('api/generacion/get/examenes-from-configuracion/<slug:id_examen_configuracion>', GetExamenesFromConfiguracionView),
 
     path('api/generacion/update/examen/<slug:id_examen>', UpdateExamenView),
 

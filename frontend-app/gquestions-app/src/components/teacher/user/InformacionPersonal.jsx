@@ -27,30 +27,26 @@ export const InformacionPersonal = () => {
     useEffect(() => {
         getUser();// eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-    
+
     const getUser = async () => {
         const id_user = localStorage.getItem('id_user');
-        const users = await GetUserAPI(id_user);
-        const user = users.users;
-        
+        const user = await GetUserAPI(id_user);
+
         if (user === undefined) {
             //nothing
-        }else{
-            user.map(item => {
-                setFirstName(item.first_name);
-                setLastName(item.last_name);
-                setFechaNac(item.fecha_nac);
-                setEmail(item.email);
-    
-                setInformacionPerfil(
-                    Object.assign(informacionPerfil, {
-                        first_name: item.first_name,
-                        last_name: item.last_name,
-                        fecha_nac: item.fecha_nac,
-                    })
-                )
-                return true;
-            })
+        } else {
+            setFirstName(user.first_name);
+            setLastName(user.last_name);
+            setFechaNac(user.fecha_nac);
+            setEmail(user.email);
+
+            setInformacionPerfil(
+                Object.assign(informacionPerfil, {
+                    first_name: user.first_name,
+                    last_name: user.last_name,
+                    fecha_nac: user.fecha_nac,
+                })
+            )
         }
     }
 
@@ -95,7 +91,7 @@ export const InformacionPersonal = () => {
             informacionPerfil.fecha_nac === ""
         ) {
             removeClassdivRefErrorMessage();
-            p_empty = React.createElement('p', {key: 'empty'}, 'Hay campos vacíos');
+            p_empty = React.createElement('p', { key: 'empty' }, 'Hay campos vacíos');
             const X = React.createElement('div', {}, [p_empty]);
             ReactDOM.render(X, document.getElementById('error_messages'));
             return false;

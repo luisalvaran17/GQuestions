@@ -77,6 +77,7 @@ class ExamenConfiguracionSerializer(serializers.ModelSerializer):
 
 class ExamenConfiguracionSimplificadoSerializer(serializers.ModelSerializer):
     generacion = serializers.PrimaryKeyRelatedField(many=False, queryset=GeneracionModel.objects.all())
+    assigned_to = AccountSerializerForNested(read_only=True, many=True)
     class Meta:
         model = ExamenConfiguracionModel
         fields = "__all__"

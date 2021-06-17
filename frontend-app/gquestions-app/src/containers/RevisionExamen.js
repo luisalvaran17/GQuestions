@@ -11,6 +11,8 @@ import Scrollbars from "react-custom-scrollbars";
 import { DropdownUser } from '../components/teacher/user/DropdownUser';
 import { GetRespuestasUsuarioExamenAPI } from '../api/Calificacion/GetRespuestasUsuarioExamenAPI';
 import { GetCalificacionExamenAPI } from '../api/Calificacion/GetCalificacionExamenAPI';
+import { GetUserAPI } from '../api/Usuario/GetUserAPI';
+/* import { useSpeechSynthesis } from 'react-speech-kit'; */ // todo: uninstall
 
 export const RevisionExamen = () => {
 
@@ -35,6 +37,15 @@ export const RevisionExamen = () => {
     // Hooks rol
     const [rol, setRol] = useState('');
     const [rolBool, setRolBool] = useState();
+
+    const [estudiante, setEstudiante] = useState({
+        nombre: "",
+        correo: "",
+    })
+
+    /* Hooks for text to speech text exam */
+    const [speaking, setSpeaking] = useState(false);
+    const [speakingFirst, setSpeakingFirst] = useState(true);
 
     // Hook calificacion
     const [califacionExamen, setCalifacionExamen] = useState('');
@@ -63,9 +74,8 @@ export const RevisionExamen = () => {
         let split_location = location.pathname.split("/");
         let id_examen = split_location[split_location.length - 1];
 
-        console.log(id_examen);
-
         const response_examen = await GetExamenAPI(id_examen);
+        console.log(response_examen)
         const respuestas_usuario = await GetRespuestasUsuarioExamenAPI(id_examen);
 
         if (response_examen.length === 0) {
@@ -76,6 +86,7 @@ export const RevisionExamen = () => {
             const response_texto = await GetTextoAPI(id_texto);
             AddTipoPregunta(response_texto[0].preguntas, respuestas_usuario);
             setTextoExamen(response_texto[0].cuerpo_texto);
+            getEstudiante(response_examen[0].assigned_to);
             getCalificacionesExamen();
 
             setIsLoading(false);
@@ -91,6 +102,31 @@ export const RevisionExamen = () => {
         const response_calificacion = await GetCalificacionExamenAPI(id_examen);
 
         setCalifacionExamen(response_calificacion[0].nota);
+    }
+
+    const getEstudiante = async (id_user) => {
+        let user = await GetUserAPI(id_user);
+
+        let name_user = user.first_name + " " + user.last_name;
+        name_user = capitalizeTheFirstLetterOfEachWord(name_user);
+
+        let email = user.email;
+
+        setEstudiante(
+            Object.assign(estudiante, {
+                nombre: name_user,
+                correo: email,
+            })
+        );
+    }
+
+    function capitalizeTheFirstLetterOfEachWord(words) {
+        var separateWord = words.toLowerCase().split(' ');
+        for (var i = 0; i < separateWord.length; i++) {
+            separateWord[i] = separateWord[i].charAt(0).toUpperCase() +
+                separateWord[i].substring(1);
+        }
+        return separateWord.join(' ');
     }
 
     const identifyRole = () => {
@@ -207,9 +243,82 @@ export const RevisionExamen = () => {
         if (letter === 4) return "E"
     }
 
-    /*     const handleClickTest = () => {
-            console.log(preguntas)
-        } */
+    /* Text to speech text examen */
+    const handleClickPlayStop = () => {
+        if (speaking === true) {
+            console.log("pausado")
+            setSpeaking(false);
+            speechSynthesis.pause();
+        } else if (speaking === false) {
+            setSpeaking(true);
+            speechSynthesis.resume();
+        }
+    }
+
+    const handleClickPlayInit = () => {
+        let msg = new SpeechSynthesisUtterance();
+
+        msg.volume = 1;
+        msg.rate = 0.9;
+        msg.pitch = 0.8;
+        msg.text = textoExamen;
+        msg.lang = 'en-US';
+        setSpeakingFirst(false);
+        setSpeaking(true);
+
+        speechUtteranceChunker(msg, {
+            chunkLength: 120
+        }, function () {
+            console.log('done');
+        });
+    }
+
+    /* función que toma chunks del texto y lo va reproduciendo para que no se pause automáticamente en textos largos */
+    var speechUtteranceChunker = function (utt, settings, callback) {
+        settings = settings || {};
+        var newUtt;
+        var txt = (settings && settings.offset !== undefined ? utt.text.substring(settings.offset) : utt.text);
+
+        var chunkLength = (settings && settings.chunkLength) || 160;
+        var pattRegex = new RegExp('^[\\s\\S]{' + Math.floor(chunkLength / 2) + ',' + chunkLength + '}[.!?,]{1}|^[\\s\\S]{1,' + chunkLength + '}$|^[\\s\\S]{1,' + chunkLength + '} ');
+        var chunkArr = txt.match(pattRegex);
+
+        if (chunkArr[0] === undefined || chunkArr[0].length <= 2) {
+            //call once all text has been spoken...
+            if (callback !== undefined) {
+                callback();
+            }
+            return;
+        }
+        var chunk = chunkArr[0];
+        newUtt = new SpeechSynthesisUtterance(chunk);
+        var x;
+        for (x in utt) {
+            if (utt.hasOwnProperty(x) && x !== 'text') {
+                newUtt[x] = utt[x];
+            }
+        }
+        newUtt.addEventListener('end', function () {
+            if (speechUtteranceChunker.cancel) {
+                speechUtteranceChunker.cancel = false;
+                return;
+            }
+            settings.offset = settings.offset || 0;
+            settings.offset += chunk.length - 1;
+            speechUtteranceChunker(utt, settings, callback);
+        });
+
+        if (settings.modifier) {
+            settings.modifier(newUtt);
+        }
+        console.log(newUtt); //IMPORTANT!! Do not remove: Logging the object out fixes some onend firing issues.
+        //placing the speak invocation inside a callback fixes ordering and onend issues.
+        setTimeout(function () {
+
+            newUtt.lang = 'en-US';
+            speechSynthesis.speak(newUtt);
+        }, 0);
+    };
 
     return (
         <div ref={darkModeRef} className={rolBool ? 'mx-auto font-manrope' : 'flex mx-auto font-manrope'}
@@ -255,7 +364,6 @@ export const RevisionExamen = () => {
                     <div className="container mx-auto 2xl:px-96 xl:px-80 lg:px-40 md:px-32 sm:px-16 px-8 py-8" style={{ marginTop: `${rolBool ? '10vh' : '0vh'}` }}>
                         {/* Texto disclosure */}
 
-                        {/* <button className="btn-secondary" onClick={handleClickTest}>press me</button> */}
                         <div className="w-full">
                             <div className="w-full py-2 mx-auto dark:bg-darkColor rounded-xl">
                                 <Disclosure >
@@ -264,16 +372,19 @@ export const RevisionExamen = () => {
                                             <Disclosure.Button className={`${open ? "rounded-t-xl" : "rounded-xl"} flex justify-between w-full px-4 py-2 text-base font-medium text-left 
                                             text-yellow-900 bg-yellowlight focus:outline-none 
                                             focus-visible:ring focus-visible:ring-yellow-500 focus-visible:ring-opacity-75 `}>
-                                                <span>Text</span>
-                                                <svg
-                                                    className={`${open ? 'transform rotate-180' : 'animate-pulse'} w-5 h-5 text-yellow-500`}
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 24 24"
-                                                >
-                                                    <path d="M24 24H0V0h24v24z" fill="none" opacity=".87" />
-                                                    <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z" />
-                                                </svg>
-
+                                                <div className="grid grid-cols-12 w-full">
+                                                    <p className="col-span-11">Text</p>
+                                                </div>
+                                                <span >
+                                                    <svg
+                                                        className={`${open ? 'transform rotate-180' : 'animate-pulse'} w-5 h-5 text-yellow-500`}
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        viewBox="0 0 24 24"
+                                                    >
+                                                        <path d="M24 24H0V0h24v24z" fill="none" opacity=".87" />
+                                                        <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z" />
+                                                    </svg>
+                                                </span>
                                             </Disclosure.Button>
                                             <Transition
                                                 enter="transition duration-100 ease-out"
@@ -283,8 +394,50 @@ export const RevisionExamen = () => {
                                                 leaveFrom="transform scale-100 opacity-100"
                                                 leaveTo="transform scale-95 opacity-0"
                                             >
-                                                <Disclosure.Panel className="px-4 py-4 text-base bg-white text-gray-500 border rounded-b-xl">
-                                                    {textoExamen}
+                                                <Disclosure.Panel className="text-base bg-white text-gray-500 border rounded-b-xl">
+                                                    <p className="px-4 py-4">{textoExamen}</p>
+                                                    {/* Text to speech buttons */}
+                                                    <div className="bg-gray-100 border-t border-gray-200 rounded-xl px-4 py-2">
+                                                        {speaking && speakingFirst === false && (
+                                                            <div className="text-center">
+                                                                <button
+                                                                    type="button"
+                                                                    className="transition duration-500 xl:w-72 inline-flex justify-center px-12 py-2 text- font-medium text-yellow-900 bg-yellow-100 border border-yellow-500 
+                                                                    rounded-md hover:bg-yellowlight focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                                                                    onClick={handleClickPlayStop}
+                                                                >
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" enableBackground="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="#7B350F"><g><rect fill="none" height="24" width="24" /></g><g><g><path d="M9,16h2V8H9V16z M12,2C6.48,2,2,6.48,2,12s4.48,10,10,10s10-4.48,10-10S17.52,2,12,2z M12,20c-4.41,0-8-3.59-8-8 s3.59-8,8-8s8,3.59,8,8S16.41,20,12,20z M13,16h2V8h-2V16z" /></g></g></svg>
+                                                                    <span className="ml-4">Pause</span>
+                                                                </button>
+                                                            </div>
+                                                        )}{speaking === false && speakingFirst === false && (
+                                                            <div className="text-center">
+                                                                <button
+                                                                    type="button"
+                                                                    className="transition duration-500 xl:w-72 inline-flex justify-center px-12 py-2 text- font-medium text-green-900 bg-green-100 border border-green-500 
+                                                                    rounded-md hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                                                                    onClick={handleClickPlayStop}
+                                                                >
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#1D8239"><path d="M10.8 15.9l4.67-3.5c.27-.2.27-.6 0-.8L10.8 8.1c-.33-.25-.8-.01-.8.4v7c0 .41.47.65.8.4zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" /></svg>
+                                                                    <span className="ml-4">Resume</span>
+                                                                </button>
+                                                            </div>
+                                                        )}
+                                                        {speakingFirst === true &&
+                                                            (
+                                                                <div className="text-center">
+                                                                    <button
+                                                                        className="transition duration-500 xl:w-72 inline-flex justify-center px-12 py-2 text- font-medium text-green-900 bg-green-100 border border-green-500 
+                                                                    rounded-md hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                                                                        onClick={handleClickPlayInit}>
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#1D8239"><path d="M10.8 15.9l4.67-3.5c.27-.2.27-.6 0-.8L10.8 8.1c-.33-.25-.8-.01-.8.4v7c0 .41.47.65.8.4zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" /></svg>
+                                                                        <span className="ml-4">Listen</span>
+                                                                    </button>
+                                                                </div>
+                                                            )
+                                                        }
+                                                        <span className="text-xs text-center text-gray-500">It only works in chrome, if you have problems with playback close this tab and open a new tab.</span>
+                                                    </div>
                                                 </Disclosure.Panel>
                                             </Transition>
                                         </div>
@@ -342,7 +495,7 @@ export const RevisionExamen = () => {
                                                 <ul>
                                                     {
                                                         pregunta.respuestas_cuerpo.opcion_multiple.map((opcion, letter = "A") => (
-                                                            <button key={opcion} id={pregunta.id_pregunta} className="w-full outline-none focus:outline-none">
+                                                            <button key={opcion} id={pregunta.id_pregunta} className="w-full outline-none focus:outline-none select-none">
                                                                 {pregunta.respuesta_correcta === opcion && pregunta.respuesta_usuario === pregunta.respuesta_correcta &&
                                                                     <li id={pregunta.id_pregunta + " " + letter} className="transition duration-200 flex items-center py-4 px-8 border bg-green-100 border-green-300">
                                                                         <span className="font-semibold mr-4 px-3 p-1 rounded-full border border-green-400 bg-green-400 text-white">{getLetter(letter)}</span>
@@ -418,9 +571,13 @@ export const RevisionExamen = () => {
                             }
                             <li>
                                 <div className="pb-1">
-                                    <div className="grid grid-cols-12 bg-white rounded-xl py-4 px-8 border border-yellow-900 border-opacity-20 shadow-sm">
-                                        <p className="sm:col-span-11 col-span-10 font-semibold text-xltext-yellow-900">Calificación total</p>
+                                    <div className="grid grid-cols-12 bg-white rounded-t-xl py-4 px-8 border border-yellow-900 border-opacity-20 shadow-sm">
+                                        <p className="sm:col-span-11 col-span-10 font-semibold text-xl text-yellow-900">Calificación total</p>
                                         <p className="place-self-end mr-2 sm:col-span-1 col-span-2 font-semibold text-yellow-900 text-lg">{califacionExamen}</p>
+                                    </div>
+                                    <div className="bg-white rounded-b-xl py-2 px-8 border border-yellow-900 border-opacity-20 shadow-sm text-sm">
+                                        <p className="sm:col-span-11 col-span-10"><b>Estudiante: </b>{estudiante.nombre}</p>
+                                        <p className="sm:col-span-11 col-span-10"><b>Correo: </b>{estudiante.correo}</p>
                                     </div>
                                 </div>
                             </li>

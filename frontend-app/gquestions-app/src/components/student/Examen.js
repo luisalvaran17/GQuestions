@@ -63,6 +63,12 @@ export const Examen = () => {
         fecha_contestado: '',
     })
 
+    /* Hooks for text to speech text exam */
+    const synth = window.speechSynthesis;
+    const msg = new SpeechSynthesisUtterance();
+    const [speaking, setSpeaking] = useState(false);
+    const [speakingFirst, setSpeakingFirst] = useState(true);
+
     useEffect(() => {
         if (localStorage.theme === 'dark') {
             darkModeRef.current.classList.add('dark')
@@ -112,7 +118,7 @@ export const Examen = () => {
 
         let conf_examen_temp = JSON.parse(localStorage.getItem('conf_examen'));
         let duracion_convertida = conf_examen_temp.duracion / 3600; // pasa de segundos a horas
-        let dateNow = new Date(localStorage.getItem('h_inicio')); 
+        let dateNow = new Date(localStorage.getItem('h_inicio'));
         let hour = dateNow.getHours() + parseInt(duracion_convertida);
         let minutes = dateNow.getMinutes() + (duracion_convertida % 1) * 60; // obtiene los decimales
 
@@ -554,6 +560,82 @@ export const Examen = () => {
             console.log(await (await getCalificacion()).toFixed(2));
         }
      */
+
+    /* Text to speech text examen */
+    const handleClickPlayStop = () => {
+        if (speaking === true) {
+            console.log("pausado")
+            setSpeaking(false);
+            synth.pause();
+        } else if (speaking === false) {
+            setSpeaking(true);
+            synth.resume();
+        }
+    }
+
+    const handleClickPlayInit = () => {
+        msg.volume = 1;
+        msg.rate = 0.9;
+        msg.pitch = 0.8;
+        msg.text = textoExamen;
+        msg.lang = 'en-US';
+        setSpeakingFirst(false);
+        setSpeaking(true);
+
+        speechUtteranceChunker(msg, {
+            chunkLength: 120
+        }, function () {
+            console.log('done');
+        });
+    }
+
+    /* función que toma chunks del texto y lo va reproduciendo para que no se pause automáticamente en textos largos */
+    var speechUtteranceChunker = function (utt, settings, callback) {
+        settings = settings || {};
+        var newUtt;
+        var txt = (settings && settings.offset !== undefined ? utt.text.substring(settings.offset) : utt.text);
+
+        var chunkLength = (settings && settings.chunkLength) || 160;
+        var pattRegex = new RegExp('^[\\s\\S]{' + Math.floor(chunkLength / 2) + ',' + chunkLength + '}[.!?,]{1}|^[\\s\\S]{1,' + chunkLength + '}$|^[\\s\\S]{1,' + chunkLength + '} ');
+        var chunkArr = txt.match(pattRegex);
+
+        if (chunkArr[0] === undefined || chunkArr[0].length <= 2) {
+            //call once all text has been spoken...
+            if (callback !== undefined) {
+                callback();
+            }
+            return;
+        }
+        var chunk = chunkArr[0];
+        newUtt = new SpeechSynthesisUtterance(chunk);
+        var x;
+        for (x in utt) {
+            if (utt.hasOwnProperty(x) && x !== 'text') {
+                newUtt[x] = utt[x];
+            }
+        }
+        newUtt.addEventListener('end', function () {
+            if (speechUtteranceChunker.cancel) {
+                speechUtteranceChunker.cancel = false;
+                return;
+            }
+            settings.offset = settings.offset || 0;
+            settings.offset += chunk.length - 1;
+            speechUtteranceChunker(utt, settings, callback);
+        });
+
+        if (settings.modifier) {
+            settings.modifier(newUtt);
+        }
+        console.log(newUtt); //IMPORTANT!! Do not remove: Logging the object out fixes some onend firing issues.
+        //placing the speak invocation inside a callback fixes ordering and onend issues.
+        setTimeout(function () {
+
+            newUtt.lang = 'en-US';
+            synth.speak(newUtt);
+        }, 0);
+    };
+
     return (
         <div ref={darkModeRef} className="font-manrope">
 
@@ -686,18 +768,21 @@ export const Examen = () => {
                                     {({ open }) => (
                                         <div id='texto'>
                                             <Disclosure.Button className={`${open ? "rounded-t-xl" : "rounded-xl"} flex justify-between w-full px-4 py-2 text-base font-medium text-left 
-                                            text-yellow-900 bg-yellowlight bg-opacity-50 dark:bg-opacity-100 focus:outline-none 
-                                            focus-visible:ring focus-visible:ring-yellow-500 focus-visible:ring-opacity-75`}>
-                                                <span>Text to answer the questions</span>
-                                                <svg
-                                                    className={`${open ? 'transform rotate-180' : 'animate-pulse'} w-5 h-5 text-yellow-500`}
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 24 24"
-                                                >
-                                                    <path d="M24 24H0V0h24v24z" fill="none" opacity=".87" />
-                                                    <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z" />
-                                                </svg>
-
+                                            text-yellow-900 bg-yellowlight focus:outline-none 
+                                            focus-visible:ring focus-visible:ring-yellow-500 focus-visible:ring-opacity-75 `}>
+                                                <div className="grid grid-cols-12 w-full">
+                                                    <p className="col-span-11">Text to answer the questions</p>
+                                                </div>
+                                                <span >
+                                                    <svg
+                                                        className={`${open ? 'transform rotate-180' : 'animate-pulse'} w-5 h-5 text-yellow-500`}
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        viewBox="0 0 24 24"
+                                                    >
+                                                        <path d="M24 24H0V0h24v24z" fill="none" opacity=".87" />
+                                                        <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z" />
+                                                    </svg>
+                                                </span>
                                             </Disclosure.Button>
                                             <Transition
                                                 enter="transition duration-200 ease-in"
@@ -707,8 +792,49 @@ export const Examen = () => {
                                                 leaveFrom="transform scale-100 opacity-100"
                                                 leaveTo="transform scale-100 opacity-0"
                                             >
-                                                <Disclosure.Panel className="px-4 py-4 text-base bg-white text-gray-500 border rounded-b-xl select-none">
-                                                    {textoExamen}
+                                                <Disclosure.Panel className="text-base bg-white text-gray-500 border rounded-b-xl">
+                                                    <p className="px-4 py-4">{textoExamen}</p>
+                                                    {/* Text to speech buttons */}
+                                                    <div className="bg-gray-100 border-t border-gray-200 rounded-xl px-4 py-2">
+                                                        {speaking && speakingFirst === false && (
+                                                            <div className="text-center">
+                                                                <button
+                                                                    type="button"
+                                                                    className="transition duration-500 xl:w-72 inline-flex justify-center px-12 py-2 text- font-medium text-yellow-900 bg-yellow-100 border border-yellow-500 
+                                                                    rounded-md hover:bg-yellowlight focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                                                                    onClick={handleClickPlayStop}
+                                                                >
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" enableBackground="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="#7B350F"><g><rect fill="none" height="24" width="24" /></g><g><g><path d="M9,16h2V8H9V16z M12,2C6.48,2,2,6.48,2,12s4.48,10,10,10s10-4.48,10-10S17.52,2,12,2z M12,20c-4.41,0-8-3.59-8-8 s3.59-8,8-8s8,3.59,8,8S16.41,20,12,20z M13,16h2V8h-2V16z" /></g></g></svg>
+                                                                    <span className="ml-4">Pausar</span>
+                                                                </button>
+                                                            </div>
+                                                        )}{speaking === false && speakingFirst === false && (
+                                                            <div className="text-center">
+                                                                <button
+                                                                    type="button"
+                                                                    className="transition duration-500 xl:w-72 inline-flex justify-center px-12 py-2 text- font-medium text-green-900 bg-green-100 border border-green-500 
+                                                                    rounded-md hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                                                                    onClick={handleClickPlayStop}
+                                                                >
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#1D8239"><path d="M10.8 15.9l4.67-3.5c.27-.2.27-.6 0-.8L10.8 8.1c-.33-.25-.8-.01-.8.4v7c0 .41.47.65.8.4zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" /></svg>
+                                                                    <span className="ml-4">Reanudar</span>
+                                                                </button>
+                                                            </div>
+                                                        )}
+                                                        {speakingFirst === true &&
+                                                            (
+                                                                <div className="text-center">
+                                                                    <button
+                                                                        className="transition duration-500 xl:w-72 inline-flex justify-center px-12 py-2 text- font-medium text-green-900 bg-green-100 border border-green-500 
+                                                                    rounded-md hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                                                                        onClick={handleClickPlayInit}>
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#1D8239"><path d="M10.8 15.9l4.67-3.5c.27-.2.27-.6 0-.8L10.8 8.1c-.33-.25-.8-.01-.8.4v7c0 .41.47.65.8.4zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" /></svg>
+                                                                        <span className="ml-4">Escuchar</span>
+                                                                    </button>
+                                                                </div>
+                                                            )
+                                                        }
+                                                    </div>
                                                 </Disclosure.Panel>
                                             </Transition>
                                         </div>
