@@ -40,3 +40,20 @@ toml                      0.10.2
 urllib3                   1.26.4
 wheel                     0.36.2
 wrapt                     1.12.1
+
+Google OAuth
+Name: OAuth App
+Client id: 1016385449655-s27qeebm0kc4lfuedk7o665lhmtd70qp.apps.googleusercontent.com
+S Key: heYn1SBvyTCpxOwN4BpWtVEQ
+Chosen sites: localhost:8000
+
+SITES:
+    Domain name     Display name
+    127.0.0.1:8000	127.0.0.1:8000
+    localhost:8000	Google login
+
+Activate env
+source env/bin/activate;cd backend;python manage.py runserver
+
+export BROWSER=/usr/bin/google-chrome-stable;
+cd frontend-app/gquestions-app/;npm start
