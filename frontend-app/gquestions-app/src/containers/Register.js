@@ -293,13 +293,13 @@ export const Register = () => {
 
               {/* Button back to home */}
               <div className="">
-                <span className="flex absolute right-18 md:top-16 top-8 hover:text-white">
+                <span className="flex absolute right-18 md:top-16 top-8 hover:text-white text-base">
                   <button
                     className="btn-back"
                     onClick={onClickBackHome}>
                     <span
-                      className="material-icons"
-                    >&#xe5e0;
+                    className="material-icons mr-2"
+                  >&#xe5cb;
                 </span>Home
             </button>
                 </span>

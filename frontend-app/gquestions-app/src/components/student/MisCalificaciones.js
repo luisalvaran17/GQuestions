@@ -108,7 +108,7 @@ export const MisCalificaciones = () => {
                 <div className="sticky top-0">
                     <NavbarStudent navigation={navigation} />
                 </div>
-                
+
                 <div
                     style={{ height: "80vh" }}
                     className='container max-w-7xl mx-auto sm:pl-12 sm:pr-8 px-6 py-8 dark:text-white'>
@@ -121,13 +121,13 @@ export const MisCalificaciones = () => {
                             Aquí puedes visualizar tus calificaciones por examen.
                         </p>
 
-                        <div className="bg-yellowlight rounded-t-xl border-t">
-                            <div className="pl-4 bg-yellowlight rounded-t-xl py-2 text-yellow-900 font-semibold">Todos los exámenes</div>
+                        <div className="backdrop-filter backdrop-blur-lg bg-yellowlight bg-opacity-50 dark:bg-opacity-100 border-t border-l border-r border-gray-200 rounded-t-xl container shadow">
+                            <div className="pl-4 rounded-t-xl py-2 text-yellow-900 font-bold uppercase text-sm">Todos los exámenes</div>
                         </div>
 
                         <CustomScrollbars
                             /* className={generacionesEmpty ? 'hidden' : 'container'} */
-                            className={calificacionesEmpty ? 'hidden' : 'bg-white bg-opacity-50 dark:bg-darkColor dark:bg-opacity-100 border dark:border-gray-800 rounded-b-xl shadow-b'}
+                            className={calificacionesEmpty ? 'hidden' : 'container shadow bg-white bg-opacity-50 border-gray-100 dark:bg-darkColor dark:bg-opacity-80 border dark:border-gray-800 rounded-b-xl shadow-b'}
                             autoHide
                             autoHideTimeout={900}
                             autoHideDuration={400}

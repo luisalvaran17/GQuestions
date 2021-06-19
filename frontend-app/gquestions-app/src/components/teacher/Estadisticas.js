@@ -264,7 +264,7 @@ export const Estadisticas = () => {
           </p>
 
           {!isLoading &&
-            <div className="w-full grid mb-4 pb-10 pr-6 dark:border-transparent sm:px-8 rounded-3xl bg-gray-100 dark:bg-darkColor border border-transparent sm:dark:border-gray-700  shadow">
+            <div className="w-full grid mb-4 pb-10 pr-6 dark:border-transparent sm:px-8 rounded-3xl bg-gray-50 border-gray-100 dark:bg-darkColor border sm:dark:border-gray-800 shadow">
 
               <div className="grid grid-cols-12 gap-6">
                 <div className="grid grid-cols-12 col-span-12 gap-6 xxl:col-span-9">

@@ -117,12 +117,12 @@ export const Calificaciones = () => {
           Pruebas
         </button> */}
 
-          <div className="bg-yellowlight rounded-t-xl border-t container">
-            <div className="pl-4 bg-yellowlight rounded-t-xl py-2 text-yellow-900 font-semibold">Todos los exámenes</div>
+          <div className="fliter blur-xl bg-yellowlight bg-opacity-50 dark:bg-opacity-100 border-t border-l border-r border-gray-200 rounded-t-xl container shadow">
+            <div className="pl-4 rounded-t-xl py-2 text-yellow-900 font-bold uppercase text-sm">todos los exámenes</div>
           </div>
 
           <CustomScrollbars
-            className={examenesEmpty ? 'hidden' : 'container shadow bg-white bg-opacity-50 dark:bg-darkColor dark:bg-opacity-100 border dark:border-gray-800 rounded-b-xl shadow-b'}
+            className={examenesEmpty ? 'hidden' : 'container shadow bg-white bg-opacity-50 dark:bg-darkColor dark:bg-opacity-100 border border-gray-100 dark:border-gray-800 rounded-b-xl shadow-b'}
             autoHide
             autoHideTimeout={900}
             autoHideDuration={400}

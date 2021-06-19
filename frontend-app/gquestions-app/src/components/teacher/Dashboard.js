@@ -164,7 +164,7 @@ export const Dashboard = () => {
       >
         <Helmet>
           <title>Dashboard - GQuestions</title>
-          <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
             rel="stylesheet"></link>
         </Helmet>
 
@@ -174,7 +174,7 @@ export const Dashboard = () => {
           autoHide
           autoHideTimeout={900}
           autoHideDuration={400}
-          style={{ height: "100vh"}}
+          style={{ height: "100vh" }}
           data-aos="fade-right"
           className='lg:text-base text-sm dark:text-white'>
 
@@ -183,7 +183,7 @@ export const Dashboard = () => {
             <h1 className='font-black xl:text-5xl md:text-4xl text-2xl md:text-left md:mb-10 '>
               Dashboard
           </h1>
-            <p className="text-gray-500 font-semibold text-sm md:text-base dark:text-gray-200">
+            <p className="text-gray-500 font-semibold text-sm md:text-base dark:text-gray-200 mb-4">
               Aquí puedes deslizar y visualizar tus exámenes generados
           </p>
             {/* <button
@@ -193,12 +193,12 @@ export const Dashboard = () => {
           >
           Pruebas
         </button> */}
-            <div className="mt-10">
-              <p className={generacionesEmpty ? "hidden" : "text-gray-500 dark:text-gray-200 mb-4 uppercase text-lg"}>Historial de generaciones</p>
+            <div className="backdrop-filter backdrop-blur-lg bg-yellowlight bg-opacity-50 dark:bg-opacity-100 border-t border-l border-r border-gray-200 rounded-t-xl container shadow">
+              <div className={generacionesEmpty ? "hidden" : "pl-4 rounded-t-xl py-2 text-yellow-900 font-bold uppercase text-sm"}>Historial de generaciones</div>
             </div>
 
             <CustomScrollbars
-              className={generacionesEmpty ? 'hidden' : 'container'}
+              className={generacionesEmpty ? 'hidden' : 'container shadow bg-white bg-opacity-50 border-gray-100 dark:bg-darkColor dark:bg-opacity-80 border dark:border-gray-800 rounded-b-xl shadow-b'}
               autoHide
               autoHideTimeout={900}
               autoHideDuration={400}
@@ -211,19 +211,20 @@ export const Dashboard = () => {
                       <li
                         key={contador}
                         id={generacion.id}
-                        className="">
-                        <div className="grid grid-rows- transition duration-500 py-4 rounded-xl hover:bg-gray-200 pl-4 pr-8 hover:bg-opacity-40 
-                        cursor-pointer font-bold border-b border-gray-300 dark:border-gray-700 dark:hover:bg-opacity-10" >
-                          <p className="hidden sm:block">Generación { contador + 1}</p>
+                        className="duration-500 pt-6 pb-4 hover:bg-gray-200 pl-4 pr-8 hover:bg-opacity-40 
+                          cursor-pointer font-bold border-b border-gray-300 dark:border-gray-700 
+                          dark:hover:bg-opacity-10">
+                        <div className="grid transition pointer-events-none" >
+                          <p className="hidden sm:block">Generación {contador + 1}</p>
                           <div className="grid grid-cols-12">
                             <p className="col-span-12 mb-4 sm:col-span-8 text-gray-500 text-sm dark:text-gray-400">Generado: {FormatDateFunction(generacion.fecha_generacion)} | Cantidad de examenes: {generacion.n_examenes} | Cantidad de preguntas: {generacion.n_preguntas * generacion.n_examenes}</p>
                             <div className="col-span-12 sm:col-span-4 place-self-center sm:place-self-end mr-2 pointer-events-auto">
 
                               {generacion.generacion_examenes.length === 0 &&
-                                <div className="tooltip select-none ">
+                                <div className="tooltip select-none">
                                   <span
-                                    className="ml-2 transition duration-500 hover:text-yellowmain text-gray-900 dark:text-gray-50 dark:hover:text-yellowmain material-icons mr-2"
-                                    id={generacion.id}  
+                                    className="ml-2 transform hover:scale-110 hover:text-yellowmain text-gray-900 dark:text-gray-50 dark:hover:text-yellowmain material-icons-outlined mr-2"
+                                    id={generacion.id}
                                   >&#xe16f;
                                 </span>
                                   <span className="tooltiptext text-sm">Sin examen</span>
@@ -231,7 +232,7 @@ export const Dashboard = () => {
                               }{generacion.generacion_examenes.length !== 0 &&
                                 <div className="tooltip select-none ">
                                   <span
-                                    className="ml-2 transition duration-500 hover:text-yellowmain text-gray-900 dark:text-gray-50 dark:hover:text-yellowmain material-icons mr-2"
+                                    className="ml-2 transform hover:scale-110 hover:text-yellowmain text-gray-900 dark:text-gray-50 dark:hover:text-yellowmain material-icons-outlined mr-2"
                                     id={generacion.id}
                                     onClick={openModal}
                                   >&#xe157;
@@ -242,7 +243,7 @@ export const Dashboard = () => {
 
                               <div className="tooltip place-self-center select-none">
                                 <span
-                                  className="ml-2 transition duration-500 hover:text-yellowmain text-gray-900 dark:text-gray-50 dark:hover:text-yellowmain material-icons mr-2"
+                                  className="ml-2 transform hover:scale-110 hover:text-yellowmain text-gray-900 dark:text-gray-50 dark:hover:text-yellowmain material-icons-outlined mr-2"
                                   onClick={onClickVerGeneracion}
                                   id={generacion.id}
                                 >&#xe8f4;
@@ -251,10 +252,10 @@ export const Dashboard = () => {
                               </div>
                               <div className="tooltip place-self-center select-none">
                                 <span
-                                  className="ml-2 transition duration-500 hover:text-yellowmain text-gray-900 dark:text-gray-50 dark:hover:text-yellowmain material-icons mr-2"
+                                  className="ml-2 transform hover:scale-110 hover:text-yellowmain text-gray-900 dark:text-gray-50 dark:hover:text-yellowmain material-icons-outlined mr-2"
                                   onClick={onClickDownload}
                                   id={generacion.id}
-                                >&#xf090;
+                                >&#xe2c4;
                                 </span>
                                 <span className="tooltiptext text-sm">Descargar</span>
                               </div>
