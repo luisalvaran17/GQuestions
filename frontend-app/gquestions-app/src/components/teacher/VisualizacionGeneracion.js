@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useHistory } from 'react-router';
 import { Helmet } from "react-helmet";
 import Scrollbars from "react-custom-scrollbars";
+import Navbar from './Navbar';
+import { DropdownUser } from './user/DropdownUser';
 
 export const VisualizacionGeneracion = () => {
 
@@ -86,6 +88,9 @@ export const VisualizacionGeneracion = () => {
                 minWidth: "100%",
             }}>
 
+
+            <Navbar className="" />
+
             <CustomScrollbars
                 autoHide
                 autoHideTimeout={900}
@@ -164,12 +169,25 @@ export const VisualizacionGeneracion = () => {
                                         <h1 ref={questionsTitle} className="uppercase font-semibold">Questions</h1>
                                         <ul>
                                             {
-                                                preguntas.map(pregunta => (
-                                                    <li key={pregunta.id_pregunta}>
-                                                        <p>{pregunta.pregunta_cuerpo}</p>
-                                                        <p>{pregunta.respuesta_correcta}</p>
+                                                preguntas.map((pregunta, contador = 1) => (
+                                                    <div
+                                                        className=""
+                                                        key={pregunta.id_pregunta}>
+                                                        <p><b>{contador = contador + 1}.  Question: </b>{pregunta.pregunta_cuerpo}</p>
+                                                        {pregunta.respuestas_cuerpo.opcion_multiple === 'null' &&
+                                                            <p><b>Answer:</b> {pregunta.respuesta_correcta}</p>
+                                                        }{pregunta.respuestas_cuerpo.opcion_multiple !== 'null' &&
+                                                            <div>
+                                                                <span><b>Options: </b>
+                                                                    {pregunta.respuestas_cuerpo.opcion_multiple.split(',').map(option => (
+                                                                        <span className="bg-gray-200 border rounded-lg px-1 mx-1">{option}</span>
+                                                                    ))}
+                                                                </span>
+                                                                <p><b>Answer:</b> {pregunta.respuesta_correcta}</p>
+                                                            </div>
+                                                        }
                                                         <br></br>
-                                                    </li>
+                                                    </div>
                                                 ))
                                             }
                                         </ul>
@@ -179,38 +197,8 @@ export const VisualizacionGeneracion = () => {
                         </div>
                     </div>
                 </div>
-
-                {/* {
-                textosPreguntas.map((item, contador = 1) => (
-                    <div key={contador} className="grid grid-rows rounded-lg shadow-md my-1 p-4 gap-y-2">
-
-                        <h1 className='font-black text-2xl uppercase'>Examen {contador = contador + 1}</h1>
-
-                        <h1 className='text-xl uppercase'>Texto</h1>
-
-                        <p>{item.cuerpo_texto}</p>
-
-                        <h1 className='text-xl uppercase mt-2'>Preguntas</h1>
-
-                        {
-                            item.preguntas.map(pregunta => (
-
-                                <div key={pregunta.id_pregunta} className="pb-2">
-                                    <ul>
-                                        <li className="border-b pb-2" >
-                                            <p>{pregunta.pregunta_cuerpo}</p>
-                                            <p>{pregunta.respuesta_correcta}</p>
-                                        </li>
-                                    </ul>
-                                </div>
-                            ))
-                        }
-
-
-                    </div>
-                ))
-            } */}
             </CustomScrollbars>
+            <DropdownUser />
         </div>
     )
 }

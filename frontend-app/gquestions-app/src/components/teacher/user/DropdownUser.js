@@ -59,7 +59,7 @@ export const DropdownUser = () => {
   function openModal() {
     setIsOpen(true)
   }
-  
+
   function closeModal() {
     setIsOpen(false);
   }
@@ -129,63 +129,67 @@ export const DropdownUser = () => {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <div className="inline-block w-full max-w-3xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                <div className="font- inline-block w-full max-w-3xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                   <Dialog.Title
                     as="h3"
-                    className="text-xl font-medium leading-6 text-gray-900"
+                    className="text-xl font-black font-manrope leading-6 text-gray-900"
                   >
                     Términos y condiciones
                 </Dialog.Title>
                   <div className="mt-2">
-                    <ul className="px-6 list-disc space-y-2 md:text-justify">
-                      <li>
-                        <p className="text-sm text-gray-500">
-                          Debido a que los modelos de lenguaje a gran escala como GPT-2 no distinguen la realidad de la ficción, el texto generado no debe ser considerado
-                          verdadero.
-                        </p>
-                      </li>
-                      <li>
-                        <p className="text-sm text-gray-500">
-                          El uso de GPT-2 en esta aplicación web tiene el propósito de ayudar en el aprendizaje del idioma Inglés (ayuda gramatical, vocabulario, lectura y escritura).
+                    <ul className="bg-gray-100 text-sm shadow rounded-xl list-none space-y-2 md:text-justify">
+                      <div className="text-gray-700 p-4 pb-1">
+                        <li className="mb-2">
+                          <p>
+                            Debido a que los modelos de lenguaje a gran escala como GPT-2 no distinguen la realidad de la ficción, el texto generado no debe ser considerado
+                            verdadero.
                           </p>
-                      </li>
-                      <li>
-                        <p className="text-sm text-gray-500">
-                          Es importante mencionar que el modelo GPT-2 puede reflejar sesgos inherentes a los sistemas en los que fueron entrenados, sin embargo, se ha implementado una estrategia que intenta reducir los posibles sesgos que pueda presentar el sistema en esta implementación.
-                        </p>
-                      </li>
+                        </li>
+                        <li className="mb-2">
+                          <p>
+                            El uso de GPT-2 en esta aplicación web tiene el propósito de ayudar en el aprendizaje del idioma Inglés (ayuda gramatical, vocabulario, lectura y escritura).
+                          </p>
+                        </li>
+                        <li className="mb-2">
+                          <p>
+                            Es importante mencionar que el modelo GPT-2 puede reflejar sesgos inherentes a los sistemas en los que fueron entrenados, sin embargo, se ha implementado una estrategia que intenta reducir los posibles sesgos que pueda presentar el sistema en esta implementación.
+                          </p>
+                        </li>
+                      </div>
                       <li className="list-none">
-                        <p className="text-sm text-gray-500 p-4 bg-gray-100 rounded-xl text-left">
+                        <p className="text-sm text-gray-500 p-4 border-t border-gray-200 bg-gray-100 rounded-b-xl md:text-justify">
                           "No encontramos diferencias estadísticamente significativas en las sondas de sesgo de género, raza y religión entre 774M y 1.5B, lo que implica que todas las versiones de GPT-2 deben abordarse con niveles similares de precaución en los casos de uso que son sensibles a los sesgos en torno a los atributos humanos."
-                            <b> Model card GPT-2</b><br></br>
-                          <a className="text-blue-600 underline outline-none focus:outline-none"
+                            <br></br>
+                          <a className="outline-none focus:outline-none"
                             href="https://github.com/openai/gpt-2/blob/master/model_card.md#out-of-scope-use-cases"
                             target="_blank" rel="noreferrer">
-                            https://github.com/openai/gpt-2/blob/master/model_card.md#out-of-scope-use-cases
-                            </a>
+                            <b>Model card GPT-2: </b><span className="text-blue-600 underline">
+                              https://github.com/openai/gpt-2/blob/master/model_card.md
+                              </span>
+                          </a>
                         </p>
                       </li>
                     </ul>
+                    <div className="flex mt-4 justify-end space-x-4">
+                      <button
+                        type="button"
+                        className="shadow transition duration-500 w-full inline-flex justify-center sm:px-12 px-8 py-2 text-sm font-medium text-red-900 bg-red-100 border border-transparent 
+                        rounded-md hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                        onClick={closeModalNoAccept}
+                      >
+                        Rechazar
+                      </button>
+                      <button
+                        type="button"
+                        className="shadow transition duration-500 w-full inline-flex justify-center sm:px-12 px-8 py-2 text-sm font-medium text-green-900 bg-green-100 border border-transparent 
+                        rounded-md hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                        onClick={closeModalAccept}
+                      >
+                        Aceptar
+                      </button>
+                    </div>
                   </div>
 
-                  <div className="flex mt-4 pr-6 justify-end space-x-4">
-                    <button
-                      type="button"
-                      className="transition duration-500 sm:w-auto w-28 inline-flex justify-center px-12 py-2 text-sm font-medium text-red-900 bg-red-100 border border-transparent 
-                        rounded-md hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                      onClick={closeModalNoAccept}
-                    >
-                      Rechazar
-                      </button>
-                    <button
-                      type="button"
-                      className="transition duration-500 sm:w-auto w-28 inline-flex justify-center px-12 py-2 text-sm font-medium text-green-900 bg-green-100 border border-transparent 
-                        rounded-md hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                      onClick={closeModalAccept}
-                    >
-                      Aceptar
-                      </button>
-                  </div>
                 </div>
               </Transition.Child>
             </div>

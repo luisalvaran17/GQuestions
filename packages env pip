@@ -53,7 +53,7 @@ SITES:
     localhost:8000	Google login
 
 Activate env
-source env/bin/activate;cd backend;python manage.py runserver
+source env/bin/activate;cd backend;python3 manage.py runserver
 
 export BROWSER=/usr/bin/google-chrome-stable;
 cd frontend-app/gquestions-app/;npm start

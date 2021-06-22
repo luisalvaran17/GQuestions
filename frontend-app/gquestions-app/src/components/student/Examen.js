@@ -22,6 +22,9 @@ export const Examen = () => {
     const darkModeRef = useRef();
     const history = useHistory();
 
+    // Hooks Terminos y condiciones
+    const [isOpenCondiciones, setIsOpenCondiciones] = useState(false);
+
     // Hook preguntas
     const [preguntas, setPreguntas] = useState([]);
     const [respuestasUsuario, setRespuestasUsuario] = useState([]);
@@ -126,6 +129,10 @@ export const Examen = () => {
         if (minutes >= 60) {
             minutes = minutes - 60
             hour = hour + 1
+        }
+
+        if (minutes < 10) {
+            minutes = '0' + minutes.toString();
         }
 
         setConfiguracionExamen({
@@ -455,7 +462,7 @@ export const Examen = () => {
         }
         else {
             setIsOpenExceeded(true);
-           /*  console.log("Se pasó del tiempo limite de entrega"); */
+            /*  console.log("Se pasó del tiempo limite de entrega"); */
         }
     }
 
@@ -511,6 +518,14 @@ export const Examen = () => {
 
     function closeModalHome() {
         history.push('/student/home');
+    }
+
+    function closeModalCondiciones() {
+        setIsOpenCondiciones(false);
+    }
+
+    function onClickCondicionesUso(){
+        setIsOpenCondiciones(true);
     }
 
     const setCalificacionDB = async () => {
@@ -662,22 +677,36 @@ export const Examen = () => {
                             <>
                                 <div>
                                     <Menu.Button className="focus:outline-none outline-none">
-                                        <div className='mt-auto flex items-center p-1 text-yellow-800 bg-yellowlight rounded-full'>
-                                            <svg
-                                                className='fill-current h-4 w-4 m-2 '
-                                                aria-hidden='true'
-                                                focusable='false'
-                                                data-prefix='far'
-                                                data-icon='user'
-                                                role='img'
-                                                xmlns='http://www.w3.org/2000/svg'
-                                                viewBox='0 0 448 512'
-                                            >
-                                                <path
-                                                    fill='currentColor'
-                                                    d='M313.6 304c-28.7 0-42.5 16-89.6 16-47.1 0-60.8-16-89.6-16C60.2 304 0 364.2 0 438.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-25.6c0-74.2-60.2-134.4-134.4-134.4zM400 464H48v-25.6c0-47.6 38.8-86.4 86.4-86.4 14.6 0 38.3 16 89.6 16 51.7 0 74.9-16 89.6-16 47.6 0 86.4 38.8 86.4 86.4V464zM224 288c79.5 0 144-64.5 144-144S303.5 0 224 0 80 64.5 80 144s64.5 144 144 144zm0-240c52.9 0 96 43.1 96 96s-43.1 96-96 96-96-43.1-96-96 43.1-96 96-96z'
-                                                ></path>
-                                            </svg>
+                                        <div className='flex mt-auto items-center p-1 text-yellow-800 bg-yellowlight sm:rounded-xl rounded-full'>
+                                            <span className='sm:hidden block'>
+                                                <svg
+                                                    className='fill-current h-4 w-4 m-2 '
+                                                    aria-hidden='true'
+                                                    focusable='false'
+                                                    data-prefix='far'
+                                                    data-icon='user'
+                                                    role='img'
+                                                    xmlns='http://www.w3.org/2000/svg'
+                                                    viewBox='0 0 448 512'
+                                                >
+                                                    <path
+                                                        fill='currentColor'
+                                                        d='M313.6 304c-28.7 0-42.5 16-89.6 16-47.1 0-60.8-16-89.6-16C60.2 304 0 364.2 0 438.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-25.6c0-74.2-60.2-134.4-134.4-134.4zM400 464H48v-25.6c0-47.6 38.8-86.4 86.4-86.4 14.6 0 38.3 16 89.6 16 51.7 0 74.9-16 89.6-16 47.6 0 86.4 38.8 86.4 86.4V464zM224 288c79.5 0 144-64.5 144-144S303.5 0 224 0 80 64.5 80 144s64.5 144 144 144zm0-240c52.9 0 96 43.1 96 96s-43.1 96-96 96-96-43.1-96-96 43.1-96 96-96z'
+                                                    ></path>
+                                                </svg>
+                                            </span>
+                                            <span className="hidden sm:block my-2 mx-3 text-darkColor font-semibold text-xs">{localStorage.getItem('name')}</span>
+                                            <span className="hidden sm:block text-darkColor">
+                                                <svg
+                                                    className={`${open ? 'transform rotate-180' : 'animate-pulse'} transition duration-500 w-5 h-5`}
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 24 24"
+                                                >
+                                                    <path d="M24 24H0V0h24v24z" fill="none" opacity=".87" />
+                                                    <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z" />
+                                                </svg>
+                                            </span>
+
                                         </div>
                                     </Menu.Button>
                                 </div>
@@ -720,12 +749,13 @@ export const Examen = () => {
                                         <Menu.Item>
                                             {({ active }) => (
                                                 <button
+                                                    onClick={onClickCondicionesUso}
                                                     className={classNames(
                                                         active ? 'bg-gray-100' : '',
                                                         'transition duration-500 w-full outline-none focus:outline-none text-left font-bold px-4 py-2 text-sm text-gray-700 dark:text-gray-100 dark:hover:bg-yellowlight dark:hover:text-black'
                                                     )}
                                                 >
-                                                    Lipsum
+                                                    Condiciones de uso
                                                 </button>
                                             )}
                                         </Menu.Item>
@@ -749,6 +779,107 @@ export const Examen = () => {
                     </Menu>
 
                 </nav>
+                {/* Términos y condiciones Modal */}
+                <Transition appear show={isOpenCondiciones} as={Fragment}>
+                    <Dialog
+                        as="div"
+                        className="fixed inset-0 z-10 overflow-y-auto"
+                        onClose={closeModalCondiciones}
+                    >
+                        {/* Use the overlay to style a dim backdrop for your dialog */}
+                        <Dialog.Overlay className="fixed inset-0 bg-black opacity-60" />
+                        <div className="min-h-screen px-4 text-center">
+                            <Transition.Child
+                                as={Fragment}
+                                enter="ease-out duration-300"
+                                enterFrom="opacity-0"
+                                enterTo="opacity-100"
+                                leave="ease-in duration-200"
+                                leaveFrom="opacity-100"
+                                leaveTo="opacity-0"
+                            >
+                                <Dialog.Overlay className="fixed inset-0" />
+                            </Transition.Child>
+
+                            {/* This element is to trick the browser into centering the modal contents. */}
+                            <span
+                                className="inline-block h-screen align-middle"
+                                aria-hidden="true"
+                            >
+                                &#8203;
+                            </span>
+                            <Transition.Child
+                                as={Fragment}
+                                enter="ease-out duration-300"
+                                enterFrom="opacity-0 scale-95"
+                                enterTo="opacity-100 scale-100"
+                                leave="ease-in duration-200"
+                                leaveFrom="opacity-100 scale-100"
+                                leaveTo="opacity-0 scale-95"
+                            >
+                                <div className="font- inline-block w-full max-w-3xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                                    <Dialog.Title
+                                        as="h3"
+                                        className="text-xl font-black font-manrope leading-6 text-gray-900"
+                                    >
+                                        Condiciones de uso
+                                    </Dialog.Title>
+                                    <div className="mt-2">
+                                        <ul className="bg-gray-100 text-sm shadow rounded-xl list-none space-y-2 md:text-justify">
+                                            <div className="text-gray-700 p-4 pb-1">
+                                                <li className="mb-2">
+                                                    <p>
+                                                        Debido a que los modelos de lenguaje a gran escala como GPT-2 no distinguen la realidad de la ficción, el texto generado no debe ser considerado
+                                                        verdadero.
+                                                    </p>
+                                                </li>
+                                                <li className="mb-2">
+                                                    <p>
+                                                        El uso de GPT-2 en esta aplicación web tiene el propósito de ayudar en el aprendizaje del idioma Inglés (ayuda gramatical, vocabulario, lectura y escritura).
+                                                    </p>
+                                                </li>
+                                                <li className="mb-2">
+                                                    <p>
+                                                        Es importante mencionar que el modelo GPT-2 puede reflejar sesgos inherentes a los sistemas en los que fueron entrenados, sin embargo, se ha implementado una estrategia que intenta reducir los posibles sesgos que pueda presentar el sistema en esta implementación.
+                                                    </p>
+                                                </li>
+                                                <li className="mb-2 text-darkColor">
+                                                    <p>
+                                                        <b>Advertencia: </b>Los exámenes son generados por algoritmos de Inteligencia Artificial y pueden tener sesgos, por tanto, el docente no es responsable del contenido.
+                                                    </p>
+                                                </li>
+                                            </div>
+                                            <li className="list-none">
+                                                <p className="text-sm text-gray-500 p-4 border-t border-gray-200 bg-gray-100 rounded-b-xl md:text-justify">
+                                                    "No encontramos diferencias estadísticamente significativas en las sondas de sesgo de género, raza y religión entre 774M y 1.5B, lo que implica que todas las versiones de GPT-2 deben abordarse con niveles similares de precaución en los casos de uso que son sensibles a los sesgos en torno a los atributos humanos."
+                                                    <br></br>
+                                                        <a className="outline-none focus:outline-none"
+                                                        href="https://github.com/openai/gpt-2/blob/master/model_card.md#out-of-scope-use-cases"
+                                                        target="_blank" rel="noreferrer">
+                                                        <b>Model card GPT-2: </b><span className="text-blue-600 underline">
+                                                            https://github.com/openai/gpt-2/blob/master/model_card.md
+                                                        </span>
+                                                    </a>
+                                                </p>
+                                            </li>
+                                        </ul>
+
+                                        <div className="mt-2">
+                                            <button
+                                                type="button"
+                                                className="btn-primary "
+                                                onClick={closeModalCondiciones}
+                                            >
+                                                Entendido
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </Transition.Child>
+                        </div>
+                    </Dialog>
+                </Transition>
             </div>
 
             <div className="dark:bg-darkColor">
@@ -799,7 +930,7 @@ export const Examen = () => {
                                                                     onClick={handleClickPlayStop}
                                                                 >
                                                                     <svg xmlns="http://www.w3.org/2000/svg" enableBackground="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="#7B350F"><g><rect fill="none" height="24" width="24" /></g><g><g><path d="M9,16h2V8H9V16z M12,2C6.48,2,2,6.48,2,12s4.48,10,10,10s10-4.48,10-10S17.52,2,12,2z M12,20c-4.41,0-8-3.59-8-8 s3.59-8,8-8s8,3.59,8,8S16.41,20,12,20z M13,16h2V8h-2V16z" /></g></g></svg>
-                                                                    <span className="ml-4">Pausar</span>
+                                                                    <span className="ml-4">Pause</span>
                                                                 </button>
                                                             </div>
                                                         )}{speaking === false && speakingFirst === false && (
@@ -811,7 +942,7 @@ export const Examen = () => {
                                                                     onClick={handleClickPlayStop}
                                                                 >
                                                                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#1D8239"><path d="M10.8 15.9l4.67-3.5c.27-.2.27-.6 0-.8L10.8 8.1c-.33-.25-.8-.01-.8.4v7c0 .41.47.65.8.4zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" /></svg>
-                                                                    <span className="ml-4">Reanudar</span>
+                                                                    <span className="ml-4">Resume</span>
                                                                 </button>
                                                             </div>
                                                         )}
@@ -823,11 +954,12 @@ export const Examen = () => {
                                                                     rounded-md hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                                                                         onClick={handleClickPlayInit}>
                                                                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#1D8239"><path d="M10.8 15.9l4.67-3.5c.27-.2.27-.6 0-.8L10.8 8.1c-.33-.25-.8-.01-.8.4v7c0 .41.47.65.8.4zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" /></svg>
-                                                                        <span className="ml-4">Escuchar</span>
+                                                                        <span className="ml-4">Listen</span>
                                                                     </button>
                                                                 </div>
                                                             )
                                                         }
+                                                        <span className="text-xs text-center text-gray-500">It only works in chrome, if you have problems with playback close this tab and open a new tab.</span>
                                                     </div>
                                                 </Disclosure.Panel>
                                             </Transition>

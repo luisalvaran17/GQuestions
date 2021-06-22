@@ -340,9 +340,8 @@ export const Dashboard = () => {
 
                               <div className="tooltip place-self-center select-none">
                                 <button
-                                  className="transition duration-500 col-span-1 p-1 hover:text-darkColor hover:bg-yellowlight rounded text-gray-900
-                                   material-icons mr-2
-                                    outline-none focus:outline-none"
+                                  className="ml-2 transition duration-500 col-span-1 p-1 hover:text-darkColor hover:bg-yellowlight rounded text-gray-900
+                                   material-icons-outlined mr-2 outline-none focus:outline-none"
                                   onClick={copyTextFunction}
                                 >&#xe14d;
                               </button>

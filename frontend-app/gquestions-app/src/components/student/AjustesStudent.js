@@ -159,7 +159,6 @@ export const AjustesStudent = () => {
                               <span>{mode.description}
 
                               </span>
-                              <span aria-hidden="true">&middot;</span>
                               <span></span>
                             </RadioGroup.Description>
                           </div>
