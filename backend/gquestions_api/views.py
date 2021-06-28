@@ -278,5 +278,19 @@ def UpdateCalificacionView(request, id_calificacion):
         return Response(serializer.data, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
- 
+from .questiongenerator import QuestionGenerator
+
+@api_view(["POST"])
+def GetQuestionsTextView(request):
+    article = request.data.get('text')
+    num_questions_request = request.data.get('num_questions')
+    answer_style_request = request.data.get('answer_style')
+
+    qg = QuestionGenerator()
+    qa_list = qg.generate(
+        article,
+        num_questions=int(num_questions_request),
+        answer_style=str(answer_style_request)
+    )
+    return JsonResponse(qa_list, safe=False, status=status.HTTP_200_OK)
 
