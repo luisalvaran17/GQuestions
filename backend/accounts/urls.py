@@ -5,19 +5,19 @@ from django.urls import include, path
 from accounts import views
 
 urlpatterns = [
-    path('api/usuarios/', get_users, name='usuarios'),
+    path('api/usuarios', get_users, name='usuarios'),
     path('api/usuarios/<int:user>', get_user),
     path('api/update-info-user/<int:id_user>', update_user, name='update_user'),
     path('api/update-organizacion-user/<int:id_user>', update_organizacion_user, name='update_org'),
     path('api/update-terminos-user/<int:id_user>', update_terminos_user, name='update_terminos'),
-    path('api/register/', RegisterAPI.as_view(), name='register'),
-    path('api/login/', Login.as_view(), name='login'),
-    path('api/logout/', knox_views.LogoutView.as_view(), name='logout'),
-    path('api/logoutall/', knox_views.LogoutAllView.as_view(), name='logoutall'),
+    path('api/register', RegisterAPI.as_view(), name='register'),
+    path('api/login', Login.as_view(), name='login'),
+    path('api/logout', knox_views.LogoutView.as_view(), name='logout'),
+    path('api/logoutall', knox_views.LogoutAllView.as_view(), name='logoutall'),
     path('api/change-password/<int:user>', ChangePasswordView.as_view(), name='change-password'),
     path('api/exist-user/<email>', exist_user, name='exist-user'),
     path('api/id-user/<email>', get_id_rol_user),
-    path('rest-auth/google/', GoogleLogin.as_view(), name='google_login'),
+    path('rest-auth/google', GoogleLogin.as_view(), name='google_login'),
 ]
 
 ## http://127.0.0.1:8000/accounts/google/login/ inicio con google url

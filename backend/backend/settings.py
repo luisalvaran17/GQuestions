@@ -27,7 +27,7 @@ SECRET_KEY = '8ow=y-pv4ged+2-fs0ekmlih6p_ltaoy7#q0&71!+3$%tjg(y2'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
+ALLOWED_HOSTS = ['*'
 ]
 
 
@@ -70,6 +70,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware'
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -124,7 +125,9 @@ AUTH_PASSWORD_VALIDATORS = [
 
 CORS_ORIGIN_WHITELIST = [
      'http://localhost:3000',
-     'http://192.168.0.34:3000'
+     'http://192.168.0.34:3000',
+     'https://gquestions.herokuapp.com',
+     'http://gquestions.herokuapp.com',
 ]
 
 # Internationalization
@@ -175,3 +178,11 @@ AUTH_USER_MODEL = 'accounts.Account'
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 SITE_ID=1
+
+import dj_database_url
+prod_db=dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(prod_db)
+
+# Fix error: Refused to apply style from '<URL>' because its MIME type ('text/html') is not a supported stylesheet MIME type, and strict MIME checking is enabled.
+import mimetypes
+mimetypes.add_type("text/css", ".css", True)

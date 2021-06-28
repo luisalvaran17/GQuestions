@@ -1,0 +1,8 @@
+backend/env
+backend/staticfiles
+**/*.pyc
+node_modules
+frontend/.git
+backend/.git
+
+.vscode
