@@ -93,7 +93,7 @@ export const AjustesTeacher = () => {
 
       <Navbar className='fixed' />
 
-      <div data-aos="fade-right" className='container xl:pl-32 px-1 sm:px-8 py-8 md:px-8 lg:pl-16 sm:mr-32 mx-4 dark:text-white' style={{ height: "100vh" }}>
+      <div data-aos="fade-right" className='container xl:px-32 px-8 py-8 md:px-8 lg:px-16 dark:text-white' style={{ height: "100vh" }}>
         <h1 className='font-black xl:text-5xl md:text-4xl text-2xl md:text-left mb-4'>
           Ajustes
           </h1>

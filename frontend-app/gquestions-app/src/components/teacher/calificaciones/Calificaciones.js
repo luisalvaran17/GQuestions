@@ -32,8 +32,8 @@ export const Calificaciones = () => {
       setDarkModeBool(false);
       darkModeRef.current.classList.remove('dark')
     }
-    getGeneracionesFromDB();
     setIsLoading(false);
+    getGeneracionesFromDB();// eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const getGeneracionesFromDB = async () => {
@@ -45,14 +45,14 @@ export const Calificaciones = () => {
     }
     else {
       for (let i = 0; i < response.length; i++) {
-        if (response[i].generacion_examenes.length !== 0) { //Verifica que las generaciones tengan el texto generado, si no lo tiene no lo agrega al renderizado
+        if (response[i].generacion_examenes.length !== 0) { //Verifica que las generaciones tenga examen generado, si no lo tiene no lo agrega al renderizado
           const response_conf_examen = await GetConfiguracionExamenAPI(response[i].generacion_examenes[0])
           let config_examen = response_conf_examen[0];
           setConfiguracionExamenes(response_conf_examen => [...response_conf_examen, config_examen]);
         }
       }
       // Verificaca de que haya elementos generados, si no los hay, entonces, muestra mensaje de vacío
-      if (response.length === 0) setExamenesEmpty(true)
+      if (configuracionExamenes.length === 0) setExamenesEmpty(true)
       else setExamenesEmpty(false)
 
       setIsLoading(false);
@@ -102,7 +102,7 @@ export const Calificaciones = () => {
         className='lg:text-base text-sm dark:text-white'>
 
 
-        <div className="grid grid-rows xl:pl-32 px-8 py-8 md:px-8 lg:pl-16">
+        <div className="container grid grid-rows xl:px-32 px-8 py-8 md:px-8 lg:px-16">
           <h1 className='font-black xl:text-5xl md:text-4xl text-2xl md:text-left md:mb-10 '>
             Calificaciones
           </h1>
@@ -122,7 +122,7 @@ export const Calificaciones = () => {
           </div>
 
           <CustomScrollbars
-            className={examenesEmpty ? 'hidden' : 'container shadow bg-white bg-opacity-50 dark:bg-darkColor dark:bg-opacity-100 border border-gray-100 dark:border-gray-800 rounded-b-xl shadow-b'}
+            className={examenesEmpty ? 'hidden' : 'container shadow bg-white bg-opacity-50 dark:bg-darkColor dark:bg-opacity-100 border border-gray-200 dark:border-gray-800 rounded-b-xl shadow-b'}
             autoHide
             autoHideTimeout={900}
             autoHideDuration={400}
@@ -137,7 +137,7 @@ export const Calificaciones = () => {
                       id={examen.id_configuracion_examen}
                       onClick={handleClickExamenConfiguracion}
                       className="duration-500 pt-6 pb-4 hover:bg-gray-200 pl-4 pr-8 hover:bg-opacity-40 
-                                                cursor-pointer font-bold border-b border-gray-300 dark:border-gray-700 dark:hover:bg-opacity-10">
+                        cursor-pointer font-bold border-b border-gray-300 dark:border-gray-700 dark:hover:bg-opacity-10">
                       <div className="grid transition pointer-events-none" >
                         <div className="grid grid-cols-12">
                           <div className="sm:col-span-10 col-span-12">
@@ -171,8 +171,8 @@ export const Calificaciones = () => {
               </div>}
           </CustomScrollbars>
 
-          <div className={examenesEmpty ? 'py-40 px-6 select-none' : 'hidden'}>
-            <p className="dark:text-gray-200 text-gray-800 text-center">Todavía no tienes exámenes generados</p>
+          <div className={examenesEmpty ? 'py-52 px-6 select-none bg-white bg-opacity-50 dark:bg-darkColor dark:bg-opacity-100 border border-gray-200 dark:border-gray-800 rounded-b-xl shadow-b' : 'hidden'}>
+            <p className="dark:text-gray-200 text-gray-800 text-center ">Todavía no tienes exámenes generados</p>
           </div>
 
         </div>

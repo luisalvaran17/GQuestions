@@ -215,7 +215,7 @@ export const CalificacionesEstudiantes = () => {
 
 
                 <div className="grid grid-rows xl:pl-32 px-8 py-8 md:px-8 lg:pl-16">
-                    <h1 className='font-black xl:text-5xl md:text-4xl text-2xl md:text-left md:mb-10 '>
+                    <h1 className='font-black xl:text-5xl md:text-4xl text-2xl md:text-left md:mb-10 mb-4'>
                         Calificaciones
                     </h1>
 

@@ -348,20 +348,19 @@ export const RevisionGeneracion = (props) => {
             </div>
 
             <div className="container">
-              <div className="grid grid-cols-12">
+              <div className="grid grid-cols-12" style={{height:'50vh'}}>
                 <div className="col-span-2 sm:col-span-3">
-                  <div className="flex">
+                  <div className="flex h-full">
                     <CustomScrollbars
                       autoHide
                       autoHideTimeout={900}
                       autoHideDuration={400}
-                      style={{ height: "45vh" }}
                       className="m-0 overflow-auto bg-white border shadow-md border-gray-300 md:rounded-xl 
                     rounded-r-none rounded-xl w-full xl:mr-16 lg:mr-4 md:mr-4 mr-0 md:text-base text-sm">
                       <ul className="divide-y divide-gray-300">
                         <li className="p-4 font-bold text-gray-500">
                           <p className="hidden sm:block">PAQUETES DE GENERACIONES</p>
-                          <p className="sm:hidden block">G</p>
+                          <p className="sm:hidden block">#</p>
                         </li>
 
                         {
@@ -423,8 +422,7 @@ export const RevisionGeneracion = (props) => {
                       autoHide
                       autoHideTimeout={900}
                       autoHideDuration={400}
-                      className={disabledTextArea ? 'transition duration-500 m-0 overflow-auto bg-gray-200' : 'transition duration-500 m-0 overflow-auto bg-white'}
-                      style={{ height: "34vh" }}>
+                      className={disabledTextArea ? 'transition duration-500 m-0 overflow-auto bg-gray-200' : 'transition duration-500 m-0 overflow-auto bg-white'}>
                       <textarea
                         ref={textAreaRef}
                         className="h-full px-6 py-4 w-full m-0 resize-none focus:border-gray-400  bg-transparent text-gray-600 text-sm md:text-base outline-none focus:outline-none"
@@ -466,7 +464,7 @@ export const RevisionGeneracion = (props) => {
                     <div className="grid grid-cols-12 mt-2 px-4 items-center">
                       <p className="col-span-7 hidden md:block text-gray-500 text-xs md:text-sm">Cite: GPT2 Algorithm from Hugging Face</p>
 
-                      <div className="md:col-span-5 col-span-12 place-self-end">
+                      <div className="md:col-span-5 py-1 col-span-12 place-self-end items-center">
                         <button
                           className="transition duration-500 md:text-base text-sm z-10 pl-1 sm:w-52 w-40 block focus:outline-none outline-none 
                         bg-white border border-green-400 text-green-700 hover:bg-green-500 focus:bg-green-500 hover:text-white

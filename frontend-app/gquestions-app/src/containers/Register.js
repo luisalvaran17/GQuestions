@@ -15,7 +15,7 @@ import { GetToken } from "../api/Usuario/GetToken";
 import { GetDataUser } from "../api/Usuario/GetDataUser";
 import backgroundGeneralCyanDark from "../assets/images/background-general-cyan_dark.png";
 import backgroundGeneralCyanLight from "../assets/images/background-general-cyan_light.png";
-import { LoadingPage } from "./LoadingPage";
+import { BASE_DIR } from "../api/BaseDirURl";
 
 /* CITAR FREEPIK
 <a href='https://www.freepik.com/vectors/banner'>Banner vector created by upklyak - www.freepik.com</a>
@@ -82,7 +82,7 @@ export const Register = () => {
       setIsLoading(true);
       // Verifica si el usuario existe para mostrar un modal o no
       await fetch(
-        "http://127.0.0.1:8000/api/exist-user/" + usuario.email,
+        BASE_DIR + "api/exist-user/" + usuario.email,
         {
           method: "GET",
           headers: { "Content-Type": "application/json" },
@@ -143,7 +143,7 @@ export const Register = () => {
 
   // Función que registra al usuario con cuenta de google
   const responseGoogle = (response) => {
-    fetch("http://127.0.0.1:8000/api/exist-user/" + response.profileObj.email, {
+    fetch(BASE_DIR + "api/exist-user/" + response.profileObj.email, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     }).then((data) => {
@@ -205,7 +205,7 @@ export const Register = () => {
       usuario.last_name === "" ||
       usuario.email === "" ||
       usuario.password === "" ||
-      usuario.rol === "" 
+      usuario.rol === ""
       /* usuario.fecha_nac === "" */
       //usuario.edad: null,
 
@@ -288,303 +288,310 @@ export const Register = () => {
           data-aos="fade-left"
           className="min-w-screen min-h-screen flex items-center justify-center px-4 sm:px-0 py-4 md:mx-16 lg:mx-4 2xl:mx-52 xl:mx-4 text-xs sm:text-base"
         >
-          {!isLoading &&
-            <div className="border md:mt-0 mt-16 border-gray-300 border-opacity-20 text-sm md:text-md bg-gray-100 text-gray-500 rounded-3xl shadow-xl w-full overflow-hidden dark:bg-darkColor dark:text-white">
 
-              {/* Button back to home */}
-              <div className="">
-                <span className="flex absolute right-18 md:top-16 top-8 hover:text-white text-base">
-                  <button
-                    className="btn-back"
-                    onClick={onClickBackHome}>
-                    <span
+          <div className="border md:mt-0 mt-16 border-gray-300 border-opacity-20 text-sm md:text-md bg-gray-100 text-gray-500 rounded-3xl shadow-xl w-full overflow-hidden dark:bg-darkColor dark:text-white">
+
+            {/* Button back to home */}
+            <div className="">
+              <span className="hidden sm:block absolute right-18 md:top-16 top-8 hover:text-white text-base">
+                <button
+                  className="btn-back"
+                  onClick={onClickBackHome}>
+                  <span
                     className="material-icons mr-2"
-                  >&#xe5cb;
-                </span>Home
-            </button>
-                </span>
-              </div>
+                  >&#xe88a;
+                    </span>Inicio
+                  </button>
+              </span>
+            </div>
 
-              <div className="md:flex w-full">
-                <div className="hidden lg:block  w-1/2 bg-yellowlight dark:bg-darkGrayColor2 border-r border-opacity-40 border-gray-300">
-                  <div className="flex items-center mt-32 ">
-                    <img className="w-full" src={imageStudent} style={{ width: '1000' }} alt=""></img>
-                  </div>
+            <div className="md:flex w-full">
+              <div className="hidden lg:block  w-1/2 bg-yellowlight dark:bg-darkGrayColor2 border-r border-opacity-40 border-gray-300">
+                <div className="flex items-center mt-32 ">
+                  <img className="w-full" src={imageStudent} style={{ width: '1000' }} alt=""></img>
                 </div>
-                <form
-                  onSubmit={handleSubmit}
-                  className="w-full lg:w-1/2 py-10 px-5 lg:px-10"
-                >
-                  <div className="text-center mb-10">
-                    <h1 className="font-black text-2xl md:text-3xl mb-8 text-center text-gray-600 dark:text-gray-200 uppercase">
-                      Registrarse
+              </div>
+              <form
+                onSubmit={handleSubmit}
+                className="w-full lg:w-1/2 py-10 px-5 lg:px-10"
+              >
+                <div className="text-center mb-10">
+                  <h1 className="font-black text-2xl md:text-3xl mb-8 text-center text-gray-600 dark:text-gray-200 uppercase">
+                    Registrarse
                   </h1>
+                </div>
+                <div>
+                  <div className="grid grid-rows-2 grid-cols-1 md:flex -mx-3 ">
+                    <div className="md:w-1/2 px-3 mb-3">
+                      <label
+                        htmlFor=""
+                        className="text-xs font-semibold px-1"
+                      >
+                        Primer nombre
+                      </label>
+                      <div className="flex">
+                        <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
+                          <i className="mdi mdi-account-outline text-gray-400 text-lg"></i>
+                        </div>
+                        <input
+                          type="text"
+                          id="first_name"
+                          className="input-style"
+                          name="first_name"
+                          placeholder="Ingresa tu nombre"
+                          onChange={handleChange}
+                        />
+                      </div>
+                    </div>
+                    <div className="md:w-1/2 px-3 mb-3">
+                      <label
+                        htmlFor=""
+                        className="text-xs font-semibold px-1"
+                      >
+                        Apellido
+                      </label>
+                      <div className="flex">
+                        <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
+                          <i className="mdi mdi-account-outline text-gray-400 text-lg"></i>
+                        </div>
+                        <input
+                          type="text"
+                          id="last_name"
+                          className="input-style"
+                          name="last_name"
+                          placeholder="Ingresa tu apellido"
+                          onChange={handleChange}
+                        />
+                      </div>
+                    </div>
                   </div>
-                  <div>
-                    <div className="grid grid-rows-2 grid-cols-1 md:flex -mx-3 ">
-                      <div className="md:w-1/2 px-3 mb-3">
-                        <label
-                          htmlFor=""
-                          className="text-xs font-semibold px-1"
-                        >
-                          Primer nombre
+                  <div className="-mx-3">
+                    <div className="w-full px-3 mb-3">
+                      <label
+                        htmlFor=""
+                        className="text-xs font-semibold px-1 self-end py-2"
+                      >
+                        Correo electrónico
                       </label>
-                        <div className="flex">
-                          <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
-                            <i className="mdi mdi-account-outline text-gray-400 text-lg"></i>
-                          </div>
-                          <input
-                            type="text"
-                            id="first_name"
-                            className="input-style"
-                            name="first_name"
-                            placeholder="Ingresa tu nombre"
-                            onChange={handleChange}
-                          />
+                      <div className="flex">
+                        <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
+                          <i className="mdi mdi-email-outline text-gray-400 text-lg"></i>
                         </div>
-                      </div>
-                      <div className="md:w-1/2 px-3 mb-3">
-                        <label
-                          htmlFor=""
-                          className="text-xs font-semibold px-1"
-                        >
-                          Apellido
-                      </label>
-                        <div className="flex">
-                          <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
-                            <i className="mdi mdi-account-outline text-gray-400 text-lg"></i>
-                          </div>
-                          <input
-                            type="text"
-                            id="last_name"
-                            className="input-style"
-                            name="last_name"
-                            placeholder="Ingresa tu apellido"
-                            onChange={handleChange}
-                          />
-                        </div>
+                        <input
+                          type="email"
+                          id="email"
+                          className="input-style"
+                          name="email"
+                          placeholder="Ingresa tu email"
+                          onChange={handleChange}
+                        />
                       </div>
                     </div>
-                    <div className="-mx-3">
-                      <div className="w-full px-3 mb-3">
-                        <label
-                          htmlFor=""
-                          className="text-xs font-semibold px-1 self-end py-2"
-                        >
-                          Correo electrónico
+                  </div>
+                  <div className="grid grid-rows-2 grid-cols-1 sm:flex -mx-3">
+                    <div className="w-full px-3 mb-3">
+                      <label
+                        htmlFor=""
+                        className="text-xs font-semibold px-1 self-end py-2"
+                      >
+                        Contraseña nueva
                       </label>
-                        <div className="flex">
-                          <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
-                            <i className="mdi mdi-email-outline text-gray-400 text-lg"></i>
-                          </div>
-                          <input
-                            type="email"
-                            id="email"
-                            className="input-style"
-                            name="email"
-                            placeholder="Ingresa tu email"
-                            onChange={handleChange}
-                          />
+                      <div className="flex">
+                        <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
+                          <i className="mdi mdi-lock-outline text-gray-400 text-lg"></i>
                         </div>
+                        <input
+                          type="password"
+                          id="password"
+                          className="input-style"
+                          name="password"
+                          placeholder="Contraseña"
+                          onChange={handleChange}
+                        />
                       </div>
                     </div>
-                    <div className="grid grid-rows-2 grid-cols-1 sm:flex -mx-3">
-                      <div className="w-full px-3 mb-3">
-                        <label
-                          htmlFor=""
-                          className="text-xs font-semibold px-1 self-end py-2"
-                        >
-                          Contraseña nueva
+                    <div className="w-full px-3 mb-3">
+                      <label
+                        htmlFor=""
+                        className="text-xs font-semibold px-1 self-end py-2"
+                      >
+                        Confirmar contraseña
                       </label>
-                        <div className="flex">
-                          <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
-                            <i className="mdi mdi-lock-outline text-gray-400 text-lg"></i>
-                          </div>
-                          <input
-                            type="password"
-                            id="password"
-                            className="input-style"
-                            name="password"
-                            placeholder="Contraseña"
-                            onChange={handleChange}
-                          />
+                      <div className="flex">
+                        <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
+                          <i className="mdi mdi-lock-outline text-gray-400 text-lg"></i>
                         </div>
-                      </div>
-                      <div className="w-full px-3 mb-3">
-                        <label
-                          htmlFor=""
-                          className="text-xs font-semibold px-1 self-end py-2"
-                        >
-                          Confirmar contraseña
-                      </label>
-                        <div className="flex">
-                          <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
-                            <i className="mdi mdi-lock-outline text-gray-400 text-lg"></i>
-                          </div>
-                          <input
-                            type="password"
-                            id="password2"
-                            className="input-style"
-                            name="password2"
-                            placeholder="Contraseña"
-                            onChange={handleChangePassword}
-                          />
-                        </div>
+                        <input
+                          type="password"
+                          id="password2"
+                          className="input-style"
+                          name="password2"
+                          placeholder="Contraseña"
+                          onChange={handleChangePassword}
+                        />
                       </div>
                     </div>
+                  </div>
 
-                    {/* Rol y fecha de nacimiento */}
-                    <div className="flex -mx-3">
-                      <div className="w-1/2 px-3 mb-3">
-                        <label
-                          htmlFor=""
-                          className="text-xs font-semibold px-1"
-                        >
-                          Tipo de cuenta
+                  {/* Rol y fecha de nacimiento */}
+                  <div className="flex -mx-3">
+                    <div className="w-1/2 px-3 mb-3">
+                      <label
+                        htmlFor=""
+                        className="text-xs font-semibold px-1"
+                      >
+                        Tipo de cuenta
                       </label>
-                        <div className="flex">
-                          <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
-                            <i className="mdi mdi-account-outline text-gray-400 text-lg"></i>
-                          </div>
-                          <select
-                            type="text"
-                            id="rol"
-                            className="input-style"
-                            name="rol"
-                            defaultValue="Docente"
-                            placeholder="Ingresa tu nombre"
-                            onChange={handleChange}
-                          >
-                            <option>Estudiante</option>
-                            <option>Docente</option>
-                          </select>
+                      <div className="flex">
+                        <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
+                          <i className="mdi mdi-account-outline text-gray-400 text-lg"></i>
                         </div>
+                        <select
+                          type="text"
+                          id="rol"
+                          className="input-style"
+                          name="rol"
+                          defaultValue="Docente"
+                          placeholder="Ingresa tu nombre"
+                          onChange={handleChange}
+                        >
+                          <option>Estudiante</option>
+                          <option>Docente</option>
+                        </select>
                       </div>
-                      <div className="w-1/2 px-3 mt-1">
-                        <label
-                          htmlFor=""
-                          className="hidden sm:block text-xs font-semibold px-1"
-                        >
-                          Fecha nac. (opcional)
+                    </div>
+                    <div className="w-1/2 px-3 mt-1">
+                      <label
+                        htmlFor=""
+                        className="hidden sm:block text-xs font-semibold px-1"
+                      >
+                        Fecha nac. (opcional)
                       </label>
-                        <label
-                          htmlFor=""
-                          className="sm:hidden block text-xs font-semibold px-1"
-                        >
-                          Cumpleaños (opc.)
+                      <label
+                        htmlFor=""
+                        className="sm:hidden block text-xs font-semibold px-1"
+                      >
+                        Cumpleaños (opc.)
                       </label>
-                        <div className="flex">
-                          <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
-                          <input
-                            type="date"
-                            id="fecha_nacimiento"
-                            className="dark:text-gray-500 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2 
+                      <div className="flex">
+                        <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
+                        <input
+                          type="date"
+                          id="fecha_nacimiento"
+                          className="dark:text-gray-500 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2 
                           focus:ring-yellowlight w-full -ml-10 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow;"
-                            placeholder="dd/mm/aaaa"
-                            name="fecha_nac"
-                            onChange={handleChange}
-                          />
-                        </div>
+                          placeholder="dd/mm/aaaa"
+                          name="fecha_nac"
+                          onChange={handleChange}
+                        />
                       </div>
                     </div>
+                  </div>
 
-                    {/* Button registrarse */}
-                    <div className="grid grid-rows-1 text-center items-center">
-                      <div className="py-1 col-span-12 my-0">
+                  {/* Button registrarse */}
+                  <div className="grid grid-rows-1 text-center items-center">
+                    <div className="py-1 col-span-12 my-0">
+                      {!isLoading &&
                         <button
                           type="submit"
                           className="btn-primary"
                           onClick={handleClickRegister}
                         >
                           REGISTRARSE
-                      </button>
-                      </div>
-                    </div>
-
-                    {/* Error messages */}
-                    <div
-                      ref={divRefErrorMessage}
-                      className="hidden animate-pulse mt-1 relative py-1 pl-4 pr-10 leading-normal text-red-700 bg-red-100 rounded-lg"
-                      role="alert"
-                    >
-                      <div id="error_messages" className="text-sm md:text-base">
-                      </div>
-
-                      <span
-                        className="absolute inset-y-0 right-0 flex items-center mr-4"
-                        onClick={addClassdivRefErrorMessage}
-                      >
-                        <svg
-                          className="w-4 h-4 fill-current"
-                          role="button"
-                          viewBox="0 0 20 20"
+                    </button>
+                      }{isLoading &&
+                        <button
+                          type="submit"
+                          className="btn-primary"
                         >
-                          <path
-                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                            clipRule="evenodd"
-                            fillRule="evenodd"
-                          ></path>
-                        </svg>
-                      </span>
-                    </div>
-
-                    <div className="py-1 col-span-12 my-0 text-center text-sm">
-                      <span className="flex items-center justify-center space-x-2">
-                        <span className="h-px bg-gray-400 w-14"></span>
-                        <span className="font-normal text-gray-500">
-                          {" "}
-                        Registrar con
-                      </span>
-                        <span className="h-px bg-gray-400 w-14"></span>
-                      </span>
-                    </div>
-                    <div className="py-1 col-span-12 my-0 text-center">
-                      <GoogleRegister
-                        render={(renderProps) => (
-                          <button
-                            onClick={renderProps.onClick}
-                            disabled={renderProps.disabled}
-                            className="w-full flex items-center justify-center px-4 py-2 space-x-2 transition-colors duration-500 border border-gray-800 dark:bg-gray-800 dark:hover:bg-gray-900 rounded-md group hover:bg-gray-800 focus:outline-none"
-                          >
-                            <span>
-                              <i className="fab fa-google mr-2"></i>
-                            </span>
-                            <span className="text-sm font-medium text-gray-800 group-hover:text-white dark:text-white">
-                              Google
+                          <span className="text-white my-0 w-0 h-0">
+                            <i className="fas fa-circle-notch fa-spin fa-x"></i>
                           </span>
-                          </button>
-                        )}
-                        clientId="1016385449655-s27qeebm0kc4lfuedk7o665lhmtd70qp.apps.googleusercontent.com"
-                        buttonText="GOOGLE"
-                        onSuccess={responseGoogle}
-                        onFailure={responseGoogle}
-                      />
-                    </div>
-                    <div className="text-center">
-                      <label
-                        htmlFor=""
-                        className="text-xs font-semibold px-1 text-gray-500 py-1"
-                      >
-                        ¿Ya tienes cuenta?
-                    </label>
-                      <span>
-                        <Link
-                          to="/login"
-                          className="text-xs font-semibold px-1 text-blue-500 underline"
-                        >
-                          Iniciar sesión
-                      </Link>
-                      </span>
+
+                        </button>}
+
                     </div>
                   </div>
-                </form>
-              </div>
+
+                  {/* Error messages */}
+                  <div
+                    ref={divRefErrorMessage}
+                    className="hidden animate-pulse mt-1 relative py-1 pl-4 pr-10 leading-normal text-red-700 bg-red-100 rounded-lg"
+                    role="alert"
+                  >
+                    <div id="error_messages" className="text-sm md:text-base">
+                    </div>
+
+                    <span
+                      className="absolute inset-y-0 right-0 flex items-center mr-4"
+                      onClick={addClassdivRefErrorMessage}
+                    >
+                      <svg
+                        className="w-4 h-4 fill-current"
+                        role="button"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                          clipRule="evenodd"
+                          fillRule="evenodd"
+                        ></path>
+                      </svg>
+                    </span>
+                  </div>
+
+                  <div className="py-1 col-span-12 my-0 text-center text-sm">
+                    <span className="flex items-center justify-center space-x-2">
+                      <span className="h-px bg-gray-400 w-14"></span>
+                      <span className="font-normal text-gray-500">
+                        {" "}
+                        Registrar con
+                      </span>
+                      <span className="h-px bg-gray-400 w-14"></span>
+                    </span>
+                  </div>
+                  <div className="py-1 col-span-12 my-0 text-center">
+                    <GoogleRegister
+                      render={(renderProps) => (
+                        <button
+                          onClick={renderProps.onClick}
+                          disabled={renderProps.disabled}
+                          className="w-full flex items-center justify-center px-4 py-2 space-x-2 transition-colors duration-500 border border-gray-800 dark:bg-gray-800 dark:hover:bg-gray-900 rounded-md group hover:bg-gray-800 focus:outline-none"
+                        >
+                          <span>
+                            <i className="fab fa-google mr-2"></i>
+                          </span>
+                          <span className="text-sm font-medium text-gray-800 group-hover:text-white dark:text-white">
+                            Google
+                          </span>
+                        </button>
+                      )}
+                      clientId="1016385449655-s27qeebm0kc4lfuedk7o665lhmtd70qp.apps.googleusercontent.com"
+                      buttonText="GOOGLE"
+                      onSuccess={responseGoogle}
+                      onFailure={responseGoogle}
+                    />
+                  </div>
+                  <div className="text-center">
+                    <label
+                      htmlFor=""
+                      className="text-xs font-semibold px-1 text-gray-500 py-1"
+                    >
+                      ¿Ya tienes cuenta?
+                    </label>
+                    <span>
+                      <Link
+                        to="/login"
+                        className="text-xs font-semibold px-1 text-blue-500 underline"
+                      >
+                        Iniciar sesión
+                      </Link>
+                    </span>
+                  </div>
+                </div>
+              </form>
             </div>
-          }{isLoading &&
-            <div className="pt-52">
-              <LoadingPage />
-            </div>
-          }
+          </div>
         </div>
       </div>
     );

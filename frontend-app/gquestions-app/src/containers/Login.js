@@ -10,7 +10,6 @@ import { LoginAPI } from "../api/Usuario/LoginAPI";
 import { GetDataUser } from "../api/Usuario/GetDataUser";
 import { GetToken } from "../api/Usuario/GetToken";
 import ReactDOM from 'react-dom';
-import { LoadingPage } from "./LoadingPage";
 
 export const Login = () => {
 
@@ -33,13 +32,13 @@ export const Login = () => {
 
   // Método llamado al presionar el botón de Login (API)
   const handleClickLogin = async () => {
-
+    
     if (checkInputsEmpty() === true) {
       // Obtiene el token y lo guarda en el estado
       // Redirecciona al home sí el usuario existe y es correcto
       if (_isMounted) {
         const response = await LoginAPI(credentials);
-
+        
         if (response === true) {
           setIsLoading(true);
           localStorage.setItem('token', await GetToken(credentials));
@@ -177,19 +176,19 @@ export const Login = () => {
         data-aos="fade-left"
         className="min-w-screen min-h-screen flex items-center justify-center px-8 py-4 xl:px-20 2xl:px-44 text-xs sm:text-base"
       >
-        {!isLoading &&
+        
           <div className="border border-gray-300 border-opacity-20 text-sm md:text-base bg-gray-100 text-gray-500 rounded-3xl shadow-xl w-full md:w-full overflow-hidden dark:bg-darkColor dark:text-white">
 
             {/* Button back to home */}
             <div className="">
-              <span className="flex absolute right-18 top-16 hover:text-white">
+              <span className="hidden sm:block absolute right-18 top-16 hover:text-white">
                 <button
                   className="btn-back"
                   onClick={onClickBackHome}>
                   <span
                     className="material-icons mr-2"
-                  >&#xe5cb;
-                </span>Home
+                  >&#xe88a;
+                </span>Inicio
             </button>
               </span>
             </div>
@@ -303,13 +302,24 @@ export const Login = () => {
 
                   <div className="grid grid-cols-12 gap-x-2 grid-rows text-center items-center">
                     <div className="py-1 lg:py-0 col-span-12">
-                      <button
-                        type="submit"
-                        className="btn-primary"
-                        onClick={handleClickLogin}
-                      >
-                        INICIAR SESIÓN
-                      </button>
+                      {!isLoading &&
+                        <button
+                          type="submit"
+                          className="btn-primary"
+                          onClick={handleClickLogin}
+                        >
+                          INICIAR SESIÓN
+                        </button>
+                      }{isLoading &&
+                        <button
+                          type="submit"
+                          className="btn-primary"
+                        >
+                          <span className="text-white my-0 w-0 h-0">
+                            <i className="fas fa-circle-notch fa-spin fa-x"></i>
+                          </span>
+                          
+                        </button>}
                     </div>
 
                     <div className="py-1 lg:py-4 col-span-12">
@@ -341,12 +351,7 @@ export const Login = () => {
                 </div>
               </form>
             </div>
-          </div>}
-        {isLoading &&
-          <div className="pt-52">
-            <LoadingPage />
           </div>
-        }
       </div>
     </div>
   );

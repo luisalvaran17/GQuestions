@@ -13,7 +13,7 @@ export const PrintGeneracion = (props) => {
     }, [history]);
 
     return (
-        <div className="bg-black text-black">
+        <div className="text-black">
             <Helmet>
                 <title>Exámenes generados</title>
             </Helmet>

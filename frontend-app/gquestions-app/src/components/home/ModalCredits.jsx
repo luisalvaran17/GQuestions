@@ -45,7 +45,7 @@ export const ModalCredits = () => {
         <div className='inline-block align-bottom bg-white dark:bg-darkColor rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full'>
           <div className='bg-white dark:bg-darkColor border-b border-gray-600 px-4 pt-5 pb-4 sm:p-6 sm:pb-4'>
             <div className='sm:flex sm:items-start'>
-              <div className='mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left'>
+              <div className='mt-3 sm:mt-0 sm:ml-4'>
                 <h3
                   className='text-xl font-bold leading-6 text-gray-900 dark:text-white uppercase'
                   id='modal-title'
@@ -67,11 +67,11 @@ export const ModalCredits = () => {
               </div>
             </div>
           </div>
-          <div className='sm:ml-64 ml-0 grid grid-col-12 dark:bg-darkColor px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse'>
+          <div className='sm:ml-64 ml-0 sm:w-auto w-full grid grid-col-12 dark:bg-darkColor px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse'>
             <button
               type='button'
               onClick={acceptButton}
-              className='col-start-6 btn-primary'>
+              className='sm:col-start-6 btn-primary'>
               Aceptar
               </button>
           </div>

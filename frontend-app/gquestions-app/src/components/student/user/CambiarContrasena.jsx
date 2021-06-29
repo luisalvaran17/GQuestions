@@ -178,7 +178,7 @@ export const CambiarContrasena = () => {
                       </label>
                         <div className="flex">
                             <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
-                                <i className="mdi mdi-lock-outline text-gray-400 text-lg"></i>
+                                <i className="hidden sm:block mdi mdi-lock-outline text-gray-400 text-lg"></i>
                             </div>
                             <input
                                 type={showPasswords ? "text" : "password"}
@@ -204,7 +204,7 @@ export const CambiarContrasena = () => {
                       </label>
                         <div className="flex">
                             <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
-                                <i className="mdi mdi-lock-outline text-gray-400 text-lg"></i>
+                                <i className="hidden sm:block mdi mdi-lock-outline text-gray-400 text-lg"></i>
                             </div>
                             <input
                                 type={showPasswords ? "text" : "password"}
@@ -235,7 +235,7 @@ export const CambiarContrasena = () => {
                       </label>
                 <div className="flex">
                     <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
-                        <i className="mdi mdi-lock-outline text-gray-400 text-lg"></i>
+                        <i className="hidden sm:block mdi mdi-lock-outline text-gray-400 text-lg"></i>
                     </div>
                     <input
                         type={showPasswords ? "text" : "password"}
@@ -258,7 +258,7 @@ export const CambiarContrasena = () => {
             <div
 
                 ref={divRefSuccessMessage}
-                className="hidden animate-pulse px-4 ml-6 mt-2 relative py-1 pl-4 pr-10 leading-normal text-green-700 bg-green-100 rounded-lg"
+                className="hidden animate-pulse sm:ml-6 ml-2 mt-2 relative py-1 pl-4 pr-10 leading-normal text-green-700 bg-green-100 rounded-lg"
                 role="alert"
             >
 
@@ -286,7 +286,7 @@ export const CambiarContrasena = () => {
             <div
 
                 ref={divRefErrorMessage}
-                className="hidden animate-pulse px-4 ml-6 mt-2 relative py-1 pl-4 pr-10 leading-normal text-red-700 bg-red-100 rounded-lg"
+                className="hidden animate-pulse sm:ml-6 ml-2 mt-2 relative py-1 pl-4 pr-10 leading-normal text-red-700 bg-red-100 rounded-lg"
                 role="alert"
             >
 

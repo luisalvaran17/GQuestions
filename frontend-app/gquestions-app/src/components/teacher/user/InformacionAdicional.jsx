@@ -144,7 +144,7 @@ export const InformacionAdicional = () => {
             <div
 
                 ref={divRefSuccessMessage}
-                className="hidden animate-pulse px-4 ml-6 mt-2 relative py-1 pl-4 pr-10 leading-normal text-green-700 bg-green-100 rounded-lg"
+                className="hidden animate-pulse sm:ml-6 ml-2 mt-2 relative py-1 pl-4 pr-10 leading-normal text-green-700 bg-green-100 rounded-lg"
                 role="alert"
             >
 

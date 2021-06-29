@@ -265,52 +265,6 @@ export const GenerateConfig = () => {
     setIsOpen(true)
   }
 
-  const handleClickTest = async () => {
-    let temp_preguntas = []
-    let test_object = { "inputs": "Artificial intelligence is a field ", "parameters": { "max_length": generacionConfiguracion.longit_texto, "num_return_sequences": generacionConfiguracion.n_examenes } }
-
-    const response_textos = await fetch('https://api-inference.huggingface.co/models/gpt2', {
-      method: "POST",
-      headers: {
-        Authorization: "Bearer api_SKaXQfwcGKkADMccvESvSTuyQZwWOrhDYi",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(test_object),
-    }).then((res) => res.json())
-      .then((json) => {
-        return json;
-      }).catch(err => {
-        console.log(err)
-        return false;
-      })
-    console.log(response_textos);
-
-    let response_pregunta = await fetch("https://47ca53afd270.ngrok.io/api", {
-      method: "POST",
-      headers: {
-        Authorization: "Basic Og==",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        "data": [
-          [
-            4.5,
-            1,
-            5,
-            3.5
-          ]
-        ]
-      }),
-    }).then((res) => res.json())
-      .then((json) => {
-        return json;
-      }).catch(err => {
-        console.log(err)
-        return false;
-      })
-    console.log(response_pregunta);
-  }
-
   // CONDICIONAL PARA REDIRECCIONAR CON PROPS EN CASO DE QUE LA GENERACIÓN SEA EXITOSA (ENVIAR A SIGUIENTE COMPONENT FUNCTIONAL)
   if (!irRevisionTexto) {
     return (
@@ -340,7 +294,7 @@ export const GenerateConfig = () => {
           autoHideTimeout={900}
           autoHideDuration={400}
           style={{ height: "100vh" }}
-          data-aos="fade-right"
+          data-aos="fade-right" 
           className="">
 
           {/* Términos y condiciones Modal */}
@@ -389,57 +343,57 @@ export const GenerateConfig = () => {
                       Términos y condiciones
                     </Dialog.Title>
                     <div className="mt-2">
-                      <ul className="bg-gray-100 text-sm shadow rounded-xl list-none space-y-2 md:text-justify">
-                        <div className="text-gray-700 p-4 pb-1">
-                          <li className="mb-2">
-                            <p>
-                              Debido a que los modelos de lenguaje a gran escala como GPT-2 no distinguen la realidad de la ficción, el texto generado no debe ser considerado
-                              verdadero.
-                          </p>
-                          </li>
-                          <li className="mb-2">
-                            <p>
-                              El uso de GPT-2 en esta aplicación web tiene el propósito de ayudar en el aprendizaje del idioma Inglés (ayuda gramatical, vocabulario, lectura y escritura).
-                          </p>
-                          </li>
-                          <li className="mb-2">
-                            <p>
-                              Es importante mencionar que el modelo GPT-2 puede reflejar sesgos inherentes a los sistemas en los que fueron entrenados, sin embargo, se ha implementado una estrategia que intenta reducir los posibles sesgos que pueda presentar el sistema en esta implementación.
-                          </p>
-                          </li>
-                        </div>
-                        <li className="list-none">
-                          <p className="text-sm text-gray-500 p-4 border-t border-gray-200 bg-gray-100 rounded-b-xl md:text-justify">
-                            "No encontramos diferencias estadísticamente significativas en las sondas de sesgo de género, raza y religión entre 774M y 1.5B, lo que implica que todas las versiones de GPT-2 deben abordarse con niveles similares de precaución en los casos de uso que son sensibles a los sesgos en torno a los atributos humanos."
-                            <br></br>
-                            <a className="outline-none focus:outline-none"
-                              href="https://github.com/openai/gpt-2/blob/master/model_card.md#out-of-scope-use-cases"
-                              target="_blank" rel="noreferrer">
-                              <b>Model card GPT-2: </b><span className="text-blue-600 underline">
-                                https://github.com/openai/gpt-2/blob/master/model_card.md
-                              </span>
-                            </a>
+                    <ul className="bg-gray-100 text-sm shadow rounded-xl list-none space-y-2 md:text-justify">
+                      <div className="text-gray-700 p-4 pb-1">
+                        <li className="mb-2">
+                          <p>
+                            Debido a que los modelos de lenguaje a gran escala como GPT-2 no distinguen la realidad de la ficción, el texto generado no debe ser considerado
+                            verdadero.
                           </p>
                         </li>
-                      </ul>
-                      <div className="flex mt-4 pr-6 justify-end space-x-4">
-                        <button
-                          type="button"
-                          className="shadow transition duration-500 w-full inline-flex justify-center sm:px-12 px-8 py-2 text-sm font-medium text-red-900 bg-red-100 border border-transparent 
-                        rounded-md hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                          onClick={closeModalNoAccept}
-                        >
-                          Rechazar
-                      </button>
-                        <button
-                          type="button"
-                          className="shadow transition duration-500 w-full inline-flex justify-center sm:px-12 px-8 py-2 text-sm font-medium text-green-900 bg-green-100 border border-transparent 
-                        rounded-md hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                          onClick={closeModalAccept}
-                        >
-                          Aceptar
-                      </button>
+                        <li className="mb-2">
+                          <p>
+                            El uso de GPT-2 en esta aplicación web tiene el propósito de ayudar en el aprendizaje del idioma Inglés (ayuda gramatical, vocabulario, lectura y escritura).
+                          </p>
+                        </li>
+                        <li className="mb-2">
+                          <p>
+                            Es importante mencionar que el modelo GPT-2 puede reflejar sesgos inherentes a los sistemas en los que fueron entrenados, sin embargo, se ha implementado una estrategia que intenta reducir los posibles sesgos que pueda presentar el sistema en esta implementación.
+                          </p>
+                        </li>
                       </div>
+                      <li className="list-none">
+                        <p className="text-sm text-gray-500 p-4 border-t border-gray-200 bg-gray-100 rounded-b-xl md:text-justify">
+                          "No encontramos diferencias estadísticamente significativas en las sondas de sesgo de género, raza y religión entre 774M y 1.5B, lo que implica que todas las versiones de GPT-2 deben abordarse con niveles similares de precaución en los casos de uso que son sensibles a los sesgos en torno a los atributos humanos."
+                            <br></br>
+                          <a className="outline-none focus:outline-none"
+                            href="https://github.com/openai/gpt-2/blob/master/model_card.md#out-of-scope-use-cases"
+                            target="_blank" rel="noreferrer">
+                            <b>Model card GPT-2: </b><span className="text-blue-600 underline">
+                              https://github.com/openai/gpt-2/blob/master/model_card.md
+                              </span>
+                          </a>
+                        </p>
+                      </li>
+                    </ul>
+                    <div className="flex mt-4 pr-6 justify-end space-x-4">
+                      <button
+                        type="button"
+                        className="shadow transition duration-500 w-full inline-flex justify-center sm:px-12 px-8 py-2 text-sm font-medium text-red-900 bg-red-100 border border-transparent 
+                        rounded-md hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                        onClick={closeModalNoAccept}
+                      >
+                        Rechazar
+                      </button>
+                      <button
+                        type="button"
+                        className="shadow transition duration-500 w-full inline-flex justify-center sm:px-12 px-8 py-2 text-sm font-medium text-green-900 bg-green-100 border border-transparent 
+                        rounded-md hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                        onClick={closeModalAccept}
+                      >
+                        Aceptar
+                      </button>
+                    </div>
                     </div>
 
                   </div>
@@ -451,7 +405,7 @@ export const GenerateConfig = () => {
           {/* Modal case error */}
           <ErrorModal isOpen={isOpenError} />
 
-          <div className="grid grid-rows xl:pl-32 px-8 py-8 md:px-8 lg:pl-16">
+          <div className="container grid grid-rows xl:px-32 px-8 py-8 md:px-8 lg:px-16">
             <h1 className="font-black xl:text-5xl md:text-4xl sm:text-2xl md:text-left text-2xl mb-4 dark:text-white">
               Parámetros de generación
             </h1>
@@ -467,7 +421,7 @@ export const GenerateConfig = () => {
                   type="number"
                   id="cant_examenes"
                   className="grid text-sm md:text-base sm:col-span-4 col-span-12 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2
-                                  focus:ring-yellowlight w-full 2xl:w-96 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
+                                  focus:ring-yellowlight w-full 2xl:w-80 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
                   name="n_examenes"
                   defaultValue="10"
                   placeholder=""
@@ -483,7 +437,7 @@ export const GenerateConfig = () => {
                   type="number"
                   id="long_texto"
                   className="grid text-sm md:text-base sm:col-span-4 col-span-12 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2
-                                  focus:ring-yellowlight w-full 2xl:w-96 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
+                                  focus:ring-yellowlight w-full 2xl:w-80 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
                   name="longit_texto"
                   defaultValue=""
                   placeholder="Por defecto 300"
@@ -499,7 +453,7 @@ export const GenerateConfig = () => {
                   type="number"
                   id="cant_preguntas"
                   className="grid text-sm md:text-base sm:col-span-4 col-span-12 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2
-                                  focus:ring-yellowlight w-full 2xl:w-96 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
+                                  focus:ring-yellowlight w-full 2xl:w-80 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
                   name="n_preguntas"
                   defaultValue=""
                   placeholder="Cantidad de preguntas"
@@ -517,7 +471,7 @@ export const GenerateConfig = () => {
                   type="text"
                   id="ini_oracion"
                   className="grid text-sm md:text-base sm:col-span-4 col-span-12 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2
-                                  focus:ring-yellowlight w-full 2xl:w-96 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-gray-300 shadow text-gray-500"
+                                  focus:ring-yellowlight w-full 2xl:w-80 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-gray-300 shadow text-gray-500"
                   name="inicio_oracion"
                   disabled={true}
                   defaultValue="Aleatorio"
@@ -614,7 +568,7 @@ export const GenerateConfig = () => {
               </div>
             </form>
 
-            <div className="container py-3 mt-4 w-full sm:pr-8">
+            <div className="container py-3 mt-4 w-full sm:pr-8 ">
               <p className="text-sm text-gray-600 dark:text-gray-300 my-1">
                 Tiempo de generación aproximado: 120s
               </p>
@@ -625,7 +579,7 @@ export const GenerateConfig = () => {
               </div>
             </div>
 
-            <div className="container grid justify-end items-end sm:pr-8">
+            <div className="container sm:grid flex justify-end items-end sm:pr-8 w-full">
               {!isLoading &&
                 <button
                   type="submit"
@@ -645,18 +599,18 @@ export const GenerateConfig = () => {
                   </span>
                 Generando ...
               </button>}
-              <button
-                type="submit"
-                className="btn-secondary mt-2"
-                onClick={handleClickTest}
-              >
-                Test API GPT2
-              </button>
+              {/* <button
+                  type="submit"
+                  className="btn-secondary mt-2"
+                  onClick={handleClickTest}
+                >
+                  Test
+              </button> */}
             </div>
 
             {/* StepProgress */}
             <div className="container sm:pr-4">
-              <StepsProgress active={1} />
+              <StepsProgress active={1}/>
             </div>
 
             {/* Error messages */}

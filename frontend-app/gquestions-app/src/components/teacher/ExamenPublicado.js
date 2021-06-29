@@ -9,11 +9,10 @@ import { Helmet } from 'react-helmet';
 
 export const ExamenPublicado = () => {
 
-
   // Hooks dark mode
   const darkModeRef = useRef();
   const [darkModeBool, setDarkModeBool] = useState(localStorage.getItem('bool-dark'));
-  const linkExamenes = "localhost:3000/student/login-examen/" + localStorage.getItem('uuid_generacion');
+  const linkExamenes = "https://gquestions.herokuapp.com/student/login-examen/" + localStorage.getItem('uuid_generacion');
   const [copyText, setCopyText] = useState("Copiar");
 
   useEffect(() => {
@@ -24,7 +23,6 @@ export const ExamenPublicado = () => {
       setDarkModeBool(false);
       darkModeRef.current.classList.remove('dark')
     }
-
   }, []);
 
   const copyTextFunction = () => {

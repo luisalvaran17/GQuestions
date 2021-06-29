@@ -14,6 +14,7 @@ import Scrollbars from "react-custom-scrollbars";
 import emptyImage from '../../assets/images/empty_generaciones.png';
 import { Dialog, Transition } from '@headlessui/react';
 import { LoadingPage } from '../../containers/LoadingPage';
+import { BASE_DIR } from '../../api/BaseDirURl';
 
 export const Dashboard = () => {
 
@@ -24,6 +25,7 @@ export const Dashboard = () => {
   const [generacionesEmpty, setGeneracionesEmpty] = useState(false)
 
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingLink, setIsLoadingLink] = useState(false);
 
   // Hooks dark mode
   const darkModeRef = useRef();
@@ -52,7 +54,7 @@ export const Dashboard = () => {
   }, []);
 
   const getGeneracionFromDB = async (id_generacion) => {
-    let generacion = await fetch("http://127.0.0.1:8000/api/generacion/get/" + id_generacion, {
+    let generacion = await fetch(BASE_DIR + "api/generacion/get/" + id_generacion, {
       method: "GET",
       headers: {
         Authorization: "Token " + localStorage.getItem("token"),
@@ -86,9 +88,10 @@ export const Dashboard = () => {
         }
         return true;
       })
+
       setGeneraciones(arrayTempGeneraciones)
       // Verificaca de que haya elementos generados, si no los hay, entonces, muestra mensaje de vacío
-      if (response.length === 0) setGeneracionesEmpty(true)
+      if (arrayTempGeneraciones.length === 0) setGeneracionesEmpty(true)
       else setGeneracionesEmpty(false)
 
       setIsLoading(false);
@@ -120,13 +123,14 @@ export const Dashboard = () => {
   }
 
   async function openModal(e) {
-
     let id_generacion = e.target.id;
-    setLinkExamenes("localhost:3000/student/login-examen/" + e.target.id)
+    setLinkExamenes("https://gquestions.herokuapp.com/student/login-examen/" + e.target.id)
 
+    setIsLoadingLink(true);
     let generacion = await getGeneracionFromDB(id_generacion);
     setPasswordExamen(generacion[0].generacion_examenes[0].contrasena_exam);
     setIsOpen(true)
+    setIsLoadingLink(false);
   }
 
   function closeModal() {
@@ -179,7 +183,7 @@ export const Dashboard = () => {
           className='lg:text-base text-sm dark:text-white'>
 
 
-          <div className="grid grid-rows xl:pl-32 px-8 py-8 md:px-8 lg:pl-16">
+          <div className="container grid grid-rows xl:px-32 px-8 py-8 md:px-8 lg:px-16">
             <h1 className='font-black xl:text-5xl md:text-4xl text-2xl md:text-left md:mb-10 '>
               Dashboard
           </h1>
@@ -193,7 +197,7 @@ export const Dashboard = () => {
           >
           Pruebas
         </button> */}
-            <div className="backdrop-filter backdrop-blur-lg bg-yellowlight bg-opacity-50 dark:bg-opacity-100 border-t border-l border-r border-gray-200 rounded-t-xl container shadow">
+            <div className="backdrop-filter backdrop-blur-lg bg-yellowlight bg-opacity-50 dark:bg-opacity-100 border-gray-200 rounded-t-xl container shadow">
               <div className={generacionesEmpty ? "hidden" : "pl-4 rounded-t-xl py-2 text-yellow-900 font-bold uppercase text-sm"}>Historial de generaciones</div>
             </div>
 
@@ -211,7 +215,7 @@ export const Dashboard = () => {
                       <li
                         key={contador}
                         id={generacion.id}
-                        className="duration-500 pt-6 pb-4 hover:bg-gray-200 pl-4 pr-8 hover:bg-opacity-40 
+                        className="duration-500 pt-6 pb-4 hover:bg-gray-200 px-4 hover:bg-opacity-40 
                           cursor-pointer font-bold border-b border-gray-300 dark:border-gray-700 
                           dark:hover:bg-opacity-10">
                         <div className="grid transition pointer-events-none" >
@@ -231,13 +235,24 @@ export const Dashboard = () => {
                                 </div>
                               }{generacion.generacion_examenes.length !== 0 &&
                                 <div className="tooltip select-none ">
-                                  <span
-                                    className="ml-2 transform hover:scale-110 hover:text-yellowmain text-gray-900 dark:text-gray-50 dark:hover:text-yellowmain material-icons-outlined mr-2"
-                                    id={generacion.id}
-                                    onClick={openModal}
-                                  >&#xe157;
-                              </span>
-                                  <span className="tooltiptext text-sm">Enlace examen</span>
+                                  {!isLoadingLink &&
+                                    <span>
+                                      <span
+                                        className="ml-2 transform hover:scale-110 hover:text-yellowmain text-gray-900 dark:text-gray-50 dark:hover:text-yellowmain material-icons-outlined mr-2"
+                                        id={generacion.id}
+                                        onClick={openModal}
+                                      >&#xe157;
+                                      </span>
+                                      <span className="tooltiptext text-sm">Enlace examen</span>
+                                    </span>
+                                  }{isLoadingLink &&
+                                    <span>
+                                       <span
+                                        className="ml-2 transform hover:scale-110 hover:text-yellowmain text-gray-900 dark:text-gray-50 dark:hover:text-yellowmain material-icons-outlined mr-2"
+                                      >&#xe88b;
+                                      </span>
+                                    </span>}
+
                                 </div>
                               }
 

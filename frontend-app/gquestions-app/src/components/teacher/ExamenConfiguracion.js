@@ -252,7 +252,7 @@ export const ExamenConfiguracion = (props) => {
           autoHideDuration={400}
           style={{ height: "100vh" }}
           data-aos="fade-right"
-          className="container xl:mx-32 mx-4 md:mx-8 lg:mx-16 dark:text-white">
+          className="container xl:mx-32 ml-4 md:mx-8 lg:mx-16 dark:text-white">
 
           <div className="grid grid-rows  mt-8">
             <h1 className="font-black xl:text-5xl md:text-4xl sm:text-2xl md:text-left mb-12 lg:mb-20 text-2xl">
@@ -265,7 +265,7 @@ export const ExamenConfiguracion = (props) => {
                 </label>
                 <DatePicker
                   className="text-sm text-gray-800 md:text-base sm:col-span-4 col-span-12 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2
-                  focus:ring-yellowlight w-full 2xl:w-96 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
+                  focus:ring-yellowlight w-full 2xl:w-80 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
                   selected={startDate}
                   id="fecha_hora_ini"
                   name="fecha_hora_ini"
@@ -282,7 +282,7 @@ export const ExamenConfiguracion = (props) => {
                 </label>
                 <DatePicker
                   className="text-sm text-gray-800 md:text-base sm:col-span-4 col-span-12 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2
-                  focus:ring-yellowlight w-full 2xl:w-96 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
+                  focus:ring-yellowlight w-full 2xl:w-80 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
                   selected={endDate}
                   id="fecha_hora_fin"
                   name="fecha_hora_fin"
@@ -301,7 +301,7 @@ export const ExamenConfiguracion = (props) => {
                   type="password"
                   id="contrasena_exam"
                   className="grid text-s text-gray-800 mtext-gray-800 md:text-base sm:col-span-4 col-span-12 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2
-                                  focus:ring-yellowlight w-full 2xl:w-96 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
+                                  focus:ring-yellowlight w-full 2xl:w-80 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
 
                   name="contrasena_exam"
                   placeholder="Contraseña"
@@ -318,7 +318,7 @@ export const ExamenConfiguracion = (props) => {
                 <input
                   type="text"
                   className="grid text-sm text-gray-800 md:text-base sm:col-span-4 col-span-12 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2
-                                  focus:ring-yellowlight w-full 2xl:w-96 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
+                                  focus:ring-yellowlight w-full 2xl:w-80 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
 
                   name="title_exam"
                   placeholder="Ingresa el nombre del examen"
@@ -373,7 +373,7 @@ export const ExamenConfiguracion = (props) => {
                   id="numero_intentos"
                   disabled={true}
                   className="grid text-sm text-gray-800 md:text-base sm:col-span-4 col-span-12 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2
-                                  focus:ring-yellowlight w-full 2xl:w-96 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-gray-300 shadow"
+                                  focus:ring-yellowlight w-full 2xl:w-80 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-gray-300 shadow"
                   name="numero_intentos"
                   placeholder="Por defecto 1"
                   onChange={handleChange}

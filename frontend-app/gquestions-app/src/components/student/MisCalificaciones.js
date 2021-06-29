@@ -5,7 +5,6 @@ import backgroundGeneralYellowDark from "../../assets/images/background-general-
 import backgroundGeneralYellowLight from "../../assets/images/background-general-yellow_light.png";
 import { GetExamenesEstudianteAPI } from '../../api/Examen/GetExamenesEstudianteAPI';
 import { GetConfiguracionExamenAPI } from '../../api/Examen/GetConfiguracionExamenAPI';
-import Scrollbars from "react-custom-scrollbars";
 import { LoadingPage } from '../../containers/LoadingPage';
 import { GetCalificacionExamenAPI } from '../../api/Calificacion/GetCalificacionExamenAPI';
 import { useHistory } from 'react-router';
@@ -121,18 +120,15 @@ export const MisCalificaciones = () => {
                             Aquí puedes visualizar tus calificaciones por examen.
                         </p>
 
-                        <div className="backdrop-filter backdrop-blur-lg bg-yellowlight bg-opacity-50 dark:bg-opacity-100 border-t border-l border-r border-gray-200 rounded-t-xl container shadow">
+                        <div className="bg-yellowlight bg-opacity-50 dark:bg-opacity-100 border-t border-l border-r border-gray-200 rounded-t-xl container shadow">
                             <div className="pl-4 rounded-t-xl py-2 text-yellow-900 font-bold uppercase text-sm">Todos los exámenes</div>
                         </div>
 
-                        <CustomScrollbars
+                        <div
                             /* className={generacionesEmpty ? 'hidden' : 'container'} */
-                            className={calificacionesEmpty ? 'hidden' : 'container shadow bg-white bg-opacity-50 border-gray-100 dark:bg-darkColor dark:bg-opacity-80 border dark:border-gray-800 rounded-b-xl shadow-b'}
-                            autoHide
-                            autoHideTimeout={900}
-                            autoHideDuration={400}
+                            className={calificacionesEmpty ? 'hidden' : 'flex overflow-hidden shadow bg-white bg-opacity-50 border-gray-100 dark:bg-darkColor dark:bg-opacity-100 border dark:border-gray-800 rounded-b-xl shadow-b'}
                             style={{ height: '55vh' }}>
-
+                            <main className="flex-1 ease-in-out overflow-y-auto">
                             {!isLoading &&
                                 <ul>
                                     {
@@ -141,7 +137,7 @@ export const MisCalificaciones = () => {
                                                 key={contador}
                                                 id={examen.id_examen}
                                                 onClick={handleClickExamen}
-                                                className="duration-500 pt-6 pb-4 hover:bg-gray-200 pl-4 pr-8 hover:bg-opacity-40 
+                                                className="duration-500 pt-6 pb-4 hover:bg-gray-200 px-4 hover:bg-opacity-40 
                                                 cursor-pointer font-bold border-b border-gray-300 dark:border-gray-700 dark:hover:bg-opacity-10">
                                                 <div className="grid transition pointer-events-none" >
                                                     <div className="grid grid-cols-12">
@@ -153,19 +149,19 @@ export const MisCalificaciones = () => {
                                                         <div className="sm:col-span-2 col-span-12 sm:justify-self-end place-self-center pointer-events-auto">
                                                             <div className="flex mr-2">
 
-                                                                <div className="tooltip select-none" id={examen.id_examen} onClick={handleClickExamen}>
+                                                                <div className="" id={examen.id_examen} onClick={handleClickExamen}>
                                                                     <p className="ml-2 transition duration-500 hover:text-yellow-800 font-semibold text-gray-900 dark:text-gray-50 dark:hover:text-yellowlight mr-2 pointer-events-none">
                                                                         {examen.calificacion}
                                                                     </p>
-                                                                    <span className="tooltiptext text-sm">Nota</span>
+                                                                    <span className="tooltiptext text-sm"></span>
 
                                                                 </div>
-                                                                <div className="tooltip select-none" id={examen.id_examen} onClick={handleClickExamen}>
+                                                                <div className="select-none" id={examen.id_examen} onClick={handleClickExamen}>
                                                                     <span
                                                                         className="ml-2 transition duration-500 hover:text-yellowmain text-yellow-900 dark:text-gray-50 dark:hover:text-yellowmain material-icons mr-2 pointer-events-none"
                                                                     >&#xe5cc;
                                                                  </span>
-                                                                    <span className="tooltiptext text-sm">Visualizar</span>
+                                                                    <span className="tooltiptext text-sm"></span>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -180,7 +176,8 @@ export const MisCalificaciones = () => {
                                 <div className="pt-52">
                                     <LoadingPage />
                                 </div>}
-                        </CustomScrollbars>
+                                </main>
+                        </div>
                         <div className={calificacionesEmpty ? 'py-40 px-6 select-none bg-white bg-opacity-50 dark:bg-darkColor dark:bg-opacity-100 border dark:border-gray-800 rounded-b-xl shadow-b' : 'hidden'}>
                             <p className="dark:text-gray-200 text-gray-800 text-center">Todavía no tienes calificaciones</p>
                         </div>
@@ -191,21 +188,3 @@ export const MisCalificaciones = () => {
         </div>
     )
 }
-
-
-// Funciones que cambian el estilo del scroll y otras props de una librería
-const renderThumb = ({ style, ...props }) => {
-    const thumbStyle = {
-        borderRadius: 6,
-        backgroundColor: 'rgba(35, 49, 86, 0.8)'
-    };
-    return <div style={{ ...style, ...thumbStyle }} {...props} />;
-};
-
-const CustomScrollbars = props => (
-    <Scrollbars
-        renderThumbHorizontal={renderThumb}
-        renderThumbVertical={renderThumb}
-        {...props}
-    />
-);

@@ -56,16 +56,30 @@ export const HomeStudent = () => {
             /* setCalificacionesEmpty(true); */
         }
         else {
-            for (let i = 0; i < 3; i++) {
-                const response_configuracion_examen = await GetConfiguracionExamenAPI(examenes[i].examen_configuracion);
-                let examen_usuario = {
-                    id_examen: examenes[i].id_examen,
-                    title_exam: response_configuracion_examen[0].title_exam,
-                    contestado: examenes[i].fecha_contestado,
-                    n_intentos: response_configuracion_examen[0].n_intentos,
-                    duracion: response_configuracion_examen[0].duracion,
+            if (examenes.length < 3) {
+                for (let i = 0; i < examenes.length; i++) {
+                    const response_configuracion_examen = await GetConfiguracionExamenAPI(examenes[i].examen_configuracion);
+                    let examen_usuario = {
+                        id_examen: examenes[i].id_examen,
+                        title_exam: response_configuracion_examen[0].title_exam,
+                        contestado: examenes[i].fecha_contestado,
+                        n_intentos: response_configuracion_examen[0].n_intentos,
+                        duracion: response_configuracion_examen[0].duracion,
+                    }
+                    setExamenesUsuario(response_configuracion_examen => [...response_configuracion_examen, examen_usuario]);
                 }
-                setExamenesUsuario(response_configuracion_examen => [...response_configuracion_examen, examen_usuario]);
+            } else {
+                for (let i = 0; i < 3; i++) {
+                    const response_configuracion_examen = await GetConfiguracionExamenAPI(examenes[i].examen_configuracion);
+                    let examen_usuario = {
+                        id_examen: examenes[i].id_examen,
+                        title_exam: response_configuracion_examen[0].title_exam,
+                        contestado: examenes[i].fecha_contestado,
+                        n_intentos: response_configuracion_examen[0].n_intentos,
+                        duracion: response_configuracion_examen[0].duracion,
+                    }
+                    setExamenesUsuario(response_configuracion_examen => [...response_configuracion_examen, examen_usuario]);
+                }
             }
         }
         return examenes;
@@ -299,7 +313,7 @@ export const HomeStudent = () => {
                         </div>
 
                         {
-                            
+
                             ExamenesUsuario.map(examen => (
 
                                 <a key={examen.id_examen}
@@ -315,7 +329,7 @@ export const HomeStudent = () => {
                                 </a>
                             ))
                         }
-{/* 
+                        {/* 
                         <a
                             href="/"
                             className="mt-2 p-4 flex justify-between bg-gray-300 rounded-lg

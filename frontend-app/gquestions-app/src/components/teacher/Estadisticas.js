@@ -253,9 +253,9 @@ export const Estadisticas = () => {
         autoHideDuration={400}
         data-aos="fade-right"
         style={{ height: "100vh" }}
-        className='container lg:text-base text-sm dark:text-white'>
+        className='lg:text-base text-sm dark:text-white'>
 
-        <div className="grid grid-rows xl:pl-32 px-1 sm:px-8 py-8 md:px-8 lg:pl-16">
+        <div className="container grid grid-rows xl:px-32 px-4 py-8 md:px-8 lg:px-16">
           <h1 className='mx-2 font-black xl:text-5xl md:text-4xl text-2xl md:text-left md:mb-10 '>
             Estadísticas
           </h1>
@@ -264,7 +264,7 @@ export const Estadisticas = () => {
           </p>
 
           {!isLoading &&
-            <div className="w-full grid mb-4 pb-10 pr-6 dark:border-transparent sm:px-8 rounded-3xl bg-gray-50 border-gray-100 dark:bg-darkColor border sm:dark:border-gray-800 shadow">
+            <div className="w-full grid mb-4 pb-10 pr-6 dark:border-transparent sm:px-8 rounded-3xl sm:bg-gray-50 bg-transparent border-gray- dark:bg-darkColor sm:border sm:dark:border-gray-800 sm:shadow">
 
               <div className="grid grid-cols-12 gap-6">
                 <div className="grid grid-cols-12 col-span-12 gap-6 xxl:col-span-9">

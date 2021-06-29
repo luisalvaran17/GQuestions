@@ -11,6 +11,7 @@ import ImageExceededTime from "../../assets/images/exceeded_time.png";
 import { CreateCalificacionAPI } from "../../api/Calificacion/CreateCalificacionAPI";
 import { CreateRespuestaPreguntaAPI } from "../../api/Calificacion/CreateRespuestaPreguntaAPI";
 import { UpdateExamenUsuarioAPI } from '../../api/Examen/UpdateExamenUsuarioAPI';
+import { BASE_DIR } from '../../api/BaseDirURl';
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -245,7 +246,7 @@ export const Examen = () => {
     /* functions for dropdown user */
     const onClickLogout = async () => {
         await fetch(
-            "http://localhost:8000/api/logout/",
+            BASE_DIR + "api/logout",
             {
                 method: "POST",
                 headers: {
@@ -917,7 +918,7 @@ export const Examen = () => {
                                                 leaveFrom="transform scale-100 opacity-100"
                                                 leaveTo="transform scale-100 opacity-0"
                                             >
-                                                <Disclosure.Panel className="text-base bg-white text-gray-500 border rounded-b-xl">
+                                                <Disclosure.Panel className="text-base select-none bg-white text-gray-500 border rounded-b-xl">
                                                     <p className="px-4 py-4">{textoExamen}</p>
                                                     {/* Text to speech buttons */}
                                                     <div className="bg-gray-100 border-t border-gray-200 rounded-xl px-4 py-2">
