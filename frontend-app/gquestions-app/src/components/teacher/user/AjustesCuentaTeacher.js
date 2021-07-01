@@ -87,9 +87,9 @@ export const AjustesCuentaTeacher = () => {
             autoHideDuration={400}
             style={{ height: "100vh" }}
             data-aos="fade-in" 
-            className="container 2xl:mx-auto md:mx-8 mx-4 mt-8 md:text-base text-sm">
+            className="md:text-base text-sm">
 
-          <div className="grid grid-rows pb-16">
+          <div className="container xl:px-32 px-6 py-8 md:px-8 lg:px-16 grid grid-rows pb-16">
 
             <h1 className="font-black xl:text-5xl md:text-4xl sm:text-2xl md:text-left mb-12 lg:mb-10 text-2xl dark:text-white">
               Ajustes de cuenta
@@ -172,8 +172,8 @@ export const AjustesCuentaTeacher = () => {
             autoHideDuration={400}
             style={{ height: "100vh" }}
             data-aos="fade-in" 
-            className="container 2xl:mx-auto md:mx-8 mx-4 mt-8 md:text-base text-sm">
-          <div className="grid grid-rows">
+            className="md:text-base text-sm">
+          <div className="container xl:px-32 px-6 py-8 md:px-8 lg:px-16 grid grid-rows pb-16">
 
             <h1 className="font-black xl:text-5xl md:text-4xl sm:text-2xl md:text-left mb-12 lg:mb-10 text-2xl dark:text-white">
               Ajustes de cuenta
@@ -257,9 +257,9 @@ export const AjustesCuentaTeacher = () => {
             autoHideDuration={400}
             style={{ height: "100vh"}}
             data-aos="fade-in"
-            className="container 2xl:mx-auto md:mx-8 mx-4 mt-8 md:text-base text-sm">
-          <div className="grid grid-rows">
+            className="md:text-base text-sm">
 
+          <div className="container xl:px-32 px-6 py-8 md:px-8 lg:px-16 grid grid-rows pb-16">
             <h1 className="font-black xl:text-5xl md:text-4xl sm:text-2xl md:text-left mb-12 lg:mb-10 text-2xl dark:text-white">
               Ajustes de cuenta
             </h1>

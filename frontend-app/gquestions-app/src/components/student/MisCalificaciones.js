@@ -120,7 +120,7 @@ export const MisCalificaciones = () => {
                             Aquí puedes visualizar tus calificaciones por examen.
                         </p>
 
-                        <div className="bg-yellowlight bg-opacity-50 dark:bg-opacity-100 border-t border-l border-r border-gray-200 rounded-t-xl container shadow">
+                        <div className="bg-yellowlight bg-opacity-50 dark:bg-opacity-100 border-t border-l border-r border-gray-200 rounded-t-xl shadow">
                             <div className="pl-4 rounded-t-xl py-2 text-yellow-900 font-bold uppercase text-sm">Todos los exámenes</div>
                         </div>
 

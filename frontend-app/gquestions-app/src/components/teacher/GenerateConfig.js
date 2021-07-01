@@ -56,7 +56,7 @@ export const GenerateConfig = () => {
     id: UUID_GENERATE,
     n_examenes: 10,
     cantidad_textos: 10,
-    longit_texto: 300,
+    longit_texto: 250,
     n_preguntas: 0,
     inicio_oracion: "Aleatorio",
     account: ""
@@ -136,7 +136,6 @@ export const GenerateConfig = () => {
     );
 
     if (checkFieldsValidations() === true) {    // Si todos los campos cumplen las validaciones entonces hace los POST
-
       if (_isMounted) {
         setIsLoading(true);
         const responseGeneracionConfig = await CreateGeneracionConfiguracionAPI(generacionConfiguracion);   // POST a Generacion
@@ -204,14 +203,29 @@ export const GenerateConfig = () => {
       generacionConfiguracion.n_examenes === 0 ||
       generacionConfiguracion.cantidad_textos === 0 ||
       generacionConfiguracion.longit_texto === 0 ||
-      generacionConfiguracion.n_preguntas === 0
+      generacionConfiguracion.n_preguntas === 0 ||
+      Number.isNaN(generacionConfiguracion.n_preguntas)
     ) {
       boolZero = true;
       p_zero = React.createElement('p', {}, '●  Hay campos con valores en cero');
     }
-    if (generacionConfiguracion.longit_texto < 300) {
+    if (Number.isNaN(generacionConfiguracion.n_examenes)) {
+      setGeneracionConfiguracion(
+        Object.assign(generacionConfiguracion, {
+          n_examenes: 10,
+        })
+      );
+    }
+    if (Number.isNaN(generacionConfiguracion.longit_texto)) {
+      setGeneracionConfiguracion(
+        Object.assign(generacionConfiguracion, {
+          longit_texto: 250,
+        })
+      );
+    }
+    if (generacionConfiguracion.longit_texto < 250) {
       boolLongTexto = true;
-      p_longTexto = React.createElement('p', {}, '●  La longitud del texto debe ser mayor a 300 carácteres');
+      p_longTexto = React.createElement('p', {}, '●  La longitud del texto debe ser mayor o igual a 250 carácteres');
     }
     if (generacionConfiguracion.n_preguntas > 10) {
       boolCantidadPreguntas = true;
@@ -294,8 +308,255 @@ export const GenerateConfig = () => {
           autoHideTimeout={900}
           autoHideDuration={400}
           style={{ height: "100vh" }}
-          data-aos="fade-right" 
+          data-aos="fade-right"
           className="">
+
+          <div className="container grid grid-rows xl:px-32 px-6 py-8 md:px-8 lg:px-16">
+            <h1 className="font-black xl:text-5xl md:text-4xl sm:text-2xl md:text-left text-2xl md:mb-10 mb-4 dark:text-white">
+              Parámetros de generación
+            </h1>
+            <p className="text-gray-500 font-semibold text-sm md:text-base dark:text-gray-200 mb-4">
+              Aquí puedes configurar los parámetros de la generación.
+            </p>
+            <div className="bg-gray-50 shadow-sm bg-opacity-40 dark:bg-darkColor dark:bg-opacity-80 border dark:border-gray-800 
+            rounded-t-xl md:py-12 py-6 px-2 sm:px-4 md:px-8 lg:px-16">
+              <div className="grid grid-cols-12 sm:mb-12 mb-0 ">
+                <div className="grid sm:col-span-4 col-span-12 sm:mr-8 mr-0 mb-2">
+                  <label className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
+                    Cantidad de exámenes
+                </label>
+                  <input
+                    type="number"
+                    id="cant_examenes"
+                    className="grid text-sm md:text-base sm:col-span-4 col-span-12 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2
+                                  focus:ring-yellowlight w-full 2xl:w-80 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
+                    name="n_examenes"
+                    placeholder="Por defecto 10"
+                    onChange={handleChangeConfiguracion}
+                  />
+                </div>
+
+                <div className="grid sm:col-span-4 col-span-12 sm:mr-8 mr-0 mb-2">
+                  <label className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
+                    Longitud de texto &ge; 250
+                </label>
+                  <input
+                    type="number"
+                    id="long_texto"
+                    className="grid text-sm md:text-base sm:col-span-4 col-span-12 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2
+                                  focus:ring-yellowlight w-full 2xl:w-80 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
+                    name="longit_texto"
+                    placeholder="Por defecto 250"
+                    onChange={handleChangeConfiguracion}
+                  />
+                </div>
+
+                <div className="grid sm:col-span-4 col-span-12 sm:mr-8 mr-0 mb-2">
+                  <label className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
+                    Cantidad de preguntas
+                </label>
+                  <input
+                    type="number"
+                    id="cant_preguntas"
+                    className="grid text-sm md:text-base sm:col-span-4 col-span-12 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2
+                                  focus:ring-yellowlight w-full 2xl:w-80 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
+                    name="n_preguntas"
+                    defaultValue=""
+                    placeholder="Cantidad de preguntas"
+                    onChange={handleChangeConfiguracion}
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-12">
+                <div className="grid sm:col-span-4 col-span-12 sm:mr-8 mr-0 mb-2">
+                  <label className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 mb-2 dark:text-gray-300">
+                    Inicio de oración
+                </label>
+                  <select
+                    type="text"
+                    id="ini_oracion"
+                    className="grid text-sm md:text-base sm:col-span-4 col-span-12 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2
+                                  focus:ring-yellowlight w-full 2xl:w-80 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-gray-300 shadow text-gray-500"
+                    name="inicio_oracion"
+                    disabled={true}
+                    defaultValue="Aleatorio"
+                    onChange={handleChangeInicioOracion}
+                  >
+                    <option>Aleatorio</option>
+                    <option>Personalizado</option>
+                    <option>Completo</option>
+                  </select>
+                </div>
+
+                <div className="grid sm:col-span-4 col-span-12 sm:mr-8 mr-0 mb-2">
+                  {/* <label className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
+                  Inicio oración
+                </label>
+                <select
+                  type="text"
+                  id="ini_oracion"
+                  className="grid text-sm md:text-base sm:col-span-4 col-span-12 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2
+                                  focus:ring-yellowlight w-full 2xl:w-96 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow text-gray-500"
+                  name="inicio_oracion"
+                  disabled={true}
+                  defaultValue="Aleatorio"
+                  onChange={handleChangeInicioOracion}
+                >
+                  <option>Aleatorio</option>
+                  <option>Personalizado</option>
+                  <option>Completo</option>
+                </select> */}
+                </div>
+              </div>
+              <form
+                onSubmit={handleSubmit}
+              >
+
+                <div className="grid grid-rows lg:mx-0 sm:col-span-6 col-span-12 md:col-span-4">
+                  <label
+                    htmlFor="pregunta_abierta"
+                    className="sm:mx-0 pt-4 sm:pt-10 text-xs font-semibold px-1 text-gray-500 dark:text-gray-300 self-end py-2"
+                  >
+                    Tipo de preguntas
+                  </label>
+                  <div className="flex flex-col ml-1 text-sm md:text-base rounded-lg text-gray-500
+                                  2xl:w-80 2xl:border-gray-300 2xl:bg-white 2xl:divide-y
+                                  w-full border-gray-300 bg-white divide-y border
+                                  md:border-transparent md:bg-transparent md:divide-y-0"
+                  >
+                    <label
+                      htmlFor="pregunta_abierta"
+                      className="inline-flex items-center"
+                    >
+                      <div className="flex items-center transition duration-500 w-full px-4 py-2 rounded-t-xl">
+                        <input
+                          type="checkbox"
+                          name="pregunta_abierta"
+                          className="form-checkbox h-5 w-5 cursor-pointer"
+                          defaultChecked="true"
+                          onChange={handleInputChangeTiposPregunta}
+                        ></input>
+                        <span className="ml-6 text-gray-700">
+                          Pregunta abierta
+                            </span>
+                      </div>
+                    </label>
+
+                    <label
+                      htmlFor="opcion_multiple"
+                      className="inline-flex items-center  "
+                    >
+                      <div className="flex items-center transition duration-500 w-full px-4 py-2 rounded-t-xl">
+                        <input
+                          type="checkbox"
+                          name="opcion_multiple"
+                          className="form-checkbox h-5 w-5 text-yellow-500"
+                          defaultChecked="true"
+                          onChange={handleInputChangeTiposPregunta}
+                        ></input>
+                        <span className="ml-6 text-gray-700">
+                          Opción múltiple
+                        </span>
+                      </div>
+                    </label>
+
+                    <label
+                      htmlFor="completacion"
+                      className="inline-flex items-center  "
+                    >
+                      <div className="flex items-center transition duration-500 w-full px-4 py-2 rounded-t-xl">
+                        <input
+                          type="checkbox"
+                          name="completacion"
+                          className="form-checkbox h-5 w-5 text-yellow-500"
+                          onChange={handleInputChangeTiposPregunta}
+                        ></input>
+                        <span className="ml-6 text-gray-700">Completación</span>
+                      </div>
+                    </label>
+                  </div>
+
+                </div>
+              </form>
+
+            </div>
+            <div className="container py-3 w-full px-2 sm:px-4 md:px-8 lg:px-16 bg-gray-50 shadow-sm 
+            bg-opacity-60 dark:bg-darkColor border-b border-l border-r dark:border-gray-800 rounded-b-xl">
+              <p className="sm:text-sm text-xs text-gray-600 dark:text-gray-300 my-1 font-semibold">
+                Tiempo de generación aproximado: 120s
+              </p>
+              <div className="bg-gray-300 w-full mb-4 h-2 rounded-xl">
+                <div className="bg-yellowmain w-4/5 h-full text-right rounded-xl">
+                  <p className="text-gray-700 dark:text-white font-bold p-1 py-2 sm:text-sm text-xs">80%</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-12 pt-4">
+              {!isLoading &&
+                <button
+                  type="submit"
+                  className="btn-primary lg:col-start-10 lg:col-span-3 sm:col-start-8 sm:col-span-5 col-span-12"
+                  onClick={handleClick}
+                >
+                  Generar
+              </button>
+              }{isLoading &&
+                <button
+                  type="submit"
+                  className="btn-primary lg:col-start-10 lg:col-span-3 sm:col-start-8 sm:col-span-5 col-span-12"
+                  onClick={handleClick}
+                >
+                  <span className="text-white my-0 mr-4 w-0 h-0">
+                    <i className="fas fa-circle-notch fa-spin fa-x"></i>
+                  </span>
+                Generando ...
+              </button>}
+              {/* <button
+                  type="submit"
+                  className="btn-secondary mt-2"
+                  onClick={handleClickTest}
+                >
+                  Test
+              </button> */}
+            </div>
+
+            {/* StepProgress */}
+            <div className="container">
+              <StepsProgress active={1} />
+            </div>
+
+            {/* Error messages */}
+            <div className="container mt-2">
+
+              <div
+                ref={divRefErrorMessage}
+                className="hidden animate-pulse mt-2 relative py-1 pl-4 pr-10 leading-normal text-red-700 bg-red-100 rounded-lg"
+                role="alert"
+              >
+                <div id="error_messages" className="text-sm md:text-base">
+                </div>
+
+                <span
+                  className="absolute inset-y-0 right-0 flex items-center mr-4"
+                  onClick={addClassdivRefErrorMessage}
+                >
+                  <svg
+                    className="w-4 h-4 fill-current"
+                    role="button"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                      clipRule="evenodd"
+                      fillRule="evenodd"
+                    ></path>
+                  </svg>
+                </span>
+              </div>
+            </div>
+          </div>
 
           {/* Términos y condiciones Modal */}
           <Transition appear show={isOpen} as={Fragment}>
@@ -343,57 +604,57 @@ export const GenerateConfig = () => {
                       Términos y condiciones
                     </Dialog.Title>
                     <div className="mt-2">
-                    <ul className="bg-gray-100 text-sm shadow rounded-xl list-none space-y-2 md:text-justify">
-                      <div className="text-gray-700 p-4 pb-1">
-                        <li className="mb-2">
-                          <p>
-                            Debido a que los modelos de lenguaje a gran escala como GPT-2 no distinguen la realidad de la ficción, el texto generado no debe ser considerado
-                            verdadero.
+                      <ul className="bg-gray-100 text-sm shadow rounded-xl list-none space-y-2 md:text-justify">
+                        <div className="text-gray-700 p-4 pb-1">
+                          <li className="mb-2">
+                            <p>
+                              Debido a que los modelos de lenguaje a gran escala como GPT-2 no distinguen la realidad de la ficción, el texto generado no debe ser considerado
+                              verdadero.
                           </p>
-                        </li>
-                        <li className="mb-2">
-                          <p>
-                            El uso de GPT-2 en esta aplicación web tiene el propósito de ayudar en el aprendizaje del idioma Inglés (ayuda gramatical, vocabulario, lectura y escritura).
+                          </li>
+                          <li className="mb-2">
+                            <p>
+                              El uso de GPT-2 en esta aplicación web tiene el propósito de ayudar en el aprendizaje del idioma Inglés (ayuda gramatical, vocabulario, lectura y escritura).
                           </p>
-                        </li>
-                        <li className="mb-2">
-                          <p>
-                            Es importante mencionar que el modelo GPT-2 puede reflejar sesgos inherentes a los sistemas en los que fueron entrenados, sin embargo, se ha implementado una estrategia que intenta reducir los posibles sesgos que pueda presentar el sistema en esta implementación.
+                          </li>
+                          <li className="mb-2">
+                            <p>
+                              Es importante mencionar que el modelo GPT-2 puede reflejar sesgos inherentes a los sistemas en los que fueron entrenados, sin embargo, se ha implementado una estrategia que intenta reducir los posibles sesgos que pueda presentar el sistema en esta implementación.
                           </p>
-                        </li>
-                      </div>
-                      <li className="list-none">
-                        <p className="text-sm text-gray-500 p-4 border-t border-gray-200 bg-gray-100 rounded-b-xl md:text-justify">
-                          "No encontramos diferencias estadísticamente significativas en las sondas de sesgo de género, raza y religión entre 774M y 1.5B, lo que implica que todas las versiones de GPT-2 deben abordarse con niveles similares de precaución en los casos de uso que son sensibles a los sesgos en torno a los atributos humanos."
+                          </li>
+                        </div>
+                        <li className="list-none">
+                          <p className="text-sm text-gray-500 p-4 border-t border-gray-200 bg-gray-100 rounded-b-xl md:text-justify">
+                            "No encontramos diferencias estadísticamente significativas en las sondas de sesgo de género, raza y religión entre 774M y 1.5B, lo que implica que todas las versiones de GPT-2 deben abordarse con niveles similares de precaución en los casos de uso que son sensibles a los sesgos en torno a los atributos humanos."
                             <br></br>
-                          <a className="outline-none focus:outline-none"
-                            href="https://github.com/openai/gpt-2/blob/master/model_card.md#out-of-scope-use-cases"
-                            target="_blank" rel="noreferrer">
-                            <b>Model card GPT-2: </b><span className="text-blue-600 underline">
-                              https://github.com/openai/gpt-2/blob/master/model_card.md
+                            <a className="outline-none focus:outline-none"
+                              href="https://github.com/openai/gpt-2/blob/master/model_card.md#out-of-scope-use-cases"
+                              target="_blank" rel="noreferrer">
+                              <b>Model card GPT-2: </b><span className="text-blue-600 underline">
+                                https://github.com/openai/gpt-2/blob/master/model_card.md
                               </span>
-                          </a>
-                        </p>
-                      </li>
-                    </ul>
-                    <div className="flex mt-4 pr-6 justify-end space-x-4">
-                      <button
-                        type="button"
-                        className="shadow transition duration-500 w-full inline-flex justify-center sm:px-12 px-8 py-2 text-sm font-medium text-red-900 bg-red-100 border border-transparent 
+                            </a>
+                          </p>
+                        </li>
+                      </ul>
+                      <div className="flex mt-4 pr-6 justify-end space-x-4">
+                        <button
+                          type="button"
+                          className="shadow transition duration-500 w-full inline-flex justify-center sm:px-12 px-8 py-2 text-sm font-medium text-red-900 bg-red-100 border border-transparent 
                         rounded-md hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                        onClick={closeModalNoAccept}
-                      >
-                        Rechazar
+                          onClick={closeModalNoAccept}
+                        >
+                          Rechazar
                       </button>
-                      <button
-                        type="button"
-                        className="shadow transition duration-500 w-full inline-flex justify-center sm:px-12 px-8 py-2 text-sm font-medium text-green-900 bg-green-100 border border-transparent 
+                        <button
+                          type="button"
+                          className="shadow transition duration-500 w-full inline-flex justify-center sm:px-12 px-8 py-2 text-sm font-medium text-green-900 bg-green-100 border border-transparent 
                         rounded-md hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                        onClick={closeModalAccept}
-                      >
-                        Aceptar
+                          onClick={closeModalAccept}
+                        >
+                          Aceptar
                       </button>
-                    </div>
+                      </div>
                     </div>
 
                   </div>
@@ -404,245 +665,6 @@ export const GenerateConfig = () => {
 
           {/* Modal case error */}
           <ErrorModal isOpen={isOpenError} />
-
-          <div className="container grid grid-rows xl:px-32 px-8 py-8 md:px-8 lg:px-16">
-            <h1 className="font-black xl:text-5xl md:text-4xl sm:text-2xl md:text-left text-2xl mb-4 dark:text-white">
-              Parámetros de generación
-            </h1>
-            <p className="text-gray-500 font-semibold text-sm md:text-base dark:text-gray-200 mb-6 lg:mb-8">
-              Aquí puedes configurar los parámetros de la generación.
-            </p>
-            <div className="grid grid-cols-12 md:mb-32 sm:mb-44 mb-0">
-              <div className="grid sm:col-span-4 col-span-12 sm:mr-8 mr-0 mb-2">
-                <label className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
-                  Cantidad de exámenes
-                </label>
-                <input
-                  type="number"
-                  id="cant_examenes"
-                  className="grid text-sm md:text-base sm:col-span-4 col-span-12 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2
-                                  focus:ring-yellowlight w-full 2xl:w-80 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
-                  name="n_examenes"
-                  defaultValue="10"
-                  placeholder=""
-                  onChange={handleChangeConfiguracion}
-                />
-              </div>
-
-              <div className="grid sm:col-span-4 col-span-12 sm:mr-8 mr-0 mb-2">
-                <label className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
-                  Longitud de texto
-                </label>
-                <input
-                  type="number"
-                  id="long_texto"
-                  className="grid text-sm md:text-base sm:col-span-4 col-span-12 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2
-                                  focus:ring-yellowlight w-full 2xl:w-80 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
-                  name="longit_texto"
-                  defaultValue=""
-                  placeholder="Por defecto 300"
-                  onChange={handleChangeConfiguracion}
-                />
-              </div>
-
-              <div className="grid sm:col-span-4 col-span-12 sm:mr-8 mr-0 mb-2">
-                <label className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
-                  Cantidad de preguntas
-                </label>
-                <input
-                  type="number"
-                  id="cant_preguntas"
-                  className="grid text-sm md:text-base sm:col-span-4 col-span-12 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2
-                                  focus:ring-yellowlight w-full 2xl:w-80 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
-                  name="n_preguntas"
-                  defaultValue=""
-                  placeholder="Cantidad de preguntas"
-                  onChange={handleChangeConfiguracion}
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-12">
-              <div className="grid sm:col-span-4 col-span-12 sm:mr-8 mr-0 mb-2">
-                <label className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 mb-2 dark:text-gray-300">
-                  Inicio de oración
-                </label>
-                <select
-                  type="text"
-                  id="ini_oracion"
-                  className="grid text-sm md:text-base sm:col-span-4 col-span-12 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2
-                                  focus:ring-yellowlight w-full 2xl:w-80 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-gray-300 shadow text-gray-500"
-                  name="inicio_oracion"
-                  disabled={true}
-                  defaultValue="Aleatorio"
-                  onChange={handleChangeInicioOracion}
-                >
-                  <option>Aleatorio</option>
-                  <option>Personalizado</option>
-                  <option>Completo</option>
-                </select>
-              </div>
-
-              <div className="grid sm:col-span-4 col-span-12 sm:mr-8 mr-0 mb-2">
-                {/* <label className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
-                  Inicio oración
-                </label>
-                <select
-                  type="text"
-                  id="ini_oracion"
-                  className="grid text-sm md:text-base sm:col-span-4 col-span-12 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2
-                                  focus:ring-yellowlight w-full 2xl:w-96 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow text-gray-500"
-                  name="inicio_oracion"
-                  disabled={true}
-                  defaultValue="Aleatorio"
-                  onChange={handleChangeInicioOracion}
-                >
-                  <option>Aleatorio</option>
-                  <option>Personalizado</option>
-                  <option>Completo</option>
-                </select> */}
-              </div>
-            </div>
-
-            <form
-              onSubmit={handleSubmit}
-            >
-
-              <div className="grid grid-rows lg:mx-0 sm:col-span-6 col-span-12 md:col-span-4">
-                <label
-                  htmlFor="pregunta_abierta"
-                  className="sm:mx-0 pt-8 sm:pt-10 text-xs font-semibold px-1 text-gray-500 dark:text-gray-300 self-end py-2"
-                >
-                  Tipo de preguntas
-                </label>
-                <div className="flex sm:mx-0">
-                  <div className="grid grid-rows">
-                    <div className="flex flex-col lg:text-base text-sm ml-1">
-                      <label
-                        htmlFor="pregunta_abierta"
-                        className="inline-flex items-center mt-3"
-                      >
-                        <input
-                          type="checkbox"
-                          name="pregunta_abierta"
-                          className="form-checkbox h-5 w-5 text-yellow-500"
-                          defaultChecked="true"
-                          onChange={handleInputChangeTiposPregunta}
-                        ></input>
-                        <span className="ml-2 text-gray-700 dark:text-gray-100">
-                          Pregunta abierta
-                        </span>
-                      </label>
-
-                      <label
-                        htmlFor="opcion_multiple"
-                        className="inline-flex items-center mt-3"
-                      >
-                        <input
-                          type="checkbox"
-                          name="opcion_multiple"
-                          className="form-checkbox h-5 w-5 text-yellow-500"
-                          defaultChecked="true"
-                          onChange={handleInputChangeTiposPregunta}
-                        ></input>
-                        <span className="ml-2 text-gray-700 dark:text-gray-100">
-                          Opción múltiple
-                        </span>
-                      </label>
-
-                      <label
-                        htmlFor="completacion"
-                        className="inline-flex items-center mt-3"
-                      >
-                        <input
-                          type="checkbox"
-                          name="completacion"
-                          className="form-checkbox h-5 w-5 text-yellow-500"
-                          onChange={handleInputChangeTiposPregunta}
-                        ></input>
-                        <span className="ml-2 text-gray-700 dark:text-gray-100">Completación</span>
-                      </label>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </form>
-
-            <div className="container py-3 mt-4 w-full sm:pr-8 ">
-              <p className="text-sm text-gray-600 dark:text-gray-300 my-1">
-                Tiempo de generación aproximado: 120s
-              </p>
-              <div className="bg-gray-300 w-full mb-4 h-1">
-                <div className="bg-yellowmain w-4/5 h-full text-right">
-                  <p className="text-gray-700 dark:text-white font-bold p-1 text-sm">70%</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="container sm:grid flex justify-end items-end sm:pr-8 w-full">
-              {!isLoading &&
-                <button
-                  type="submit"
-                  className="btn-primary"
-                  onClick={handleClick}
-                >
-                  Generar
-              </button>
-              }{isLoading &&
-                <button
-                  type="submit"
-                  className="btn-primary"
-                  onClick={handleClick}
-                >
-                  <span className="text-white my-0 mr-4 w-0 h-0">
-                    <i className="fas fa-circle-notch fa-spin fa-x"></i>
-                  </span>
-                Generando ...
-              </button>}
-              {/* <button
-                  type="submit"
-                  className="btn-secondary mt-2"
-                  onClick={handleClickTest}
-                >
-                  Test
-              </button> */}
-            </div>
-
-            {/* StepProgress */}
-            <div className="container sm:pr-4">
-              <StepsProgress active={1}/>
-            </div>
-
-            {/* Error messages */}
-            <div className="container mb-8 sm:pr-4">
-
-              <div
-                ref={divRefErrorMessage}
-                className="hidden animate-pulse mt-2 relative py-1 pl-4 pr-10 leading-normal text-red-700 bg-red-100 rounded-lg"
-                role="alert"
-              >
-                <div id="error_messages" className="text-sm md:text-base">
-                </div>
-
-                <span
-                  className="absolute inset-y-0 right-0 flex items-center mr-4"
-                  onClick={addClassdivRefErrorMessage}
-                >
-                  <svg
-                    className="w-4 h-4 fill-current"
-                    role="button"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                      clipRule="evenodd"
-                      fillRule="evenodd"
-                    ></path>
-                  </svg>
-                </span>
-              </div>
-            </div>
-          </div>
         </CustomScrollbars>
         <DropdownUser />
       </div>

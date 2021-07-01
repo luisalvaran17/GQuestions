@@ -75,9 +75,9 @@ export const InformacionAdicional = () => {
 
             <div className="sm:ml-6 ml-2 pt-1">
                 <div className="grid grid-cols-12">
-                    <h4 className="col-span-9 sm:col-span-11 sm:text-xl text-lg text-gray-900 dark:text-gray-100 leading-tight">Información adicional</h4>
+                    <h4 className="col-span-10 sm:col-span-11 sm:text-xl text-lg text-gray-900 dark:text-gray-100 leading-tight">Información adicional</h4>
 
-                    <div className="sm:col-span-1 col-span-3">
+                    <div className="sm:col-span-1 col-span-2">
                         <button
                             type="submit"
                             className="transition duration-500 hover:bg-yellowlight hover:bg-opacity-40 rounded-full w-12 h-12 focus:outline-none dark:text-yellowlight"

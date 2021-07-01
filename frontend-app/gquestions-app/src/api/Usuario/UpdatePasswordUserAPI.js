@@ -1,5 +1,7 @@
+import { BASE_DIR } from "../BaseDirURl";
+
 export const UpdatePasswordUserAPI = async (id_user, Contraseñas) => {
-    const response = fetch("http://127.0.0.1:8000/api/change-password/" + id_user, {
+    const response = fetch(BASE_DIR + "api/change-password/" + id_user, {
         method: "PUT",
         headers: {
             Authorization: "Token " + localStorage.getItem("token"),

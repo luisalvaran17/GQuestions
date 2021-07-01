@@ -54,7 +54,7 @@ export const ExamenPublicado = () => {
 
       <div className="container mx-auto flex justify-center items-center h-full" style={{ height: "100vh" }}>
         <div className="">
-          <div className="grid text-center cols-span-12 mx-4">
+          <div className="grid text-center cols-span-12">
             <h1 className="font-bold xl:text-5xl  md:text-4xl sm:text-3xl text-xl mb-10 dark:text-white">
               Examen publicado con éxito
               </h1>
@@ -64,7 +64,7 @@ export const ExamenPublicado = () => {
             <p className="text-gray-500 font-semibold text-md dark:text-gray-400">Enlace del examen</p>
           </div>
 
-          <div className="flex text-center px-12 md:px-20 col-span-12">
+          <div className="flex text-center sm:px-8 px-4 md:px-20 col-span-12">
             <div className="w-full">
               <input
                 type="text"
@@ -88,7 +88,7 @@ export const ExamenPublicado = () => {
             </div>
           </div>
 
-          <div className="py-4 px-12 md:px-20 col-span-12 my-0">
+          <div className="py-4 sm:px-8 px-4 md:px-20 col-span-12 my-0">
             <Link to="/teacher/dashboard">
               <button
                 type="submit"

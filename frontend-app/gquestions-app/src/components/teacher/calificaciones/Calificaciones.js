@@ -52,7 +52,7 @@ export const Calificaciones = () => {
         }
       }
       // Verificaca de que haya elementos generados, si no los hay, entonces, muestra mensaje de vacío
-      if (configuracionExamenes.length === 0) setExamenesEmpty(true)
+      if (response.length === 0) setExamenesEmpty(true)
       else setExamenesEmpty(false)
 
       setIsLoading(false);
@@ -102,8 +102,8 @@ export const Calificaciones = () => {
         className='lg:text-base text-sm dark:text-white'>
 
 
-        <div className="container grid grid-rows xl:px-32 px-8 py-8 md:px-8 lg:px-16">
-          <h1 className='font-black xl:text-5xl md:text-4xl text-2xl md:text-left md:mb-10 '>
+        <div className="container grid grid-rows xl:px-32 px-6 py-8 md:px-8 lg:px-16">
+          <h1 className='font-black xl:text-5xl md:text-4xl text-2xl md:text-left  md:mb-10 mb-4'>
             Calificaciones
           </h1>
           <p className="text-gray-500 font-semibold text-sm md:text-base dark:text-gray-200 mb-4">
@@ -140,13 +140,13 @@ export const Calificaciones = () => {
                         cursor-pointer font-bold border-b border-gray-300 dark:border-gray-700 dark:hover:bg-opacity-10">
                       <div className="grid transition pointer-events-none" >
                         <div className="grid grid-cols-12">
-                          <div className="sm:col-span-10 col-span-12">
+                          <div className="sm:col-span-10 col-span-10">
                             <p className="hidden sm:block">Examen {examen.title_exam}</p>
-                            <p className="col-span-12 mb-4 sm:col-span-8 text-gray-500 text-sm dark:text-gray-400">Aplicado: {FormatDateFunction(examen.contestado)} | Intentos: {examen.n_intentos} | Duración: {examen.duracion / 3600} h</p>
+                            <p className="col-span-12 mb-4 sm:col-span-8 text-gray-500 text-sm dark:text-gray-400">Aplicado: {FormatDateFunction(examen.fecha_hora_ini)} | Intentos: {examen.n_intentos} | Duración: {examen.duracion / 3600} h</p>
                           </div>
 
-                          <div className="sm:col-span-2 col-span-12 sm:justify-self-end place-self-center pointer-events-auto">
-                            <div className="flex mr-2">
+                          <div className="sm:col-span-2 col-span-2 justify-self-end place-self-center pointer-events-auto">
+                            <div className="flex sm:mr-2">
 
                               <div className="tooltip select-none" id={examen.id_configuracion_examen} onClick={handleClickExamenConfiguracion}>
                                 <span

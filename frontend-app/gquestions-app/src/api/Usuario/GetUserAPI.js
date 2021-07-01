@@ -1,6 +1,7 @@
+import { BASE_DIR } from "../BaseDirURl";
 
 export const GetUserAPI = async (id_user) => {
-    const response = await fetch("http://localhost:8000/api/usuarios/" + id_user, {
+    const response = await fetch(BASE_DIR + "api/usuarios/" + id_user, {
         method: "GET",
         headers: {
             Authorization: "Token " + localStorage.getItem("token"),

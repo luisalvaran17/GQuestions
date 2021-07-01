@@ -1,5 +1,7 @@
+import { BASE_DIR } from "../BaseDirURl";
+
 export const GetConfiguracionExamenAPI = async(id_configuracion_examen) => {
-    const response = await fetch("http://127.0.0.1:8000/api/generacion/configuracion-examen/get/" + id_configuracion_examen, {
+    const response = await fetch(BASE_DIR + "api/generacion/configuracion-examen/get/" + id_configuracion_examen, {
         method: "GET",
         headers: {
             Authorization: "Token " + localStorage.getItem("token"),

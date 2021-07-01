@@ -1,5 +1,7 @@
+import { BASE_DIR } from "../BaseDirURl";
+
 export const GetCountsGeneraciones = async (account) => {
-    const response = await fetch("http://127.0.0.1:8000/api/generacion/get/count/generaciones/" + account, {
+    const response = await fetch(BASE_DIR + "api/generacion/get/count/generaciones/" + account, {
         method: "GET",
         headers: {
             Authorization: "Token " + localStorage.getItem("token"),

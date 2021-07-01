@@ -256,10 +256,10 @@ export const Estadisticas = () => {
         className='lg:text-base text-sm dark:text-white'>
 
         <div className="container grid grid-rows xl:px-32 px-4 py-8 md:px-8 lg:px-16">
-          <h1 className='mx-2 font-black xl:text-5xl md:text-4xl text-2xl md:text-left md:mb-10 '>
+          <h1 className='mx-2 font-black xl:text-5xl md:text-4xl text-2xl md:text-left md:mb-10 mb-4'>
             Estadísticas
           </h1>
-          <p className="mx-2 text-gray-500 font-semibold text-sm md:text-base dark:text-gray-200 sm:mb-10 mb-0">
+          <p className="mx-2 text-gray-500 font-semibold text-sm md:text-base dark:text-gray-200 sm:mb-4 mb-0">
             Aquí puedes visualizar información de tus generaciones.
           </p>
 
@@ -268,7 +268,7 @@ export const Estadisticas = () => {
 
               <div className="grid grid-cols-12 gap-6">
                 <div className="grid grid-cols-12 col-span-12 gap-6 xxl:col-span-9">
-                  <div className="col-span-12 mt-8">
+                  <div className="col-span-12 sm:mt-8 mt-2">
                     <div className="grid grid-cols-12 gap-6 mt-5">
                       <span className="transform hover:scale-105 transition duration-300 shadow-xl rounded-lg col-span-12 
                     sm:col-span-6 xl:col-span-3 intro-y bg-white dark:bg-darkGrayColor2 border  border-transparent dark:border-gray-700"

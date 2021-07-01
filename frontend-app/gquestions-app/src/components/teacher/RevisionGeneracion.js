@@ -339,7 +339,7 @@ export const RevisionGeneracion = (props) => {
 
           <div className="pr-4">
             <div className="grid grid-rows space-y-8 mb-8">
-              <h1 className="font-bold xl:text-5xl md:text-4xl sm:text-3xl text-xl dark:text-white">
+              <h1 className="font-bold xl:text-5xl md:text-4xl sm:text-3xl text-xl  md:mb-10 mb-4 dark:text-white">
                 Revisión de Generación
             </h1>
               <p className="text-gray-500 font-semibold text-sm md:text-base dark:text-white">
@@ -369,14 +369,12 @@ export const RevisionGeneracion = (props) => {
                               key={texto.id}
                               className="">
                               <button
-                                key={texto.id}
                                 id={texto.id}
                                 onClick={onClickTextoList}
                                 className="hidden text-left sm:block transition duration-500 py-4 w-full justify-between items-center px-5 focus:outline-none font-bold">
                                 Examen {contador = contador + 1}
                               </button>
                               <button
-                                key={texto.id + contador}
                                 id={texto.id}
                                 onClick={onClickTextoList}
                                 className="sm:hidden block text-left transition duration-500 py-4 w-full justify-between items-center px-5 focus:outline-none font-bold">
@@ -425,7 +423,7 @@ export const RevisionGeneracion = (props) => {
                       className={disabledTextArea ? 'transition duration-500 m-0 overflow-auto bg-gray-200' : 'transition duration-500 m-0 overflow-auto bg-white'}>
                       <textarea
                         ref={textAreaRef}
-                        className="h-full px-6 py-4 w-full m-0 resize-none focus:border-gray-400  bg-transparent text-gray-600 text-sm md:text-base outline-none focus:outline-none"
+                        className="h-full px-5 py-4 w-full m-0 resize-none focus:border-gray-400  bg-transparent text-gray-600 text-sm md:text-base outline-none focus:outline-none"
                         value={TextArea}
                         disabled={disabledTextArea}
                         onChange={handleTextArea}
@@ -434,7 +432,7 @@ export const RevisionGeneracion = (props) => {
                       </textarea>
                       <div
                         ref={preguntasAreaRef}
-                        className="hidden h-full w-full resize-none focus:border-gray-400 p-2 m-1 bg-transparent text-gray-600 text-sm md:text-base outline-none focus:outline-none"
+                        className="hidden h-full w-full resize-none focus:border-gray-400 px-5 py-4 m-0 bg-transparent text-gray-600 text-sm md:text-base outline-none focus:outline-none"
                       >
                         {
                           preguntas.map((pregunta, contador = 1) => (
@@ -462,11 +460,11 @@ export const RevisionGeneracion = (props) => {
                     </CustomScrollbars>
                     <hr></hr>
                     <div className="grid grid-cols-12 mt-2 px-4 items-center">
-                      <p className="col-span-7 hidden md:block text-gray-500 text-xs md:text-sm">Cite: GPT2 Algorithm from Hugging Face</p>
+                      <p className="col-span-6 hidden md:block text-gray-500 text-xs md:text-sm">Cite: GPT2 Algorithm from Hugging Face</p>
 
-                      <div className="md:col-span-5 py-1 col-span-12 place-self-end items-center">
+                      <div className="md:col-span-6 py-1 col-span-12 place-self-end items-center">
                         <button
-                          className="transition duration-500 md:text-base text-sm z-10 pl-1 sm:w-52 w-40 block focus:outline-none outline-none 
+                          className="transition duration-500 md:text-base text-sm z-10 pl-1 sm:w-44 w-40 block focus:outline-none outline-none 
                         bg-white border border-green-400 text-green-700 hover:bg-green-500 focus:bg-green-500 hover:text-white
                          rounded-lg px-2 py-2 font-semibold"
                         >
@@ -479,24 +477,22 @@ export const RevisionGeneracion = (props) => {
               </div>
             </div>
 
-            <div className="grid grid-rows justify-end items-end mt-4">
-              <div className="flex md:flex-row flex-col gap-x-8 gap-y-2 box__title bg-grey-lighter py-2 items-center self-center">
+            <div className="grid grid-rows items-end mt-4">
+              <div className="flex md:flex-row flex-col gap-x-8 gap-y-2 justify-end">
                 <div className="">
                   <button
                     type="submit"
-                    className="transition duration-500 shadow-md md:text-base text-sm text-darkGrayColor text-center focus:outline-none
-                  z-10 mx-auto w-52 bg-yellowlight focus:bg-yellowlightdark hover:bg-yellowlightdark rounded-lg px-2 py-2 font-semibold outline-none focus:outline-none;"
+                    className="btn-secondary"
                     onClick={handleClickEditar}
                   >
                     {textButtonEditar}
                   </button>
                 </div>
-                <div className="grid grid-rows justify-end items-end">
+                <div className="grid grid-rows items-end">
                   {!isLoading &&
                     <button
                       type="submit"
-                      className="transition duration-500 shadow-md md:text-base text-sm text-white text-center 
-                  z-10 mx-auto outline-none focus:outline-none w-52 block bg-yellowmain hover:bg-yellow-600 focus:bg-yellow-600 rounded-lg px-2 py-2 font-semibold"
+                      className="btn-primary"
                       onClick={handleClick}
                     >
                       Generar examénes
@@ -504,8 +500,7 @@ export const RevisionGeneracion = (props) => {
                   }{isLoading &&
                     <button
                       type="submit"
-                      className="transition duration-500 shadow-md md:text-base text-sm text-white text-center 
-                  z-10 mx-auto outline-none focus:outline-none w-52 block bg-yellowmain hover:bg-yellow-600 focus:bg-yellow-600 rounded-lg px-2 py-2 font-semibold"
+                      className="btn-primary"
                     >
                       <span className="text-white my-0 mr-4 w-0 h-0">
                         <i className="fas fa-circle-notch fa-spin fa-x"></i>
@@ -520,7 +515,7 @@ export const RevisionGeneracion = (props) => {
             </div>
 
             {/* Stepper progress bar */}
-            <div className="pr-4 sm:pr-0">
+            <div className="py-2">
               <StepsProgress active={2} />
             </div>
 

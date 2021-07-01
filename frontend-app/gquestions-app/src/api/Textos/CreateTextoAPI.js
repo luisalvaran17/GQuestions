@@ -1,5 +1,7 @@
+import { BASE_DIR } from "../BaseDirURl";
+
 export const CreateTextoAPI = async (TextoObject) => {
-    const response = await fetch("http://127.0.0.1:8000/api/generacion/create/texto", {
+    const response = await fetch(BASE_DIR + "api/generacion/create/texto", {
         method: "POST",
         headers: {
             Authorization: "Token " + localStorage.getItem("token"),

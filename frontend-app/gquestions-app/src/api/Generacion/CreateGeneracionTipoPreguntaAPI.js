@@ -1,5 +1,7 @@
+import { BASE_DIR } from "../BaseDirURl";
+
 export const CreateGeneracionTipoPreguntaAPI = async (generacionTipoPregunta) => {
-    const response = await fetch("http://127.0.0.1:8000/api/generacion/create/tipo-pregunta", {
+    const response = await fetch(BASE_DIR + "api/generacion/create/tipo-pregunta", {
         method: "POST",
         headers: {
             Authorization: "Token " + localStorage.getItem("token"),

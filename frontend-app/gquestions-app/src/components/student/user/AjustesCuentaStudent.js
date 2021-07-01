@@ -8,7 +8,6 @@ import { InformacionAdicional } from "./InformacionAdicional";
 import { InformacionPersonal } from "./InformacionPersonal";
 import { NavbarStudent } from "../NavBarStudent";
 import { Footer } from '../../../components/home/Footer';
-import Scrollbars from "react-custom-scrollbars";
 
 export const AjustesCuentaStudent = () => {
 
@@ -86,9 +85,6 @@ export const AjustesCuentaStudent = () => {
         </div>
 
         <div
-          autoHide
-          autoHideTimeout={900}
-          autoHideDuration={400}
           style={{ height: "80vh" }}
           className="flex overflow-hidden">
           <div className="container overflow-y-auto mx-auto xl:pl-32 px-4 sm:px-8 py-8 md:px-8 lg:pl-16 sm:mr-32 md:text-base text-sm grid grid-rows">
@@ -116,7 +112,7 @@ export const AjustesCuentaStudent = () => {
 
             <div className="grid grid-cols-12 md:gap-x-16">
               {/* Información personal */}
-              <div className="xl:col-span-6 lg:col-span-7 sm:col-span-10 col-span-12 mt-10">
+              <div className="xl:col-span-6 lg:col-span-7 sm:col-span-10 col-span-12 mt-10 pb-4">
                 <InformacionPersonal />
               </div>
             </div>
@@ -170,10 +166,7 @@ export const AjustesCuentaStudent = () => {
 
         <NavbarStudent navigation={navigation} />
 
-        <CustomScrollbars
-          autoHide
-          autoHideTimeout={900}
-          autoHideDuration={400}
+        <div
           style={{ height: "80vh" }}
           className="flex overflow-hidden">
           <div className="container overflow-y-auto mx-auto xl:pl-32 px-4 sm:px-8 py-8 md:px-8 lg:pl-16 sm:mr-32 md:text-base text-sm grid grid-rows">
@@ -207,7 +200,7 @@ export const AjustesCuentaStudent = () => {
             </div>
 
           </div>
-        </CustomScrollbars>
+        </div>
 
         {/* Footer */}
         <div className="sm:block hidden">
@@ -258,10 +251,7 @@ export const AjustesCuentaStudent = () => {
 
         <NavbarStudent navigation={navigation} />
 
-        <CustomScrollbars
-          autoHide
-          autoHideTimeout={900}
-          autoHideDuration={400}
+        <div
           style={{ height: "80vh" }}
           className="flex overflow-hidden">
           <div className="container overflow-y-auto mx-auto xl:pl-32 px-4 sm:px-8 py-8 md:px-8 lg:pl-16 sm:mr-32 md:text-base text-sm grid grid-rows">
@@ -298,7 +288,7 @@ export const AjustesCuentaStudent = () => {
             </div>
 
           </div>
-        </CustomScrollbars>
+        </div>
 
         {/* Footer */}
         <div className="sm:block hidden">
@@ -308,20 +298,3 @@ export const AjustesCuentaStudent = () => {
     );
   }
 }
-
-// Funciones que cambian el estilo del scroll y otras props de una librería
-const renderThumb = ({ style, ...props }) => {
-  const thumbStyle = {
-    borderRadius: 6,
-    backgroundColor: 'rgba(35, 49, 86, 0.8)'
-  };
-  return <div style={{ ...style, ...thumbStyle }} {...props} />;
-};
-
-const CustomScrollbars = props => (
-  <Scrollbars
-    renderThumbHorizontal={renderThumb}
-    renderThumbVertical={renderThumb}
-    {...props}
-  />
-);

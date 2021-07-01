@@ -1,5 +1,7 @@
+import { BASE_DIR } from "../BaseDirURl";
+
 export const GetTextoAPI = async(id_texto) => {
-    const response = await fetch("http://127.0.0.1:8000/api/generacion/get/texto/" + id_texto, {
+    const response = await fetch(BASE_DIR + "api/generacion/get/texto/" + id_texto, {
         method: "GET",
         headers: {
             Authorization: "Token " + localStorage.getItem("token"),

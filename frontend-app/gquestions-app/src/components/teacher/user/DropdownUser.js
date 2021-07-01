@@ -2,7 +2,7 @@ import { Fragment, useEffect, useRef, useState } from 'react';
 import { Dialog, Menu, Transition } from '@headlessui/react';
 import { Redirect } from 'react-router';
 import { UpdateTerminosUserAPI } from '../../../api/Usuario/UpdateTerminosUserAPI';
-import { BASE_DIR } from '../../../api/BaseDirURl';
+import { LogoutAPI } from '../../../api/Usuario/LogoutAPI';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -31,26 +31,12 @@ export const DropdownUser = () => {
   }, []);
 
   const onClickLogout = async () => {
-    await fetch(
-      BASE_DIR + "api/logout",
-      {
-        method: "POST",
-        headers: {
-          Authorization: 'Token ' + localStorage.getItem('token'),
-          "Content-Type": "application/json"
-        },
-      }
-    ).then((data => {
-      if (data.ok) {
-        localStorage.removeItem('email');
-        localStorage.removeItem('token');
-        localStorage.removeItem('uuid_generacion');
-        localStorage.removeItem('id_user');
-        localStorage.removeItem('rol');
-        setCloseSession(true);
-      }
-    }))
-      .catch(err => err)
+    let response_logout = await LogoutAPI();
+    if (response_logout !== false) {
+      setCloseSession(true);
+    }else{
+      setCloseSession(false);
+    }
   }
 
   const onClickAjustesCuenta = async () => {
@@ -197,15 +183,18 @@ export const DropdownUser = () => {
           </Dialog>
         </Transition>
 
-        <Menu as="div" className="absolute xl:left-0 left-1 bottom-5 ml-3">
+        <Menu as="div" className="absolute xl:left-0 left-2 bottom-5 ml-3">
           {({ open }) => (
             <>
               <div>
                 <Menu.Button className="outline-none focus:outline-none">
-                  <div className='md:grid grid-cols-12 md:w-56 w-12 mt-auto items-center p-1 text-yellow-800 bg-yellowlight	md:rounded-lg rounded-full mb-1'>
+                  <div className='md:grid grid-cols-12 md:w-56 w-10 mt-auto items-center p-1 transition duration-500 text-yellow-800 
+                  hover:bg-yellowlight dark:hover:text-yellow-900 dark:hover:bg-yellowlight md:bg-white md:dark:bg-transparent 
+                  md:border-opacity-50 border md:border-yellow-800 md:dark:text-yellowlight md:rounded-xl rounded-full mb-1 bg-yellowlight
+                  dark:bg-yellowlight dark:text-yellow-800 border-transparent'>
                     <div className="col-span-2">
                       <svg
-                        className='fill-current h-4 md:w-5 w-full my-3 md:mx-3 md:mr-4'
+                        className='fill-current h-4 md:w-5 w-full my-2 md:mx-3 md:mr-4'
                         aria-hidden='true'
                         focusable='false'
                         data-prefix='far'
@@ -225,7 +214,7 @@ export const DropdownUser = () => {
                     </div>
 
                     <div className="col-span-2">
-                      <span className="hidden md:block text-yellow-800">
+                      <span className="hidden md:block dark:text-yellowlight text-yellow-800">
                         <svg
                           className={`${open ? 'transform -rotate-1' : ''} transform rotate-180 transition duration-500 w-5 h-5`}
                           xmlns="http://www.w3.org/2000/svg"
@@ -251,7 +240,8 @@ export const DropdownUser = () => {
               >
                 <Menu.Items
                   static
-                  className="absolute bottom-4 left-0 mb-10 mt-2 w-72 rounded-md shadow-lg py-1 bg-white dark:bg-darkColor border dark:border dark:border-gray-700 ring-1 ring-black ring-opacity-5 focus:outline-none"
+                  className="absolute bottom-4 left-0 mb-10 mt-2 w-72 rounded-xl shadow-lg py-1 bg-white dark:bg-darkColor 
+                  border dark:border dark:border-gray-700 ring-1 ring-black ring-opacity-5 focus:outline-none"
                 >
                   <Menu.Item>
                     <div className={

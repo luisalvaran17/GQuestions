@@ -27,7 +27,7 @@ function Navbar() {
   }, []);
 
   function handleClickDashboard() {
-    history.push("/teacher/dashboard")
+    history.push("/teacher/dashboard");
   }
 
   function handleClickGeneracion() {
@@ -50,22 +50,27 @@ function Navbar() {
     if (location.pathname === '/teacher/generacion') {
       divRefButtonGeneracion.current.classList.add('bg-yellowlight');
       divRefButtonGeneracion.current.classList.add('text-yellow-700');
+      divRefButtonGeneracion.current.classList.add('shadow');
     }
     if (location.pathname === '/teacher/dashboard') {
       divRefButtonDashboard.current.classList.add('bg-yellowlight');
       divRefButtonDashboard.current.classList.add('text-yellow-700');
+      divRefButtonDashboard.current.classList.add('shadow');
     }
     if (location.pathname === '/teacher/ajustes') {
       divRefButtonAjustes.current.classList.add('bg-yellowlight');
       divRefButtonAjustes.current.classList.add('text-yellow-700');
+      divRefButtonAjustes.current.classList.add('shadow');
     }
     if (location.pathname === '/teacher/estadisticas') {
       divRefButtonEstadisticas.current.classList.add('bg-yellowlight');
       divRefButtonEstadisticas.current.classList.add('text-yellow-700');
+      divRefButtonEstadisticas.current.classList.add('shadow');
     }
     if (location.pathname === '/teacher/calificaciones') {
       divRefButtonCalificaciones.current.classList.add('bg-yellowlight');
       divRefButtonCalificaciones.current.classList.add('text-yellow-700');
+      divRefButtonCalificaciones.current.classList.add('shadow');
     }
     AOS.init({
       duration: 1000,

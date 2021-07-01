@@ -359,7 +359,7 @@ export const RevisionExamen = () => {
                 }
 
                 {!isLoading &&
-                    <div className="container mx-auto 2xl:px-96 xl:px-80 lg:px-40 md:px-32 sm:px-16 px-8 py-8" style={{ marginTop: `${rolBool ? '10vh' : '0vh'}` }}>
+                    <div className="container mx-auto 2xl:px-96 xl:px-80 lg:px-40 md:px-32 sm:px-16 px-4 py-8" style={{ marginTop: `${rolBool ? '10vh' : '0vh'}` }}>
                         {/* Texto disclosure */}
 
                         <div className="w-full">
@@ -524,7 +524,7 @@ export const RevisionExamen = () => {
 
                                                 <div className="px-8 py-4 border-t">
                                                     <p className="text-green-700 text-sm font-semibold md:text-sm py-1">Respuesta correcta</p>
-                                                    <div className="bg-gray-50 rounded-t-xl p-4 border border-green-200">
+                                                    <div className="bg-gray-50 rounded-t-xl p-4 border border-green-200 sm:text-left text-justify">
                                                         <p className="text-gray-600 text-sm md:text-base">{pregunta.respuesta_correcta}</p>
                                                     </div>
                                                     <div className="bg-gray-50 rounded-b-xl px-4 py-2 border border-gray-200">
@@ -548,13 +548,15 @@ export const RevisionExamen = () => {
                                                                 name={pregunta.id_pregunta}
                                                                 disabled={true}
                                                                 value={pregunta.respuesta_usuario}
-                                                                className="w-full resize-y h-32 p-4 border rounded-xl focus:border-gray-400  bg-gray-100 text-gray-600 text-sm md:text-base outline-none focus:outline-none"
+                                                                className="w-full resize-y h-32 p-4 border rounded-xl focus:border-gray-400  
+                                                                bg-gray-100 text-gray-600 text-sm md:text-base outline-none focus:outline-none
+                                                                sm:text-left text-justify"
                                                             >
                                                             </textarea>
                                                         </div>
                                                         <div className="px-8 pb-4">
                                                             <p className="text-green-700 text-sm font-semibold md:text-sm py-1">Respuesta correcta</p>
-                                                            <div className="bg-gray-50 rounded-t-xl p-4 border border-green-200">
+                                                            <div className="bg-gray-50 rounded-t-xl p-4 border border-green-200 sm:text-left text-justify">
                                                                 <p className="text-gray-600 text-sm md:text-base">{pregunta.respuesta_correcta}</p>
                                                             </div>
                                                             <div className="bg-gray-50 rounded-b-xl px-4 py-2 border border-gray-200">

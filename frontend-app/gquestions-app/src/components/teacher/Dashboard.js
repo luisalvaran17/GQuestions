@@ -183,8 +183,8 @@ export const Dashboard = () => {
           className='lg:text-base text-sm dark:text-white'>
 
 
-          <div className="container grid grid-rows xl:px-32 px-8 py-8 md:px-8 lg:px-16">
-            <h1 className='font-black xl:text-5xl md:text-4xl text-2xl md:text-left md:mb-10 '>
+          <div className="container grid grid-rows xl:px-32 px-6 py-8 md:px-8 lg:px-16">
+            <h1 className='font-black xl:text-5xl md:text-4xl text-2xl md:text-left md:mb-10 mb-4'>
               Dashboard
           </h1>
             <p className="text-gray-500 font-semibold text-sm md:text-base dark:text-gray-200 mb-4">

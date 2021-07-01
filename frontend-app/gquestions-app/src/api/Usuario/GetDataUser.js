@@ -1,6 +1,8 @@
+import { BASE_DIR } from "../BaseDirURl";
+
 export const GetDataUser = async (email) => {
     const response = await fetch(
-        "http://127.0.0.1:8000/api/id-user/" +
+        BASE_DIR + "api/id-user/" +
         email,
         {
             method: "GET",

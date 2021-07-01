@@ -4,6 +4,7 @@ import { Disclosure, Menu, Transition, Dialog } from '@headlessui/react';
 import Logo from '../../assets/images/logo.png';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
+import { LogoutAPI } from '../../api/Usuario/LogoutAPI';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -39,26 +40,12 @@ export const NavbarStudent = (props) => {
   }
 
   const onClickLogout = async () => {
-    await fetch(
-      "http://localhost:8000/api/logout/",
-      {
-        method: "POST",
-        headers: {
-          Authorization: 'Token ' + localStorage.getItem('token'),
-          "Content-Type": "application/json"
-        },
-      }
-    ).then((data => {
-      if (data.ok) {
-        localStorage.removeItem('email');
-        localStorage.removeItem('token');
-        localStorage.removeItem('uuid_generacion');
-        localStorage.removeItem('id_user');
-        localStorage.removeItem('rol');
-        history.push('/');
-      }
-    }))
-      .catch(err => err)
+    let response_logout = await LogoutAPI();
+    if (response_logout !== false) {
+      history.push('/');
+    }else{
+      //
+    }
   }
 
   const onClickAjustes = () => {
@@ -194,7 +181,7 @@ export const NavbarStudent = (props) => {
                         >
                           <Menu.Items
                             static
-                            className="origin-top-right absolute right-0 mt-2 w-72 rounded-md shadow-lg py-1 bg-white dark:bg-darkColor border dark:border dark:border-gray-700 ring-1 ring-black ring-opacity-5 focus:outline-none"
+                            className="origin-top-right absolute right-0 mt-2 w-72 rounded-xl shadow-lg py-1 bg-white dark:bg-darkColor border dark:border dark:border-gray-700 ring-1 ring-black ring-opacity-5 focus:outline-none"
                           >
                             <Menu.Item>
                               <div className={

@@ -1,5 +1,7 @@
+import { BASE_DIR } from "../BaseDirURl";
+
 export const UpdateCalificacionAPI = async (id_calificacion, calificacionObj) => {
-    const response = fetch("http://127.0.0.1:8000/api/generacion/update/calificacion/" + id_calificacion, {
+    const response = fetch(BASE_DIR + "api/generacion/update/calificacion/" + id_calificacion, {
         method: "PUT",
         headers: {
             Authorization: "Token " + localStorage.getItem("token"),

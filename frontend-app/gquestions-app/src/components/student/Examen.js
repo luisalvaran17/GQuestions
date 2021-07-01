@@ -11,7 +11,7 @@ import ImageExceededTime from "../../assets/images/exceeded_time.png";
 import { CreateCalificacionAPI } from "../../api/Calificacion/CreateCalificacionAPI";
 import { CreateRespuestaPreguntaAPI } from "../../api/Calificacion/CreateRespuestaPreguntaAPI";
 import { UpdateExamenUsuarioAPI } from '../../api/Examen/UpdateExamenUsuarioAPI';
-import { BASE_DIR } from '../../api/BaseDirURl';
+import { LogoutAPI } from '../../api/Usuario/LogoutAPI';
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -245,26 +245,12 @@ export const Examen = () => {
 
     /* functions for dropdown user */
     const onClickLogout = async () => {
-        await fetch(
-            BASE_DIR + "api/logout",
-            {
-                method: "POST",
-                headers: {
-                    Authorization: 'Token ' + localStorage.getItem('token'),
-                    "Content-Type": "application/json"
-                },
-            }
-        ).then((data => {
-            if (data.ok) {
-                localStorage.removeItem('email');
-                localStorage.removeItem('token');
-                localStorage.removeItem('uuid_generacion');
-                localStorage.removeItem('id_user');
-                localStorage.removeItem('rol');
-                localStorage.removeItem('conf_examen');
-                history.push('/');
-            }
-        })).catch(err => err)
+        let response_logout = await LogoutAPI();
+        if (response_logout !== false) {
+          history.push('/');
+        }else{
+          //
+        }
     }
 
     const onClickAjustes = () => {
@@ -658,12 +644,12 @@ export const Examen = () => {
 
             {/* Toolbar */}
             <div className="flex justify-center items-center bg-gray-200 dark:bg-darkGrayColor2 text-white py-3 px-4 text-center fixed left-0 bottom-0 right-0 z-40">
-                <img className="h-12 self-center " src={Logo} alt="GQuestions" />
-                <p className="text-black text-lg dark:text-gray-200">Tu examen finaliza a las: <b>{configuracionExamen.finalizacion}</b></p>
+                <img className="sm:h-14 h-10 self-center " src={Logo} alt="GQuestions" />
+                <p className="text-black md:text-lg dark:text-gray-200">Tu examen finaliza a las: <b>{configuracionExamen.finalizacion}</b></p>
             </div>
 
             {/* TopBar */}
-            <div className="border-b shadow-sm dark:bg-darkColor dark:border-gray-700">
+            <div className="border-b shadow dark:bg-darkGrayColor2 dark:border-gray-700">
                 <nav className="container py-4 mx-auto h-36">
                     <div className="sm:pr-0 pr-20 2xl:ml-16 xl:ml-28 lg:ml-16 md:ml-16 sm:ml-12 ml-8 text-sm sm:text-base dark:text-gray-200">
                         <p className="uppercase font-light text-gray-600 dark:text-gray-100">Inglés - Universidad del Valle</p>

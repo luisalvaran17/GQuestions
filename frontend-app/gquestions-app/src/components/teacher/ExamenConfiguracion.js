@@ -252,91 +252,111 @@ export const ExamenConfiguracion = (props) => {
           autoHideDuration={400}
           style={{ height: "100vh" }}
           data-aos="fade-right"
-          className="container xl:mx-32 ml-4 md:mx-8 lg:mx-16 dark:text-white">
+          className="dark:text-white">
 
-          <div className="grid grid-rows  mt-8">
-            <h1 className="font-black xl:text-5xl md:text-4xl sm:text-2xl md:text-left mb-12 lg:mb-20 text-2xl">
+          <div className="container grid grid-rows xl:px-32 px-6 py-8 md:px-8 lg:px-16">
+            <h1 className="font-black xl:text-5xl md:text-4xl sm:text-2xl md:text-left sm:mb-12  md:mb-10 mb-4 text-2xl">
               Configuración examen
             </h1>
-            <div className="grid grid-cols-12 sm:mb-44 mb-0">
-              <div className="grid sm:col-span-4 col-span-12 sm:mr-8 mr-6 mb-2">
-                <label className="grid  text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
-                  Fecha y hora de inicio *
+            <div className="bg-gray-50 shadow-sm bg-opacity-40 dark:bg-darkColor dark:bg-opacity-80 border dark:border-gray-800 
+            rounded-xl md:py-12 py-6 px-2 sm:px-4 md:px-8 lg:px-16">
+              <div className="grid grid-cols-12 md:mb-44 sm:mb-16 mb-0">
+                <div className="grid sm:col-span-4 col-span-12 sm:mr-8 mx-2 mb-2">
+                  <label className="grid  text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
+                    Fecha y hora de inicio *
                 </label>
-                <DatePicker
-                  className="text-sm text-gray-800 md:text-base sm:col-span-4 col-span-12 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2
+                  <DatePicker
+                    className="text-sm text-gray-800 md:text-base sm:col-span-4 col-span-12 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2
                   focus:ring-yellowlight w-full 2xl:w-80 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
-                  selected={startDate}
-                  id="fecha_hora_ini"
-                  name="fecha_hora_ini"
-                  timeInputLabel="Time:"
-                  dateFormat="MM/dd/yyyy h:mm aa"
-                  showTimeInput
-                  onChange={handleChangeDateInicio}
-                />
-              </div>
+                    selected={startDate}
+                    id="fecha_hora_ini"
+                    name="fecha_hora_ini"
+                    timeInputLabel="Time:"
+                    dateFormat="MM/dd/yyyy h:mm aa"
+                    showTimeInput
+                    onChange={handleChangeDateInicio}
+                  />
+                </div>
 
-              <div className="grid sm:col-span-4 col-span-12 sm:mr-8 mr-6 mb-2">
-                <label className="grid text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
-                  Fecha y hora de fin *
+                <div className="grid sm:col-span-4 col-span-12 sm:mr-8  mx-2 mb-2">
+                  <label className="grid text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
+                    Fecha y hora de fin *
                 </label>
-                <DatePicker
-                  className="text-sm text-gray-800 md:text-base sm:col-span-4 col-span-12 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2
+                  <DatePicker
+                    className="text-sm text-gray-800 md:text-base sm:col-span-4 col-span-12 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2
                   focus:ring-yellowlight w-full 2xl:w-80 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
-                  selected={endDate}
-                  id="fecha_hora_fin"
-                  name="fecha_hora_fin"
-                  timeInputLabel="Time:"
-                  dateFormat="MM/dd/yyyy h:mm aa"
-                  showTimeInput
-                  onChange={handleChangeDateFin}
-                />
-              </div>
+                    selected={endDate}
+                    id="fecha_hora_fin"
+                    name="fecha_hora_fin"
+                    timeInputLabel="Time:"
+                    dateFormat="MM/dd/yyyy h:mm aa"
+                    showTimeInput
+                    onChange={handleChangeDateFin}
+                  />
+                </div>
 
-              <div className="grid sm:col-span-4 col-span-12 sm:mr-8 mr-6 mb-2">
-                <label className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
-                  Contraseña del examen *
+                <div className="grid sm:col-span-4 col-span-12 sm:mr-8  mx-2 mb-2">
+                  <label className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
+                    Contraseña del examen *
                 </label>
-                <input
-                  type="password"
-                  id="contrasena_exam"
-                  className="grid text-s text-gray-800 mtext-gray-800 md:text-base sm:col-span-4 col-span-12 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2
+                  <input
+                    type="password"
+                    id="contrasena_exam"
+                    className="grid text-s text-gray-800 mtext-gray-800 md:text-base sm:col-span-4 col-span-12 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2
                                   focus:ring-yellowlight w-full 2xl:w-80 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
 
-                  name="contrasena_exam"
-                  placeholder="Contraseña"
-                  onChange={handleChange}
-                />
+                    name="contrasena_exam"
+                    placeholder="Contraseña"
+                    onChange={handleChange}
+                  />
+                </div>
               </div>
-            </div>
 
-            <div className="grid grid-cols-12 sm:mb-36 mb-16">
-              <div className="grid sm:col-span-4 col-span-12 sm:mr-8 mr-6 mb-2">
-                <label className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
-                  Nombre del examen
+              <div className="grid grid-cols-12 sm:mb-16 md:mb-16 mb-2">
+                <div className="grid sm:col-span-4 col-span-12 sm:mr-8  mx-2 mb-2">
+                  <label className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
+                    Nombre del examen
                 </label>
-                <input
-                  type="text"
-                  className="grid text-sm text-gray-800 md:text-base sm:col-span-4 col-span-12 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2
+                  <input
+                    type="text"
+                    className="grid text-sm text-gray-800 md:text-base sm:col-span-4 col-span-12 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2
                                   focus:ring-yellowlight w-full 2xl:w-80 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
 
-                  name="title_exam"
-                  placeholder="Ingresa el nombre del examen"
-                  onChange={handleChange}
-                />
-              </div>
+                    name="title_exam"
+                    placeholder="Ingresa el nombre del examen"
+                    onChange={handleChange}
+                  />
+                </div>
 
-              <div className="grid sm:col-span-4 col-span-12 2xl:mr-28 sm:mr-8 mr-6 mb-2">
-                <div className="grid grid-cols-12">
-                  <div className="col-span-5">
-                    <label className="text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
-                      Horas *
+                <div className="grid sm:col-span-4 col-span-12 2xl:mr-28 sm:mr-8  mx-2 mb-2">
+                  <div className="grid grid-cols-12">
+                    <div className="col-span-5">
+                      <label className="text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
+                        Horas *
                     </label>
-                    <div>
+                      <div>
+                        <input
+                          type="number"
+                          id="hours"
+                          name="hours"
+                          className="text-sm text-gray-800 md:text-base transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2
+                                  focus:ring-yellowlight w-full pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
+                          placeholder="00"
+                          onChange={handleChangeDuracion}
+                        />
+                      </div>
+                    </div>
+                    <div className="col-span-2 text-right place-self-center">
+                      <p className="text-lg font-bold mt-6">:</p>
+                    </div>
+                    <div className="col-span-5">
+                      <label className="text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
+                        Minutos
+                    </label>
                       <input
                         type="number"
-                        id="hours"
-                        name="hours"
+                        id="minutes"
+                        name="minutes"
                         className="text-sm text-gray-800 md:text-base transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2
                                   focus:ring-yellowlight w-full pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
                         placeholder="00"
@@ -344,52 +364,31 @@ export const ExamenConfiguracion = (props) => {
                       />
                     </div>
                   </div>
-                  <div className="col-span-2 text-right place-self-center">
-                    <p className="text-lg font-bold mt-6">:</p>
-                  </div>
-                  <div className="col-span-5">
-                    <label className="text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
-                      Minutos
-                    </label>
-                    <input
-                      type="number"
-                      id="minutes"
-                      name="minutes"
-                      className="text-sm text-gray-800 md:text-base transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2
-                                  focus:ring-yellowlight w-full pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
-                      placeholder="00"
-                      onChange={handleChangeDuracion}
-                    />
-                  </div>
+                </div>
+
+                <div className="grid sm:col-span-4 col-span-12 sm:mr-8  mx-2 mb-2">
+                  <label className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
+                    Número de intentos
+                </label>
+                  <input
+                    type="number"
+                    id="numero_intentos"
+                    disabled={true}
+                    className="grid text-sm text-gray-800 md:text-base sm:col-span-4 col-span-12 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2
+                                  focus:ring-yellowlight w-full 2xl:w-80 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-gray-300 shadow"
+                    name="numero_intentos"
+                    placeholder="Por defecto 1"
+                    onChange={handleChange}
+                  />
                 </div>
               </div>
-
-              <div className="grid sm:col-span-4 col-span-12 sm:mr-8 mr-6 mb-2">
-                <label className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
-                  Número de intentos
-                </label>
-                <input
-                  type="number"
-                  id="numero_intentos"
-                  disabled={true}
-                  className="grid text-sm text-gray-800 md:text-base sm:col-span-4 col-span-12 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2
-                                  focus:ring-yellowlight w-full 2xl:w-80 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-gray-300 shadow"
-                  name="numero_intentos"
-                  placeholder="Por defecto 1"
-                  onChange={handleChange}
-                />
-              </div>
             </div>
 
-            <div className="py-3 mt-4 w-full 2xl:pr-28 sm:pr-8 pr-6">
-              <hr></hr>
-            </div>
-
-            <div className="grid grid-rows justify-end items-end  2xl:pr-28 sm:pr-8 pr-4">
+            <div className="grid grid-cols-12 pt-4">
               {!isLoading &&
                 <button
                   type="submit"
-                  className="btn-primary"
+                  className="btn-primary lg:col-start-10 lg:col-span-3 sm:col-start-8 sm:col-span-5 col-span-12"
                   onClick={handleClick}
                 >
                   Terminar
@@ -397,7 +396,7 @@ export const ExamenConfiguracion = (props) => {
               }{isLoading &&
                 <button
                   type="submit"
-                  className="btn-primary"
+                  className="btn-primary lg:col-start-10 lg:col-span-3 sm:col-start-8 sm:col-span-5 col-span-12"
                 >
                   <span className="text-white my-0 mr-4 w-0 h-0">
                     <i className="fas fa-circle-notch fa-spin fa-x"></i>
@@ -408,43 +407,43 @@ export const ExamenConfiguracion = (props) => {
                 Ha ocurrido un error de conexión
                 </p>
             </div>
-          </div>
 
 
-          {/* Stepper progress bar */}
+            {/* Stepper progress bar */}
+            <div className="container mt-8">
+              <StepsProgress active={4} />
+            </div>
+            {/* Error messages */}
+            <div className="container mt-2">
+              <div
 
-          <div className="container 2xl:pr-28 sm:pr-8 pr-6">
-            <StepsProgress active={4} />
-          </div>
-          {/* Error messages */}
-          <div className="container mb-8 pr-4">
-            <div
-
-              ref={divRefErrorMessage}
-              className="hidden animate-pulse mt-1 text-sm md:text-base relative py-1 pl-4 pr-10 leading-normal text-red-700 bg-red-100 rounded-lg"
-              role="alert"
-            >
-              <div id="error_messages" className="">
-              </div>
-
-              <span
-                className="absolute inset-y-0 right-0 flex items-center mr-4"
-                onClick={addClassdivRefErrorMessage}
+                ref={divRefErrorMessage}
+                className="hidden animate-pulse mt-1 text-sm md:text-base relative py-1 pl-4 pr-10 leading-normal text-red-700 bg-red-100 rounded-lg"
+                role="alert"
               >
-                <svg
-                  className="w-4 h-4 fill-current"
-                  role="button"
-                  viewBox="0 0 20 20"
+                <div id="error_messages" className="">
+                </div>
+
+                <span
+                  className="absolute inset-y-0 right-0 flex items-center mr-4"
+                  onClick={addClassdivRefErrorMessage}
                 >
-                  <path
-                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                    clipRule="evenodd"
-                    fillRule="evenodd"
-                  ></path>
-                </svg>
-              </span>
+                  <svg
+                    className="w-4 h-4 fill-current"
+                    role="button"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                      clipRule="evenodd"
+                      fillRule="evenodd"
+                    ></path>
+                  </svg>
+                </span>
+              </div>
             </div>
           </div>
+
         </CustomScrollbars>
         <DropdownUser />
       </div>
