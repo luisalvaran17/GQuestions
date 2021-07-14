@@ -12,12 +12,13 @@ import { CreateGeneracionTipoPreguntaAPI } from "../../api/Generacion/CreateGene
 import { StepsProgress } from "./StepsProgress";
 import { useHistory } from "react-router";
 import { RevisionGeneracion } from "./RevisionGeneracion";
-import { Dialog, Transition } from '@headlessui/react'
+import { Dialog, Transition, Popover } from '@headlessui/react';
 import { Fragment } from 'react'
 import { GetUserAPI } from '../../api/Usuario/GetUserAPI';
 import { UpdateTerminosUserAPI } from "../../api/Usuario/UpdateTerminosUserAPI";
 import Scrollbars from "react-custom-scrollbars";
 import { ErrorModal } from "../../containers/ErrorModal";
+import { GenerateTextsAPI } from "../../api/Generacion/GenerateTextsAPI";
 
 export const GenerateConfig = () => {
   const divRefErrorMessage = useRef();
@@ -49,14 +50,14 @@ export const GenerateConfig = () => {
   // ********************** API de prueba *********************** //
   // https://085ccb55-b52c-46cf-963e-8a0c5ee42562.mock.pstmn.io   //
   //  ************************************************************//
-  const url = "https://085ccb55-b52c-46cf-963e-8a0c5ee42562.mock.pstmn.io"; // Endpoint TEXTOS Y PREGUNTAS fake
+  // const url = "https://085ccb55-b52c-46cf-963e-8a0c5ee42562.mock.pstmn.io"; // Endpoint TEXTOS Y PREGUNTAS fake
 
   // Estado utilizado para campos de configuración de Generación de textos
   const [generacionConfiguracion, setGeneracionConfiguracion] = useState({
     id: UUID_GENERATE,
     n_examenes: 10,
     cantidad_textos: 10,
-    longit_texto: 250,
+    longit_texto: 300,
     n_preguntas: 0,
     inicio_oracion: "Aleatorio",
     account: ""
@@ -93,7 +94,7 @@ export const GenerateConfig = () => {
   }, []);
 
   // get data Textos endpoint 
-  const getTextos = async () => {
+/*   const getTextos = async () => {
 
     setIsLoading(true);
     // You can await here
@@ -110,7 +111,7 @@ export const GenerateConfig = () => {
     // Asignación de respuesta al stado Textos
     setTextos(response.data);
     setIsLoading(false);
-  }
+  } */
 
   const getTerminos = async () => {
     const id_user = localStorage.getItem('id_user');
@@ -126,8 +127,8 @@ export const GenerateConfig = () => {
   // Función al presionar el botón "Generar textos", esta función hace los POST  a tres tablas
   // (Generacion, GeneracionTipoPregunta y GeneracionUsuario), además llama a dos funciones que,
   // inserta los textos generados y la relación entre la Generación y estos Textos
-  const handleClick = async () => {
-
+/*   const handleClick = async () => {
+    console.log(generacionConfiguracion)
     await getTextos();  // Obtiene los textos desde el endpoint (url)
     setGeneracionConfiguracion(
       Object.assign(generacionConfiguracion, {
@@ -154,22 +155,26 @@ export const GenerateConfig = () => {
         }
       }
     }
-  }
+  } */
 
   // Handles inputs
   const handleChangeConfiguracion = (e) => {
     const generacion_configuracion = generacionConfiguracion;
     generacion_configuracion[e.target.name] = parseInt(e.target.value);
     setGeneracionConfiguracion(generacion_configuracion);
+
+    console.log(generacionConfiguracion)
   }
 
   const handleChangeInicioOracion = (e) => {
-    e.target.name = e.target.value;
+    const name = e.target.name;
+    const value = e.target.value
     setGeneracionConfiguracion(
       Object.assign(generacionConfiguracion, {
-        inicio_oracion: e.target.value
+        [name]: value
       })
     );
+    console.log(generacionConfiguracion)
   }
 
   const handleInputChangeTiposPregunta = (event) => {
@@ -219,13 +224,13 @@ export const GenerateConfig = () => {
     if (Number.isNaN(generacionConfiguracion.longit_texto)) {
       setGeneracionConfiguracion(
         Object.assign(generacionConfiguracion, {
-          longit_texto: 250,
+          longit_texto: 300,
         })
       );
     }
-    if (generacionConfiguracion.longit_texto < 250) {
+    if (generacionConfiguracion.longit_texto < 300) {
       boolLongTexto = true;
-      p_longTexto = React.createElement('p', {}, '●  La longitud del texto debe ser mayor o igual a 250 carácteres');
+      p_longTexto = React.createElement('p', {}, '●  La longitud del texto debe ser mayor o igual a 300 carácteres');
     }
     if (generacionConfiguracion.n_preguntas > 10) {
       boolCantidadPreguntas = true;
@@ -271,12 +276,129 @@ export const GenerateConfig = () => {
         terminos_condiciones: true,
       })
     )
-
     await UpdateTerminosUserAPI(id_user, terminos)
   }
 
   function notCloseModal() {
     setIsOpen(true)
+  }
+
+  const handleClickGetTexts = async () => {
+    console.log(generacionConfiguracion)
+    if (checkFieldsValidations() === true) {    // Si todos los campos cumplen las validaciones entonces hace los POST
+
+      let json = require('./sentences.json'); //(with path)
+      let textos_response = { data: [] }
+
+      let min = 0;
+      let max = 5000;
+      let randoms = []
+
+      setIsLoading(true)
+      if (generacionConfiguracion.inicio_oracion === 'Aleatorio') {
+        // Aleatorio texto
+        for (let i = 0; i < generacionConfiguracion.n_examenes; i++) {
+          let random = Math.floor(Math.random() * (+max - +min)) + +min;
+          randoms.push(random)
+        }
+
+        /* Tipos de preguntas */
+        let tipo_pregunta = "all"
+        if (generacionTipoPregunta.opcion_multiple && !generacionTipoPregunta.pregunta_abierta) {
+          tipo_pregunta = "multiple_choice";
+        }
+        if (!generacionTipoPregunta.opcion_multiple && generacionTipoPregunta.pregunta_abierta) {
+          tipo_pregunta = "sentences";
+        }
+        if (generacionTipoPregunta.opcion_multiple && generacionTipoPregunta.pregunta_abierta) {
+          tipo_pregunta = "all";
+        }
+        for (let i = 0; i < randoms.length; i++) {
+          const response_text = await GenerateTextsAPI(json[randoms[i]].text, generacionConfiguracion.longit_texto);
+          
+          let preguntas = await getPreguntasFromNLP(response_text[0].generated_text, generacionConfiguracion.n_preguntas, tipo_pregunta)
+          let element_text = {
+            id: (i + 1).toString(),
+            cuerpo: response_text[0].generated_text,
+            es_editado: "false",
+            es_regenerado: "false",
+            preguntas: preguntas
+          }
+          textos_response.data.push(element_text)
+        }
+      }
+
+      if (generacionConfiguracion.inicio_oracion !== 'Aleatorio') {
+        let length_json = Object.keys(json).length;
+        let list_objects = [];
+        for (let i = 0; i < length_json; i++) {
+          if (json[i].area === generacionConfiguracion.inicio_oracion) {
+            list_objects.push(json[i])
+          }
+        }
+        min = 0;
+        max = list_objects.length;
+        for (let i = 0; i < generacionConfiguracion.n_examenes; i++) {
+          let random = Math.floor(Math.random() * (+max - +min)) + +min;
+          randoms.push(random)
+        }
+        for (let i = 0; i < randoms.length; i++) {
+          const response_text = await GenerateTextsAPI(list_objects[randoms[i]].text, generacionConfiguracion.longit_texto);
+
+          let preguntas = await getPreguntasFromNLP(response_text[0].generated_text, generacionConfiguracion.n_preguntas, "all")
+          let element_text = {
+            id: (i + 1).toString(),
+            cuerpo: response_text[0].generated_text,
+            es_editado: "false",
+            es_regenerado: "false",
+            preguntas: preguntas
+          }
+          textos_response.data.push(element_text)
+        }
+      }
+      setGeneracionConfiguracion(
+        Object.assign(generacionConfiguracion, {
+          account: localStorage.getItem("id_user")
+        })
+      );
+
+      if (_isMounted) {
+        setIsLoading(true);
+        setTextos(textos_response.data)
+        console.log(textos_response)
+        const responseGeneracionConfig = await CreateGeneracionConfiguracionAPI(generacionConfiguracion);   // POST a Generacion
+
+        const responseGeneracionTipoPregunta = await CreateGeneracionTipoPreguntaAPI(generacionTipoPregunta);    // POST a GeneracionTipoPregunta
+
+        if (responseGeneracionConfig && responseGeneracionTipoPregunta) {    // Si todas las peticiones son ok
+
+          // Llamado a función que inserta los textos en la DB DJANGO
+          localStorage.setItem('uuid_generacion', generacionConfiguracion.id);
+          setIsLoading(false);
+          setIrRevisionTexto(true);
+        }
+        else {
+          setIsOpenError(true);
+        }
+      }
+    }
+  }
+
+  const getPreguntasFromNLP = async (text, num_questions, answer_style) => {
+    const response_questions = await fetch("http://192.168.0.34:8080/api/generacion/question-generator", {
+      method: "POST",
+      headers: {
+        Authorization: "Basic Og==",
+      },
+      body: new URLSearchParams({ "text": text, "num_questions": num_questions, "answer_style": answer_style }),
+    }).then((res) => res.json())
+      .then((json) => {
+        return json;
+      }).catch(err => {
+        console.log(err)
+        return false;
+      })
+    return response_questions;
   }
 
   // CONDICIONAL PARA REDIRECCIONAR CON PROPS EN CASO DE QUE LA GENERACIÓN SEA EXITOSA (ENVIAR A SIGUIENTE COMPONENT FUNCTIONAL)
@@ -298,6 +420,8 @@ export const GenerateConfig = () => {
       >
         <Helmet>
           <title>Generación - GQuestions</title>
+          <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
+            rel="stylesheet"></link>
           <link rel="stylesheet" href="https://pagecdn.io/lib/font-awesome/5.10.0-11/css/all.min.css" integrity="sha256-p9TTWD+813MlLaxMXMbTA7wN/ArzGyW/L7c5+KkjOkM=" crossorigin="anonymous" />
         </Helmet>
 
@@ -338,17 +462,73 @@ export const GenerateConfig = () => {
 
                 <div className="grid sm:col-span-4 col-span-12 sm:mr-8 mr-0 mb-2">
                   <label className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
-                    Longitud de texto &ge; 250
-                </label>
-                  <input
-                    type="number"
-                    id="long_texto"
-                    className="grid text-sm md:text-base sm:col-span-4 col-span-12 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2
-                                  focus:ring-yellowlight w-full 2xl:w-80 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
-                    name="longit_texto"
-                    placeholder="Por defecto 250"
-                    onChange={handleChangeConfiguracion}
-                  />
+                    Longitud de texto &ge; 300
+                  </label>
+                  <div className="grid sm:col-span-4 col-span-12">
+                    <div className="flex">
+                      <input
+                        type="number"
+                        id="long_texto"
+                        className="grid text-sm md:text-base transition duration-500 border rounded-l-lg 
+                        focus:border-transparent focus:outline-none focus:ring-2 focus:ring-yellowlight w-full 2xl:w-72 
+                        pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
+                        name="longit_texto"
+                        placeholder="Por defecto 300"
+                        onChange={handleChangeConfiguracion}
+                      />
+
+                  {/* Popup information */}
+                  <Popover className="">
+                    {({ open }) => (
+                      <div className="bg-white h-full rounded-r-lg border-r border-t border-b  border-gray-300 outline-none shadow">
+                        <Popover.Overlay
+                          className={`${open ? 'opacity-40 fixed inset-0' : 'opacity-0'
+                            } bg-black`}
+                        />
+                        <Popover.Button
+                          className={`
+                              ${open ? '' : 'text-opacity-90'}
+                              text-white group bg-orange-700 rounded-md inline-flex items-center text-base font-medium hover:text-opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75`}
+                        >
+                          <span
+                            className="mt-2 transition duration-500 px-1 hover:text-cyanmain text-gray-400
+                                   material-icons-outlined outline-none focus:outline-none"
+                            >&#xe88e;
+                          </span>
+                        </Popover.Button>
+                        <Transition
+                          as={Fragment}
+                          enter="transition ease-out duration-200"
+                          enterFrom="opacity-0 translate-y-1"
+                          enterTo="opacity-100 translate-y-0"
+                          leave="transition ease-in duration-150"
+                          leaveFrom="opacity-100 translate-y-0"
+                          leaveTo="opacity-0 translate-y-1"
+                        >
+                          <Popover.Panel className="absolute ml-10 z-10 px-8 mt-0 transform -translate-x-1/2 left-1/2 sm:px-0 max-w-xs">
+                            <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
+                              <div className="p-4 bg-gray-50">
+                                <span
+                                  className="flow-root px-2 py-2 transition duration-150 ease-in-out rounded-md hover:bg-gray-100 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
+                                >
+                                  <span className="flex items-center">
+                                    <span className="font-semibold text-gray-900">
+                                      Recomendación
+                                      </span>
+                                  </span>
+                                  <span className="block text-sm text-gray-500 text-justify">
+                                    Tenga en cuenta que la longitud de texto influye en la cantidad de preguntas que se pueden generar, se recomienda una longitud de texto de 400 para 10 preguntas
+                                      </span>
+                                </span>
+                              </div>
+                            </div>
+                          </Popover.Panel>
+                        </Transition>
+                      </div>
+                    )}
+                  </Popover>
+                    </div>
+                  </div>
                 </div>
 
                 <div className="grid sm:col-span-4 col-span-12 sm:mr-8 mr-0 mb-2">
@@ -371,21 +551,44 @@ export const GenerateConfig = () => {
               <div className="grid grid-cols-12">
                 <div className="grid sm:col-span-4 col-span-12 sm:mr-8 mr-0 mb-2">
                   <label className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 mb-2 dark:text-gray-300">
-                    Inicio de oración
+                    Tema del texto
                 </label>
                   <select
                     type="text"
                     id="ini_oracion"
                     className="grid text-sm md:text-base sm:col-span-4 col-span-12 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2
-                                  focus:ring-yellowlight w-full 2xl:w-80 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-gray-300 shadow text-gray-500"
+                                  focus:ring-yellowlight w-full 2xl:w-80 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow text-gray-500"
                     name="inicio_oracion"
-                    disabled={true}
                     defaultValue="Aleatorio"
                     onChange={handleChangeInicioOracion}
                   >
                     <option>Aleatorio</option>
-                    <option>Personalizado</option>
-                    <option>Completo</option>
+                    <option> Digital control </option>
+                    <option> Analog signal processing </option>
+                    <option> Data structures </option>
+                    <option> Parallel computing </option>
+                    <option> Image processing </option>
+                    <option> Stealth Technology </option>
+                    <option> Machine learning </option>
+                    <option> Electrical circuits </option>
+                    <option> Algorithm design </option>
+                    <option> Computer-aided design </option>
+                    <option> Problem-solving </option>
+                    <option> Ambient Intelligence </option>
+                    <option> Computer programming </option>
+                    <option> Electrical generator </option>
+                    <option> Relational databases </option>
+                    <option> Computer vision </option>
+                    <option> Electrical network </option>
+                    <option> Software engineering </option>
+                    <option> Bioinformatics </option>
+                    <option> Operating systems </option>
+                    <option> Control engineering </option>
+                    <option> Cryptography </option>
+                    <option> Computer graphics </option>
+                    <option> Distributed computing </option>
+                    <option> Highway Network System </option>
+                    <option> Structured Storage </option>
                   </select>
                 </div>
 
@@ -420,10 +623,11 @@ export const GenerateConfig = () => {
                   >
                     Tipo de preguntas
                   </label>
-                  <div className="flex flex-col ml-1 text-sm md:text-base rounded-lg text-gray-500
+                  <div className="flex flex-col ml-1 text-sm md:text-base rounded-lg
                                   2xl:w-80 2xl:border-gray-300 2xl:bg-white 2xl:divide-y
                                   w-full border-gray-300 bg-white divide-y border
-                                  md:border-transparent md:bg-transparent md:divide-y-0"
+                                  md:border-transparent md:bg-transparent md:divide-y-0
+                                  text-gray-500 md:text-gray-100 2xl:text-gray-500"
                   >
                     <label
                       htmlFor="pregunta_abierta"
@@ -437,7 +641,7 @@ export const GenerateConfig = () => {
                           defaultChecked="true"
                           onChange={handleInputChangeTiposPregunta}
                         ></input>
-                        <span className="ml-6 text-gray-700">
+                        <span className="ml-6">
                           Pregunta abierta
                             </span>
                       </div>
@@ -455,7 +659,7 @@ export const GenerateConfig = () => {
                           defaultChecked="true"
                           onChange={handleInputChangeTiposPregunta}
                         ></input>
-                        <span className="ml-6 text-gray-700">
+                        <span className="ml-6">
                           Opción múltiple
                         </span>
                       </div>
@@ -472,7 +676,7 @@ export const GenerateConfig = () => {
                           className="form-checkbox h-5 w-5 text-yellow-500"
                           onChange={handleInputChangeTiposPregunta}
                         ></input>
-                        <span className="ml-6 text-gray-700">Completación</span>
+                        <span className="ml-6">Completación</span>
                       </div>
                     </label>
                   </div>
@@ -493,20 +697,24 @@ export const GenerateConfig = () => {
               </div>
             </div>
 
+
             <div className="grid grid-cols-12 pt-4">
+
               {!isLoading &&
                 <button
                   type="submit"
-                  className="btn-primary lg:col-start-10 lg:col-span-3 sm:col-start-8 sm:col-span-5 col-span-12"
-                  onClick={handleClick}
+                  className="btn-primary 2xl:col-start-10 2xl:col-span-5 xl:col-start-9 xl:col-span-4 lg:col-start-8 
+                  lg:col-span-5 md:col-start-8 md:col-span-5 sm:col-start-7 sm:col-span-6 col-span-12"
+                  onClick={handleClickGetTexts}
                 >
                   Generar
               </button>
               }{isLoading &&
                 <button
                   type="submit"
-                  className="btn-primary lg:col-start-10 lg:col-span-3 sm:col-start-8 sm:col-span-5 col-span-12"
-                  onClick={handleClick}
+                  className="btn-primary 2xl:col-start-10 2xl:col-span-5 xl:col-start-9 xl:col-span-4 lg:col-start-8 
+                  lg:col-span-5 md:col-start-8 md:col-span-5 sm:col-start-7 sm:col-span-6 col-span-12 cursor-pointer-events-none
+                  cursor-not-allowed"
                 >
                   <span className="text-white my-0 mr-4 w-0 h-0">
                     <i className="fas fa-circle-notch fa-spin fa-x"></i>
@@ -514,11 +722,12 @@ export const GenerateConfig = () => {
                 Generando ...
               </button>}
               {/* <button
-                  type="submit"
-                  className="btn-secondary mt-2"
-                  onClick={handleClickTest}
-                >
-                  Test
+                type="submit"
+                className="btn-secondary mt-2 2xl:col-start-10 2xl:col-span-5 xl:col-start-9 xl:col-span-4 lg:col-start-8 
+                lg:col-span-5 md:col-start-8 md:col-span-5 sm:col-start-7 sm:col-span-6 col-span-12"
+                onClick={handleClickGetTexts}
+              >
+                Generar [API]
               </button> */}
             </div>
 
@@ -544,7 +753,6 @@ export const GenerateConfig = () => {
                 >
                   <svg
                     className="w-4 h-4 fill-current"
-                    role="button"
                     viewBox="0 0 20 20"
                   >
                     <path

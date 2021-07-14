@@ -14,7 +14,6 @@ import { Dashboard } from './components/teacher/Dashboard';
 import { Estadisticas } from './components/teacher/Estadisticas';
 import { AjustesTeacher } from './components/teacher/AjustesTeacher';
 import { ErrorNotServer } from './containers/ErrorNotServer';
-import { ExamenConfiguracion } from './components/teacher/ExamenConfiguracion';
 import { ExamenPublicado } from './components/teacher/ExamenPublicado';
 import { VisualizacionGeneracion } from './components/teacher/VisualizacionGeneracion';
 import { Calificaciones } from './components/teacher/calificaciones/Calificaciones';
@@ -43,7 +42,6 @@ export const App = () => {
         <PrivateRouteDocente exact path='/teacher/dashboard' component={Dashboard} />
         <PrivateRouteDocente exact path='/teacher/estadisticas' component={Estadisticas} />
         <PrivateRouteDocente exact path='/teacher/ajustes' component={AjustesTeacher} />
-        <PrivateRouteDocente exact path='/teacher/examen-configuracion' component={ExamenConfiguracion} />
         <PrivateRouteDocente exact path='/teacher/examen-publicado' component={ExamenPublicado} />
         <PrivateRouteDocente exact path='/teacher/visualizar-generacion' component={VisualizacionGeneracion} />
         <PrivateRouteDocente exact path='/teacher/calificaciones' component={Calificaciones} />

@@ -3,10 +3,6 @@ from django.conf import settings
 from accounts.models import Account
 
 # Create your models here.
-INICIO_ORACION = (('Aleatorio', 'Aleatorio'),
-                  ('Personalizado', 'Personalizado'),
-                  ('Completo', 'Completo'),
-                  )
 
 # ******************************************** #
 # **** Tablas Generacion (Configuración) ***** #
@@ -16,7 +12,7 @@ class GeneracionModel(models.Model):
     n_examenes = models.SmallIntegerField(null=False)
     longit_texto = models.IntegerField(default=200)
     n_preguntas = models.SmallIntegerField(null=False)
-    inicio_oracion = models.CharField(choices=INICIO_ORACION, max_length=30, null=False)
+    inicio_oracion = models.CharField(max_length=30, null=False, default='Aleatorio')
     fecha_generacion = models.DateTimeField(auto_now_add=True, null=False)
     account = models.ForeignKey(Account, related_name="account", on_delete=models.CASCADE)
 

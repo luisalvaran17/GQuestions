@@ -24,6 +24,8 @@ from .models import RespuestaPreguntaExamenModel
 from rest_framework import generics
 from django.http import JsonResponse
 
+""" from .questiongenerator import QuestionGenerator """
+
 # Create your views here.
 # pylint: disable=maybe-no-member
 
@@ -278,9 +280,9 @@ def UpdateCalificacionView(request, id_calificacion):
         return Response(serializer.data, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-from .questiongenerator import QuestionGenerator
 
-@api_view(["POST"])
+### API LOCAL  (no utilizado porque se hace uso de google cloud run)
+""" @api_view(["POST"])
 def GetQuestionsTextView(request):
     article = request.data.get('text')
     num_questions_request = request.data.get('num_questions')
@@ -293,4 +295,4 @@ def GetQuestionsTextView(request):
         answer_style=str(answer_style_request)
     )
     return JsonResponse(qa_list, safe=False, status=status.HTTP_200_OK)
-
+ """

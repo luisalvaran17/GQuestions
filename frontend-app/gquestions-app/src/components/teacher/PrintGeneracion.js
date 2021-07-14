@@ -35,7 +35,8 @@ export const PrintGeneracion = (props) => {
                                 <ul>
                                     {item.preguntas.map(pregunta => (
                                         <li key={pregunta.id_pregunta}>
-                                            <p>{pregunta.pregunta_cuerpo}</p>
+                                            <p>Question: {pregunta.pregunta_cuerpo}</p>
+                                            <p>Answer: {pregunta.respuesta_correcta}</p>
                                             <br></br>
                                         </li>
                                     ))}

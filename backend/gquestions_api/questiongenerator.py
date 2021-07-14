@@ -14,6 +14,7 @@ from transformers import (
     AutoModelForSequenceClassification,
 )
 
+
 class QuestionGenerator:
     def __init__(self, model_dir=None):
 
@@ -22,17 +23,16 @@ class QuestionGenerator:
         self.CONTEXT_TOKEN = "<context>"
         self.SEQ_LENGTH = 512
 
-        checkpoint  = QG_PRETRAINED
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-        self.qg_tokenizer = AutoTokenizer.from_pretrained(checkpoint, use_fast=False)
-        self.qg_model = AutoModelForSeq2SeqLM.from_pretrained(checkpoint)
+        self.qg_tokenizer = AutoTokenizer.from_pretrained(QG_PRETRAINED, use_fast=False)
+        self.qg_model = AutoModelForSeq2SeqLM.from_pretrained(QG_PRETRAINED)
         self.qg_model.to(self.device)
 
         self.qa_evaluator = QAEvaluator(model_dir)
 
     def generate(
-        self, article, use_evaluator=False, num_questions=None, answer_style="all"
+        self, article, use_evaluator=True, num_questions=None, answer_style="all"
     ):
 
         print("Generating questions...\n")
@@ -244,7 +244,7 @@ class QuestionGenerator:
         for i in range(num_questions):
             index = scores[i]
             qa = self._make_dict(
-                generated_questions[index].split("?")[0] + "?", qg_answers[index]
+                (i+1), generated_questions[index].split("?")[0] + "?", qg_answers[index]
             )
             qa_list.append(qa)
         return qa_list
@@ -253,15 +253,41 @@ class QuestionGenerator:
         qa_list = []
         for i in range(len(generated_questions)):
             qa = self._make_dict(
-                generated_questions[i].split("?")[0] + "?", qg_answers[i]
+                (i+1), generated_questions[i].split("?")[0] + "?", qg_answers[i]
             )
             qa_list.append(qa)
         return qa_list
 
-    def _make_dict(self, question, answer):
+    def _make_dict(self, id_pregunta, question, answer):
         qa = {}
-        qa["question"] = question
-        qa["answer"] = answer
+        qa['id_pregunta'] = str(id_pregunta)
+        qa['pregunta_cuerpo'] = question
+        options = ""
+        
+        if isinstance(answer, list):
+            option_correct = ""
+            count = 0
+            for option in answer:
+                if len(answer) != count:
+                    options = options + ',' + option.get('answer')
+                    count = count + 1
+                    if option.get('correct'):
+                        option_correct = option.get('answer')
+                    
+            qa["respuesta_correcta"] = option_correct
+            qa["respuestas_cuerpo"] = {
+                "resp_unica": option_correct,
+                "opcion_multiple": options[1:],
+                "completacion": "null"
+            }
+        else:
+            qa['respuesta_correcta'] = answer
+            qa["respuestas_cuerpo"] = {
+                "resp_unica": answer,
+                "opcion_multiple": "null",
+                "completacion": "null"
+                }
+
         return qa
 
 

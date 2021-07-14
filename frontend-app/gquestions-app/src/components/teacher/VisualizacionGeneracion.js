@@ -4,6 +4,7 @@ import { Helmet } from "react-helmet";
 import Scrollbars from "react-custom-scrollbars";
 import Navbar from './Navbar';
 import { DropdownUser } from './user/DropdownUser';
+import { BASE_DIR } from '../../api/BaseDirURl';
 
 export const VisualizacionGeneracion = () => {
 
@@ -34,7 +35,7 @@ export const VisualizacionGeneracion = () => {
 
     const getGeneracionFromDB = async () => {
         const id_generacion = history.location.state.id_generacion;
-        let generacion = await fetch("http://127.0.0.1:8000/api/generacion/get/" + id_generacion, {
+        let generacion = await fetch(BASE_DIR + "api/generacion/get/" + id_generacion, {
             method: "GET",
             headers: {
                 Authorization: "Token " + localStorage.getItem("token"),

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import Navbar from "./Navbar";
 import "../../assets/styles/tailwind.css";
 import backgroundGeneralGreenDark from "../../assets/images/background-general-green_dark.png";
@@ -12,6 +12,9 @@ import { CreatePreguntaAPI } from "../../api/Preguntas/CreatePreguntaAPI";
 import { CreateRespuestaCuerpoAPI } from "../../api/Preguntas/CreateRespuestaCuerpoAPI";
 import { ExamenConfiguracion } from "./ExamenConfiguracion";
 import { Helmet } from "react-helmet";
+import { Dialog, Transition } from '@headlessui/react';
+import { LoadingPage } from "../../containers/LoadingPage";
+import { GenerateTextsAPI } from "../../api/Generacion/GenerateTextsAPI";
 
 export const RevisionGeneracion = (props) => {
 
@@ -35,6 +38,9 @@ export const RevisionGeneracion = (props) => {
   const [eventsButton, setEventsButton] = useState([])
 
   const [preguntas, setPreguntas] = useState(props.textosFromGenerate[0].preguntas) // Estado inicial seteado a las preguntas del primer texto (por defecto)
+
+  // Hooks wait volver a generar
+  const [isOpen, setIsOpen] = useState(false);
 
   // Hooks dark mode
   const darkModeRef = useRef();
@@ -250,6 +256,7 @@ export const RevisionGeneracion = (props) => {
   }
 
   const handleClickPreguntas = () => {
+
     textAreaRef.current.classList.add("hidden")
     preguntasAreaRef.current.classList.remove("hidden")
 
@@ -261,6 +268,74 @@ export const RevisionGeneracion = (props) => {
     buttonTextRef.current.classList.remove("bg-yellowlight")
     buttonTextRef.current.classList.remove("text-yellow-800")
     buttonTextRef.current.classList.remove("border-yellowmain")
+  }
+
+  const handleClickVolverGenerar = async e => {
+
+    let id = e.target.id;
+    let n_preguntas = Textos[0].preguntas.length
+    
+    let text = TextArea
+    let sentence = ""
+    let array_string = []
+    for (let i = 0; i < 10; i++) {
+      array_string = text.split(' ')
+      sentence = sentence + ' ' + array_string[i]
+    }
+    
+    let longit_texto = Math.floor((TextArea.length / 6) + 120)
+
+    setIsOpen(true);
+    const response_text = await GenerateTextsAPI(sentence, longit_texto);
+    
+    let preguntas = await getPreguntasFromNLP(response_text[0].generated_text, n_preguntas, "all")
+    let element_text = {
+      id: id,
+      cuerpo: response_text[0].generated_text,
+      es_editado: "false",
+      es_regenerado: "false",
+      preguntas: preguntas
+    }
+
+    // Elimina elemento a regenerar
+    for (let i = 0; i < Textos.length; i++) {
+      if (Textos[i].id === id) {
+        Textos.splice(i, 1);
+        Textos.splice(i, 0, element_text);
+      }
+    }
+
+    setIsOpen(false);
+    if (isOpen === false) {
+      Textos.map(texto => {
+        if (texto.id === e.target.id) {
+          setTextArea(texto.cuerpo);
+          setPreguntas(texto.preguntas)
+          return true
+        } else {
+          return false
+        }
+      })
+    }
+
+  }
+
+  const getPreguntasFromNLP = async (text, num_questions, answer_style) => {
+    const response_questions = await fetch("https://gquestions-ai1-vn4rmyywka-uc.a.run.app/api/generacion/question-generator", {
+      method: "POST",
+      headers: {
+        Authorization: "Basic Og==",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ "text": text, "num_questions": num_questions, "answer_style": answer_style }),
+    }).then((res) => res.json())
+      .then((json) => {
+        return json;
+      }).catch(err => {
+        console.log(err)
+        return false;
+      })
+    return response_questions;
   }
 
   const checkFieldsValidations = () => {
@@ -304,7 +379,10 @@ export const RevisionGeneracion = (props) => {
       setDisabledTextArea(false);
       setTextButtonEditar("Dejar de editar");
     }
+  }
 
+  function closeModal() {
+    setIsOpen(true);
   }
 
   // Condicional para redireccionar con props en caso de que la generacion sea exitosa (Enviar al siguiente component funcional)
@@ -348,7 +426,7 @@ export const RevisionGeneracion = (props) => {
             </div>
 
             <div className="container">
-              <div className="grid grid-cols-12" style={{height:'50vh'}}>
+              <div className="grid grid-cols-12" style={{ height: '50vh' }}>
                 <div className="col-span-2 sm:col-span-3">
                   <div className="flex h-full">
                     <CustomScrollbars
@@ -356,7 +434,7 @@ export const RevisionGeneracion = (props) => {
                       autoHideTimeout={900}
                       autoHideDuration={400}
                       className="m-0 overflow-auto bg-white border shadow-md border-gray-300 md:rounded-xl 
-                    rounded-r-none rounded-xl w-full xl:mr-16 lg:mr-4 md:mr-4 mr-0 md:text-base text-sm">
+                    rounded-r-none rounded-xl w-full 2xl:mr-16 xl:mr-4 lg:mr-4 md:mr-4 mr-0 md:text-base text-sm">
                       <ul className="divide-y divide-gray-300">
                         <li className="p-4 font-bold text-gray-500">
                           <p className="hidden sm:block">PAQUETES DE GENERACIONES</p>
@@ -368,12 +446,26 @@ export const RevisionGeneracion = (props) => {
                             <div
                               key={texto.id}
                               className="">
-                              <button
-                                id={texto.id}
-                                onClick={onClickTextoList}
-                                className="hidden text-left sm:block transition duration-500 py-4 w-full justify-between items-center px-5 focus:outline-none font-bold">
-                                Examen {contador = contador + 1}
-                              </button>
+                              <div className="flex">
+                                <span
+                                  id={texto.id}
+                                  onClick={onClickTextoList}
+                                  className="hidden rounded-r-lg cursor-pointer text-left sm:block transition 
+                                  duration-500 py-4 w-full justify-between items-center px-5 focus:outline-none font-bold">
+                                  Examen {contador = contador + 1}
+                                </span>
+
+                                <div className="hidden xl:px-4 2xl:mr-0 xl:mr-2 px-4 mr-2 sm:block self-center justify-items-end 
+                                  place-content-end justify-self-center">
+                                  <button
+                                    id={texto.id}
+                                    onClick={handleClickVolverGenerar}
+                                    className="transition duration-300 text-darkGrayColor2  material-icons-outlined outline-none focus:outline-none hover:bg-green-200 rounded-full">
+                                    &#xe863;
+                                  </button>
+                                </div>
+                              </div>
+
                               <button
                                 id={texto.id}
                                 onClick={onClickTextoList}
@@ -396,7 +488,7 @@ export const RevisionGeneracion = (props) => {
                           ref={buttonTextRef}
                           className="transition duration-500 md:text-base text-sm z-10 pl-1 w-full block focus:outline-none
                          bg-yellowlight text-yellow-800 border-yellowmain hover:bg-yellowlight focus:bg-yellowlight 
-                         rounded-t-lg border focus:border-yellowmain px-2 py-2 font-bold"
+                         rounded-tl-xl border focus:border-yellowmain px-2 py-2 font-bold"
                           onClick={handleClickTexto}
                         >
                           Texto
@@ -407,8 +499,8 @@ export const RevisionGeneracion = (props) => {
                         <button
                           ref={buttonPreguntasRef}
                           className="transition duration-500 md:text-base text-sm z-10 pl-1 w-full block focus:outline-none
-                         bg-gray-100 text-gray-800 hover:bg-yellowlight hover focus:bg-yellowlight 
-                         rounded-t-lg border focus:border-yellowmain px-2 py-2 font-bold"
+                         text-gray-800 hover:bg-yellowlight hover focus:bg-yellowlight 
+                         rounded-tr-xl border focus:border-yellowmain px-2 py-2 font-bold"
                           onClick={handleClickPreguntas}
                         >
                           Preguntas
@@ -445,8 +537,8 @@ export const RevisionGeneracion = (props) => {
                               }{pregunta.respuestas_cuerpo.opcion_multiple !== 'null' &&
                                 <div>
                                   <span><b>Options: </b>
-                                  {pregunta.respuestas_cuerpo.opcion_multiple.split(',').map(option => (
-                                    <span className={disabledTextArea ? "bg-gray-300 border rounded-lg px-1 mx-1": "bg-gray-100 border rounded-lg px-1 mx-1"}>{option}</span>
+                                    {pregunta.respuestas_cuerpo.opcion_multiple.split(',').map(option => (
+                                      <span className={disabledTextArea ? "bg-gray-300 border rounded-lg px-1 mx-1" : "bg-gray-100 border rounded-lg px-1 mx-1"}>{option}</span>
                                     ))}
                                   </span>
                                   <p><b>Answer:</b> {pregunta.respuesta_correcta}</p>
@@ -459,18 +551,8 @@ export const RevisionGeneracion = (props) => {
                       </div>
                     </CustomScrollbars>
                     <hr></hr>
-                    <div className="grid grid-cols-12 mt-2 px-4 items-center">
-                      <p className="col-span-6 hidden md:block text-gray-500 text-xs md:text-sm">Cite: GPT2 Algorithm from Hugging Face</p>
-
-                      <div className="md:col-span-6 py-1 col-span-12 place-self-end items-center">
-                        <button
-                          className="transition duration-500 md:text-base text-sm z-10 pl-1 sm:w-44 w-40 block focus:outline-none outline-none 
-                        bg-white border border-green-400 text-green-700 hover:bg-green-500 focus:bg-green-500 hover:text-white
-                         rounded-lg px-2 py-2 font-semibold"
-                        >
-                          Volver a generar
-                      </button>
-                      </div>
+                    <div className="mt-2 px-4 sm:py-2 items-center">
+                      <p className="hidden sm:block text-gray-500 text-xs md:text-sm">Generado por: GPT2 from Hugging Face & Question generator by AMontgomerie</p>
                     </div>
                   </div>
                 </div>
@@ -518,6 +600,152 @@ export const RevisionGeneracion = (props) => {
             <div className="py-2">
               <StepsProgress active={2} />
             </div>
+
+            {/* Wait generación Modal */}
+            {/* <Transition appear show={isOpen} as={Fragment}>
+              <Dialog
+                as="div"
+                className="fixed inset-0 z-10 overflow-y-auto font-manrope"
+                onClose={closeModal}
+              >
+                <Dialog.Overlay className="fixed inset-0 bg-black opacity-60" />
+                <div className="min-h-screen px-4 text-center">
+                  <Transition.Child
+                    as={Fragment}
+                    enter="ease-out duration-300"
+                    enterFrom="opacity-0"
+                    enterTo="opacity-100"
+                    leave="ease-in duration-200"
+                    leaveFrom="opacity-100"
+                    leaveTo="opacity-0"
+                  >
+                    <Dialog.Overlay className="fixed inset-0" />
+                  </Transition.Child>
+
+                  <span
+                    className="inline-block h-screen align-middle"
+                    aria-hidden="true"
+                  >
+                    &#8203;
+                  </span>
+                  <Transition.Child
+                    as={Fragment}
+                    enter="ease-out duration-300"
+                    enterFrom="opacity-0 scale-95"
+                    enterTo="opacity-100 scale-100"
+                    leave="ease-in duration-200"
+                    leaveFrom="opacity-100 scale-100"
+                    leaveTo="opacity-0 scale-95"
+                  >
+                    <div className="inline-block w-full max-w-2xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                      <Dialog.Title
+                        as="h3"
+                        className="md:text-xl text-xl text-center font-semibold  text-gray-900 select-none py-4"
+                      >
+                        Generando un nuevo examen, espera un momento ...
+                        <div className="mr-12 py-2">
+
+                          <LoadingPage />
+                        </div>
+                      </Dialog.Title>
+                      <div className="mt">
+                      </div>
+
+                      <div className="mt-6">
+                      </div>
+                    </div>
+                  </Transition.Child>
+                </div>
+              </Dialog>
+            </Transition> */}
+
+
+            {/* Link exámenes Modal */}
+            <Transition appear show={isOpen} as={Fragment}>
+              <Dialog
+                as="div"
+                className="fixed inset-0 z-10 overflow-y-auto font-manrope"
+                onClose={closeModal}
+              >
+                {/* Use the overlay to style a dim backdrop for your dialog */}
+                <Dialog.Overlay className="fixed inset-0 bg-black opacity-60" />
+                <div className="min-h-screen px-4 text-center">
+                  <Transition.Child
+                    as={Fragment}
+                    enter="ease-out duration-300"
+                    enterFrom="opacity-0"
+                    enterTo="opacity-100"
+                    leave="ease-in duration-200"
+                    leaveFrom="opacity-100"
+                    leaveTo="opacity-0"
+                  >
+                    <Dialog.Overlay className="fixed inset-0" />
+                  </Transition.Child>
+
+                  {/* This element is to trick the browser into centering the modal contents. */}
+                  <span
+                    className="inline-block h-screen align-middle"
+                    aria-hidden="true"
+                  >
+                    &#8203;
+                  </span>
+                  <Transition.Child
+                    as={Fragment}
+                    enter="ease-out duration-300"
+                    enterFrom="opacity-0 scale-95"
+                    enterTo="opacity-100 scale-100"
+                    leave="ease-in duration-200"
+                    leaveFrom="opacity-100 scale-100"
+                    leaveTo="opacity-0 scale-95"
+                  >
+                    <div className="inline-block w-full max-w-xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                    <Dialog.Title
+                        as="h3"
+                        className="md:text-xl text-xl text-center font-semibold  text-gray-900 select-none py-4"
+                      >
+                        Generando un nuevo examen, espera un momento ...
+                      </Dialog.Title>
+                      <div className="mt-2">
+
+                      </div>
+
+                      <div className="mt-6">
+                        <ul className="list-none space-y-4 md:text-justify">
+                          <li className="mr-12">
+                            <LoadingPage />
+                          </li>
+                          <div className="flex place-content-center select-none">
+                          </div>
+                          <li className="list-none">
+                            <div className="grid grid-cols-12 text-sm  p-4 rounded-t-xl text-left border-gray-200">
+                              <p className="col-span-11 p-1 font-semibold text-blue-600 underline outline-none focus:outline-none">
+                      
+                              </p>
+
+                              <div className="tooltip place-self-center select-none">
+                                <button
+                                  className="ml-2 transition duration-500 col-span-1 p-1 
+                                   material-icons-outlined mr-2 outline-none focus:outline-none"
+                                >
+                              </button>
+                                <span className="tooltiptext"></span>
+                              </div>
+                            </div>
+                            <div className="text-center px-4 bg-gray-100 rounded-xl border border-gray-200">
+                              <p className="p-1 text-lg font-semibold text-gray-400 outline-none focus:outline-none">
+                                Generando  ...
+                              </p>
+                            </div>
+
+                          </li>
+                        </ul>
+                      </div>
+
+                    </div>
+                  </Transition.Child>
+                </div>
+              </Dialog>
+            </Transition>
 
             {/* Error messages */}
             <div
