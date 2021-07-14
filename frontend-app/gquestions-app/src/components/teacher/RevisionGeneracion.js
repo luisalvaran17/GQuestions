@@ -321,13 +321,12 @@ export const RevisionGeneracion = (props) => {
   }
 
   const getPreguntasFromNLP = async (text, num_questions, answer_style) => {
-    const response_questions = await fetch("https://gquestions-ai1-vn4rmyywka-uc.a.run.app/api/generacion/question-generator", {
+    const response_questions = await fetch("https://gquestions-ai-vn4rmyywka-uc.a.run.app/api/generacion/question-generator", {
       method: "POST",
       headers: {
         Authorization: "Basic Og==",
-        "Content-Type": "application/json",
       },
-      body: JSON.stringify({ "text": text, "num_questions": num_questions, "answer_style": answer_style }),
+      body: new URLSearchParams({ "text": text, "num_questions": num_questions, "answer_style": answer_style }),
     }).then((res) => res.json())
       .then((json) => {
         return json;
@@ -444,7 +443,7 @@ export const RevisionGeneracion = (props) => {
                         {
                           Textos.map((texto, contador = 1) => (
                             <div
-                              key={texto.id}
+                              key={contador}
                               className="">
                               <div className="flex">
                                 <span
@@ -582,7 +581,8 @@ export const RevisionGeneracion = (props) => {
                   }{isLoading &&
                     <button
                       type="submit"
-                      className="btn-primary"
+                      className="btn-primary pointer-events-none cursor-not-allowed"
+                      
                     >
                       <span className="text-white my-0 mr-4 w-0 h-0">
                         <i className="fas fa-circle-notch fa-spin fa-x"></i>
