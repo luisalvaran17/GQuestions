@@ -81,6 +81,7 @@ export const ExamenPublicado = () => {
               <button
                 className="border border-gray-200 transition duration-500 col-span-1 p-2 text-green-800 bg-green-200 
                           hover:bg-green-300 hover:border-gray-400 rounded-r-lg material-icons outline-none focus:outline-none"
+                id='copiar-link'
                 onClick={copyTextFunction}
               >&#xe14d;
               </button>
@@ -92,6 +93,7 @@ export const ExamenPublicado = () => {
             <Link to="/teacher/dashboard">
               <button
                 type="submit"
+                id='btn-aceptar'
                 className="transition duration-500 text-base z-10 pl-1 block w-full mx-auto focus:outline-none 
                 bg-green-400 hover:bg-green-500 focus:bg-green-500 hover:text-green-900 text-green-900 rounded-lg px-2 py-2 font-semibold"
               >

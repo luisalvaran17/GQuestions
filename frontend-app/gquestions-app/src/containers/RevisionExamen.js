@@ -586,6 +586,7 @@ export const RevisionExamen = () => {
                         <div className="mt-4">
                             <button
                                 className='btn-primary'
+                                id='btn-volver'
                                 onClick={onClickVolver}
                             >
                                 Volver

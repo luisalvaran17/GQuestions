@@ -100,15 +100,18 @@ export const AjustesCuentaTeacher = () => {
             <ul className="flex border-b flex-col sm:flex-row">
               <li className="-mb-px mr-1 ">
                 <button className="bg-white w-full dark:bg-darkColor focus:outline-none outline-none inline-block border-l border-t border-r rounded-t py-2 px-4 text-yellowmain font-semibold"
+                  id='btn-perfil'
                   onClick={clickOnPerfil}
                 >Perfil</button>
               </li>
               <li className="mr-1">
                 <button className="bg-white w-full dark:bg-darkColor inline-block focus:outline-none outline-none py-2 px-4 text-gray-500 hover:text-yellowmain font-semibold"
+                  id='btn-contrasena'
                   onClick={clickOnContrasena}>Contraseña</button>
               </li>
               <li className="mr-1">
                 <button className="bg-white w-full dark:bg-darkColor inline-block focus:outline-none outline-none py-2 px-4 text-gray-500 hover:text-yellowmain font-semibold"
+                  id='btn-info-adicional'
                   onClick={clickOnInfoAdicional}>Información adicional</button>
               </li>
             </ul>
@@ -182,16 +185,19 @@ export const AjustesCuentaTeacher = () => {
             <ul className="flex border-b flex-col sm:flex-row">
               <li className="mr-1">
                 <button className="bg-white w-full dark:bg-darkColor inline-block focus:outline-none outline-none py-2 px-4 text-gray-500 hover:text-yellowmain font-semibold"
+                  id='btn-perfil'
                   onClick={clickOnPerfil}
                 >Perfil</button>
               </li>
               <li className="-mb-px mr-1">
                 <button className="bg-white w-full dark:bg-darkColor inline-block focus:outline-none outline-none border-l border-t border-r rounded-t py-2 px-4 
                   text-yellowmain font-semibold"
+                  id='btn-contrasena'
                   onClick={clickOnContrasena}>Contraseña</button>
               </li>
               <li className="mr-1">
                 <button className="bg-white w-full dark:bg-darkColor inline-block focus:outline-none outline-none py-2 px-4 text-gray-500 hover:text-yellowmain font-semibold"
+                  id='btn-info-adicional'
                   onClick={clickOnInfoAdicional}>Información adicional</button>
               </li>
             </ul>
@@ -268,17 +274,20 @@ export const AjustesCuentaTeacher = () => {
             <ul className="flex border-b flex-col sm:flex-row">
               <li className="mr-1">
                 <button className="bg-white w-full dark:bg-darkColor inline-block focus:outline-none outline-none py-2 px-4 text-gray-500 hover:text-yellowmain font-semibold"
+                  id='btn-perfil'
                   onClick={clickOnPerfil}
                 >Perfil</button>
               </li>
               <li className="mr-1">
                 <button className="bg-white w-full dark:bg-darkColor inline-block focus:outline-none outline-none py-2 px-4 text-gray-500 hover:text-yellowmain font-semibold"
+                  id='btn-contrasena'
                   onClick={clickOnContrasena}
                 >Contraseña</button>
               </li>
               <li className="-mb-px mr-1">
                 <button className="bg-white w-full dark:bg-darkColor inline-block focus:outline-none outline-none border-l border-t border-r rounded-t py-2 px-4 
                   text-yellowmain font-semibold"
+                  id='btn-info-adicional'
                   onClick={clickOnInfoAdicional}>Información adicional</button>
               </li>
 

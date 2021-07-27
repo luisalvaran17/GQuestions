@@ -497,6 +497,7 @@ export const RevisionGeneracion = (props) => {
                       <div className="sm:block col-span-6 font-bold text-base text-black">
                         <button
                           ref={buttonPreguntasRef}
+                          id='btn-preguntas'
                           className="transition duration-500 md:text-base text-sm z-10 pl-1 w-full block focus:outline-none
                          text-gray-800 hover:bg-yellowlight hover focus:bg-yellowlight 
                          rounded-tr-xl border focus:border-yellowmain px-2 py-2 font-bold"
@@ -563,6 +564,7 @@ export const RevisionGeneracion = (props) => {
                 <div className="">
                   <button
                     type="submit"
+                    id='editar-examenes'
                     className="btn-secondary"
                     onClick={handleClickEditar}
                   >
@@ -573,6 +575,7 @@ export const RevisionGeneracion = (props) => {
                   {!isLoading &&
                     <button
                       type="submit"
+                      id="generar-examenes"
                       className="btn-primary"
                       onClick={handleClick}
                     >

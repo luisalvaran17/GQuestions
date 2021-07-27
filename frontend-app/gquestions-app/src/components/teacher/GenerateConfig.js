@@ -680,6 +680,7 @@ export const GenerateConfig = () => {
                       <div className="flex items-center transition duration-500 w-full px-4 py-2 rounded-t-xl">
                         <input
                           type="checkbox"
+                          id="pregunta_abierta"
                           name="pregunta_abierta"
                           className="form-checkbox h-5 w-5 cursor-pointer"
                           defaultChecked="true"
@@ -776,44 +777,46 @@ export const GenerateConfig = () => {
             </div>
 
 
-            <div className="grid grid-cols-12 pt-4">
+            <div className="flex pt-4 sm:justify-self-end">
 
               {!isLoading &&
-                <div className="flex gap-x-4 2xl:col-start-9 2xl:col-span-5 xl:col-start-8 xl:col-span-5 lg:col-start-6 
-                lg:col-span-7 md:col-start-5 md:col-span-8 sm:col-start-5 sm:col-span-8 col-span-12">
+                <div className="sm:space-x-4 w-full sm:space-y-0 space-y-2">
                   <button
                     type="submit"
-                    className="transition duration-500 inline-block shadow-md md:text-base text-sm text-yellow-900 text-center w-48
+                    className="transition duration-500 inline-block shadow-md md:text-base text-sm text-yellow-900 text-center sm:w-44 w-full
                     z-10 mx-auto bg-yellowlight focus:bg-yellowlightdark hover:bg-yellowlightdark rounded-lg px-12 py-2 font-semibold 
                     outline-none focus:outline-none"
                     onClick={handleClickDemo}
+                    id='btn-demo'
                   >
                     Demo
                   </button>
                   <button
                     type="submit"
-                    className="btn-primary"
+                    className="transition duration-500 inline-block shadow-md md:text-base text-sm text-white text-center sm:w-64 w-full
+                    z-10 mx-auto bg-yellowmain hover:bg-yellow-600 focus:bg-yellow-600 rounded-lg px-12 py-2 font-semibold 
+                    outline-none focus:outline-none"
                     onClick={handleClickGetTexts}
                   >
                     Generar
                 </button>
                 </div>
               }{isLoading &&
-                <div className="flex gap-x-4 2xl:col-start-9 2xl:col-span-5 xl:col-start-8 xl:col-span-5 lg:col-start-6 
-                lg:col-span-7 md:col-start-5 md:col-span-8 sm:col-start-5 sm:col-span-8 col-span-12">
+                <div className="sm:space-x-4 w-full sm:space-y-0 space-y-2">
                   <button
                     type="submit"
-                    className="transition duration-500 inline-block shadow-md md:text-base text-sm text-yellow-900 text-center w-48
-                  z-10 mx-auto bg-yellowlight focus:bg-yellowlightdark hover:bg-yellowlightdark rounded-lg px-12 py-2 font-semibold 
-                  outline-none focus:outline-none cursor-pointer-events-none cursor-not-allowed"
-                  >
+                    className="transition duration-500 inline-block shadow-md md:text-base text-sm text-yellow-900 text-center sm:w-44 w-full
+                    z-10 mx-auto bg-yellowlight focus:bg-yellowlightdark hover:bg-yellowlightdark rounded-lg px-12 py-2 font-semibold 
+                    outline-none focus:outline-none">
                     <span className="text-yellow-800 my-0 w-0 h-0">
                       <i className="fas fa-circle-notch fa-spin fa-x"></i>
                     </span>
                   </button>
                   <button
                     type="submit"
-                    className="btn-primary cursor-pointer-events-none cursor-not-allowed"
+                    className="transition duration-500 inline-block shadow-md md:text-base text-sm text-white text-center sm:w-64 w-full
+                    z-10 mx-auto bg-yellowmain hover:bg-yellow-600 focus:bg-yellow-600 rounded-lg px-12 py-2 font-semibold 
+                    outline-none focus:outline-none"
                   >
                     <span className="text-white my-0 mr-4 w-0 h-0">
                       <i className="fas fa-circle-notch fa-spin fa-x"></i>

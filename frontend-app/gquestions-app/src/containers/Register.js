@@ -211,7 +211,7 @@ export const Register = () => {
 
     ) {
       removeClassdivRefErrorMessage();
-      p_empty = React.createElement('p', {}, 'Hay campos vacíos');
+      p_empty = React.createElement('p', {id:'campos-vacios'}, 'Hay campos vacíos');
       const X = React.createElement('div', {}, [p_empty]);
       ReactDOM.render(X, document.getElementById('error_messages'));
       return false;
@@ -219,7 +219,7 @@ export const Register = () => {
 
     if (usuario.password.length < 6) {
       removeClassdivRefErrorMessage();
-      p_strength_password = React.createElement('p', {}, 'La contraseña debe tener al menos 6 carácteres');
+      p_strength_password = React.createElement('p', {id:'pass-short'}, 'La contraseña debe tener al menos 6 carácteres');
       const X = React.createElement('div', {}, [p_strength_password]);
       ReactDOM.render(X, document.getElementById('error_messages'));
       return false;
@@ -227,7 +227,7 @@ export const Register = () => {
 
     else if (usuario.password !== confirmation_pass.password2) {
       removeClassdivRefErrorMessage();
-      p_contrasenas = React.createElement('p', {}, 'Las contraseñas no coinciden');
+      p_contrasenas = React.createElement('p', {id:'pass-no-match'}, 'Las contraseñas no coinciden');
       const X = React.createElement('div', {}, [p_contrasenas]);
       ReactDOM.render(X, document.getElementById('error_messages'));
       return false;

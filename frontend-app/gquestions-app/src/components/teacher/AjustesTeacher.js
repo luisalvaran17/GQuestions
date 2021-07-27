@@ -110,6 +110,7 @@ export const AjustesTeacher = () => {
               <RadioGroup.Option
                 key={mode.name}
                 value={mode}
+                id={mode.key}
                 className={({ active, checked }) =>
                   `${active
                     ? 'ring-2 ring-offset-2 ring-offset-yellowmain ring-white ring-opacity-60'

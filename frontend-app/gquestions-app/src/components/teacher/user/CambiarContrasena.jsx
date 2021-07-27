@@ -152,6 +152,7 @@ export const CambiarContrasena = () => {
                                 : "transition duration-500 hover:bg-green-400 hover:bg-opacity-40 rounded-full w-12 h-12 focus:outline-none dark:text-yellowlight"
                                 
                             }
+                            id='btn-show'
                             onClick={handleClickShowPasswords}
                         >
                             <span className="material-icons-outlined">&#xe8f5;</span>
@@ -161,6 +162,7 @@ export const CambiarContrasena = () => {
                     <div className="sm:col-span-1 col-span-2">
                         <button
                             className="transition duration-500 hover:bg-yellowlight hover:bg-opacity-40 rounded-full w-12 h-12 focus:outline-none dark:text-yellowlight"
+                            id='btn-editar'
                             onClick={handleClickEdit}
                         >
                             <span className="material-icons-outlined">&#xe3c9;</span>
@@ -316,6 +318,7 @@ export const CambiarContrasena = () => {
                 <button
                     type="submit"
                     disabled={disableEditInfo}
+                    id='btn-guardar'
                     onClick={handleClickUpdateContrasena}
                     className={
                         !disableEditInfo

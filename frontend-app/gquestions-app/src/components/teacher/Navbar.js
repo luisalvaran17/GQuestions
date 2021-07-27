@@ -98,7 +98,10 @@ function Navbar() {
             className='mt-3 py-2 px-1 transition duration-300 hover:ring-2 hover:ring-yellowlight hover:text-yellow-800
               hover:bg-yellowlight hover:opacity-75 dark-hover:text-yellow-300 rounded-lg'
           >
-            <button onClick={handleClickGeneracion} className='w-full flex items-center focus:outline-none'>
+            <button
+              onClick={handleClickGeneracion}
+              id='btn-generacion'
+              className='w-full flex items-center focus:outline-none'>
               <svg
                 aria-hidden='true'
                 focusable='false'
@@ -120,7 +123,8 @@ function Navbar() {
 
           <li ref={divRefButtonDashboard} className='mt-3 py-2 px-1 transition duration-300 hover:ring-2 hover:ring-yellowlight hover:text-yellow-800
               hover:bg-yellowlight hover:opacity-75 dark-hover:text-yellow-300 rounded-lg'>
-            <button onClick={handleClickDashboard} className='w-full flex items-center focus:outline-none'>
+            <button onClick={handleClickDashboard} className='w-full flex items-center focus:outline-none'
+              id='btn-dashboard'>
               <svg viewBox='0 0 24 24'
                 className='fill-current h-5 w-5 mx-4'>
                 <path
@@ -135,7 +139,8 @@ function Navbar() {
 
           <li ref={divRefButtonEstadisticas} className='mt-3 py-2 px-1 transition duration-300 hover:ring-2 hover:ring-yellowlight hover:text-yellow-800
               hover:bg-yellowlight hover:opacity-75 dark-hover:text-yellow-300 rounded-lg'>
-            <button onClick={handleClickEstadisticas} className='w-full flex items-center focus:outline-none'>
+            <button onClick={handleClickEstadisticas} className='w-full flex items-center focus:outline-none'
+              id='btn-estadisticas'>
               <svg
                 aria-hidden='true'
                 focusable='false'
@@ -159,7 +164,8 @@ function Navbar() {
             className='mt-3 py-2 px-1 transition duration-300 hover:ring-2 hover:ring-yellowlight hover:text-yellow-800
               hover:bg-yellowlight hover:opacity-75 dark-hover:text-yellow-300 rounded-lg'
           >
-            <button onClick={handleClickCalificaciones} className='w-full flex items-center focus:outline-none'>
+            <button onClick={handleClickCalificaciones} className='w-full flex items-center focus:outline-none'
+              id='btn-calificaciones'>
               <svg
                 aria-hidden='true'
                 focusable='false'
@@ -179,7 +185,8 @@ function Navbar() {
           <li ref={divRefButtonAjustes}
             className='mt-3 py-2 px-1 transition duration-300 hover:ring-2 hover:ring-yellowlight hover:text-yellow-800
               hover:bg-yellowlight hover:opacity-75 dark-hover:text-yellow-300 rounded-lg'>
-            <button onClick={handleClickAjustes} className='w-full flex items-center focus:outline-none'>
+            <button onClick={handleClickAjustes} className='w-full flex items-center focus:outline-none'
+              id='btn-ajustes'>
               <svg
                 className='fill-current h-6 w-6 mx-4'
                 xmlns='http://www.w3.org/2000/svg'

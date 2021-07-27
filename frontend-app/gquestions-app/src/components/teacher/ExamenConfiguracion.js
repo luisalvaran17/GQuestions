@@ -319,6 +319,7 @@ export const ExamenConfiguracion = (props) => {
                 </label>
                   <input
                     type="text"
+                    id='title-examen'
                     className="grid text-sm text-gray-800 md:text-base sm:col-span-4 col-span-12 transition duration-500 border rounded-lg focus:border-transparent focus:outline-none focus:ring-2
                                   focus:ring-yellowlight w-full 2xl:w-80 pl-4 pr-3 py-2 border-gray-300 outline-none focus:border-yellow-500 bg-white shadow"
 
@@ -388,6 +389,7 @@ export const ExamenConfiguracion = (props) => {
               {!isLoading &&
                 <button
                   type="submit"
+                  id='btn-terminar'
                   className="btn-primary lg:col-start-10 lg:col-span-3 sm:col-start-8 sm:col-span-5 col-span-12"
                   onClick={handleClick}
                 >

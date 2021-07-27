@@ -95,7 +95,7 @@ export const Login = () => {
   const checkCredencialesIncorrectas = () => {
     let p_credenciales_incorrectas;
     removeClassdivRefErrorMessage();
-    p_credenciales_incorrectas = React.createElement('p', {}, 'Credenciales incorrectos');
+    p_credenciales_incorrectas = React.createElement('p', {id:'credenciales_incorrectas'}, 'Credenciales incorrectos');
     const X = React.createElement('div', {}, [p_credenciales_incorrectas]);
     ReactDOM.render(X, document.getElementById('error_messages'));
     return false;
@@ -107,7 +107,7 @@ export const Login = () => {
 
     if (credentials.username === "" || credentials.password === "") {
       removeClassdivRefErrorMessage();
-      p_empty = React.createElement('p', {}, 'Hay campos vacíos');
+      p_empty = React.createElement('p', {id:'campos_vacios'}, 'Hay campos vacíos');
       const X = React.createElement('div', {}, [p_empty]);
       ReactDOM.render(X, document.getElementById('error_messages'));
       return false;

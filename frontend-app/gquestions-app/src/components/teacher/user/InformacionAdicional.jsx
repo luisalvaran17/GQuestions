@@ -81,6 +81,7 @@ export const InformacionAdicional = () => {
                         <button
                             type="submit"
                             className="transition duration-500 hover:bg-yellowlight hover:bg-opacity-40 rounded-full w-12 h-12 focus:outline-none dark:text-yellowlight"
+                            id='btn-editar'
                             onClick={handleClickEdit}
                         >
                             <span className="material-icons-outlined">&#xe3c9;</span>
@@ -172,6 +173,7 @@ export const InformacionAdicional = () => {
                 <button
                     type="submit"
                     onClick={handleClickUpdateInfoAdicional}
+                    id='btn-guardar'
                     disabled={false}
                     className={
                         !disableEditInfo

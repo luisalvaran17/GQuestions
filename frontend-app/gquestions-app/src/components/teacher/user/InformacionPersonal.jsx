@@ -128,6 +128,7 @@ export const InformacionPersonal = () => {
                     <div className="sm:col-span-1 col-span-3">
                         <button
                             className="transition duration-500 hover:bg-yellowlight hover:bg-opacity-40 rounded-full w-12 h-12 focus:outline-none dark:text-yellowlight"
+                            id='btn-editar'
                             onClick={handleClickEdit}
                         >
                             <span className="material-icons-outlined">&#xe3c9;</span>
@@ -286,6 +287,7 @@ export const InformacionPersonal = () => {
                     type="submit"
                     onClick={handleClickUpdatePerfil}
                     disabled={false}
+                    id='btn-guardar'
                     className={
                         !disableEditInfo
                             ? "transition duration-500 col-start-0 ml-2 md:col-start-7 md:col-span-6 col-span-12 z-10 px-4 focus:outline-none bg-yellowmain hover:bg-yellow-600 focus:bg-yellow-600 text-white rounded-lg py-2 mb-1 font-semibold"
