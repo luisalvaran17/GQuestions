@@ -240,6 +240,7 @@ export const Dashboard = () => {
                                       <span
                                         className="ml-2 transform hover:scale-110 hover:text-yellowmain text-gray-900 dark:text-gray-50 dark:hover:text-yellowmain material-icons-outlined mr-2"
                                         id={generacion.id}
+                                        name={`${generacion.id}-modal`}
                                         onClick={openModal}
                                       >&#xe157;
                                       </span>
@@ -260,6 +261,7 @@ export const Dashboard = () => {
                                 <span
                                   className="ml-2 transform hover:scale-110 hover:text-yellowmain text-gray-900 dark:text-gray-50 dark:hover:text-yellowmain material-icons-outlined mr-2"
                                   onClick={onClickVerGeneracion}
+                                  name={`${generacion.id}-show-generacion`}
                                   id={generacion.id}
                                 >&#xe8f4;
                                 </span>
