@@ -283,10 +283,10 @@ export const RevisionGeneracion = (props) => {
       sentence = sentence + ' ' + array_string[i]
     }
     
-    let longit_texto = Math.floor((TextArea.length / 6) + 120)
-
+    let longit_texto = localStorage.getItem("longit_texto");
+    
     setIsOpen(true);
-    const response_text = await GenerateTextsAPI(sentence, longit_texto);
+    const response_text = await GenerateTextsAPI(sentence, parseInt(longit_texto));
     
     let preguntas = await getPreguntasFromNLP(response_text[0].generated_text, n_preguntas, "all")
     let element_text = {
@@ -599,70 +599,6 @@ export const RevisionGeneracion = (props) => {
               </div>
             </div>
 
-            {/* Stepper progress bar */}
-            <div className="py-2">
-              <StepsProgress active={2} />
-            </div>
-
-            {/* Wait generación Modal */}
-            {/* <Transition appear show={isOpen} as={Fragment}>
-              <Dialog
-                as="div"
-                className="fixed inset-0 z-10 overflow-y-auto font-manrope"
-                onClose={closeModal}
-              >
-                <Dialog.Overlay className="fixed inset-0 bg-black opacity-60" />
-                <div className="min-h-screen px-4 text-center">
-                  <Transition.Child
-                    as={Fragment}
-                    enter="ease-out duration-300"
-                    enterFrom="opacity-0"
-                    enterTo="opacity-100"
-                    leave="ease-in duration-200"
-                    leaveFrom="opacity-100"
-                    leaveTo="opacity-0"
-                  >
-                    <Dialog.Overlay className="fixed inset-0" />
-                  </Transition.Child>
-
-                  <span
-                    className="inline-block h-screen align-middle"
-                    aria-hidden="true"
-                  >
-                    &#8203;
-                  </span>
-                  <Transition.Child
-                    as={Fragment}
-                    enter="ease-out duration-300"
-                    enterFrom="opacity-0 scale-95"
-                    enterTo="opacity-100 scale-100"
-                    leave="ease-in duration-200"
-                    leaveFrom="opacity-100 scale-100"
-                    leaveTo="opacity-0 scale-95"
-                  >
-                    <div className="inline-block w-full max-w-2xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
-                      <Dialog.Title
-                        as="h3"
-                        className="md:text-xl text-xl text-center font-semibold  text-gray-900 select-none py-4"
-                      >
-                        Generando un nuevo examen, espera un momento ...
-                        <div className="mr-12 py-2">
-
-                          <LoadingPage />
-                        </div>
-                      </Dialog.Title>
-                      <div className="mt">
-                      </div>
-
-                      <div className="mt-6">
-                      </div>
-                    </div>
-                  </Transition.Child>
-                </div>
-              </Dialog>
-            </Transition> */}
-
-
             {/* Link exámenes Modal */}
             <Transition appear show={isOpen} as={Fragment}>
               <Dialog
@@ -750,10 +686,11 @@ export const RevisionGeneracion = (props) => {
               </Dialog>
             </Transition>
 
+
             {/* Error messages */}
             <div
               ref={divRefErrorMessage}
-              className="hidden animate-pulse mt-1 relative py-1 pl-4 pr-10 leading-normal text-red-700 bg-red-100 rounded-lg mb-12"
+              className="hidden animate-pulse relative py-1 pl-4 pr-10 leading-normal text-red-700 bg-red-100 rounded-lg mt-4"
               role="alert"
             >
               <div id="error_messages" className="text-sm md:text-base">
@@ -775,6 +712,10 @@ export const RevisionGeneracion = (props) => {
                   ></path>
                 </svg>
               </span>
+            </div>
+            {/* Stepper progress bar */}
+            <div className="py-2">
+              <StepsProgress active={2} />
             </div>
           </div>
         </CustomScrollbars>

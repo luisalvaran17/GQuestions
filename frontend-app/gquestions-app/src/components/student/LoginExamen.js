@@ -278,6 +278,7 @@ export const LoginExamen = () => {
                                     <div className="py-4 sm:px-16 px-4 md:px-16 col-span-12 my-0">
                                         <button
                                             type="submit"
+                                            id="btn-login-examen"
                                             className="transition duration-500 text-base z-10 pl-1 block w-full mx-auto focus:outline-none bg-green-400 uppercase
                                             hover:bg-green-500 focus:bg-green-500 text-black rounded-lg px-2 py-2 font-semibold"
                                             onClick={handleClickLogin}

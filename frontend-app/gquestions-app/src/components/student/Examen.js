@@ -1028,6 +1028,7 @@ export const Examen = () => {
                                                         <div className="px-8 pb-4">
                                                             <textarea
                                                                 name={pregunta.id_pregunta}
+                                                                id="textarea-respuesta"
                                                                 onChange={handleChangePreguntaAbierta}
                                                                 defaultValue={respuestasUsuario[contador - 1].respuesta}
                                                                 className="transition duration-500 w-full resize-y p-2 h-32 border rounded-xl focus:border-yellowmain focus:border-opacity-50 bg-white text-gray-600 text-sm md:text-base outline-none focus:outline-none"
@@ -1046,6 +1047,7 @@ export const Examen = () => {
                         <div className="mt-4">
                             <button
                                 className='btn-secondary'
+                                id="terminar-intento"
                                 onClick={onClickTerminarIntento}
                             >
                                 Terminar intento
@@ -1124,6 +1126,7 @@ export const Examen = () => {
                                                     </button>
                                                 <button
                                                     type="button"
+                                                    id="aceptar-modal"
                                                     className="transition duration-500 sm:w-auto w-28 inline-flex justify-center px-12 py-2 text-sm font-medium text-green-900 bg-green-100 border border-transparent 
                                                     rounded-md hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                                                     onClick={closeModalContinue}

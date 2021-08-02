@@ -247,7 +247,7 @@ export const Homepage = () => {
             </div>
           </nav>
           {/* Body */}
-          
+
           <div
             className='mx-auto bg-local my-auto w-full py-32 xl:py-64 dark:bg-darkColor dark:text-white'
             style={{
@@ -394,16 +394,16 @@ export const Homepage = () => {
                   </div>
                   <div className='grid grid-cols-12 font-light lg:text-base text-sm text-justify'>
                     <div className='md:col-span-3 pr-16'>
-                      Turn your idea from concept to MVP mpvpvpv mvpp
+                      Configura la generación y GQuestions se encarga del resto
                     </div>
                     <div className='md:col-span-3 pr-16'>
-                      Sketch out the product to align the user needs
+                      Automáticamente se generan textos
                     </div>
                     <div className='md:col-span-3 pr-16'>
-                      Convert the designs into a live application Convert the designs into a live application
+                      Automáticamente se generan preguntas
                     </div>
                     <div className='md:col-span-3 pr-16'>
-                      Launching the application to the market Convert the designs into a live application
+                      Configura el conjunto de exámenes y listo
                     </div>
                   </div>
                 </div>
@@ -413,19 +413,16 @@ export const Homepage = () => {
                   <div className='col-span-12 sm:col-span-10 my-8'>
                     <div className='grid grid-rows-4 mt-3 text-justify'>
                       <div className='sm:mb-20 mb-4'>
-                        <b>Genera Exámenes: </b>Turn your idea from concept to MVP
+                        <b>Genera Exámenes: </b>Configura la generación y GQuestions se encarga del resto
                     </div>
                       <div className='sm:mt-4 mb-4'>
-                        <b>Genera Textos: </b>Sketch out the product to align the
-                      user needs
+                        <b>Genera Textos: </b>Automáticamente se generan textos
                     </div>
                       <div className='sm:mt-6 mb-4'>
-                        <b>Genera Preguntas: </b>Convert the designs into a live
-                      application
+                        <b>Genera Preguntas: </b>Automáticamente se generan preguntas
                     </div>
                       <div className='sm:mt-8 mb-4'>
-                        <b>Aplica el examen: </b>Launching the application to the
-                      market
+                        <b>Aplica el examen: </b>Configura el conjunto de exámenes y listo
                     </div>
                     </div>
                   </div>
@@ -459,8 +456,8 @@ export const Homepage = () => {
                   <div className='col-span-12 sm:col-span-11 lg:col-span-5 grid grid-rows pr-0 lg:pr-32'>
                     <h1 className='font-bold'>Cada examen es único</h1>
                     <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      Mattis et sed nam sem tellus erat.
+                      Se utilizan técnicas que permiten generar un conjunto de exámenes que individualmente
+                      son diferentes entre sí pero conservando el tema.
                   </p>
                   </div>
                   <span className=''>
@@ -473,8 +470,7 @@ export const Homepage = () => {
                   <div className='col-span-12 sm:col-span-11 lg:col-span-5 grid grid-rows pr-0 lg:pr-32'>
                     <h1 className='font-bold'>Ahorra tiempo</h1>
                     <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      Mattis et sed nam sem tellus erat.
+                    solo configura la generacion, GQuestions se encarga de la generación de manera automatizada.
                   </p>
                   </div>
                 </div>
@@ -489,8 +485,7 @@ export const Homepage = () => {
                   <div className='col-span-12 sm:col-span-11 lg:col-span-5 grid grid-rows pr-0 lg:pr-32'>
                     <h1 className='font-bold'>Ahorra dinero</h1>
                     <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      Mattis et sed nam sem tellus erat.
+                      Puedes aplicar los exámenes directamente desde GQuestions.
                   </p>
                   </div>
                   <span className=''>
@@ -503,8 +498,7 @@ export const Homepage = () => {
                   <div className='col-span-12 sm:col-span-11 lg:col-span-5 grid grid-rows pr-0 lg:pr-32'>
                     <h1 className='font-bold'>Examen automátizado</h1>
                     <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      Mattis et sed nam sem tellus erat.
+                      Gquestions se encarga de la generación con tecnologia de Inteligencia Artificial
                   </p>
                   </div>
                 </div>
@@ -539,18 +533,17 @@ export const Homepage = () => {
                       especificar la cantidad de exámenes a generar, la longitud
                       de los textos, la cantidad de preguntas por examen y el
                       tipo de pregunta.
-                    </p>
+                      </p>
                       <p>
                         <b>Establece el tema de los textos: </b>Puedes especificar
                       un tema o simplemente permitir que el sistema genere
-                      textos de manera aleatoria en un ámbito acádemico.
-                    </p>
+                      textos de manera aleatoria dentro de un ámbito académico.
+                      </p>
                       <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Venenatis scelerisque at quam congue posuere libero in sit
-                        quam. Consequat, scelerisque non tincidunt sit lectus
-                        senectus.
-                    </p>
+                        <b>Edita los exámenes: </b>
+                        Puedes modificar los textos generados o simplemente puedes volver a generar cada 
+                        texto y sus preguntas correspondientes antes de publicarlo.
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -560,7 +553,7 @@ export const Homepage = () => {
           <hr></hr>
 
           {/* Uso móvil */}
-          <div className='mx-auto my-auto w-full sm:pt-8 md:pb-0 py-0 md:pt-0' style={{backgroundColor:'#00c5cd'}}>
+          <div className='mx-auto my-auto w-full sm:pt-8 md:pb-0 py-0 md:pt-0' style={{ backgroundColor: '#00c5cd' }}>
             <div className='container mx-auto flex'>
               <div className='grid grid-cols-12 md:mx-8 mx-8 sm:mt-8 md:mt-0'>
                 <div className='grid grid-rows-3 md:col-span-6 col-span-12 items-center text-sm md:text-base'>
@@ -568,8 +561,7 @@ export const Homepage = () => {
                     Genera, aplica y resuelve tus exámenes desde el móvil
                 </h1>
                   <p className='self-start'>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Phasellus condimentum erat et leo luctus lacinia.{' '}
+                    Desde el navegador web móvil puedes utilizar GQuestions y acceder a todas sus funciones. 
                   </p>
                   <p className='font-semibold'>
                     Accede desde el navegador de tu móvil
@@ -583,7 +575,9 @@ export const Homepage = () => {
           </div>
         </div >
 
-        <Footer />
+        <div id='about'>
+          <Footer />
+        </div>
       </div >
     );
   }
@@ -650,6 +644,7 @@ export const Homepage = () => {
               <div className='text-sm lg:flex-grow mb-2'>
                 <a
                   href='#about'
+                  onClick={scrollAnimation}
                   className='transition duration-500 p-2 block mt-4 lg:inline-block lg:mt-0 ml-3 mr-2 rounded-md hover:bg-yellowlight hover:text-yellow-800'
                 >
                   Acerca de
@@ -865,16 +860,16 @@ export const Homepage = () => {
                   </div>
                   <div className='grid grid-cols-12 font-light lg:text-base text-sm text-justify'>
                     <div className='md:col-span-3 pr-16'>
-                      Turn your idea from concept to MVP mpvpvpv mvpp
+                      Configura la generación y GQuestions se encarga del resto
                     </div>
                     <div className='md:col-span-3 pr-16'>
-                      Sketch out the product to align the user needs
+                      Automáticamente se generan textos
                     </div>
                     <div className='md:col-span-3 pr-16'>
-                      Convert the designs into a live application Convert the designs into a live application
+                      Automáticamente se generan preguntas
                     </div>
                     <div className='md:col-span-3 pr-16'>
-                      Launching the application to the market Convert the designs into a live application
+                      Configura el conjunto de exámenes y listo
                     </div>
                   </div>
                 </div>
@@ -884,19 +879,16 @@ export const Homepage = () => {
                   <div className='col-span-12 sm:col-span-10 my-8'>
                     <div className='grid grid-rows-4 mt-3 text-justify'>
                       <div className='sm:mb-20 mb-4'>
-                        <b>Genera Exámenes: </b>Turn your idea from concept to MVP
+                        <b>Genera Exámenes: </b>Configura la generación y GQuestions se encarga del resto
                     </div>
                       <div className='sm:mt-4 mb-4'>
-                        <b>Genera Textos: </b>Sketch out the product to align the
-                      user needs
+                        <b>Genera Textos: </b>Automáticamente se generan textos
                     </div>
                       <div className='sm:mt-6 mb-4'>
-                        <b>Genera Preguntas: </b>Convert the designs into a live
-                      application
+                        <b>Genera Preguntas: </b>Automáticamente se generan preguntas
                     </div>
                       <div className='sm:mt-8 mb-4'>
-                        <b>Aplica el examen: </b>Launching the application to the
-                      market
+                        <b>Aplica el examen: </b>Configura el conjunto de exámenes y listo
                     </div>
                     </div>
                   </div>
@@ -930,8 +922,8 @@ export const Homepage = () => {
                   <div className='col-span-12 sm:col-span-11 lg:col-span-5 grid grid-rows pr-0 lg:pr-32'>
                     <h1 className='font-bold'>Cada examen es único</h1>
                     <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      Mattis et sed nam sem tellus erat.
+                      Se utilizan técnicas que permiten generar un conjunto de exámenes que individualmente
+                      son diferentes entre sí pero conservando el tema.
                   </p>
                   </div>
                   <span className=''>
@@ -944,8 +936,7 @@ export const Homepage = () => {
                   <div className='col-span-12 sm:col-span-11 lg:col-span-5 grid grid-rows pr-0 lg:pr-32'>
                     <h1 className='font-bold'>Ahorra tiempo</h1>
                     <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      Mattis et sed nam sem tellus erat.
+                    solo configura la generacion, GQuestions se encarga de la generación de manera automatizada.
                   </p>
                   </div>
                 </div>
@@ -960,8 +951,7 @@ export const Homepage = () => {
                   <div className='col-span-12 sm:col-span-11 lg:col-span-5 grid grid-rows pr-0 lg:pr-32'>
                     <h1 className='font-bold'>Ahorra dinero</h1>
                     <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      Mattis et sed nam sem tellus erat.
+                      Puedes aplicar los exámenes directamente desde GQuestions.
                   </p>
                   </div>
                   <span className=''>
@@ -974,8 +964,7 @@ export const Homepage = () => {
                   <div className='col-span-12 sm:col-span-11 lg:col-span-5 grid grid-rows pr-0 lg:pr-32'>
                     <h1 className='font-bold'>Examen automátizado</h1>
                     <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      Mattis et sed nam sem tellus erat.
+                      Gquestions se encarga de la generación con tecnologia de Inteligencia Artificial
                   </p>
                   </div>
                 </div>
@@ -1010,18 +999,17 @@ export const Homepage = () => {
                       especificar la cantidad de exámenes a generar, la longitud
                       de los textos, la cantidad de preguntas por examen y el
                       tipo de pregunta.
-                    </p>
+                      </p>
                       <p>
                         <b>Establece el tema de los textos: </b>Puedes especificar
                       un tema o simplemente permitir que el sistema genere
-                      textos de manera aleatoria en un ámbito acádemico.
-                    </p>
+                      textos de manera aleatoria dentro de un ámbito académico.
+                      </p>
                       <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Venenatis scelerisque at quam congue posuere libero in sit
-                        quam. Consequat, scelerisque non tincidunt sit lectus
-                        senectus.
-                    </p>
+                        <b>Edita los exámenes: </b>
+                        Puedes modificar los textos generados o simplemente puedes volver a generar cada 
+                        texto y sus preguntas correspondientes antes de publicarlo.
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -1031,7 +1019,7 @@ export const Homepage = () => {
           <hr></hr>
 
           {/* Uso móvil */}
-          <div className='mx-auto my-auto w-full sm:pt-8 md:pb-0 py-0 md:pt-0' style={{backgroundColor:'#00c5cd'}}>
+          <div className='mx-auto my-auto w-full sm:pt-8 md:pb-0 py-0 md:pt-0' style={{ backgroundColor: '#00c5cd' }}>
             <div className='container mx-auto flex'>
               <div className='grid grid-cols-12 md:mx-8 mx-8 sm:mt-8 md:mt-0'>
                 <div className='grid grid-rows-3 md:col-span-6 col-span-12 items-center text-sm md:text-base'>
@@ -1039,8 +1027,7 @@ export const Homepage = () => {
                     Genera, aplica y resuelve tus exámenes desde el móvil
                 </h1>
                   <p className='self-start'>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Phasellus condimentum erat et leo luctus lacinia.{' '}
+                    Desde el navegador web móvil puedes utilizar GQuestions y acceder a todas sus funciones. 
                   </p>
                   <p className='font-semibold'>
                     Accede desde el navegador de tu móvil
@@ -1053,7 +1040,9 @@ export const Homepage = () => {
             </div>
           </div>
         </div >
-        <Footer />
+        <div id='about'>
+          <Footer />
+        </div>
       </div >
     )
   }

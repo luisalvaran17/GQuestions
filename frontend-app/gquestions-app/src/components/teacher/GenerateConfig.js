@@ -46,7 +46,7 @@ export const GenerateConfig = () => {
 
   // Hook tiempo de generación 
   const [tiempoGeneracion, setTiempoGeneracion] = useState("0 minutos")
-  const [porcentajeGeneracion, setPorcentajeGeneracion] = useState(0.0)
+  const [porcentajeGeneracion, setPorcentajeGeneracion] = useState(0.00 )
 
   // Hook error modal
   const [isOpenError, setIsOpenError] = useState(false)
@@ -252,7 +252,7 @@ export const GenerateConfig = () => {
       Number.isNaN(generacionConfiguracion.n_preguntas)
     ) {
       boolZero = true;
-      p_zero = React.createElement('p', {}, '●  Hay campos con valores en cero');
+      p_zero = React.createElement('p', {}, '●  Hay campos vacíos');
     }
     if (Number.isNaN(generacionConfiguracion.n_examenes)) {
       setGeneracionConfiguracion(
@@ -268,9 +268,9 @@ export const GenerateConfig = () => {
         })
       );
     }
-    if (generacionConfiguracion.longit_texto < 300) {
+    if (generacionConfiguracion.longit_texto < 300 || generacionConfiguracion.longit_texto > 500) {
       boolLongTexto = true;
-      p_longTexto = React.createElement('p', {}, '●  La longitud del texto debe ser mayor o igual a 300 carácteres');
+      p_longTexto = React.createElement('p', {}, '●  La longitud del texto debe estar entre 300 y 500 carácteres');
     }
     if (generacionConfiguracion.n_preguntas > 10) {
       boolCantidadPreguntas = true;
@@ -333,6 +333,8 @@ export const GenerateConfig = () => {
       let max = 5000;
       let randoms = []
 
+      localStorage.setItem('longit_texto', generacionConfiguracion.longit_texto);
+
       setIsLoading(true)
       if (generacionConfiguracion.inicio_oracion === 'Aleatorio') {
         // Aleatorio texto
@@ -353,7 +355,10 @@ export const GenerateConfig = () => {
           tipo_pregunta = "all";
         }
         for (let i = 0; i < randoms.length; i++) {
-          const response_text = await GenerateTextsAPI(json[randoms[i]].text, generacionConfiguracion.longit_texto);
+          let response_text = await GenerateTextsAPI(json[randoms[i]].text, generacionConfiguracion.longit_texto);
+
+          response_text = await checkLongitudTexto(response_text);  // Verifica que la longitud del texto está correcta 
+
           contador_progreso = contador_progreso + 1
           let preguntas = await getPreguntasFromNLP(response_text[0].generated_text, generacionConfiguracion.n_preguntas, tipo_pregunta, contador_progreso)
           let element_text = {
@@ -382,7 +387,10 @@ export const GenerateConfig = () => {
           randoms.push(random)
         }
         for (let i = 0; i < randoms.length; i++) {
-          const response_text = await GenerateTextsAPI(list_objects[randoms[i]].text, generacionConfiguracion.longit_texto);
+          let response_text = await GenerateTextsAPI(list_objects[randoms[i]].text, generacionConfiguracion.longit_texto);
+          
+          response_text = await checkLongitudTextoArea(response_text, list_objects);  // Verifica que la longitud del texto está correcta 
+
           contador_progreso = contador_progreso + 1
           let preguntas = await getPreguntasFromNLP(response_text[0].generated_text, generacionConfiguracion.n_preguntas, "all", contador_progreso)
           let element_text = {
@@ -462,6 +470,44 @@ export const GenerateConfig = () => {
     }
   }
 
+  const checkLongitudTexto = async (response_text) => {
+
+    let json = require('./sentences.json'); //(with path)
+
+    // Aleatorio texto
+    let min = 0;
+    let max = 5000;
+
+    for (let i = 0; i < 5; i++) {
+      if (response_text[0].generated_text.split(" ").length < (generacionConfiguracion.longit_texto - 150)) {
+        let random = Math.floor(Math.random() * (+max - +min)) + +min;
+        response_text = await GenerateTextsAPI(json[random].text, generacionConfiguracion.longit_texto);
+      }else{
+        break;
+      }      
+    }
+    console.log(response_text[0].generated_text.split(" ").length);
+    return response_text;
+  }
+
+  const checkLongitudTextoArea = async (response_text, list_objects) => {
+
+    // Aleatorio texto
+    let min = 0;
+    let max = list_objects.length;
+
+    for (let i = 0; i < 5; i++) {
+      if (response_text[0].generated_text.split(" ").length < (generacionConfiguracion.longit_texto - 150)) {
+        let random = Math.floor(Math.random() * (+max - +min)) + +min;
+        response_text = await GenerateTextsAPI(list_objects[random].text, generacionConfiguracion.longit_texto);
+      }else{
+        break;
+      }      
+    }
+    console.log(response_text[0].generated_text.split(" ").length);
+    return response_text;
+  }
+
   // CONDICIONAL PARA REDIRECCIONAR CON PROPS EN CASO DE QUE LA GENERACIÓN SEA EXITOSA (ENVIAR A SIGUIENTE COMPONENT FUNCTIONAL)
   if (!irRevisionTexto) {
     return (
@@ -497,11 +543,14 @@ export const GenerateConfig = () => {
           className="">
 
           <div className="container grid grid-rows xl:px-32 px-6 py-8 md:px-8 lg:px-16">
-            <h1 className="font-black xl:text-5xl md:text-4xl sm:text-2xl md:text-left text-2xl md:mb-10 mb-4 dark:text-white">
+            <h1 className="font-black xl:text-5xl md:text-4xl sm:text-2xl md:text-left text-2xl md:mb-8 mb-4 dark:text-white">
               Parámetros de generación
             </h1>
-            <p className="text-gray-500 font-semibold text-sm md:text-base dark:text-gray-200 mb-4">
+            <p className="text-gray-500 font-semibold text-sm md:text-base dark:text-gray-200">
               Aquí puedes configurar los parámetros de la generación.
+            </p>
+            <p className="text-gray-500 font-semibold text-sm md:text-base dark:text-gray-200 mb-4">
+              <b>Demo:</b> Si presionas el botón demo puedes realizar el proceso de generación en manera de demostración, sin tiempos de espera.
             </p>
             <div className="bg-gray-50 shadow-sm bg-opacity-40 dark:bg-darkColor dark:bg-opacity-80 border dark:border-gray-800 
             rounded-t-xl md:py-12 py-6 px-2 sm:px-4 md:px-8 lg:px-16">
@@ -523,7 +572,7 @@ export const GenerateConfig = () => {
 
                 <div className="grid sm:col-span-4 col-span-12 sm:mr-8 mr-0 mb-2">
                   <label className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
-                    Longitud de texto &ge; 300
+                    Longitud de texto
                   </label>
                   <div className="grid sm:col-span-4 col-span-12">
                     <div className="flex">
@@ -566,19 +615,25 @@ export const GenerateConfig = () => {
                               leaveFrom="opacity-100 translate-y-0"
                               leaveTo="opacity-0 translate-y-1"
                             >
-                              <Popover.Panel className="absolute ml-10 z-10 px-8 mt-0 transform -translate-x-1/2 left-1/2 sm:px-0 max-w-xs">
+                              <Popover.Panel className="absolute ml-10 z-10 mt-0 transform -translate-x-1/2 left-1/2 sm:px-0 max-w-xs">
                                 <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
-                                  <div className="p-4 bg-gray-50">
+                                  <div className="p-2 bg-gray-50">
                                     <span
-                                      className="flow-root px-2 py-2 transition duration-150 ease-in-out rounded-md hover:bg-gray-100 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
+                                      className="flow-root px-2 py-2 transition duration-150 ease-in-out rounded-md hover:bg-gray-100 
+                                      focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
                                     >
                                       <span className="flex items-center">
-                                        <span className="font-semibold text-gray-900">
+                                        <span className="font-semibold text-gray-900 text-sm">
                                           Recomendación
                                       </span>
                                       </span>
-                                      <span className="block text-sm text-gray-500 text-justify">
+                                      <span className="block text-sm text-gray-700 bg-gray-50 p-2 rounded-t-lg text-justify 
+                                      border-t border-l border-r border-gray-200">
                                         Tenga en cuenta que la longitud de texto influye en la cantidad de preguntas que se pueden generar, se recomienda una longitud de texto de 400 para 10 preguntas
+                                      </span>
+                                      <span className="block text-sm text-gray-700 text-justify bg-gray-50 p-2 rounded-b-lg
+                                       border border-gray-200">
+                                        Importante: La longitud de texto debe estar entre 300 y 500
                                       </span>
                                     </span>
                                   </div>
@@ -662,7 +717,6 @@ export const GenerateConfig = () => {
 
                 <div className="grid grid-rows lg:mx-0 sm:col-span-6 col-span-12 md:col-span-4">
                   <label
-                    htmlFor="pregunta_abierta"
                     className="sm:mx-0 pt-4 sm:pt-10 text-xs font-semibold px-1 text-gray-500 dark:text-gray-300 self-end py-2"
                   >
                     Tipo de preguntas
@@ -671,7 +725,7 @@ export const GenerateConfig = () => {
                                   2xl:w-80 2xl:border-gray-300 2xl:bg-white 2xl:divide-y
                                   w-full border-gray-300 bg-white divide-y border
                                   md:border-transparent md:bg-transparent md:divide-y-0
-                                  text-gray-500 md:text-gray-100 2xl:text-gray-500"
+                                 text-gray-500 md:dark:text-gray-100 2xl:dark:text-gray-500 2xl:text-gray-500"
                   >
                     <label
                       htmlFor="pregunta_abierta"
@@ -699,6 +753,7 @@ export const GenerateConfig = () => {
                       <div className="flex items-center transition duration-500 w-full px-4 py-2 rounded-t-xl">
                         <input
                           type="checkbox"
+                          id="opcion_multiple"
                           name="opcion_multiple"
                           className="form-checkbox h-5 w-5 text-yellow-500"
                           defaultChecked="true"
@@ -717,11 +772,13 @@ export const GenerateConfig = () => {
                       <div className="flex items-center transition duration-500 w-full px-4 py-2 rounded-t-xl">
                         <input
                           type="checkbox"
+                          id="completacion"
+                          disabled={true}
                           name="completacion"
                           className="form-checkbox h-5 w-5 text-yellow-500"
                           onChange={handleInputChangeTiposPregunta}
                         ></input>
-                        <span className="ml-6">Completación</span>
+                        <span className="ml-6">Completación (soon)</span>
                       </div>
                     </label>
                   </div>
@@ -761,7 +818,7 @@ export const GenerateConfig = () => {
                     <p className="text-gray-700 dark:text-white font-bold p-1 py-2 sm:text-sm text-xs">62.5%</p>
                   </div>
                 }{porcentajeGeneracion === 0.75 &&
-                  <div className="bg-yellowmain w-10/2 h-full text-right rounded-xl">
+                  <div className="bg-yellowmain w-10/12 h-full text-right rounded-xl">
                     <p className="text-gray-700 dark:text-white font-bold p-1 py-2 sm:text-sm text-xs">75%</p>
                   </div>
                 }{porcentajeGeneracion === 0.875 &&
@@ -826,14 +883,8 @@ export const GenerateConfig = () => {
                 </div>}
             </div>
 
-            {/* StepProgress */}
-            <div className="container">
-              <StepsProgress active={1} />
-            </div>
-
             {/* Error messages */}
-            <div className="container mt-2">
-
+            <div className="container">
               <div
                 ref={divRefErrorMessage}
                 className="hidden animate-pulse mt-2 relative py-1 pl-4 pr-10 leading-normal text-red-700 bg-red-100 rounded-lg"
@@ -858,6 +909,10 @@ export const GenerateConfig = () => {
                   </svg>
                 </span>
               </div>
+            </div>
+            {/* StepProgress */}
+            <div className="container">
+              <StepsProgress active={1} />
             </div>
           </div>
 

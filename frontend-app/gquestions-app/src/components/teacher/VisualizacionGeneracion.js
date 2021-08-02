@@ -164,17 +164,18 @@ export const VisualizacionGeneracion = () => {
                                 >
                                     <div className="w-full px-5 py-3 max-h-screen overflow-y-auto bg-white h-full">
 
-                                        <h1 className="uppercase font-semibold">Text</h1>
-                                        <p>{texto}</p>
+                                        <h1 className="uppercase font-asap pb-1 text-lg">Text</h1>
+                                        <p className="bg-gray-50 p-4 font-m rounded-xl shadow border border-gray-50">{texto}</p>
                                         <br></br>
-                                        <h1 ref={questionsTitle} className="uppercase font-semibold">Questions</h1>
+                                        <h1 ref={questionsTitle} className="uppercase font-asap pb-1 text-lg">Questions (5)</h1>
                                         <ul>
+                                            <div className="bg-gray-50 p-4 font-m rounded-xl shadow border border-gray-50">
                                             {
                                                 preguntas.map((pregunta, contador = 1) => (
                                                     <div
-                                                        className=""
+                                                        
                                                         key={pregunta.id_pregunta}>
-                                                        <p><b>{contador = contador + 1}.  Question: </b>{pregunta.pregunta_cuerpo}</p>
+                                                        <p><b>Question: </b>{pregunta.pregunta_cuerpo}</p>
                                                         {pregunta.respuestas_cuerpo.opcion_multiple === 'null' &&
                                                             <p><b>Answer:</b> {pregunta.respuesta_correcta}</p>
                                                         }{pregunta.respuestas_cuerpo.opcion_multiple !== 'null' &&
@@ -191,6 +192,8 @@ export const VisualizacionGeneracion = () => {
                                                     </div>
                                                 ))
                                             }
+
+                                            </div>
                                         </ul>
                                     </div>
                                 </CustomScrollbars>

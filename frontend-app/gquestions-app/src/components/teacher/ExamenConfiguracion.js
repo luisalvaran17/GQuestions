@@ -410,11 +410,6 @@ export const ExamenConfiguracion = (props) => {
                 </p>
             </div>
 
-
-            {/* Stepper progress bar */}
-            <div className="container mt-8">
-              <StepsProgress active={4} />
-            </div>
             {/* Error messages */}
             <div className="container mt-2">
               <div
@@ -443,6 +438,10 @@ export const ExamenConfiguracion = (props) => {
                   </svg>
                 </span>
               </div>
+            </div>
+            {/* Stepper progress bar */}
+            <div className="container mt-8">
+              <StepsProgress active={4} />
             </div>
           </div>
 

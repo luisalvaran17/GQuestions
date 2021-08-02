@@ -37,7 +37,7 @@ const { Builder, By, until } = require('selenium-webdriver');
     await driver.sleep(300);
     await driver.findElement(By.id('contrasena_exam')).sendKeys('1234');
     await driver.sleep(300);
-    await driver.findElement(By.id('title-examen')).sendKeys('Test');
+    await driver.findElement(By.id('title-examen')).sendKeys('Tests selenium');
     await driver.sleep(300);
     await driver.findElement(By.id('hours')).sendKeys('2');
     await driver.sleep(300);

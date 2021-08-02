@@ -1,11 +1,15 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, Fragment} from 'react';
 import '../../assets/styles/tailwind.css';
 import LogoGQuestions from '../../assets/images/logo.png';
 import { ModalCredits } from './ModalCredits';
+import { Dialog, Transition } from '@headlessui/react';
 
 export const Footer = () => {
 
   const [showModal, setshowModal] = useState(false)
+
+  // Hooks Terminos y condiciones
+  const [isOpen, setIsOpen] = useState(false)
 
   const darkModeRef = useRef();
 
@@ -21,9 +25,18 @@ export const Footer = () => {
     setshowModal(true);
   };
 
+  function openModal() {
+    setIsOpen(true)
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+
+
   if (showModal === false) {
     return (
-      <div ref={darkModeRef} className=''>
+      <div ref={darkModeRef} className='font-manrope'>
         <div className='bg-gray-50 dark:bg-darkGrayColor2 border-t border-gray-200 dark:border-gray-800'>
           <footer className='flex flex-wrap justify-between p-3 m-auto text-sm md:text-base pb-8'>
             <div className='container mx-auto flex flex-col flex-wrap items-center justify-between'>
@@ -36,10 +49,11 @@ export const Footer = () => {
               </span>
 
               <ul className='flex mx-auto text-darkColor dark:text-gray-300 text-center font-semibold'>
-                <li className='p-2 cursor-pointer hover:underline'>
+                <li className='p-2 cursor-pointer hover:underline'
+                onClick={openModal}>
                   Términos {'&'} Condiciones
                   </li>
-                <li className='p-2 cursor-pointer hover:underline'>
+                <li className='p-2 text-gray-400 dark:text-darkGrayColor'>
                   Privacidad
                   </li>
                 <li
@@ -57,10 +71,110 @@ export const Footer = () => {
               </ul>
               <div className='flex mx-auto text-darkColor dark:text-gray-300 text-center'>
                 Copyright GQuestions © 2021
-                </div>
+              </div>
+
+              
             </div>
           </footer>
+          {/* Términos y condiciones Modal */}
+        <Transition appear show={isOpen} as={Fragment}>
+          <Dialog
+            as="div"
+            className="fixed inset-0 z-10 overflow-y-auto"
+            onClose={closeModal}
+          >
+            {/* Use the overlay to style a dim backdrop for your dialog */}
+            <Dialog.Overlay className="fixed inset-0 bg-black opacity-60" />
+            <div className="min-h-screen px-4 text-center">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0"
+                enterTo="opacity-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100"
+                leaveTo="opacity-0"
+              >
+                <Dialog.Overlay className="fixed inset-0" />
+              </Transition.Child>
+
+              {/* This element is to trick the browser into centering the modal contents. */}
+              <span
+                className="inline-block h-screen align-middle"
+                aria-hidden="true"
+              >
+                &#8203;
+            </span>
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <div className="font- inline-block w-full max-w-3xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                  <Dialog.Title
+                    as="h3"
+                    className="text-xl font-black font-manrope leading-6 text-gray-900"
+                  >
+                    Términos y condiciones
+                </Dialog.Title>
+                  <div className="mt-2">
+                    <ul className="bg-gray-100 text-sm shadow rounded-xl list-none space-y-2 md:text-justify">
+                      <div className="text-gray-700 p-4 pb-1">
+                        <li className="mb-2">
+                          <p>
+                            Debido a que los modelos de lenguaje a gran escala como GPT-2 no distinguen la realidad de la ficción, el texto generado no debe ser considerado
+                            verdadero.
+                          </p>
+                        </li>
+                        <li className="mb-2">
+                          <p>
+                            El uso de GPT-2 en esta aplicación web tiene el propósito de ayudar en el aprendizaje del idioma Inglés (ayuda gramatical, vocabulario, lectura y escritura).
+                          </p>
+                        </li>
+                        <li className="mb-2">
+                          <p>
+                            Es importante mencionar que el modelo GPT-2 puede reflejar sesgos inherentes a los sistemas en los que fueron entrenados, sin embargo, se ha implementado una estrategia que intenta reducir los posibles sesgos que pueda presentar el sistema en esta implementación.
+                          </p>
+                        </li>
+                      </div>
+                      <li className="list-none">
+                        <p className="text-sm text-gray-500 p-4 border-t border-gray-200 bg-gray-100 rounded-b-xl md:text-justify">
+                          "No encontramos diferencias estadísticamente significativas en las sondas de sesgo de género, raza y religión entre 774M y 1.5B, lo que implica que todas las versiones de GPT-2 deben abordarse con niveles similares de precaución en los casos de uso que son sensibles a los sesgos en torno a los atributos humanos."
+                            <br></br>
+                          <a className="outline-none focus:outline-none"
+                            href="https://github.com/openai/gpt-2/blob/master/model_card.md#out-of-scope-use-cases"
+                            target="_blank" rel="noreferrer">
+                            <b>Model card GPT-2: </b><span className="text-blue-600 underline">
+                              https://github.com/openai/gpt-2/blob/master/model_card.md
+                              </span>
+                          </a>
+                        </p>
+                      </li>
+                    </ul>
+                    <div className="flex mt-4 justify-end space-x-4">
+                      
+                      <button
+                        type="button"
+                        className="shadow transition duration-500 w-full inline-flex justify-center sm:px-12 px-8 py-2 text-sm font-medium text-green-900 bg-green-100 border border-transparent 
+                        rounded-md hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                        onClick={closeModal}
+                      >
+                        Cerrar
+                      </button>
+                    </div>
+                  </div>
+
+                </div>
+              </Transition.Child>
+            </div>
+          </Dialog>
+        </Transition>
         </div>
+        
       </div>
     );
   }
