@@ -22,6 +22,7 @@ import { LoginExamen } from './components/student/LoginExamen';
 import { AjustesStudent } from './components/student/AjustesStudent';
 import { HomeStudent } from './components/student/HomeStudent';
 import { Examen } from './components/student/Examen';
+import { EncuestaStudent } from './components/student/EncuestaStudent';
 import { MisCalificaciones } from './components/student/MisCalificaciones';
 import { AjustesCuentaStudent } from './components/student/user/AjustesCuentaStudent';
 import { AjustesCuentaTeacher } from './components/teacher/user/AjustesCuentaTeacher';
@@ -52,6 +53,7 @@ export const App = () => {
         <PrivateRouteEstudiante exact path='/student/home' component={HomeStudent} />
         <PrivateRouteEstudiante exact path='/student/login-examen/:id' component={LoginExamen} />
         <PrivateRouteEstudiante exact path='/student/ajustes' component={AjustesStudent} />
+        <PrivateRouteEstudiante exact path='/student/encuesta' component={EncuestaStudent} />
         <PrivateRouteEstudiante exact path='/student/ajustes-cuenta' component={AjustesCuentaStudent} />
         <PrivateRouteEstudiante exact path='/student/examen' component={Examen} />
         <PrivateRouteEstudiante exact path='/student/calificaciones' component={MisCalificaciones} />

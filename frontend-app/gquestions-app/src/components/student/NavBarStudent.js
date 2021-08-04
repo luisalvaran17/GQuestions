@@ -52,6 +52,10 @@ export const NavbarStudent = (props) => {
     history.push('/student/ajustes-cuenta')
   }
 
+  const onClickEncuesta = () => {
+    history.push('/student/encuesta')
+  }
+
   const onClickCondicionesUso = () => {
     setIsOpen(true);
   }
@@ -216,6 +220,19 @@ export const NavbarStudent = (props) => {
                                 >
                                   Condiciones de uso
                                 </button>
+                              )}
+                            </Menu.Item>
+                            <Menu.Item>
+                              {({ active }) => (
+                                <span
+                                  onClick={onClickEncuesta}
+                                  className={classNames(
+                                    active ? 'bg-gray-100' : '',
+                                    'flex cursor-pointer transition duration-500 w-full outline-none focus:outline-none text-left font-bold px-4 py-2 text-sm text-gray-700 dark:text-gray-100 dark:hover:bg-yellowlight dark:hover:text-black'
+                                  )}
+                                >
+                                  <p>Responder encuesta</p><span className="flex text-xs bg-green-200 rounded-lg px-1 ml-1 font-semibold text-green-800 border border-green-300">nuevo</span>
+                                </span>
                               )}
                             </Menu.Item>
                             <Menu.Item>

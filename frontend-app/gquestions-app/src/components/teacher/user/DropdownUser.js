@@ -189,9 +189,9 @@ export const DropdownUser = () => {
               <div>
                 <Menu.Button className="outline-none focus:outline-none">
                   <div className='md:grid grid-cols-12 md:w-56 w-10 mt-auto items-center p-1 transition duration-500 text-yellow-800 
-                  hover:bg-yellowlight dark:hover:text-yellow-900 dark:hover:bg-yellowlight md:bg-white md:dark:bg-transparent 
-                  md:border-opacity-50 border md:border-yellow-800 md:dark:text-yellowlight md:rounded-xl rounded-full mb-1 bg-yellowlight
-                  dark:bg-yellowlight dark:text-yellow-800 border-transparent'>
+                  md:hover:bg-yellowmain md:hover:text-white md:dark:hover:text-white md:dark:hover:bg-yellowmain md:bg-yellowlight 
+                  md:dark:bg-yellowlight md:border-opacity-50 border md:border-yellow-800 md:dark:text-yellow-900 md:rounded-xl 
+                  rounded-full mb-1 bg-yellowlight dark:bg-yellowlight dark:text-yellow-800 border-transparent'>
                     <div className="col-span-2">
                       <svg
                         className='fill-current h-4 md:w-5 w-full my-2 md:mx-3 md:mr-4'
@@ -209,19 +209,19 @@ export const DropdownUser = () => {
                         ></path>
                       </svg>
                     </div>
-                    <div className="col-span-8 text-left pl-4">
-                      <span className='capitalize md:block hidden text-sm font-medium'>{localStorage.getItem('name')}</span>
+                    <div className="col-span-8 text-left pl-4 md:py-1">
+                      <span className='capitalize md:block hidden text-xs font-bold'>{localStorage.getItem('name')}</span>
                     </div>
 
                     <div className="col-span-2">
-                      <span className="hidden md:block dark:text-yellowlight text-yellow-800">
+                      <span className="hidden md:block ">
                         <svg
-                          className={`${open ? 'transform -rotate-1' : ''} transform rotate-180 transition duration-500 w-5 h-5`}
+                          className={`${open ? 'transform -rotate-1' : ''} transform rotate-180 transition duration-100 w-5 h-5`}
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"
                         >
                           <path d="M24 24H0V0h24v24z" fill="none" opacity=".87" />
-                          <path fill="#92400E" d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z" />
+                          <path fill='currentColor' d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z" />
                         </svg>
                       </span>
                     </div>

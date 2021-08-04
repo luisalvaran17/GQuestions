@@ -112,7 +112,7 @@ export const RevisionExamen = () => {
         let email = user.email;
 
         setEstudiante(
-            Object.assign(estudiante, {
+            Object.assign({
                 nombre: name_user,
                 correo: email,
             })
@@ -614,6 +614,7 @@ export const RevisionExamen = () => {
 const renderThumb = ({ style, ...props }) => {
     const thumbStyle = {
         borderRadius: 6,
+        width:200,
         backgroundColor: 'rgba(35, 49, 86, 0.8)',
     };
     return <div style={{ ...style, ...thumbStyle }} {...props} />;
