@@ -143,7 +143,7 @@ export const LoginExamen = () => {
                     if (examen.assigned_to === parseInt(id_user)) {
                         setMessageAlert("Ya has respondido este examen con anterioridad")
                         removeClassdivRefErrorMessage();
-                        //ya_resuelto = true; // to do: descomentar cuando esté terminado
+                        ya_resuelto = true; // to do: descomentar cuando esté terminado
                     }
                 }
                 if (ya_resuelto === false) {

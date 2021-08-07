@@ -118,7 +118,7 @@ export const VisualizacionGeneracion = () => {
 
                 </div>
 
-                <div className="w-full flex justify-center mb-16 py-6 px-8">
+                <div className="w-full flex justify-center mb-0 py-6 px-8">
                     <div className="w-full">
                         <div className="w-full flex flex-col md:flex-row rounded-lg overflow-hidden shadow-lg border dark:border-gray-700">
                             <div className="w-full md:w-1/4 ">
@@ -132,7 +132,7 @@ export const VisualizacionGeneracion = () => {
                                     autoHide
                                     autoHideTimeout={900}
                                     autoHideDuration={400}
-                                    style={{ height: "60vh" }}
+                                    style={{ height: "70vh" }}
                                     className="bg-gray-100 w-full h-full sm:flex md:block dark:bg-darkColor dark:text-white">
                                     {
                                         textosPreguntas.map((item, contador = 1) => (
@@ -160,7 +160,7 @@ export const VisualizacionGeneracion = () => {
                                     autoHide
                                     autoHideTimeout={900}
                                     autoHideDuration={400}
-                                    style={{ height: "60vh" }}
+                                    style={{ height: "70vh" }}
                                 >
                                     <div className="w-full px-5 py-3 max-h-screen overflow-y-auto bg-white h-full">
 
