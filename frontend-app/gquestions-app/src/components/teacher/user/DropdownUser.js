@@ -188,10 +188,10 @@ export const DropdownUser = () => {
             <>
               <div>
                 <Menu.Button className="outline-none focus:outline-none">
-                  <div className='md:grid grid-cols-12 md:w-56 w-10 mt-auto items-center p-1 transition duration-500 text-yellow-800 
-                  md:hover:bg-yellowmain md:hover:text-white md:dark:hover:text-white md:dark:hover:bg-yellowmain md:bg-yellowlight 
-                  md:dark:bg-yellowlight md:border-opacity-50 border md:border-yellow-800 md:dark:text-yellow-900 md:rounded-xl 
-                  rounded-full mb-1 bg-yellowlight dark:bg-yellowlight dark:text-yellow-800 border-transparent'>
+                  <div className='md:grid grid-cols-12 md:w-56 w-10 mt-auto shadow items-center p-1 transition duration-500 text-yellow-800 
+                  md:hover:bg-white md:hover:border-yellowmain md:hover:text-darkColor md:dark:hover:text-white md:dark:hover:bg-darkColor 
+                  md:dark:hover:border-yellow-900 md:bg-yellowlight md:dark:bg-yellowlight md:border-opacity-50 border md:border-yellow-800 
+                  md:dark:text-yellow-900 md:rounded-xl rounded-full mb-1 bg-yellowlight dark:bg-yellowlight dark:text-yellow-800 border-transparent'>
                     <div className="col-span-2">
                       <svg
                         className='fill-current h-4 md:w-5 w-full my-2 md:mx-3 md:mr-4'

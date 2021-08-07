@@ -546,14 +546,12 @@ export const GenerateConfig = () => {
             <h1 className="font-black xl:text-5xl md:text-4xl sm:text-2xl md:text-left text-2xl md:mb-8 mb-4 dark:text-white">
               Parámetros de generación
             </h1>
-            <p className="text-gray-500 font-semibold text-sm md:text-base dark:text-gray-200">
+            <p className="text-gray-500 font-semibold text-sm md:text-base dark:text-gray-200 sm:mb-4 mb-0">
               Aquí puedes configurar los parámetros de la generación.
             </p>
-            <p className="text-gray-500 font-semibold text-sm md:text-base dark:text-gray-200 mb-4">
-              <b>Demo:</b> Si presionas el botón demo puedes realizar el proceso de generación en manera de demostración, sin tiempos de espera.
-            </p>
+
             <div className="bg-gray-50 shadow-sm bg-opacity-40 dark:bg-darkColor dark:bg-opacity-80 border dark:border-gray-800 
-            rounded-t-xl md:py-12 py-6 px-2 sm:px-4 md:px-8 lg:px-16">
+            rounded-t-xl xl:py-12 md:py-10 py-6 px-2 sm:px-4 md:px-8 lg:px-16">
               <div className="grid grid-cols-12 sm:mb-12 mb-0 ">
                 <div className="grid sm:col-span-4 col-span-12 sm:mr-8 mr-0 mb-2">
                   <label className="grid sm:col-span-4 col-span-12 text-xs font-semibold text-gray-500 dark:text-gray-300 mb-2">
@@ -785,8 +783,11 @@ export const GenerateConfig = () => {
 
                 </div>
               </form>
-
+              <div className="text-gray-500 font-semibold sm:text-sm text-xs sm:text-left text-justify dark:text-gray-200 mt-4">
+              <span className="text-xs bg-yellowlight rounded-md px-1 font-semibold text-yellow-900 border border-yellow-300">Demo</span> Si presionas el botón demo puedes realizar el proceso de generación en manera de demostración, sin tiempos de espera.
             </div>
+            </div>
+            
             <div className="container py-3 w-full px-2 sm:px-4 md:px-8 lg:px-16 bg-gray-50 shadow-sm 
             bg-opacity-60 dark:bg-darkColor border-b border-l border-r dark:border-gray-800 rounded-b-xl">
               <p className="sm:text-sm text-xs text-gray-600 dark:text-gray-300 my-1 font-semibold">
