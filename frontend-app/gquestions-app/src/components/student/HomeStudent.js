@@ -285,7 +285,7 @@ export const HomeStudent = () => {
                         className="hidden lg:block w-1/4 my-1 mr-1 px-6 py-12 flex-col bg-gray-50 border-t border-r border-b dark:border-gray-700 
                         dark:bg-darkGrayColor2 dark:text-gray-400 rounded-r-xl overflow-y-auto">
 
-                        <p className="mt-4 text-gray-600 dark:text-gray-    400 font-black uppercase">Total exámeness</p>
+                        <p className="mt-4 text-gray-600 dark:text-gray-    400 font-black uppercase">Total exámenes</p>
                         <span className="mt-1 text-3xl font-semibold text-gray-600 dark:text-gray-400">{totalExamenes}</span>
 
                         <button

@@ -1,0 +1,107 @@
+\documentclass[../Main.tex]{subfiles}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+\begin{document}
+
+    \section{Implementación}
+    \begin{justify}
+    En esta sección se presentan los detalles más importantes de la implementación, se abordan temas relacionados a estrategias utilizadas, frameworks, librerías, lenguajes de programación y estructura del prototipo web.
+    
+    \end{justify}
+    
+    \subsection{Detalles de la implementación}
+    \begin{justify}
+    Para la construcción del prototipo web se utilizaron diferentes frameworks y librerías, en cuanto al backend se utilizó Django, siendo este un framework web Python que fomenta el desarrollo rápido, limpio y práctico. 
+    \end{justify}
+    En cuanto al frontend se utilizó ReactJS, siendo esta una amplia librería Javascript que permite crear interfaces de usuario y facilita el desarrollo de aplicaciones web.
+
+    \begin{justify}
+    Como framework de diseño se utilizó Tailwind CSS que permite un desarrollo más ágil y optimizado, es de aplicación sencilla en el JSX o HTML ya que está basado en clases.
+    
+    \end{justify}
+    
+    \begin{justify}
+    En cuanto a controlador de versiones se utilizó Git y remotamente GitHub, siendo una plataforma que ofrece servicios de hosting de repositorios, permitiendo alojar código fuente y mantener el control de versiones (VCS). El control de versiones hace referencia a un sistema que permite rastrear y gestionar cambios realizados en conjuntos de archivos, además, permite a los desarrolladores trabajar simultáneamente en el mismo proyecto.
+    
+    En el desarrollo del proyecto cada vez que se añadían nuevas características, correcciones u otros cambios importantes se actualizaba el proyecto en GitHub. Es de mencionar que se manejó un único repositorio tanto para frontend como para backend.
+    \end{justify}
+    
+    \begin{justify}
+    Para probar las API creadas en Django se utilizó Postman que es una herramienta dirigida a desarrolladores web que permite el envió de peticiones HTTP REST a cualquier API sin necesidad del desarrollo de un cliente. Su uso fue de gran utilidad debido a las pruebas que permitieron comprobar el correcto funcionamiento del desarrollo backend.
+    \end{justify}
+    
+    \begin{justify}
+    En cuanto al entorno de desarrollo se utilizó el editor de texto Visual Studio Code, este permite trabajar con diferentes lenguajes de programación y aprovechar al máximo variedad de extensiones que ayudan a aumentar la productividad del desarrollador.\\
+    Los navegadores utilizados en el desarrollo fueron principalmente Google Chrome y Firefox.
+    \end{justify}
+    
+    \begin{justify}
+    Finalmente, en el despliegue se utilizó Heroku que es una plataforma de servicios de computación en la nube que permite entre otras cosas desplegar aplicaciones en diversos lenguajes de programación. Se crearon dos aplicaciones en Heroku, una para el frontend con ReactJS y otra para el backend con Django.
+    \end{justify}
+    
+    \subsubsection{Backend}
+    \begin{justify}
+    Como se mencionó previamente para el backend se utilizó Django, permitió implementar todo el modelamiento de base de datos y una de las partes más importantes del desarrollo del proyecto como lo es el servicio API REST, esto se llevó a cabo utilizando Django REST Framework.
+    
+    Una API es un conjunto de definiciones y protocolos que se utiliza para desarrollar e integrar el software de las aplicaciones. Suele considerarse como el contrato entre el proveedor de información y el usuario, donde se establece el contenido que se necesita del consumidor (la llamada) y el que requiere el productor (la respuesta). [] \\ %https://www.redhat.com/es/topics/api/what-is-a-rest-api
+    Por otra parte, un servicio REST es cualquier interfaz entre sistemas que use HTTP para obtener datos o generar operaciones sobre esos datos en todos los formatos posibles, como XML y JSON. Es una alternativa en auge a otros protocolos estándar de intercambio de datos como SOAP (Simple Object Access Protocol), que disponen de una gran capacidad pero también mucha complejidad. A veces es preferible una solución más sencilla de manipulación de datos como REST. []  %https://www.bbvaapimarket.com/es/mundo-api/api-rest-que-es-y-cuales-son-sus-ventajas-en-el-desarrollo-de-proyectos/
+    
+    \end{justify}
+    \begin{justify}
+    El marco Django REST (DRF) es una biblioteca Python/Django de código abierto, madura y bien soportada que tiene como objetivo crear API web sofisticadas. Es un conjunto de herramientas flexible y con todas las funciones con una arquitectura modular y personalizable que hace posible el desarrollo de puntos finales API simples y construcciones REST complicadas. [] %https://quintagroup.com/cms/python/django-rest-framework
+    \end{justify}
+    
+    \begin{justify}
+    El uso de Nested Relationships con Django REST facilitó considerablemente el consumo de las API construidas, ya que, permite obtener datos de las tablas que están relacionadas por medio de llaves foráneas, de esta manera una generación de conjunto de exámenes en el modelo representa la jerarquía mayor, contiene datos de los modelos de base de datos (tablas) de exámenes, calificaciones, y otros perteneciente a dicha generación.
+    \end{justify}
+    
+    \begin{justify}
+    Estructuralmente el desarrollo backend del prototipo web se realizó creando tres grandes directorios, lo que en Django se llamaría StartApp. Se creó un startapp para los usuarios, otro que contenía la parte raíz del proyecto y otro para lo relacionado a las generaciones.
+    \end{justify}
+    
+    \subsubsection{Frontend}
+    \begin{justify}
+    Se realizó un análisis previo donde se consideró las ventajas y desventajas de utilizar ciertos lenguajes de programación y frameworks frontend, se tuvo en cuenta opciones como el mismo framework Django para realizar todo el prototipo web (backend y frontend), también se consideraró AngularJS, Vue.js y ReactJS; después de valorar cada alternativa, finalmente se eligió ReactJS debido a una curva de aprendizaje más sencilla por haber trabajo con esta librería en ocasiones previas, además, al ser un equipo de trabajo pequeño y al tener las ventajas que ofrece ReactJS como rendimiento, amplia comunidad de desarrolladores, aprovechamiento del lenguaje de programación Javascript, entre otras.
+    
+    La conjunción de ReactJS con el framework de diseño Tailwind CSS permitió personalización alta en la creación de componentes y así lograr el prototipo de UI creado en las fases iniciales, asimismo, ventajas como facilidad de utilizar clases en JSX para los estilos de los componentes y la optimización a través de PurgeCSS que remueve el código CSS no utilizado al momento de compilar.
+    
+    Para el consumo API REST se utilizó Fetch de Javascript que permite realizar las peticiones de manera asincrónica usando promesas, esto ayudó a tener mayor flexibilidad y capacidad de control a la hora de realizar las llamadas al servidor, además es soportada de forma nativa en la mayoría de navegadores web.
+    
+    Estructuralmente el desarrollo frontend del prototipo web se realizó separando en directorios individuales los elementos más importantes como las peticiones API, components, containers, assets, hooks,  y tests, esto con el fin de tener un acceso más sencillo a la hora de realizar modificaciones y una mayor organización (estructura) del código.
+    \end{justify}
+    
+    \subsubsection{Repositorio}
+    \begin{justify}
+    
+    El proyecto se encuentra en un \href{https://github.com/luisalvaran17/GQuestions}{repositorio} de GitHub con todos los archivos de código y documentación relacionada:
+    
+    \begin{center}
+        \url{https://github.com/luisalvaran17/GQuestions}
+    \end{center}
+    
+    \end{justify}
+\end{document}

@@ -1,0 +1,73 @@
+\documentclass[../Main.tex]{subfiles}
+\begin{document}
+
+    \section{Despliegue}
+    \begin{justify}
+    En el despliegue se tuvieron en cuenta varias alternativas de servicios Cloud Computing, entre las que están Google Cloud Platform, IBM Watson, Amazon Web Services (AWS) y Microsoft Azure, todos estos servicios son de pago, sin embargo, Google Cloud ofrece tres meses de prueba con 300 dólares y por esta razón se eligió esta plataforma para desplegar el modelo de Generación de preguntas y respuestas.
+    
+    Google Cloud platform (GCP) es una plataforma en la nube que permite crear, probar e implementar soluciones utilizando la infraestructura confiable y escalable de Google. GCP se ejecuta en la misma infraestructura que Google usa internamente para sus productos.
+    \end{justify}
+    
+    \subsection{Modelos de prestación}
+    \subsubsection{infraestructura como servicio (IaaS)}
+        \begin{justify}
+         Permite a TI ejecutar máquinas virtuales sin tener que invertir o administrar esta infraestructura informática ellos mismos. 
+        \end{justify}
+    
+    \subsubsection{Plataforma como servicio (PaaS)}
+        \begin{justify}
+         Basado en el modelo IaaS. Los clientes optan por todos los beneficios de IaaS, además de obtener una infraestructura subyacente, como sistemas operativos y middleware.
+        \end{justify}
+        
+    \subsubsection{Software como servicio (SaaS)}
+        \begin{justify}
+         Todo está disponible a través de la web: el proveedor aloja, administra y entrega toda la infraestructura, incluidas las aplicaciones. 
+        \end{justify}
+        
+    \subsection{Productos de Google Cloud Platform}
+    En esta sección se describe brevemente algunos productos que ofrece GCP.
+    \subsubsection{IA y Aprendizaje automático}
+        \begin{itemize}
+            \item Vertex AI: Plataforma unificada para entrenar, alojar y administrar modelos de AA.
+            \item Deep Learning VM Image: VM preconfiguradas para aprendizaje profundo.
+            \item Contenedores Deep Learning: Contenedores previamente configurados para entornos de aprendizaje profundo
+        \end{itemize}
+    
+    \subsubsection{Bases de datos}
+    \begin{itemize}
+        \item Cloud SQL: Base de datos completamente administrada para MySQL, PostgreSQL y SQL Server.
+        \item Firebase Realtime Database: Base de datos NoSQL para almacenar y sincronizar datos en tiempo real.
+    \end{itemize}
+    
+    \subsubsection{Procesamiento}
+    \begin{itemize}
+        \item App Engine: Plataforma de aplicaciones sin servidores para apps y backends.
+        \item Compute Engine: Máquinas virtuales que se ejecutan en el centro de datos de Google.
+        \item Cloud Run: Entorno completamente administrado para ejecutar apps alojadas en contenedores.
+    \end{itemize}
+    
+    \subsubsection{Herramientas para desarrolladores}
+    \begin{itemize}
+        \item Artifact Registry: Almacena, administra y protege imágenes de contenedor y paquetes de lenguajes.
+        \item Cloud Build: Plataforma de integración y entrega continuas.
+    \end{itemize}
+    
+    \subsubsection{Almacenamiento}
+    \begin{itemize}
+        \item Archive Storage: Archivo de datos que ofrece velocidad de acceso en línea a muy bajo costo.
+        \item Cloud Storage: Almacenamiento de objetos seguro, duradero y escalable.
+        \item Filestore: Almacenamiento de archivos altamente escalable.
+    \end{itemize}
+    
+    \subsection{Detalles y resultados}
+    \begin{justify}
+    De los servicios descritos anteriormente se utilizaron Cloud Run, Cloud Build y Cloud Storage.
+    
+    Para realizar el despliegue en Cloud Run se tuvo que utilizar contenedores, específicamente Docker, al momento de compilar el servicio se verifica el archivo docker que hace referencia al proyecto.
+    
+    En los directorios del proyecto deben estar los archivos main.py, DockerFile, requirements.txt, .gcloudignore.
+    
+    La máquina virtual que ejecuta el algoritmo una vez está desplegado en Cloud Run utiliza CPU de 4 núcleos y 8GB, para utilizar GPU que sería lo ideal los cobros son altos y no es posible con la prueba gratuita; por esta razón la respuesta a las solicitudes API son tardías por limitaciones computacionales a pesar de estar corriendo en la nube (GCloud), sin embargo permitió tener el servicio disponible en la nube en vez de manera local y realizar peticiones HTTP utilizando el framework Flask.
+    \end{justify}
+    
+\end{document}

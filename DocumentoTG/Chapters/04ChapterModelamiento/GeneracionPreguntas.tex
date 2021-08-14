@@ -1,0 +1,72 @@
+\documentclass[../Main.tex]{subfiles}
+\begin{document}
+
+    \subsection{Generación y respuesta de preguntas}
+    \subsubsection{Descripción y detalles del modelo}
+    \begin{justify}
+    Es un algoritmo que permite generar preguntas con sus respuestas correspondientes a partir de textos del tipo comprensión lectora a partir artículos, pasajes extraídos de libros, entre otros.
+    El algoritmo está construido en base a dos modelos de Hugging Face descritos a continuación:
+    \end{justify}
+    
+    \begin{itemize}
+	\item \textbf{t5-base-question-generator }[] \\
+	Es un modelo generador de preguntas sequence to sequence (seq2seq) que toma una respuesta como entrada y da como salida una pregunta, está basado en un modelo pre-entrenado t5-base []. %https://huggingface.co/t5-base
+	
+	Este es un modelo ajustado con conjuntos de datos de control de calidad como SQuAD , CoQA y MSMARCO. Fue entrenado durante 20 épocas sobre el conjunto de entrenamiento con taza de aprendizaje de 1e-3.
+	
+	\begin{itemize}
+	    \item \textbf{Uso:} El modelo toma respuestas concatenadas y el contexto como una secuencia de entrada y de este modo genera una oración de pregunta como secuencia de salida. El formato de entrada se organiza de la siguiente manera:
+	    
+    	    \begin{center}
+    	        \texttt{answer\_token <answer-phrase> context\_token  <context-from-text>}
+    	    \end{center}
+    	    
+    	    La secuencia de entrada se puede codificar y pasar directamente al método \texttt{generate()} del modelo. La manera de obtener mejores resultados es generar gran cantidad de preguntas y después realizar un filtro utilizando el evaluador QA (bert-base-cased-qa-evaluator).
+	
+	    \item \textbf{Limitaciones:} Las preguntas generadas pueden presentar sesgos y presentar incoherencia, si el contexto es excesivamente corto o si directamente no tiene contexto, o si la respuesta no coincide con el contexto.
+	\end{itemize}
+	
+	
+	
+	\item \textbf{bert-base-cased-qa-evaluator }[] \\
+	Es un modelo que toma como entrada un par de preguntas y respuestas para generar un valor resultante que representa la predicción sobre si el par de preguntas y respuestas son válidas o no. Está basado en el modelo pre-entrenado BERT base cased []. %https://huggingface.co/bert-base-cased
+	Este evaluador QA fue diseñado inicialmente para el modelo visto previamente y poder evaluar las preguntas generadas de dicho modelo. El conjunto de datos de entrenamiento fueron RACE, SQuAD , CoQA y MSMARCO.
+
+	 
+ 	\begin{itemize}
+	    \item \textbf{Uso:} El modelo sigue un formato basado en BertForSequenceClassification a diferencia de que se usa tanto pregunta y respuesta como las dos secuencias, el formato de entrada se organiza de la siguiente manera:
+	    
+    	    \begin{center}
+	            \texttt{[CLS] <question> [SEP] <answer> [SEP]}
+	        \end{center}
+    	    
+	    	 El token \texttt{CLS} significa clasificación y se interpone al principio del par de oración de ejemplo de entrada, de otra manera, el token \texttt{SEP} significa separador y se utiliza para separar oraciones para la siguiente tarea de predicción de oraciones.
+	
+	    \item \textbf{Limitaciones:} El modelo está entrenado para evaluar si una pregunta y una respuesta están relacionadas semánticamente, pero no puede determinar si una respuesta es efectivamente correcta o no.
+	\end{itemize}
+	
+\end{itemize}\par
+    
+
+    \subsubsection{Parámetros y uso}
+    
+    \begin{itemize}
+        \item Texto: Este parámetro puede ser pasado como argumento de línea de comando o como argumento de función \texttt{generate(\textbf{\textit{text}}, num\_questions=10)}. Es el contexto para la generación de preguntas, a partir del texto de entrada se extraen las entidades nombradas (NER).
+        
+        \item Número de preguntas: Este parámetro puede ser pasado como argumento de línea de comando o como argumento de función \texttt{generate(text, \textit{num\_questions=10})}. Cuando el número de preguntas es demasiado grande, puede suceder que el modelo no genere suficientes preguntas, el número de preguntas depende directamente de la longitud del texto de entrada.
+        Es importante denotar que la calidad de las preguntas puede reducir si el número de preguntas es grande, esto se debe a que, las preguntas pasan por el modelo evaluador y este devuelve las mejores preguntas.
+        
+        \item Estilo de preguntas: Este parámetro puede ser pasado como argumento de línea de comando o como argumento de función  \texttt{generate(text, num\_questions=10, \textbf{\textit{answer\_style=<style>}})}. Los estilos de preguntas pueden ser oraciones (\texttt{``sentences''}), de opción múltiple (\texttt{``multiple\_choice''}) o ambas (\texttt{``all''}).
+    \end{itemize}
+    
+    \subsubsection{Datos de entrenamiento}
+    \begin{itemize}
+        \item \textbf{RACE:} Es un conjunto de datos de comprensión lectora a gran escala con más de 28.000 pasajes y casi 100.000 preguntas.
+
+        \item \textbf{SQuAD:} Es un conjunto de datos de comprensión lectora, que consta de preguntas planteadas por los trabajadores de la red en un conjunto de artículos de Wikipedia, donde la respuesta a cada pregunta es un segmento de texto, o un intervalo , del pasaje de lectura correspondiente []. %https://rajpurkar.github.io/SQuAD-explorer/
+        
+        \item \textbf{CoQA:} Es un conjunto de datos a gran escala para la construcción de Sistemas de respuesta a preguntas conversacionales. 
+        
+        \item \textbf{MSMARCO:} Es un conjunto de datos a gran escala centrado en la comprensión de lectura automática, la respuesta a preguntas y la clasificación de pasajes, la extracción de frases clave y los estudios de búsqueda conversacional []. %https://microsoft.github.io/MSMARCO-Question-Answering/
+    \end{itemize}
+\end{document}

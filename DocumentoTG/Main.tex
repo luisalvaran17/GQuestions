@@ -1,0 +1,320 @@
+% Created by Anders Wettergreen Gundersen -----------------
+% 2021-01-13: Ownership transferred to Endre Bjørndal, Programme Manager MScEBA
+
+\documentclass[spanish, a4paper, 12pt, twoside, openany]{book} 
+
+% -------------- Setup, do not change these ---------------
+\usepackage{textcomp}
+\usepackage[T1]{fontenc, url}
+\usepackage[utf8]{inputenc}
+\usepackage{titlesec}
+\setcounter{secnumdepth}{4}
+\usepackage{multirow}
+\usepackage{minted} % Code highlighting
+\usepackage{adjustbox}
+\usepackage{graphicx}
+\usepackage{rotating}
+\usepackage{minitoc}
+\usepackage{amsmath, amssymb, amsthm} % Mathematical packages
+\usepackage{parskip} % Removing indenting in new paragraphs
+\urlstyle{sf}
+\usepackage{color}
+\usepackage{subcaption} 
+\usepackage{pdflscape}
+\usepackage{appendix}
+\usepackage{chngcntr} % needed for correct table numbering
+\counterwithin{table}{section} % numbering of tables 
+\counterwithin{figure}{section} % numbering of figures
+\numberwithin{equation}{section} % numbering of equations
+\hyphenpenalty=100000 % preventing splitting of words
+\sloppy 
+\raggedbottom 
+\usepackage{xparse,nameref}
+\usepackage[bottom]{footmisc} % Fotnotes are fixed to bottom of page
+\usepackage{lipsum} % For genereating dummy text
+\usepackage{amsmath}
+\usepackage{color,fix-cm}
+\usepackage{latexsym}
+\usepackage{pict2e}
+\usepackage{wasysym}
+\usepackage{tikz}
+\usepackage{comment}
+% --------- You can edit from this point on --------
+
+
+% ----- Appearance and language ----- 
+\usepackage[spanish]{babel} % document language
+\graphicspath{{Images/}{../Images/}} % path to images
+\usepackage[margin=2.54cm]{geometry} % sets margins for the document
+\usepackage{setspace}
+\linespread{1.2} % line spread for the document
+\usepackage{microtype}
+\usepackage[hidelinks]{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+
+% ----- Sections -----
+\titleformat*{\section}{\LARGE\bfseries} % \section heading
+\titleformat*{\subsection}{\Large\bfseries} % \subsection heading
+\titleformat*{\subsubsection}{\large\bfseries} % \subsubsection heading
+% next three lines creates the \paragraph command with correct heading 
+\titleformat{\paragraph}
+{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+\titlespacing*{\paragraph}
+{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+
+
+% ----- Figures and tables ----- 
+\usepackage{fancyhdr}
+\usepackage{subfiles}
+\usepackage{array}
+\usepackage[rightcaption]{sidecap}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage[labelfont=bf]{caption} % bold text for captions
+\usepackage[para]{threeparttable} % fancy tables, check these before you use them
+\usepackage{url}
+\usepackage{hhline}
+
+\usepackage{blindtext}
+
+% ----- Sources -----
+\bibliographystyle{apaeng} % citation and reference list style
+\def\biblio{\clearpage\bibliographystyle{apaeng}\bibliography{References.bib}} % defines the \biblio command used for referencing in subfiles - DO NOT CHANGE
+
+
+% ----- Header and footer -----
+\pagestyle{fancy}
+\fancyhead[RO,LE]{\thepage} % page number on right for odd pages and left for even pages in the header
+\fancyhead[RE,LO]{\nouppercase{\rightmark}} % chapter name and number on the right for even pages and left for odd pages in the header
+%\renewcommand{\headrulewidth}{0pt} % sets thickness of header line
+\fancyfoot{} % removes page number on bottom of page
+
+
+% ----- Header of the frontpage ----- 
+\fancypagestyle{frontpage}{
+	\fancyhf{}
+	\renewcommand{\headrulewidth}{0pt}
+	\renewcommand{\footrulewidth}{0pt}
+	\vspace*{1\baselineskip}
+	
+	\fancyhead[C]{ \includegraphics[width=1in]{image1.png}} % 
+}
+\usepackage{biblatex} %Imports biblatex package
+\usepackage{pdfpages}
+
+\addbibresource{References.bib} % adds the references to the document
+% ----- Document starts here ----- 
+\begin{document}
+\def\biblio{} % resets the biblio command, if not here a new reference list will be produced after every chapter
+\dominitoc % Initialization
+
+%\pagenumbering{gobble} % suppress page numbering
+%\thispagestyle{empty} % suppress header
+
+%------------------------------------- PORTADA --------------------------------------------
+\subfile{Chapters/00Chapter/Portadas}
+
+%------------------------------------- JURADOS --------------------------------------------
+%\newpage
+\newpage
+\phantomsection
+\subfile{Chapters/00Chapter/Jurados}
+
+\restoregeometry % restores the margins after frontpage
+%\nocite{*} % uncomment if you want all sources to be printed in the reference list, including the ones which are not cited in the text 
+
+
+\pagenumbering{roman} % starting roman page numbering
+%\setcounter{page}{4} % sets pagecounter to 1
+%------------------------------------- AGRADECIMIENTOS --------------------------------------------
+\newpage
+\phantomsection
+\addcontentsline{toc}{section}{Agradecimientos}
+\section*{Agradecimientos}
+\subfile{Chapters/00Chapter/Agradecimientos}
+
+%------------------------------------- TABLA DE CONTENIDO ----------------------------------------
+\newpage
+\phantomsection
+{\setstretch{1.0} % line spacing for the list
+\addcontentsline{toc}{section}{Índice general}
+\tableofcontents
+}
+
+{\setstretch{1.0} 
+\phantomsection
+\phantomsection
+\addcontentsline{toc}{section}{Índice de figuras}
+\listoffigures}
+
+{\setstretch{1.0} 
+\phantomsection
+\addcontentsline{toc}{section}{Índice de cuadros}
+\listoftables}
+
+%------------------------------------- RESUMEN --------------------------------------------
+\newpage
+\phantomsection
+\thispagestyle{empty} % suppress header
+\addcontentsline{toc}{section}{Abstract}
+\section*{Abstract}
+\subfile{Chapters/00Chapter/Abstract}
+
+\newpage
+\phantomsection
+\thispagestyle{empty} % suppress header
+\addcontentsline{toc}{section}{Resumen}
+\section*{Resumen}
+\subfile{Chapters/00Chapter/Resumen}
+
+%------------------------------------- INTRODUCCION --------------------------------------------
+\newpage
+\phantomsection
+\thispagestyle{empty} % suppress header
+\addcontentsline{toc}{section}{Introducción}
+\section*{Introducción}
+\subfile{Chapters/01ChapterIntroduccion/Introduccion}
+
+\newpage
+\addtocontents{toc}{\protect\setcounter{tocdepth}{4}} % sets depth of toc to 4, 1.1.1.1
+\pagenumbering{arabic} % Starting arabic page numbering
+%\setcounter{page}{1} % sets pagecounter to 1
+
+%------------------------------Capitulo UNO: Introducción-------------------------------------------
+\chapter{Contexto y objetivos}
+\minitoc% Creating an actual minitoc
+\clearpage % clears the page after the chapter is finished
+
+%Planteamiento del problema
+\subfile{Chapters/01ChapterIntroduccion/Problema}
+
+%Formulación del problema
+\subfile{Chapters/01ChapterIntroduccion/Formulacion}
+
+%Objetivos
+\subfile{Chapters/01ChapterIntroduccion/Objetivos}
+
+%Antecedentes
+\subfile{Chapters/01ChapterIntroduccion/Antecedentes}
+
+%Justificacion
+\subfile{Chapters/01ChapterIntroduccion/Justificacion}
+
+%Resultados esperados
+\subfile{Chapters/01ChapterIntroduccion/ResultadosEsperados}
+
+%Informacion capitulos
+\subfile{Chapters/01ChapterIntroduccion/InformacionCapitulos}
+
+%----------------------------- Capitulo DOS: Marco referencial --------------------------------
+% New Chapter
+\chapter{Marco referencial}
+\minitoc% Creating an actual minitoc
+\clearpage
+
+%Marco de antecedentes
+\subfile{Chapters/02ChapterMarco/MarcoAntecentes}
+
+%Marco teorico
+\subfile{Chapters/02ChapterMarco/MarcoTeorico}
+
+%Marco conceptual
+\subfile{Chapters/02ChapterMarco/MarcoConceptual}
+
+%----------------------------- Capitulo TRES: Recoleccion --------------------------------
+% New Chapter
+\chapter{Recolección de información}
+\minitoc% Creating an actual minitoc
+\subfile{Chapters/03ChapterRecoleccion/03Recoleccion}
+\clearpage
+
+%----------------------------- Capitulo CUATRO: Modelamiento --------------------------------
+\chapter{Modelamiento}
+\minitoc% Creating an actual minitoc
+\begin{justify}
+En este capítulo se presenta detalles sobre los algoritmos seleccionados y mencionados en el capítulo 3, detalles como preparación de datos, entrenamiento, evaluación, implementación, despliegue, entre otros.
+
+La palabra algoritmo, modelo y sistema en este capítulo se utilizan indistintamente.
+\end{justify}
+
+%Generacion texto
+\subfile{Chapters/04ChapterModelamiento/GeneracionTexto}
+
+\section{Preguntas}
+\begin{justify}
+En esta sección se describe aspectos importantes del algoritmo de generación de preguntas seleccionado. 
+
+El algoritmo de código abierto seleccionado [] es capaz de realizar dos tareas (generación de preguntas y evaluación de preguntas para mayor calidad), en la sección 4.2.1.1 se describe el generador de preguntas y el evaluador de preguntas, a pesar de presentarse por separado, es importante denotar que ambas tareas se encuentran integradas en el algoritmo gracias a Adam Montgomerie, Ingeniero de Machine Learning; esto a través de dos modelos entrenados y desplegados en Hugging Face Transformers construidos por Adam Montgomerie [].
+\end{justify}
+
+%Generacion preguntas
+\subfile{Chapters/04ChapterModelamiento/GeneracionPreguntas}
+
+%Adaptamiento de modelos
+\subfile{Chapters/04ChapterModelamiento/AdaptacionModelos}
+
+%Despliegue de modelos
+\subfile{Chapters/04ChapterModelamiento/Despliegue}
+\clearpage
+
+%----------------------------- Capitulo CINCO: Desarrollo web ------------------------------
+\chapter{Desarrollo del prototipo web}
+\minitoc% Creating an actual minitoc
+
+\begin{justify}
+En este capítulo se presenta todo el proceso de desarrollo del prototipo web con los artefactos de software, además, se hace referencia a la metodología de desarrollo, las tecnologías usadas, el diseño, los detalles de la implementación y otras consideraciones importantes.  
+\end{justify}
+
+%Ingenieria
+\subfile{Chapters/05ChapterDesarrollo/Ingenieria}
+
+%Descripcion del sistema
+\subfile{Chapters/05ChapterDesarrollo/DescripcionSistema}
+
+%Implementacion
+\subfile{Chapters/05ChapterDesarrollo/Implementacion}
+\clearpage
+
+%----------------------------- Capitulo SEIS: Pruebas  --------------------------------
+\chapter{Pruebas}
+\minitoc% Creating an actual minitoc
+\begin{justify}
+En este capítulo se presentan las pruebas realizadas al Prototipo Web GQuestions, en el backend se realizaron pruebas unitarias con Django TestCase y en el frontend se realizaron pruebas de regresión con Selenium WebDriver para comprobar el correcto funcionamiento. También se presentan las pruebas de usabilidad que se realizaron a través de encuestas y los resultados obtenidos.
+\end{justify}
+
+%Pruebas unitarias
+\subfile{Chapters/06ChapterPruebas/PruebasUnitarias}
+
+
+%Pruebas de regresión
+\subfile{Chapters/06ChapterPruebas/PruebasRegresion}
+
+%Pruebas de usabilidad
+\subfile{Chapters/06ChapterPruebas/PruebasUsabilidad}
+\clearpage
+
+%----------------------------- Capitulo SIETE: Conclusiones --------------------------------
+\chapter{Conclusiones y trabajos futuros}
+    \subfile{Chapters/07ChapterFinal/07Conclusion_FutureWork}
+\clearpage
+
+%---------------------------------- REFERENCIAS ----------------------------------------------
+\newpage
+\phantomsection
+\renewcommand\refname{References} % name for the reference list
+{\setstretch{1.4}% linespacing for the references
+\addcontentsline{toc}{chapter}{Referencias} % to change the name of the references in the TOC
+\printbibliography %Prints bibliography
+}
+
+%------------------------------------- ANEXOS ----------------------------------------------
+\newpage
+\phantomsection
+\thispagestyle{empty} % suppress header
+\addcontentsline{toc}{chapter}{Anexos} % to change the name of the references in the TOC
+\section*{Anexos}
+\subfile{Annexes/Anexos}
+
+\thispagestyle{empty} % suppress header
+\end{document}

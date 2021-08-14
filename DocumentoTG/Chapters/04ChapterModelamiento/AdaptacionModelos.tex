@@ -1,0 +1,75 @@
+\documentclass[../Main.tex]{subfiles}
+\begin{document}
+
+    \section{Adaptación e integración}
+        \begin{justify}
+        En esta sección se presentan detalles de la adaptación o modificación de los algoritmos seleccionados, respondiendo a uno de los objetivos principales del proyecto actual.
+        
+        La generación de texto es una tarea que se decidió incluir en el prototipo web para utilizar completamente Procesamiento de Lenguaje Natural, tanto texto como preguntas.
+        El texto generado por GPT-2 es una de las entradas al algoritmo de generación de preguntas y respuestas (se complementan).
+        \end{justify}
+    
+        \subsection{Generación de texto}
+            \begin{justify}
+            La plataforma Hugging Face ofrece una funcionalidad llamada API de inferencia acelerada (Accelerated Inference API) que permite integrar modelos previamente entrenados (o módelos propios privados) y desplegados en la plataforma a través de solicitudes HTTP simples, la inferencia que ofrecen es de 2 a 10 veces más rápida dependiendo del plan.
+            
+            En el proyecto se utilizó esta API para realizar peticiones HTTP al modelo GPT-2 con el plan gratuito, este plan permite hasta 30.000 caracteres de entrada por mes y utiliza CPU acelerada para estas tareas, suficiente para el propósito del proyecto. Para el uso de GPU es necesario un plan de pago de inicio o empresarial.
+            
+            Para empezar a hacer uso de esta API fue necesario crear una cuenta en la plataforma y posteriormente obtener un token que se envía en la solicitud para aprovechar funciones de aceleración.
+            Con el plan gratuito cada respuesta de solicitud de un texto varía entre 8 y 15 segundos dependiendo de la longitud del texto.
+            \end{justify}
+            
+            \begin{justify}
+            En el cuerpo de solicitud se debe enviar el JSON de la siguiente forma:
+            
+            \begin{center}
+                \texttt{\{``inputs": <sentence>, "parameters": {"max\_length": <length>, "num\_return\_sequences":<number>\}}}
+            \end{center}
+            
+            \begin{itemize}
+                \item Inputs: Inicio de oración, a partir de esta entrada se genera las demás palabras que conformarían el texto.
+                
+                \item Parameters: Como opciones acepta el número máximo de longitud que tendrá el texto generado y el número de textos que genera.
+                El número máximo de longitud no puede sobrepasar el valor de 500 palabras, es una limitación por parte de la API que se tuvo en cuenta en el desarrollo del prototipo web.
+            \end{itemize}
+            
+            La petición se debe realizar al siguiente dominio del servidor:
+            
+            \begin{center}
+                \texttt{https://api-inference.huggingface.co/models/gpt2}
+            \end{center}
+            
+            El enlace debe tener un formato donde el último elemento debe ser el nombre del modelo desplegado en Hugging Face (en este caso .../gpt2).
+            \end{justify}
+            
+            Como se mencionó hace poco, en la solicitud HTTP se debe enviar un parámetro inicio de oración \texttt{<sentence>} para generar el texto. Fue necesario tener un conjunto de datos de oraciones como entrada al momento de generar los textos desde el prototipo web, para esto se realizó lo siguiente:
+            
+            \begin{enumerate}
+                \item \textbf{Selección de conjunto de datos (dataset):} En este paso lo que se hizo fue revisar diferentes datasets que tuvieran textos de diversas áreas de interés (Ej: \textit{Computer programming, algorithm design, operating systems, etc}). Tras realizar la revisión de los diferentes datasets se escogió el dataset Web of Science (WOS) [] que es un conjunto de datos de clasificación de documentos que contiene 46,985 documentos con 134 categorías que incluyen 7 categorías principales.
+                % referencia WoS https://huggingface.co/datasets/web_of_science
+                
+                \item \textbf{Selección de áreas o categorías:} En este paso se realizó un proceso sencillo utilizando Microsoft Excel, se utilizaron filtros para seleccionar manualmente las áreas netamente relacionadas a Ingeniería de Sistemas (se descartaron áreas de salud, política, otros), esto se debe a que, el proyecto está enfocado a un curso del programa de Ingeniería de Sistemas.
+                Algunas de las áreas seleccionadas fueron: Data Structures, Parallel computing, Image processing, Machine learning, Problem-solving, Relational databases, Distributed computing, Structured storage, Computer vision, Operating systems, y muchos más (26). El resultado de esta selección se exportó en formato CSV y fueron aproximadamente 11.000 de los 46.985 textos iniciales.
+                
+                \item \textbf{Limpieza de datos y extracción de oraciones:} En este paso se procedió a escribir un programa en Python que recibiera el CSV filtrado con el fin de eliminar textos que posiblemente tuvieran palabras inadecuadas y textos que iniciaran con enumeración (ej. ``1. Machine learning is ...'').
+                Una vez eliminados los textos inadecuados se procedió a sacar las oraciones de los textos originales, se redujo cada texto a sus diez primeras palabras (oración \texttt{<sentence>}) y se exportó en formato JSON 5.000 oraciones que serían las entradas al momento de generar textos desde el prototipo web con Javascript.
+            \end{enumerate}
+            
+        \subsection{Generación de preguntas y respuestas}
+            \begin{justify}
+            A diferencia de la generación de texto, el algoritmo de generación de preguntas y respuestas se tuvo que realizar un proceso más laborioso debido a que no estaba en ninguna plataforma que ofreciera el servicio API directamente. De este modo, se procedió a crear una API REST utilizando Flask que es un framework web para Python que proporciona funcionalidad para crear aplicaciones web, incluida la gestión de solicitudes HTTP.
+            
+            Para obtener una respuesta a la solicitud en un formato adecuado para consumir los datos, se modificó uno de los archivos del algoritmo (questiongenerator.py) y se codificó para obtener una salida del tipo:
+            
+            \begin{center}
+            \textit{<insertar ejemplo respuesta API QA>}
+            \end{center}
+            
+            Se creó un proyecto por separado para este algoritmo, la descarga de este algoritmo incluye la descarga de los dos modelos que utiliza para su funcionamiento, es importante mencionar que por esta razón el tamaño en disco de los modelos era inicialmente grande, alrededor de 8GB, esto suponía un problema para el despliegue visto más adelante, sin embargo, se logró reducir a un tamaño en disco de 1.3GB utilizando tuberías (pipelines) de Hugging Face. Las tuberías son una forma excelente y fácil de usar modelos para inferencia. Estas tuberías o pipelines son objetos que abstraen la mayor parte del código complejo de la biblioteca, ofreciendo una API simple dedicada a varias tareas, incluido el reconocimiento de entidades nombradas, el modelado de lenguaje enmascarado, el análisis de sentimientos, la extracción de características y la respuesta a preguntas []. %https://huggingface.co/transformers/main_classes/pipelines.html 
+            \end{justify}
+            
+            \begin{justify}
+            En cuanto a rendimiento la ejecución de este algoritmo es de alta exigencia computacional, por lo que el autor recomienda el uso de GPU. Por limitaciones computacionales las pruebas de API tuvieron que hacerse en CPU y los tiempos de respuesta iban de 1 a 2 minutos por generación de 5 preguntas con longitud de texto de 350 palabras aproximadamente, en GPU esta misma tarea toma de 7 a 10 segundos. Para pruebas generales (no API) se utilizó Google Colab que permite aprovechar recursos computacionales como el uso gratuito de GPU.
+            \end{justify}
+            
+\end{document}
