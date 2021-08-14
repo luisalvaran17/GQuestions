@@ -1,11 +1,8 @@
--f https://download.pytorch.org/whl/torch_stable.html
-
-en_core_web_sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.3.1/en_core_web_sm-2.3.1.tar.gz
-numpy==1.19.5
-sacremoses==0.0.43
-sentencepiece==0.1.94
-spacy==2.3.1
-tokenizers==0.9.4
-torch==1.8.1+cpu 
-torchvision==0.9.1+cpu
-transformers==4.1.1
+Django==                    3.2.4
+django-allauth==            0.44.0
+django-clear-cache==        0.3
+django-cors-headers==       3.7.0
+django-rest-auth==          0.9.5
+django-rest-knox==          4.1.0
+django-rest-passwordreset== 1.2.0
+djangorestframework==       3.12.4

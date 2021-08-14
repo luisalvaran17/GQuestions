@@ -7,5 +7,5 @@ El archivo main.py contiene el código para crear la API con Flask
 ## Ejecución
 - Instalar los requeriments.txt.
 - Ejecutar el archivo download_models.py con las indicaciones que se encuentran comentadas en el código (Descargará aprox. 1.3GB en el directorio raíz).
-- Utilizar Docker para crear una imagen (contenedor).
-- Realizar llamadas API (el procesamiento se realiza de manera local).
+- Utilizar Docker para crear una imagen (contenedor) y ejecutarla.
+- Realizar llamadas API al enlace que sale al ejecutar el contenedor (el procesamiento se realiza de manera local).
