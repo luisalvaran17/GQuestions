@@ -1,6 +1,3 @@
-% Created by Anders Wettergreen Gundersen -----------------
-% 2021-01-13: Ownership transferred to Endre Bjørndal, Programme Manager MScEBA
-
 \documentclass[spanish, a4paper, 12pt, twoside, openany]{book} 
 
 % -------------- Setup, do not change these ---------------
@@ -100,7 +97,11 @@
 	
 	\fancyhead[C]{ \includegraphics[width=1in]{image1.png}} % 
 }
-\usepackage{biblatex} %Imports biblatex package
+\usepackage[
+backend=biber,
+style=numeric,
+sorting=none
+]{biblatex} %Imports biblatex package
 \usepackage{pdfpages}
 
 \addbibresource{References.bib} % adds the references to the document
@@ -149,8 +150,9 @@
 \listoffigures}
 
 {\setstretch{1.0} 
+\renewcommand{\listtablename}{Índice de tablas}
 \phantomsection
-\addcontentsline{toc}{section}{Índice de cuadros}
+\addcontentsline{toc}{section}{Índice de tablas}
 \listoftables}
 
 %------------------------------------- RESUMEN --------------------------------------------
@@ -183,8 +185,8 @@
 
 %------------------------------Capitulo UNO: Introducción-------------------------------------------
 \chapter{Contexto y objetivos}
-\minitoc% Creating an actual minitoc
-\clearpage % clears the page after the chapter is finished
+%\minitoc% Creating an actual minitoc
+%\clearpage % clears the page after the chapter is finished
 
 %Planteamiento del problema
 \subfile{Chapters/01ChapterIntroduccion/Problema}
@@ -210,8 +212,8 @@
 %----------------------------- Capitulo DOS: Marco referencial --------------------------------
 % New Chapter
 \chapter{Marco referencial}
-\minitoc% Creating an actual minitoc
-\clearpage
+%\minitoc% Creating an actual minitoc
+%\clearpage
 
 %Marco de antecedentes
 \subfile{Chapters/02ChapterMarco/MarcoAntecentes}
@@ -225,13 +227,13 @@
 %----------------------------- Capitulo TRES: Recoleccion --------------------------------
 % New Chapter
 \chapter{Recolección de información}
-\minitoc% Creating an actual minitoc
+%\minitoc% Creating an actual minitoc
+%\clearpage
 \subfile{Chapters/03ChapterRecoleccion/03Recoleccion}
-\clearpage
 
 %----------------------------- Capitulo CUATRO: Modelamiento --------------------------------
 \chapter{Modelamiento}
-\minitoc% Creating an actual minitoc
+%\minitoc% Creating an actual minitoc
 \begin{justify}
 En este capítulo se presenta detalles sobre los algoritmos seleccionados y mencionados en el capítulo 3, detalles como preparación de datos, entrenamiento, evaluación, implementación, despliegue, entre otros.
 
@@ -245,7 +247,7 @@ La palabra algoritmo, modelo y sistema en este capítulo se utilizan indistintam
 \begin{justify}
 En esta sección se describe aspectos importantes del algoritmo de generación de preguntas seleccionado. 
 
-El algoritmo de código abierto seleccionado [] es capaz de realizar dos tareas (generación de preguntas y evaluación de preguntas para mayor calidad), en la sección 4.2.1.1 se describe el generador de preguntas y el evaluador de preguntas, a pesar de presentarse por separado, es importante denotar que ambas tareas se encuentran integradas en el algoritmo gracias a Adam Montgomerie, Ingeniero de Machine Learning; esto a través de dos modelos entrenados y desplegados en Hugging Face Transformers construidos por Adam Montgomerie [].
+El algoritmo de código abierto seleccionado \cite{45} es capaz de realizar dos tareas (generación de preguntas y evaluación de preguntas para mayor calidad), en la sección 4.2.1.1 se describe el generador de preguntas y el evaluador de preguntas, a pesar de presentarse por separado, es importante denotar que ambas tareas se encuentran integradas en el algoritmo gracias a Adam Montgomerie, Ingeniero de Machine Learning; esto a través de dos modelos entrenados y desplegados en Hugging Face Transformers construidos por Adam Montgomerie.
 \end{justify}
 
 %Generacion preguntas
@@ -260,7 +262,7 @@ El algoritmo de código abierto seleccionado [] es capaz de realizar dos tareas 
 
 %----------------------------- Capitulo CINCO: Desarrollo web ------------------------------
 \chapter{Desarrollo del prototipo web}
-\minitoc% Creating an actual minitoc
+%\minitoc% Creating an actual minitoc
 
 \begin{justify}
 En este capítulo se presenta todo el proceso de desarrollo del prototipo web con los artefactos de software, además, se hace referencia a la metodología de desarrollo, las tecnologías usadas, el diseño, los detalles de la implementación y otras consideraciones importantes.  
@@ -278,7 +280,7 @@ En este capítulo se presenta todo el proceso de desarrollo del prototipo web co
 
 %----------------------------- Capitulo SEIS: Pruebas  --------------------------------
 \chapter{Pruebas}
-\minitoc% Creating an actual minitoc
+%\minitoc% Creating an actual minitoc
 \begin{justify}
 En este capítulo se presentan las pruebas realizadas al Prototipo Web GQuestions, en el backend se realizaron pruebas unitarias con Django TestCase y en el frontend se realizaron pruebas de regresión con Selenium WebDriver para comprobar el correcto funcionamiento. También se presentan las pruebas de usabilidad que se realizaron a través de encuestas y los resultados obtenidos.
 \end{justify}

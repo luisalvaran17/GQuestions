@@ -1,0 +1,7 @@
+# Preparación de dataset WoS (Web of Science) para peticiones a GPT-2 desde GQuestions
+## Descripción
+Este proyecto se creó para extraer oraciones (sentences) a partir de textos pertenecientes a diferentes áreas (ej. Salud, IA) del dataset WoS, se lee el archivo CSV previamente preparado en excel (se eliminaron las áreas/temas que no eran de interés con filtros, ej. psicología, salud), posteriormente se tuvo que cortar cada uno de los textos (aprox. 12k textos) en las ~10 primeras palabras para obtener oraciones, después se realizó una limpieza a las oraciones (aquellas que iniciaran con número tipo "1. ..." o con símbolos tipo "/"). Finalmente se exportó un archivo en formato JSON con 5.000 oraciones correspondientes a los temas de interés, este JSON es utilizado en el Frontend para enviar oraciones al azar o del tema de interés escogido por el docente como una de las entradas en las peticiones realizar a la API de GPT-2 en Hugging Face. Sí se van a generar 30 textos entonces se escogen 30 oraciones del JSON de manera aleatoria y se envían como entrada.
+
+El propósito de tener un pequeño dataset con oraciones de temas de interés se debe a que, el algoritmo de generación de texto (GPT-2) recibe en una de sus entradas una oración para generar texto a partir de allí con la longitud deseada.
+
+El archivo main.py contiene el código para la extracción de oraciones (sentences), el archivo Data_WoS.csv es el dataset preprocesado en excel y el data.json es el archivo generado después de realizar el preprocesamiento (extracción de oraciones).

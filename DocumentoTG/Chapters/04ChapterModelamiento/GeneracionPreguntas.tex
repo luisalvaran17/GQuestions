@@ -9,8 +9,8 @@
     \end{justify}
     
     \begin{itemize}
-	\item \textbf{t5-base-question-generator }[] \\
-	Es un modelo generador de preguntas sequence to sequence (seq2seq) que toma una respuesta como entrada y da como salida una pregunta, está basado en un modelo pre-entrenado t5-base []. %https://huggingface.co/t5-base
+	\item \textbf{t5-base-question-generator} \cite{47}\\
+	Es un modelo generador de preguntas sequence to sequence (seq2seq) que toma una respuesta como entrada y da como salida una pregunta, está basado en un modelo pre-entrenado t5-base \cite{48}. %https://huggingface.co/t5-base
 	
 	Este es un modelo ajustado con conjuntos de datos de control de calidad como SQuAD , CoQA y MSMARCO. Fue entrenado durante 20 épocas sobre el conjunto de entrenamiento con taza de aprendizaje de 1e-3.
 	
@@ -21,15 +21,15 @@
     	        \texttt{answer\_token <answer-phrase> context\_token  <context-from-text>}
     	    \end{center}
     	    
-    	    La secuencia de entrada se puede codificar y pasar directamente al método \texttt{generate()} del modelo. La manera de obtener mejores resultados es generar gran cantidad de preguntas y después realizar un filtro utilizando el evaluador QA (bert-base-cased-qa-evaluator).
+    	    La secuencia de entrada se puede codificar y pasar directamente al método \texttt{generate()} del modelo. La manera de obtener mejores resultados es generar gran cantidad de preguntas y después realizar un filtro utilizando el evaluador QA (bert-base-cased-qa-evaluator \cite{49}).
 	
 	    \item \textbf{Limitaciones:} Las preguntas generadas pueden presentar sesgos y presentar incoherencia, si el contexto es excesivamente corto o si directamente no tiene contexto, o si la respuesta no coincide con el contexto.
 	\end{itemize}
 	
 	
 	
-	\item \textbf{bert-base-cased-qa-evaluator }[] \\
-	Es un modelo que toma como entrada un par de preguntas y respuestas para generar un valor resultante que representa la predicción sobre si el par de preguntas y respuestas son válidas o no. Está basado en el modelo pre-entrenado BERT base cased []. %https://huggingface.co/bert-base-cased
+	\item \textbf{bert-base-cased-qa-evaluator} \cite{49} \\
+	Es un modelo que toma como entrada un par de preguntas y respuestas para generar un valor resultante que representa la predicción sobre si el par de preguntas y respuestas son válidas o no. Está basado en el modelo pre-entrenado BERT base cased \cite{50}. %https://huggingface.co/bert-base-cased
 	Este evaluador QA fue diseñado inicialmente para el modelo visto previamente y poder evaluar las preguntas generadas de dicho modelo. El conjunto de datos de entrenamiento fueron RACE, SQuAD , CoQA y MSMARCO.
 
 	 
@@ -63,10 +63,10 @@
     \begin{itemize}
         \item \textbf{RACE:} Es un conjunto de datos de comprensión lectora a gran escala con más de 28.000 pasajes y casi 100.000 preguntas.
 
-        \item \textbf{SQuAD:} Es un conjunto de datos de comprensión lectora, que consta de preguntas planteadas por los trabajadores de la red en un conjunto de artículos de Wikipedia, donde la respuesta a cada pregunta es un segmento de texto, o un intervalo , del pasaje de lectura correspondiente []. %https://rajpurkar.github.io/SQuAD-explorer/
+        \item \textbf{SQuAD:} Es un conjunto de datos de comprensión lectora, que consta de preguntas planteadas por los trabajadores de la red en un conjunto de artículos de Wikipedia, donde la respuesta a cada pregunta es un segmento de texto, o un intervalo , del pasaje de lectura correspondiente \cite{41}. %https://rajpurkar.github.io/SQuAD-explorer/
         
         \item \textbf{CoQA:} Es un conjunto de datos a gran escala para la construcción de Sistemas de respuesta a preguntas conversacionales. 
         
-        \item \textbf{MSMARCO:} Es un conjunto de datos a gran escala centrado en la comprensión de lectura automática, la respuesta a preguntas y la clasificación de pasajes, la extracción de frases clave y los estudios de búsqueda conversacional []. %https://microsoft.github.io/MSMARCO-Question-Answering/
+        \item \textbf{MSMARCO:} Es un conjunto de datos a gran escala centrado en la comprensión de lectura automática, la respuesta a preguntas y la clasificación de pasajes, la extracción de frases clave y los estudios de búsqueda conversacional \cite{51}. %https://microsoft.github.io/MSMARCO-Question-Answering/
     \end{itemize}
 \end{document}

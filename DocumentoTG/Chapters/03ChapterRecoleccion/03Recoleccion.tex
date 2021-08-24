@@ -97,7 +97,7 @@ De acuerdo a la relevancia de cada documento se le ha asignado un valor de uno (
 \end{figure}
 
 \begin{justify}
-Entre los más relevantes se encuentra BERT (Bidirectional Encoder Representations from Transformers), una técnica de aprendizaje automático basada en Transformer para la formación previa del Procesamiento del Lenguaje Natural (PLN) desarrollada por Google []. Se puede evidenciar que la técnica BERT está presente en los documentos considerados más relevantes y en una cantidad importante de ellos, esto se debe a que los resultados obtenidos en los experimentos realizados por los autores de los artículos son prometedores.
+Entre los más relevantes se encuentra BERT (Bidirectional Encoder Representations from Transformers), una técnica de aprendizaje automático basada en Transformer para la formación previa del Procesamiento del Lenguaje Natural (PLN) desarrollada por Google. Se puede evidenciar que la técnica BERT está presente en los documentos considerados más relevantes y en una cantidad importante de ellos, esto se debe a que los resultados obtenidos en los experimentos realizados por los autores de los artículos son prometedores.
 \end{justify}
 
 \begin{justify}
@@ -110,38 +110,39 @@ En cada documento analizado se logró recopilar las diferentes técnicas de Proc
 \end{justify}
 
 \begin{itemize}
-	\item \textbf{Tokenization:} La tokenización es el proceso de demarcar y posiblemente clasificar secciones de una cadena de caracteres de entrada. Los tokens resultantes luego se pasan a otra forma de procesamiento. El proceso se puede considerar una subtarea de analizar la entrada [].\par
+	\item \textbf{Tokenization:} La tokenización consiste esencialmente en dividir una frase, oración, párrafo o un documento de texto completo en unidades más pequeñas, como palabras o términos individuales. Cada una de estas unidades más pequeñas se llama tokens \cite{34}.\par
+	
+	\item \textbf{Normalization:} Un paso de preprocesamiento que se pasa por alto es la normalización del texto. La normalización de texto es el proceso de transformar un texto en una forma canónica (estándar). Por ejemplo, la palabra "gooood" y "gud" se puede transformar en "good", su forma canónica \cite{35}. \par
 
-	\item \textbf{NLP Lower-Case}\par
+	\item \textbf{StopWords Pre-Processing:} Las palabras vacías son un conjunto de palabras de uso común en un idioma. Ejemplos de palabras vacías en inglés son "a", "the", "is", "are", etc. La intuición detrás del uso de palabras vacías es que, al eliminar las palabras con poca información del texto y así centrarse en las palabras importantes \cite{35}. \par
 
-	\item \textbf{StopWords Pre-Processing:} Palabras vacías es el nombre que reciben las palabras sin significado como artículos, pronombres, preposiciones, etc. que son filtradas antes o después del procesamiento de datos en lenguaje natural []. \par
+    \item \textbf{Stemming:} Es el proceso de reducir la inflexión de las palabras (ej. troubled, troubles) a su forma raíz  (ej. trouble). La "raíz" en este caso puede no ser una palabra raíz real, sino simplemente una forma canónica de la palabra original \cite{35}. \par
+    
+    \item \textbf{Lemmatization:} La lematización en la superficie es muy similar al stemming, donde el objetivo es eliminar las inflexiones y asignar una palabra a su forma raíz. La única diferencia es que la lematización intenta hacerlo de la manera adecuada. No solo corta cosas, en realidad transforma las palabras en la raíz real \cite{35}. \par
+    
+    \item \textbf{StopWords Pre-Processing:} Palabras vacías es el nombre que reciben las palabras sin significado como artículos, pronombres, preposiciones, etc. que son filtradas antes o después del procesamiento de datos en lenguaje natural \cite{35}. \par
+    
+    \item \textbf{PoS Tagging (part-of-speech tagging):} Es el proceso de marcar una palabra en un texto (corpus) como correspondiente a una parte particular del discurso, basado tanto en su definición como en su contexto \cite{36}. \par
 
-    \item \textbf{Stemming:} Cortar el final o el comienzo de una palabra, teniendo en cuenta una lista de prefijos y sufijos comunes que se pueden encontrar en una palabra flexionada []. \par
+    \item \textbf{Term Frequency:} Frecuencia de término (TF) significa la frecuencia con la que aparece un término en un documento. En el contexto del lenguaje natural, los términos corresponden a palabras o frases. Pero los términos también pueden representar cualquier símbolo en el texto. Se trata de cómo lo defines. La frecuencia de término se usa comúnmente en tareas de minería de textos, aprendizaje automático y recuperación de información \cite{37}. \par
     
-    \item \textbf{Lemmatization:} Generalmente se refiere a hacer las cosas correctamente con el uso de un vocabulario y análisis morfológico de palabras, normalmente con el objetivo de eliminar solo las terminaciones flexivas y devolver la forma base o de diccionario de una palabra, lo que se conoce como lema []. \par
+    % https://towardsdatascience.com/word-embeddings-for-nlp-5b72991e01d4
+    \item \textbf{Word Embedding:} La incrustación de palabras es una técnica en la que las palabras individuales de un dominio o idioma se representan como vectores de valor real en un espacio dimensional inferior \cite{38}. \par
     
-    \item \textbf{StopWords Pre-Processing:} Palabras vacías es el nombre que reciben las palabras sin significado como artículos, pronombres, preposiciones, etc. que son filtradas antes o después del procesamiento de datos en lenguaje natural []. \par
+    %https://towardsdatascience.com/word-embeddings-for-nlp-5b72991e01d4
+    \item \textbf{Bag of words:} La bolsa de palabras es una simple y popular técnica de extracción de características a partir del texto. El modelo de bolsa de palabras procesa el texto para encontrar cuántas veces apareció cada palabra en la oración. Esto también se llama vectorización \cite{38}. \par
     
-    \item \textbf{PoS Tagging (part-of-speech tagging):} Es el proceso de marcar una palabra en un texto (corpus) como correspondiente a una parte particular del discurso, basado tanto en su definición como en su contexto [].  \par
+    %https://keras.io/examples/nlp/masked_language_modeling/
+    \item \textbf{Masked LM (MLM):} El modelado de lenguaje enmascarado es una tarea de rellenar espacios en blanco, en la que un modelo usa las palabras de contexto que rodean un símbolo de máscara para intentar predecir cuál debería ser la palabra enmascarada \cite{39}. \par
     
-    \item \textbf{Term Frequency:} frecuencia de término (o sea, la frecuencia de ocurrencia del término en la colección de documentos), es una medida numérica que expresa cuán relevante es una palabra para un documento en una colección. []. \par
     
-    \item \textbf{Word Embedding:} La incrustación de palabras es cualquiera de un conjunto de técnicas de aprendizaje de características y modelado del lenguaje en el procesamiento del lenguaje natural (PNL) donde las palabras o frases del vocabulario se asignan a vectores de números reales []. \par
-    
-    \item \textbf{Bag of words:} El modelo de bolsa de palabras es una representación simplificada utilizada en el procesamiento del lenguaje natural y la recuperación de información (IR). En este modelo, un texto (como una oración o un documento) se representa como la bolsa (multiset) de sus palabras, sin tener en cuenta la gramática e incluso el orden de las palabras, pero manteniendo la multiplicidad []. \par
-    
-    \item \textbf{Masked LM (MLM):} El modelado de lenguaje enmascarado es una tarea de rellenar espacios en blanco, en la que un modelo usa las palabras de contexto que rodean un símbolo de máscara para intentar predecir cuál debería ser la palabra enmascarada []. \par
-    
-    \item \textbf{Next Sentence Prediction (NSP):} En el proceso de entrenamiento de BERT, el modelo recibe pares de oraciones como entrada y aprende a predecir si la segunda oración del par es la oración subsiguiente en el documento original []. \par
-    
-    \item \textbf{N-gram:} Un n-grama es una secuencia contigua de n elementos de una muestra dada de texto o habla. Los elementos pueden ser fonemas, sílabas, letras, palabras o pares de bases según la aplicación. Los n-gramas normalmente se recopilan de un texto o corpus de voz []. \par
-    
-    \item \textbf{Named Entity Recognition (NER):} El reconocimiento de entidad con nombre ( NER ) (también conocido como identificación de entidad (con nombre) , fragmentación de entidad y extracción de entidad ) es una subtarea de extracción de información que busca ubicar y clasificar las entidades con nombre mencionadas en texto no estructurado en categorías predefinidas como persona nombres, organizaciones, ubicaciones, códigos médicos , expresiones de tiempo, cantidades, valores monetarios, porcentajes, etc. [].
+    % https://www.kdnuggets.com/2018/08/named-entity-recognition-practitioners-guide-nlp-4.html
+    \item \textbf{Named Entity Recognition (NER):} El reconocimiento de entidad con nombre (NER) (también conocido como identificación de entidad (con nombre), fragmentación de entidad y extracción de entidad) es una técnica popular utilizada en la extracción de información para identificar y segmentar las entidades nombradas y clasificarlas o categorizarlas en varias clases predefinidas \cite{40}.
 \end{itemize}\par
 
 
 \begin{justify}
-Para la generación de preguntas en la mayoría de modelos se utiliza SQuAD (Stanford Question Answering Dataset) para entrenar y evaluar los modelos. SQuAD es un conjunto de datos de comprensión de lectura, que consta de preguntas planteadas por los trabajadores de la red en un conjunto de artículos de Wikipedia, donde la respuesta a cada pregunta es un segmento de texto, o un intervalo, del pasaje de lectura correspondiente, o la pregunta podría ser incontestable [].
+Para la generación de preguntas en la mayoría de modelos se utiliza SQuAD (Stanford Question Answering Dataset) para entrenar y evaluar los modelos. SQuAD es un conjunto de datos de comprensión de lectura, que consta de preguntas planteadas por los trabajadores de la red en un conjunto de artículos de Wikipedia, donde la respuesta a cada pregunta es un segmento de texto, o un intervalo, del pasaje de lectura correspondiente, o la pregunta podría ser incontestable \cite{41}.
 \end{justify}
 
 \begin{justify}
@@ -149,7 +150,7 @@ Gracias a la revisión del estado del arte y recolección de información presen
 \end{justify}
 
 \begin{justify}
-Adicionalmente, una vez obtenida las fuentes teóricas, se recopiló información de manera más específica sobre algoritmos que se basan en la teoría presente en la mayoría de documentos, para este propósito también se realiza una tabla asociada a 10 algoritmos de código abierto disponible en repositorios o plataformas reconocidas como Hugging Face [].
+Adicionalmente, una vez obtenida las fuentes teóricas, se recopiló información de manera más específica sobre algoritmos que se basan en la teoría presente en la mayoría de documentos, para este propósito también se realiza una tabla asociada a 10 algoritmos de código abierto disponible en repositorios o plataformas reconocidas como Hugging Face \cite{42}.
 \end{justify}
 
 \begin{justify}
@@ -162,7 +163,7 @@ Tras realizar un análisis profundo sobre los artículos y algoritmos recolectad
 
 \begin{itemize}
     \item \textbf{Generación de texto}\\
-    Para el algoritmo de generación de texto se seleccionó GPT-2 de Hugging Face [] principalmente por la diferencia de rendimiento en comparación con los otros algoritmos recopilados. Dicha diferencia representa casi el doble de tiempo de ejecución en igualdad de condiciones (entradas). Dado que la comparación se redujo a dos algoritmos, el de Hugging Face (GPT-2) y un algoritmo encontrado en GitHub llamado GPT2-Pytorch [], ambos están claramente basados en GPT-2 lo cual implica que los textos generados sean similares al modelo original GPT-2 y que la diferencia se defina por el rendimiento de generación de texto.
+    Para el algoritmo de generación de texto se seleccionó GPT-2 de Hugging Face \cite{43} principalmente por la diferencia de rendimiento en comparación con los otros algoritmos recopilados. Dicha diferencia representa casi el doble de tiempo de ejecución en igualdad de condiciones (entradas). Dado que la comparación se redujo a dos algoritmos, el de Hugging Face (GPT-2) y un algoritmo encontrado en GitHub llamado GPT2-Pytorch \cite{44}, ambos están claramente basados en GPT-2 lo cual implica que los textos generados sean similares al modelo original GPT-2 y que la diferencia se defina por el rendimiento de generación de texto.
     
     El algoritmo proporcionado por Hugging Face es oficial respecto a GPT2-Pytorch que es una modificación de GPT-2 hecha por un desarrollador de la comunidad, de allí las diferencias en algunos aspectos como la calidad de los resultados, esto se debe a que, Hugging Face es un proveedor de código abierto reconocido en el campo de Procesamiento de Lenguaje Natural (PLN).
     
@@ -173,7 +174,7 @@ Tras realizar un análisis profundo sobre los artículos y algoritmos recolectad
     
     El tipo de preguntas es un factor importante para el propósito del proyecto, ya que, a mayor tipo de preguntas más posibilidades de generar exámenes variados para los estudiantes.
     
-    De acuerdo a las pruebas y posterior análisis realizado entre ambos algoritmos inicialmente seleccionados, se decidió seleccionar finalmente el algoritmo encontrado en GitHub llamado Question Generator [], debido a todas las ventajas obtenidas respecto a el propósito del proyecto expuestas anteriormente.
+    De acuerdo a las pruebas y posterior análisis realizado entre ambos algoritmos inicialmente seleccionados, se decidió seleccionar finalmente el algoritmo encontrado en GitHub llamado Question Generator \cite{45}, debido a todas las ventajas obtenidas respecto a el propósito del proyecto expuestas anteriormente.
 \end{itemize}
 
     La justificación de selección de algoritmos completa se encuentra en los anexos.

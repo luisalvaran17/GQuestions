@@ -39,9 +39,9 @@
     Para escribir pruebas existen clases base de prueba de Django como SimpleTestCase, TransactionTestCase, TestCase, LiveServerTestCase. En el backend se realizaron pruebas utilizando la clase base \textbf{TestCase}, se escribieron métodos por separado para verificar que los modelos del proyecto que hacen parte del diseño propio no tuviesen errores.
     
     \subsection{Detalles}
-    Se probó aspectos del código escrito respecto a los modelos (base de datos) y no de bibliotecas o funcionalidades proporcionadas por Python o Django. Estos aspectos fueron el texto utilizado para etiquetas (atributos), tamaños de campos asignados y valores por defecto asignados.
+    Se probó aspectos del código escrito respecto a los modelos (base de datos) más no de bibliotecas o funcionalidades proporcionadas por Python o Django. Estos aspectos fueron el texto utilizado para etiquetas (atributos), tamaños de campos asignados y valores por defecto asignados.
     
-    A continuación, se presentas algunos casos de prueba y posteriormente la creación de estas pruebas en Django con TestCase.
+    A continuación, se presentas algunos casos de prueba y posteriormente una descripción general de la creación de estas pruebas en Django utilizando TestCase.
     \end{justify}
     
     \begin{table}[H]
@@ -53,82 +53,14 @@
 	\end{Center}
     \end{table}
 
-       \begin{figure}[H]
-	\begin{Center}
-       \begin{lstlisting}[language=Python]
-class GeneracionModel(models.Model):
-    id = models.CharField(primary_key=True, null=False, max_length=255)
-    n_examenes = models.SmallIntegerField(null=False)
-    longit_texto = models.IntegerField(default=200)
-    n_preguntas = models.SmallIntegerField(null=False)
-    inicio_oracion = models.CharField(max_length=30, null=False, default='Aleatorio')
-    fecha_generacion = models.DateTimeField(auto_now_add=True, null=False)
-    account = models.ForeignKey(Account, related_name='account', on_delete=models.CASCADE)\end{lstlisting}
-	    \caption{Modelo Generación - backend Django}
-	    Fuente: Elaboración propia
-        \label{fig:section}
-	\end{Center}
-    \end{figure}
+    Uno de los modelos del Backend es la tabla \textbf{\texttt{Generación}} definida en Django, utilizando este modelo de ejemplo, se probó las etiquetas de todos los campos (ej. \texttt{\textbf{n\_examenes} = models.SmallIntegerField(null=False)}), porque a pesar de no haberse especificado explícitamente la mayoría, se tiene un diseño que dice cuáles deben ser estos valores. Si no se prueban lo valores, entonces no se sabe si las etiquetas de los campos tienen efectivamente los valores deseados. De esta manera, sucede lo mismo con las longitudes de campo específicadas (max\_length) y valores de campo por defecto (\texttt{ej. inicio\_oracion = models.CharField(max\_length=30, null=False, default='Aleatorio')}).
     
-    En la figura anterior se presenta el modelo Generación definido en Django, aquí se probó las etiquetas de todos los campos, porque a pesar de no haberse especificado explícitamente la mayoría se tiene un diseño que dice cuáles deben ser estos valores. Si no se prueban lo valores, entonces no se sabe que las etiquetas de los campos tienen efectivamente los valores deseados. De esta manera, sucede lo mismo con las longitudes de campo específicadas (max\_length) y valores por defecto (default).
+    Para probar el modelo se comienza por crear una clase \texttt{GeneracionModelTest} que recibe como argumento \texttt{TestCase}. Se escribe un método de clase \texttt{setUpTestData} que permite la creación de datos de prueba iniciales 
+    (\texttt{ej. GeneracionModel.objects.create(id='ff6eb8f3' , n\_examenes=10,  n\_preguntas=5, account)}).
     
-    Para probar el modelo se comienza por crear una clase \texttt{GeneracionModelTest} que recibe como argumento \texttt{TestCase}. Se escribe un método de clase \texttt{setUpTestData} que permite la creación de datos de prueba iniciales.
+    Una vez se tiene el método de clase \texttt{setUpTestData} se escriben los métodos de clase de pruebas, para esto se utiliza los \texttt{Assert} que ofrece TestCase para comparar la etiqueta del campo deseada con la que trae de la base de datos; en este caso se verifica que el campo tenga el valor de etiqueta de campo correcta \texttt{verbose\_name}, de manera similar se escribieron los pruebas de tamaño de campo y de valores por defecto.
     
-    \begin{figure}[H]
-	\begin{Center}
-    \begin{lstlisting}[language=Python]
-class GeneracionModelTest(TestCase):
-@classmethod
-def setUpTestData(cls):
-    GeneracionModel.objects.create(
-        id='ff6eb8f3-38a1', n_examenes=10, n_preguntas=5, account)\end{lstlisting}
-    \caption{Clase Generación de prueba unitaria - backend Django}
-	    Fuente: Elaboración propia
-        \label{fig:section}
-	\end{Center}
-    \end{figure}
-    
-    Una vez se tiene el método de clase \texttt{setUpTestData} se escriben los métodos de clase de pruebas, como sigue:
-    
-    \begin{figure}[H]
-	\begin{Center}
-    \begin{lstlisting}[language=Python]
-def test_n_examenes_label(self):
-    gen=GeneracionModel.objects.get(id='ff6eb8f3-38a1')
-    field_label = gen._meta.get_field('n_examenes').verbose_name
-    self.assertEquals(field_label,'n examenes')\end{lstlisting}
-        \caption{{Prueba unitaria etiqueta de campo - backend Django}}
-	    Fuente: Elaboración propia
-        \label{fig:section}
-	\end{Center}
-    \end{figure}
-    
-    En este caso se verifica que el campo tenga el valor de etiqueta de campo correcta \texttt{verbose\_name}, de manera similar se escribieron los pruebas de tamaño de campo y valores por defecto.
-    
-    \begin{figure}[H]
-	\begin{Center}
-    \begin{lstlisting}[language=Python]
-def test_inicio_oracion_max_length(self):
-    generacion=GeneracionModel.objects.get(id='ff6eb8f3-38a1')
-    max_length = generacion._meta.get_field('inicio_oracion').max_length
-    self.assertEquals(max_length, 30)\end{lstlisting}
-        \caption{Prueba unitaria longitud de campo - backend Django}
-	    Fuente: Elaboración propia
-        \label{fig:section}
-	\end{Center}
-    \end{figure}
-    
-    \begin{figure}[H]
-	\begin{Center}
-    \begin{lstlisting}[language=Python]
-def test_longit_text_default_value(self):
-    generacion=GeneracionModel.objects.get(id='ff6eb8f3-38a1')
-    default_value = generacion.longit_texto
-    self.assertEquals(default_value, 200)\end{lstlisting}
-        \caption{Prueba unitaria valor por defecto - backend Django}
-	    Fuente: Elaboración propia
-        \label{fig:section}
-	\end{Center}
-    \end{figure}
+    Todos los modelos creados en Django fueron probados de la forma anteriormente expuesta (pruebas unitarias).
+
 \end{document}
 
