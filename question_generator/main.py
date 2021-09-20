@@ -1,6 +1,7 @@
 import os
 from flask import Flask, jsonify, request
 from question_generator import QuestionGenerator
+from text_generator import TextGenerator
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -21,6 +22,18 @@ def get_questions_answers():
         answer_style=str(answer_style_request)
     )
     response = jsonify(qa_list)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+@app.route('/api/generacion/text-generator', methods=['POST'])
+def get_text():
+    sentence = request.form['sentence']
+    max_length = request.form['max_length']
+
+    tg = TextGenerator()
+    text_generated = tg.generate_text(str(sentence), int(max_length))
+
+    response = jsonify(text_generated)
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 

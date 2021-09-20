@@ -18,6 +18,9 @@ path = 't5-base-question-generator'
 #pipeline = AutoModelForSequenceClassification.from_pretrained("iarfmoose/bert-base-cased-qa-evaluator")
 #path = 'tbert-base-cased-qa-evaluator'
 
+#pipeline = transformers.pipeline('text-generation')
+#path = 'gpt2'
+
 pipeline.save_pretrained(path)
 
 with open(path + '/manifest.json', 'w') as file:

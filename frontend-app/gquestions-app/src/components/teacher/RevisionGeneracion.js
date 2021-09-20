@@ -321,7 +321,7 @@ export const RevisionGeneracion = (props) => {
   }
 
   const getPreguntasFromNLP = async (text, num_questions, answer_style) => {
-    const response_questions = await fetch("https://gquestions-ai-vn4rmyywka-uc.a.run.app/api/generacion/question-generator", {
+    const response_questions = await fetch("https://gquestions-ai1-vn4rmyywka-uc.a.run.app/api/generacion/question-generator", {
       method: "POST",
       headers: {
         Authorization: "Basic Og==",

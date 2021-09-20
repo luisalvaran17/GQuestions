@@ -182,7 +182,7 @@ export const GenerateConfig = () => {
     generacion_configuracion[e.target.name] = parseInt(e.target.value);
     setGeneracionConfiguracion(generacion_configuracion);
 
-    let tiempo_promedio_texto = 0.2 // 12 segundos 300 longitud
+    let tiempo_promedio_texto = 0.6 // promedio de 35 segundos por generación de texto
     let tiempo_promedio_pregunta = 0.30 // 18 segundos cada pregunta
 
     if (Number.isNaN(generacionConfiguracion.n_examenes)) {
@@ -432,7 +432,7 @@ export const GenerateConfig = () => {
 
   const getPreguntasFromNLP = async (text, num_questions, answer_style, contador_progreso) => {
 
-    const response_questions = await fetch("https://gquestions-ai-vn4rmyywka-uc.a.run.app/api/generacion/question-generator", {
+    const response_questions = await fetch("https://gquestions-ai1-vn4rmyywka-uc.a.run.app/api/generacion/question-generator", {
       method: "POST",
       headers: {
         Authorization: "Basic Og==",
@@ -486,7 +486,7 @@ export const GenerateConfig = () => {
         break;
       }      
     }
-    console.log(response_text[0].generated_text.split(" ").length);
+    //console.log(response_text[0].generated_text.split(" ").length);
     return response_text;
   }
 
@@ -496,7 +496,7 @@ export const GenerateConfig = () => {
     let min = 0;
     let max = list_objects.length;
 
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 3; i++) { // Genera un nuevo texto que cumpla con la longitud deseada, se intenta 3 veces
       if (response_text[0].generated_text.split(" ").length < (generacionConfiguracion.longit_texto - 150)) {
         let random = Math.floor(Math.random() * (+max - +min)) + +min;
         response_text = await GenerateTextsAPI(list_objects[random].text, generacionConfiguracion.longit_texto);
@@ -504,7 +504,7 @@ export const GenerateConfig = () => {
         break;
       }      
     }
-    console.log(response_text[0].generated_text.split(" ").length);
+    //console.log(response_text[0].generated_text.split(" ").length);
     return response_text;
   }
 
